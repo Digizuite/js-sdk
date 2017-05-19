@@ -11,26 +11,18 @@ npm run dist
 
 ## Usage
 
-All interactions to Digizuite Connector, except for authentication, must be made after being successfully logged in.
-
 ### Create a connector instance
 ```js
-const digizuite = new Digizuite.Connector({
-    apiUrl : 'https://my-installation-of-digizuite.com/dmm3bwsv3/'
-});
-```
-
-### Authentication
-```js
-digizuite.auth.login({
+Digizuite.Connector.getConnectorInstance({
+    apiUrl : 'https://my-installation-of-digizuite.com/dmm3bwsv3/',
     username : 'username',
     password : 'password'
-}).then( (response) => {
-   console.log("Logged in successfully!", response);
-}).catch( (error) => {
-   console.log("Error logging in!", error);
+}).then((instance)=>{
+    console.log("Success!", instance);
+    // instance can be used to interact with digizuite
+}).catch((error)=>{
+    console.log("Error!", error);
 });
 ```
-
 ## Copyright
 Digizuite (C) 2017
