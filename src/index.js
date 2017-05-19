@@ -48,6 +48,7 @@ export class Connector {
 			this._contentEndpoint = new Content({
 				apiUrl          : this.apiUrl,
 				metafieldLabelId: this.state.config.PortalMenu.metafieldLabelId,
+				sLayoutFolderId : this.state.config.MainSearchFolderId,
 				labels          : this.state.labels
 			});
 		}

@@ -1,6 +1,7 @@
 import {Endpoint} from 'common/endpoint';
 import {Folders} from 'request/searchService/folders';
 import {Filters} from 'request/searchService/filters';
+import {Assets} from 'request/searchService/assets';
 
 export class Content extends Endpoint {
 	
@@ -75,6 +76,39 @@ export class Content extends Endpoint {
 			return response;
 		});
 		
+	}
+	
+	/**
+	 * Get a list of assets
+	 * @param args
+	 * @param {String} [args.path] - The path holding the assets
+	 * @returns {Promise}
+	 */
+	getAssets( args = {} ) {
+		
+		const searchName = args.searchName || this.DEFAULT_SEARCH;
+		
+		const assetsRequest = new Assets({
+			apiUrl : this.apiUrl,
+			sLayoutFolderId : this.sLayoutFolderId,
+		});
+		
+		return assetsRequest.execute(args)
+			.then(({assets, facetResult})=>{
+				this.cache.facetResult[ searchName ] = facetResult;
+				return assets;
+			});
+	}
+	
+	/**
+	 * Get a list of facet results
+	 * @param args
+	 * @param {String} [args.searchName] - The path holding the assets
+	 * @returns {Object}
+	 */
+	getFacetResult( args = {} ) {
+		const searchName = args.searchName || this.DEFAULT_SEARCH;
+		return this.cache.facetResult[ searchName ];
 	}
 	
 }
