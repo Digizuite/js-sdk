@@ -113,7 +113,7 @@ export class Request {
 	 * @returns {boolean}
 	 */
 	static containsError( response ) {
-		return (response.success === 'false' || response.suceess === false);
+		return (response.success === 'false' || response.success === false);
 	}
 	
 	/**
@@ -146,6 +146,7 @@ export class Request {
 	toQueryString( paramsObject = {} ) {
 		return Object
 			.keys(paramsObject)
+			.filter( key => paramsObject[key] !== undefined && paramsObject[key] !== null )
 			.map(key => `${encodeURIComponent(key)}=${encodeURIComponent(paramsObject[key])}`)
 			.join('&');
 	}
