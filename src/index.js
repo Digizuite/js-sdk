@@ -2,6 +2,9 @@ import endsWith from 'lodash/endsWith';
 import {Auth} from 'endpoint/auth';
 import {Config} from 'endpoint/config';
 import {Content} from 'endpoint/content';
+import {Constants as ConstantsObject} from 'common/constants';
+
+export const Constants = ConstantsObject;
 
 export class Connector {
 	
@@ -41,11 +44,12 @@ export class Connector {
 	 */
 	get content() {
 		
-		if( !this._contentEndpoint ) {
-			this._contentEndpoint = new Content( {
-				apiUrl : this.apiUrl,
-				metafieldLabelId : this.state.config.PortalMenu.metafieldLabelId
-			} );
+		if (!this._contentEndpoint) {
+			this._contentEndpoint = new Content({
+				apiUrl          : this.apiUrl,
+				metafieldLabelId: this.state.config.PortalMenu.metafieldLabelId,
+				labels          : this.state.labels
+			});
 		}
 		
 		return this._contentEndpoint;
@@ -118,9 +122,13 @@ export class Connector {
 				password : args.password
 			});
 		}).then(()=>{
-			return this.config.getAppConfiguration();
-		}).then((configResponse)=> {
+			return Promise.all([
+				this.config.getAppConfiguration(),
+				this.config.getAppLabels()
+			]);
+		}).then(([configResponse, labelsResponse])=> {
 			this.state.config = configResponse;
+			this.state.labels = labelsResponse;
 			return this;
 		});
 		

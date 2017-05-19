@@ -1,5 +1,6 @@
 import {Endpoint} from 'common/endpoint';
 import {AppConfiguration} from 'request/searchService/appConfiguration';
+import {AppLabels} from 'request/configService/appLabels';
 
 export class Config extends Endpoint {
 	
@@ -19,6 +20,18 @@ export class Config extends Endpoint {
 	getAppConfiguration() {
 		
 		const appConfigRequest = new AppConfiguration({
+			apiUrl : this.apiUrl
+		});
+		
+		return appConfigRequest.execute();
+	}
+	
+	/**
+	 * Get app labels
+	 * @returns {Promise}
+	 */
+	getAppLabels() {
+		const appConfigRequest = new AppLabels({
 			apiUrl : this.apiUrl
 		});
 		

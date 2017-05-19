@@ -36,6 +36,19 @@ instance.content.getFolders({
 You can use ```'/'``` as the root folder. Each folder contains a ```path``` propriety, 
 which can be used to as a parameter to obtain a list of sub-folders.
 
+### Filtering
+
+Obtain a list of filters: 
+```js
+instance.content.getFilters().then((response)=>{
+    console.log("Got filters!", response);
+});
+```
+
+All the filter type can be found in the constants class.
+```js
+console.log( Digizuite.Constants.FILTER_TYPE )
+``` 
 
 ## Copyright
 Digizuite (C) 2017
