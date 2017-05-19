@@ -1,6 +1,7 @@
 import endsWith from 'lodash/endsWith';
 import {Auth} from 'endpoint/auth';
 import {Config} from 'endpoint/config';
+import {Content} from 'endpoint/content';
 
 export class Connector {
 	
@@ -20,7 +21,7 @@ export class Connector {
 	}
 	
 	/**
-	 * Getter for the auth endpoint
+	 * Getter for the config endpoint
 	 * @returns {Config}
 	 */
 	get config() {
@@ -32,6 +33,22 @@ export class Connector {
 		}
 		
 		return this._configEndpoint;
+	}
+	
+	/**
+	 * Getter for the content endpoint
+	 * @returns {Content}
+	 */
+	get content() {
+		
+		if( !this._contentEndpoint ) {
+			this._contentEndpoint = new Content( {
+				apiUrl : this.apiUrl,
+				metafieldLabelId : this.state.config.PortalMenu.metafieldLabelId
+			} );
+		}
+		
+		return this._contentEndpoint;
 	}
 	
 	//noinspection JSUnusedGlobalSymbols

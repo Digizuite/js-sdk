@@ -24,5 +24,18 @@ Digizuite.Connector.getConnectorInstance({
     console.log("Error!", error);
 });
 ```
+### Obtaining a list of folder
+```js
+instance.content.getFolders({
+    path : '/'
+}).then((response)=>{
+    console.log("Got folders!", response);
+});
+```
+
+You can use ```'/'``` as the root folder. Each folder contains a ```path``` propriety, 
+which can be used to as a parameter to obtain a list of sub-folders.
+
+
 ## Copyright
 Digizuite (C) 2017
