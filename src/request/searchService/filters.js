@@ -24,7 +24,7 @@ export class Filters extends Request {
 	
 	/**
 	 * default params
-	 * @returns {{SearchName: string, page: number, limit: number}}
+	 * @returns {Object}
 	 */
 	get defaultPayload() {
 		return {
@@ -45,7 +45,7 @@ export class Filters extends Request {
 	}
 	
 	/**
-	 * NIceify the result
+	 * Nice-ify the result
 	 * @param thisFilter
 	 * @returns {{id: string, name: string, type: string}}
 	 * @private

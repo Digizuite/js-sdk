@@ -6,7 +6,10 @@ export class Assets extends Request {
 	 * C-tor
 	 * @param {Object} args
 	 * @param {String} args.apiUrl - Full URL to the api end-point.
-	 * @param {Object} args.labels - An object of labels
+	 * @param {String} args.sLayoutFolderId - An object of labels
+	 * @param {Object} args.filters - An object of labels
+	 * @param {Object} args.sortTypes - An object of labels
+	 * @param {String} args.defaultSortType - An object of labels
 	 */
 	constructor( args = {}  ) {
 		super(args);
@@ -26,7 +29,7 @@ export class Assets extends Request {
 	
 	/**
 	 *
-	 * @returns {{SearchName: string, sLayoutFolderId: null, config: [string], page: number, limit: number}}
+	 * @returns {Object}
 	 */
 	get defaultPayload() {
 		return {
@@ -121,7 +124,7 @@ export class Assets extends Request {
 	}
 	
 	/**
-	 * Niceify the result from the folder response
+	 * Nice-ify the result from the folder response
 	 * @param thisAsset
 	 * @returns {{path: string, name: (string), hasChildren: boolean, writable: boolean}}
 	 * @private

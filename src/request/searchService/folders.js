@@ -54,7 +54,7 @@ export class Folders extends Request {
 	}
 	
 	/**
-	 * Niceify the result from the folder response
+	 * Nice-ify the result from the folder response
 	 * @param thisFolder
 	 * @returns {{path: string, name: (string), hasChildren: boolean, writable: boolean}}
 	 * @private

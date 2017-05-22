@@ -96,7 +96,7 @@ export class Connector {
 	}
 	
 	/**
-	 * Inits a connector instance. Logs in and fetches the configs
+	 * Initializes a connector instance. Logs in and fetches the configs
 	 * @param {Object} args
 	 * @param {String} args.username - username to authenticate with.
 	 * @param {String} args.password - password.
