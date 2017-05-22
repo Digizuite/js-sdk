@@ -36,12 +36,13 @@ export class Assets extends Request {
 			sLayoutFolderId: null,
 			
 			// Configurations for facet search. This will be appended with other directives as we go along
-			config : [
-				'facet=true',
-				'facet.sort=count',
-				'facet.limit=100',
-				'facet.field=sAssetType'
-			],
+			// TO BE re-enabled at a later point
+			// config : [
+			// 	'facet=true',
+			// 	'facet.sort=count',
+			// 	'facet.limit=100',
+			// 	'facet.field=sAssetType'
+			// ],
 			
 			// Pagination settings - only page should be changed when executing
 			// the request, limit should be left on the recommended setting
@@ -96,7 +97,10 @@ export class Assets extends Request {
 		payload.sorting = undefined;
 		
 		// Filters
-		payload.filter = undefined;
+		if( payload.hasOwnProperty('filters')  ) {
+			payload.filters.forEach((thisFilter) => Object.assign(payload, thisFilter.getAsSearchPayload() ));
+			payload.filters = undefined;
+		}
 		
 		// Path
 		payload.path = undefined;
@@ -112,7 +116,7 @@ export class Assets extends Request {
 		return {
 			navigation : {total: parseInt(response.total, 10)},
 			assets     : response.items.map(this._processAssetResult),
-			facetResult: Array.isArray(response.extra) ? response.extra[1].facet_counts.facet_fields : null
+			facetResult: Array.isArray(response.extra) && response.extra.length > 1 ? response.extra[1].facet_counts.facet_fields : null
 		};
 	}
 	

@@ -1,0 +1,16 @@
+Sort:
+* sortDateAsc
+* sortDateDesc
+* sortAlphabeticAsc
+* sortAlphabeticDesc
+
+Filter:
+*
+
+Config:
+* SortType, SortTypes
+
+
+Labels:
+* For all filters
+* for sorting

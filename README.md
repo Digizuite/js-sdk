@@ -61,8 +61,26 @@ instance.content.getAssets({
 });
 ```
 
-#### Sorting
-Obtain a list of all the available sort criteria:
+#### Sorting(basic)
+Sort the results:
+```js
+instance.content.getAssets({
+    sorting : {
+        by       : Digizuite.Constants.SORT_BY.DATE,
+        direction: Digizuite.Constants.SORT_DIRECTION.ASCENDING
+    }
+}).then(({assets})=>{
+    console.log("Got assets sorted!", assets);
+});
+```
+
+If ```direction``` parameter is not provided, the default direction for the selected sort criteria will be used.
+
+If there are no sorting instructions provided, the system default will be used. 
+
+
+#### Sorting(advanced)
+Some systems offer additional sorting criteria. You can obtain them as follows:
 ```js
 const sortCriteriaAvailable = instance.content.getSortBy();
 ```
@@ -83,7 +101,52 @@ If ```direction``` parameter is not provided, the default direction for the sele
 
 If there are no sorting instructions provided, the system default will be used. 
 
-### Getting available filters
+
+### Basic Filters
+
+Filter for an asset with a given name:
+```js
+const  assetNameFilter = new Digizuite.Search.AssetNameFilter({
+    name : 'takeoff'
+});
+instance.content.getAssets({
+    filters : [ assetNameFilter ]
+}).then(({assets})=>{
+    console.log("Got assets filtered!", assets);
+});
+```
+
+Filter for an asset of an given type:
+```js
+const assetTypeFilter = new Digizuite.Search.AssetTypeFilter({
+   types : [ Digizuite.Constants.ASSET_TYPE.Image ]
+});
+instance.content.getAssets({
+    filters : [ assetTypeFilter ]
+}).then(({assets})=>{
+    console.log("Got assets filtered!", assets);
+});
+```
+
+Filter for an asset created in a given time interval
+```js
+const assetCreatedFilter = new Digizuite.Search.AssetCreatedFilter({
+    from : 1494720000,
+    to : 1495459813
+});
+instance.content.getAssets({
+    filters : [ assetCreatedFilter ]
+}).then(({assets})=>{
+    console.log("Got assets filtered!", assets);
+});
+```
+
+In case ```from``` parameter is not provided, it will default to 0.
+
+In case ```to``` parameter is not provided, it will default to current unix timestamp.
+
+
+### Advanced Filters(incomplete)
 
 Obtain a list of filters: 
 ```js
