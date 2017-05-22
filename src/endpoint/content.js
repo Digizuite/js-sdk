@@ -2,8 +2,16 @@ import {Endpoint} from 'common/endpoint';
 import {Folders} from 'request/searchService/folders';
 import {Filters} from 'request/searchService/filters';
 import {Assets} from 'request/searchService/assets';
+import upperFirst from 'lodash/upperFirst';
 
 export class Content extends Endpoint {
+	
+	get SORT_TYPES() {
+		if(!this._sortTypes) {
+			this._sortTypes = this._parseSortTypes(this.rawSortTypes);
+		}
+		return this._sortTypes;
+	}
 	
 	/**
 	 * Default search
@@ -25,11 +33,24 @@ export class Content extends Endpoint {
 		super(args);
 		
 		this.metafieldLabelId = args.metafieldLabelId;
+		this.sLayoutFolderId = args.sLayoutFolderId;
 		this.labels = args.labels;
+		this.rawSortTypes = args.sortTypes;
+		this.defaultSortType = upperFirst(args.defaultSortType);
+		
 		this.cache  = {
+			total : {},
 			filters : {},
 			facetResult : {}
 		};
+	}
+	
+	/**
+	 * Return a list of available sort by fields
+	 * @returns {Array}
+	 */
+	getSortBy() {
+		return this.SORT_TYPES;
 	}
 	
 	/**
@@ -89,14 +110,17 @@ export class Content extends Endpoint {
 		const searchName = args.searchName || this.DEFAULT_SEARCH;
 		
 		const assetsRequest = new Assets({
-			apiUrl : this.apiUrl,
-			sLayoutFolderId : this.sLayoutFolderId,
+			apiUrl         : this.apiUrl,
+			sLayoutFolderId: this.sLayoutFolderId,
+			filters        : this.cache.filters[searchName],
+			sortTypes      : this.SORT_TYPES,
+			defaultSortType: this.defaultSortType
 		});
 		
 		return assetsRequest.execute(args)
-			.then(({assets, facetResult})=>{
+			.then(({assets, facetResult, navigation})=>{
 				this.cache.facetResult[ searchName ] = facetResult;
-				return assets;
+				return {assets, navigation };
 			});
 	}
 	
@@ -108,7 +132,23 @@ export class Content extends Endpoint {
 	 */
 	getFacetResult( args = {} ) {
 		const searchName = args.searchName || this.DEFAULT_SEARCH;
-		return this.cache.facetResult[ searchName ];
+		return Promise.resolve(this.cache.facetResult[ searchName ]);
 	}
 	
+	/**
+	 * Parses sort types
+	 * @param sortTypes
+	 * @returns {*|Array}
+	 * @private
+	 */
+	_parseSortTypes( sortTypes= [] ) {
+		return sortTypes.map((thisSortType) => {
+			const sortParts = thisSortType.split(',');
+			return {
+				by              : upperFirst(sortParts[0]),
+				name            : this.labels[`LBL_CCC_SORT_TYPE_${sortParts[0].toUpperCase()}`],
+				defaultDirection: upperFirst(sortParts[1])
+			};
+		});
+	}
 }

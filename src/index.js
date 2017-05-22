@@ -49,7 +49,9 @@ export class Connector {
 				apiUrl          : this.apiUrl,
 				metafieldLabelId: this.state.config.PortalMenu.metafieldLabelId,
 				sLayoutFolderId : this.state.config.MainSearchFolderId,
-				labels          : this.state.labels
+				labels          : this.state.labels,
+				sortTypes       : this.state.config.SortTypes,
+				defaultSortType : this.state.config.SortType
 			});
 		}
 		

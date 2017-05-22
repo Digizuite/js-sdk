@@ -9,6 +9,12 @@ export const Constants = {
 		ASSET_TYPE   : 'assettype',
 		DATE_INTERVAL: 'datebetween',
 		TREE         : 'tree',
+	},
+	
+	// Sort directions
+	SORT_DIRECTION: {
+		DESCENDING: 'Desc',
+		ASCENDING : 'Asc',
 	}
 	
 };

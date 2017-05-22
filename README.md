@@ -40,10 +40,48 @@ which can be used to as a parameter to obtain a list of sub-folders.
 
 Obtain a list of assets: 
 ```js
-instance.content.getAssets().then((response)=>{
+instance.content.getAssets().then(( {assets} )=>{
     console.log("Got assets!", response);
 });
 ```
+
+#### Pagination and navigation
+You can specify pagination parameters when requesting the assets. If ```navigation`````
+parameter is not give, it will default to returning the first 25 assets.
+
+```js
+instance.content.getAssets({
+    navigation : {
+        page : 1,
+        limit : 12
+    }
+}).then(({assets, navigation})=>{
+    console.log("Got assets for page 1!", assets);
+    console.log("Got total assets count!", navigation.total);
+});
+```
+
+#### Sorting
+Obtain a list of all the available sort criteria:
+```js
+const sortCriteriaAvailable = instance.content.getSortBy();
+```
+
+Sort the results:
+```js
+instance.content.getAssets({
+    sorting : {
+        by       : sortCriteriaAvailable[0].by,
+        direction: Digizuite.Constants.SORT_DIRECTION.ASCENDING
+    }
+}).then(({assets})=>{
+    console.log("Got assets sorted!", assets);
+});
+```
+
+If ```direction``` parameter is not provided, the default direction for the selected sort criteria will be used.
+
+If there are no sorting instructions provided, the system default will be used. 
 
 ### Getting available filters
 
@@ -57,15 +95,6 @@ instance.content.getFilters().then((response)=>{
 All the filter type can be found in the constants class.
 ```js
 console.log( Digizuite.Constants.FILTER_TYPE )
-``` 
-
-After getting a list of asset, it is possible to obtain a filter of facet filters
-```js
-instance.content.getAssets({
-    path : '/'
-}).then((response)=>{
-    console.log("Got facet!", instance.content.getFacetResult());
-});
 ``` 
 
 ## Copyright

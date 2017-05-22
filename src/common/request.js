@@ -147,8 +147,24 @@ export class Request {
 		return Object
 			.keys(paramsObject)
 			.filter( key => paramsObject[key] !== undefined && paramsObject[key] !== null )
-			.map(key => `${encodeURIComponent(key)}=${encodeURIComponent(paramsObject[key])}`)
+			.map(key => {
+				return Array.isArray( paramsObject[key] ) ?
+					this.toTraditionalArray(key, paramsObject[key]) :
+					`${encodeURIComponent(key)}=${encodeURIComponent(paramsObject[key])}`;
+			})
 			.join('&');
+	}
+	
+	/**
+	 *
+	 * @param key
+	 * @param array
+	 * @returns {string}
+	 */
+	toTraditionalArray( key, array ) {
+		return array.map((thisVal)=>{
+			return `${encodeURIComponent(key)}=${encodeURIComponent(thisVal)}`;
+		}).join('&');
 	}
 	
 }
