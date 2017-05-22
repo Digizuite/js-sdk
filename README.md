@@ -61,7 +61,7 @@ instance.content.getAssets({
 });
 ```
 
-#### Basic Sorting
+### Sorting
 Sort the results:
 ```js
 instance.content.getAssets({
@@ -102,7 +102,7 @@ If ```direction``` parameter is not provided, the default direction for the sele
 If there are no sorting instructions provided, the system default will be used. 
 
 
-### Basic Filtering
+### Filtering
 
 Filter for an asset with a given name:
 ```js
@@ -146,7 +146,7 @@ In case ```from``` parameter is not provided, it will default to 0.
 In case ```to``` parameter is not provided, it will default to current unix timestamp.
 
 
-### Advanced Filtering(incomplete)
+#### Advanced Filtering(incomplete)
 
 Obtain a list of filters: 
 ```js
@@ -160,7 +160,7 @@ All the filter type can be found in the constants class.
 console.log( Digizuite.Constants.FILTER_TYPE )
 ``` 
 
-### Faceted Filtering(incomplete)
+#### Faceted Filtering(incomplete)
 // TODO
 
 ## Copyright
