@@ -2,6 +2,7 @@ import endsWith from 'lodash/endsWith';
 import {Auth} from 'endpoint/auth';
 import {Config} from 'endpoint/config';
 import {Content} from 'endpoint/content';
+import {Download} from 'endpoint/download';
 
 export class Connector {
 	
@@ -53,6 +54,27 @@ export class Connector {
 		}
 		
 		return this._contentEndpoint;
+	}
+	
+	/**
+	 * Getter for the auth endpoint
+	 * @returns {Download}
+	 */
+	get download() {
+		
+		if( !this._downloadEndpoint ) {
+			this._downloadEndpoint = new Download( {
+				apiUrl : this.apiUrl,
+				memberId : this.state.user.memberId,
+				accessKey : this.state.user.accessKey,
+				//TODO: un-hardcode this when we get a product
+				lowResMediaFormatIds : [50038,50036],
+				highResMediaFormatIds : [50040, 50033],
+				mediaUrl : 'https://mm-dam.dev.digizuite.com/'
+			} );
+		}
+		
+		return this._downloadEndpoint;
 	}
 	
 	//noinspection JSUnusedGlobalSymbols

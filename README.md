@@ -123,7 +123,7 @@ instance.content.getAssets({
 Filter for an asset of an given type:
 ```js
 const assetTypeFilter = new Digizuite.Search.AssetTypeFilter({
-   types : [ Digizuite.Constants.ASSET_TYPE.Image ]
+   types : [ Digizuite.Constants.ASSET_TYPE.IMAGE ]
 });
 instance.content.getAssets({
     filters : [ assetTypeFilter ]
@@ -166,6 +166,25 @@ console.log( Digizuite.Constants.FILTER_TYPE )
 
 #### Faceted Filtering(incomplete)
 // TODO
+
+### Downloading an asset
+
+```js
+instance.download.getDownloadURL({
+    asset : asset,
+    quality : Digizuite.Constants.DOWNLOAD_QUALITY.ORIGINAL
+}).then((url) => {
+    console.log("Got it from here!", url);
+});
+```
+
+The ```asset```parameter needs to be an instance of the ```Asset``` class. 
+
+If the ```quality``` is omitted, the download URL will be provided for the original format. 
+Check ```Digizuite.Constants.DOWNLOAD_QUALITY``` for a list of the available qualities.
+
+### Downloading an asset - advanced
+
 
 ## Copyright
 Digizuite (C) 2017

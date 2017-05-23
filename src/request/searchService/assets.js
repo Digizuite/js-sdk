@@ -1,5 +1,6 @@
 import {Request} from 'common/request';
 import {getItemIdFromIdPath} from 'utilities/helpers/treePath';
+import {Asset as AssetModel} from 'model/asset';
 
 export class Assets extends Request {
 	
@@ -122,19 +123,9 @@ export class Assets extends Request {
 	processResponseData(response) {
 		return {
 			navigation : {total: parseInt(response.total, 10)},
-			assets     : response.items.map(this._processAssetResult),
+			assets     : response.items.map( thisAsset => new AssetModel(thisAsset)),
 			facetResult: Array.isArray(response.extra) && response.extra.length > 1 ? response.extra[1].facet_counts.facet_fields : null
 		};
-	}
-	
-	/**
-	 * Nice-ify the result from the folder response
-	 * @param thisAsset
-	 * @returns {{path: string, name: (string), hasChildren: boolean, writable: boolean}}
-	 * @private
-	 */
-	_processAssetResult(thisAsset) {
-		return thisAsset;
 	}
 	
 }
