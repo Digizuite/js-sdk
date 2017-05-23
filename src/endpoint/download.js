@@ -35,7 +35,7 @@ export class Download extends Endpoint {
 			throw new Error('getDownloadURL expected an asset as parameter!');
 		}
 		
-		return this.getDownloadQualities().then((qualities) => {
+		return this._getAllDownloadQualities().then((qualities) => {
 			
 			// get only the qualities for the current asset type
 			const assetQualities = qualities.find((thisQualityGroup)=> thisQualityGroup.assetType === args.asset.type);
@@ -61,7 +61,7 @@ export class Download extends Endpoint {
 
 			}
 			
-			return this.getDownloadURLForFormat({asset: args.asset, mediaFormatId});
+			return this._getDownloadURLForFormat({asset: args.asset, mediaFormatId});
 		});
 		
 	}
@@ -73,7 +73,7 @@ export class Download extends Endpoint {
 	 * @param {Number} args.mediaFormatId
 	 * @returns {String}
 	 */
-	getDownloadURLForFormat(args = {}) {
+	_getDownloadURLForFormat(args = {}) {
 		
 		const transcode = args.asset.getTranscodeForMediaFormat(args.mediaFormatId);
 		
@@ -92,10 +92,50 @@ export class Download extends Endpoint {
 	}
 	
 	/**
-	 * Returns a list of download qualities
+	 *
+	 * @param args
 	 * @returns {Promise}
 	 */
-	getDownloadQualities() {
+	getAllDownloadURL( args = {} ) {
+		
+		if (!args.asset) {
+			throw new Error('getDownloadURL expected an asset as parameter!');
+		}
+		
+		return this._getAllDownloadQualities().then((qualities) => {
+			
+			let result = [];
+			
+			const assetQualities = qualities.find((thisQualityGroup)=> thisQualityGroup.assetType === args.asset.type);
+			
+			assetQualities.formats.forEach((thisFormat) => {
+				const thisTranscode = args.asset.getTranscodeForMediaFormat( thisFormat.mediaformatId );
+				if( thisTranscode ) {
+					result.push({
+						quality : thisFormat.label,
+						url : this._getDownloadURLForFormat({ asset : args.asset, mediaFormatId : thisFormat.mediaformatId })
+					});
+				}
+			});
+			
+			const allAssetTypeQualities = qualities.find((thisQualityGroup)=> thisQualityGroup.assetType === 0);
+			if( allAssetTypeQualities ) {
+				result.push({
+					quality : 'Original',
+					url : this._getDownloadURLForFormat({ asset : args.asset, mediaFormatId : -1 })
+				});
+			}
+			
+			return result;
+		});
+	}
+	
+	/**
+	 *  Returns a list of download qualities
+	 * @returns {Object}
+	 * @private
+	 */
+	_getAllDownloadQualities() {
 		
 		const downloadQualitiesRequest = new DownloadQualities({
 			apiUrl: this.apiUrl

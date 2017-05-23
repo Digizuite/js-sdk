@@ -167,7 +167,7 @@ console.log( Digizuite.Constants.FILTER_TYPE )
 #### Faceted Filtering(incomplete)
 // TODO
 
-### Downloading an asset
+### Getting the download URL for an asset
 
 ```js
 instance.download.getDownloadURL({
@@ -183,7 +183,18 @@ The ```asset```parameter needs to be an instance of the ```Asset``` class.
 If the ```quality``` is omitted, the download URL will be provided for the original format. 
 Check ```Digizuite.Constants.DOWNLOAD_QUALITY``` for a list of the available qualities.
 
-### Downloading an asset - advanced
+### Getting all the download URLs for an asset
+
+You can obtain a list of all available download qualities and their download links:
+
+```js
+instance.download.getAllDownloadURL({
+    asset : assets[0],
+}).then((qualities) => {
+    console.log("Got all the download qualities for the asset!", qualities);
+});
+```
+
 
 
 ## Copyright
