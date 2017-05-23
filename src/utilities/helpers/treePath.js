@@ -40,7 +40,7 @@ export const getItemIdArrayFromIdPath = ( idPath = '' ) => {
 /**
  * Returns the itemId from a path
  * @param idPath
- * @returns {number}
+ * @returns {number|null}
  */
 export const getItemIdFromIdPath = ( idPath = '' ) => {
 	
@@ -55,7 +55,7 @@ export const getItemIdFromIdPath = ( idPath = '' ) => {
 /**
  * Returns the itemId from a path
  * @param idPath
- * @returns {number}
+ * @returns {number|null}
  */
 export const getParentItemIdFromIdPath = ( idPath = '') => {
 	
@@ -87,7 +87,7 @@ export const getParentIdPath = ( idPath = '') => {
 /**
  *
  * @param idPath
- * @returns {number}
+ * @returns {number|null}
  */
 export const getParentParentItemId = (idPath) => {
 	

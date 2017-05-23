@@ -67,7 +67,7 @@ export class Connector {
 				apiUrl : this.apiUrl,
 				memberId : this.state.user.memberId,
 				accessKey : this.state.user.accessKey,
-				//TODO: un-hardcode this when we get a product
+				//TODO: un-hard-code this when we get a product
 				lowResMediaFormatIds : [50038,50036],
 				highResMediaFormatIds : [50040, 50033],
 				mediaUrl : 'https://mm-dam.dev.digizuite.com/'
