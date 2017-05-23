@@ -40,10 +40,14 @@ which can be used to as a parameter to obtain a list of sub-folders.
 
 Obtain a list of assets: 
 ```js
-instance.content.getAssets().then(( {assets} )=>{
+instance.content.getAssets({
+    path : '/'
+}).then(( {assets} )=>{
     console.log("Got assets!", response);
 });
 ```
+
+If the ```path``` parameter path is not provided, it will default to ```/```.
 
 #### Pagination and navigation
 You can specify pagination parameters when requesting the assets. If ```navigation`````

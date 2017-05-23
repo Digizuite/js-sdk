@@ -1,5 +1,5 @@
 import {Request} from 'common/request';
-import trimEnd from 'lodash/trimEnd';
+import {getItemIdFromIdPath} from 'utilities/helpers/treePath';
 
 export class Folders extends Request {
 	
@@ -35,8 +35,7 @@ export class Folders extends Request {
 	processRequestData(payload = {}) {
 		
 		// path -> node
-		let node = trimEnd( payload.path, '/' ).split('/').pop();
-		payload.node = parseInt(node, 10) || 0;
+		payload.node = getItemIdFromIdPath(payload.path);
 		
 		// remove unused proprieties
 		payload.path = undefined;

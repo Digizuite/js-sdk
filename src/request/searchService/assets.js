@@ -1,4 +1,5 @@
 import {Request} from 'common/request';
+import {getItemIdFromIdPath} from 'utilities/helpers/treePath';
 
 export class Assets extends Request {
 	
@@ -106,7 +107,10 @@ export class Assets extends Request {
 		}
 		
 		// Path
-		payload.path = undefined;
+		if( payload.hasOwnProperty('path')  ) {
+			payload.sMenu = getItemIdFromIdPath(payload.path);
+			payload.path  = undefined;
+		}
 		
 		return payload;
 	}
