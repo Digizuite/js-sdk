@@ -1,8 +1,9 @@
-import endsWith from 'lodash/endsWith';
 import {Auth} from 'endpoint/auth';
 import {Config} from 'endpoint/config';
 import {Content} from 'endpoint/content';
 import {Download} from 'endpoint/download';
+import {Upload} from 'endpoint/upload';
+import {ensureTrailingSeparator} from 'utilities/helpers/url';
 
 export class Connector {
 	
@@ -57,7 +58,7 @@ export class Connector {
 	}
 	
 	/**
-	 * Getter for the auth endpoint
+	 * Getter for the download endpoint
 	 * @returns {Download}
 	 */
 	get download() {
@@ -77,6 +78,22 @@ export class Connector {
 		return this._downloadEndpoint;
 	}
 	
+	/**
+	 * Getter for the upload endpoint
+	 * @returns {Upload}
+	 */
+	get upload() {
+		
+		if( !this._uploadEndpoint ) {
+			this._uploadEndpoint = new Upload( {
+				apiUrl : this.apiUrl,
+				computerName : this.state.config.UploadName
+			} );
+		}
+		
+		return this._uploadEndpoint;
+	}
+	
 	//noinspection JSUnusedGlobalSymbols
 	/**
 	 * C-tor
@@ -90,7 +107,7 @@ export class Connector {
 			throw new Error( 'apiUrl is a required parameter' );
 		}
 		
-		this.apiUrl = Connector.ensureTrailingSeparator(args.apiUrl);
+		this.apiUrl = ensureTrailingSeparator(args.apiUrl);
 		this.keepAliveInterval = args.keepAliveInterval || 60000;
 		
 		this.state = {
@@ -185,15 +202,6 @@ export class Connector {
 			
 		}, this.keepAliveInterval);
 		
-	}
-	
-	/**
-	 * Ensure correct trailing /
-	 * @param url
-	 * @returns {string}
-	 */
-	static ensureTrailingSeparator (url = '') {
-		return url + (endsWith(url, '/') ? '' : '/');
 	}
 	
 }
