@@ -3,6 +3,7 @@ import {Config} from 'endpoint/config';
 import {Content} from 'endpoint/content';
 import {Download} from 'endpoint/download';
 import {Upload} from 'endpoint/upload';
+import {Metadata} from 'endpoint/metadata';
 import {ensureTrailingSeparator} from 'utilities/helpers/url';
 
 export class Connector {
@@ -92,6 +93,21 @@ export class Connector {
 		}
 		
 		return this._uploadEndpoint;
+	}
+	
+	/**
+	 * Getter for the upload endpoint
+	 * @returns {Metadata}
+	 */
+	get metadata() {
+		
+		if( !this._metadataEndpoint ) {
+			this._metadataEndpoint = new Metadata( {
+				apiUrl : this.apiUrl
+			} );
+		}
+		
+		return this._metadataEndpoint;
 	}
 	
 	//noinspection JSUnusedGlobalSymbols
