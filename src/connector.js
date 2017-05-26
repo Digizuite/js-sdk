@@ -103,7 +103,8 @@ export class Connector {
 		
 		if( !this._metadataEndpoint ) {
 			this._metadataEndpoint = new Metadata( {
-				apiUrl : this.apiUrl
+				apiUrl : this.apiUrl,
+				languages : this.state.config.languages
 			} );
 		}
 		

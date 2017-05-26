@@ -36,8 +36,16 @@ export class AppConfiguration extends Request {
 			throw new RequestError('Malformed response in DigiZuite_System_Configs.');
 		}
 		
+		const config = response.items[0];
+		
+		config.DefaultLanguage = parseInt(config.DefaultLanguage, 10);
+		config.languages = config.languages.map((thisLanguage)=>{
+			thisLanguage.languageId = parseInt(thisLanguage.languageId, 10);
+			return thisLanguage;
+		});
+		
 		// We are only interested in the user data
-		return response.items[0];
+		return config;
 	}
 	
 	
