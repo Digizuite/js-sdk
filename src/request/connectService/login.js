@@ -49,8 +49,15 @@ export class Login extends BaseRequest {
 	 * @param response
 	 */
 	processResponseData( response ) {
+		
+		const user = response.items[0];
+		
+		user.memberId = parseInt(user.memberId, 10);
+		user.languageId = parseInt(user.languageId, 10);
+		user.itemid = parseInt(user.itemid, 10);
+		
 		// We are only interested in the user data
-		return response.items[0];
+		return user;
 	}
 
 }

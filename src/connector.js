@@ -100,10 +100,10 @@ export class Connector {
 	 * @returns {Metadata}
 	 */
 	get metadata() {
-		
 		if( !this._metadataEndpoint ) {
 			this._metadataEndpoint = new Metadata( {
 				apiUrl : this.apiUrl,
+				language : this.state.user.languageId,
 				languages : this.state.config.languages
 			} );
 		}

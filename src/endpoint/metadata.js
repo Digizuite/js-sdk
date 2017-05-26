@@ -1,5 +1,6 @@
 import {Endpoint} from 'common/endpoint';
 import {MetadataGroups} from 'request/metadataService/metadataGroups';
+import {MetadataItems} from 'request/metadataService/metadataItems';
 import {LanguageMetadataGroup} from 'model/metadata/languageMetadataGroup';
 
 export class Metadata extends Endpoint {
@@ -11,6 +12,7 @@ export class Metadata extends Endpoint {
 	 */
 	constructor( args = {}  ) {
 		super(args);
+		this.language = args.language;
 		this.languages = args.languages;
 	}
 	
@@ -30,7 +32,7 @@ export class Metadata extends Endpoint {
 		});
 		
 		return Promise.all([
-			groupRequest.execute({ itemId : args.asset.id }),
+			groupRequest.execute({ assetId : args.asset.id }),
 			this.getLanguageMetadataGroups()
 		]).then(([metadataGroups, languageGroups]) => {
 			
@@ -60,6 +62,33 @@ export class Metadata extends Endpoint {
 		});
 		
 		return Promise.resolve(groups);
+	}
+	
+	/**
+	 * Returns a list of metadata items in a group
+	 * @param args
+	 * @param {Asset} args.asset
+	 * @param {MetadataGroup} args.group
+	 * @returns {Promise.<T>}
+	 */
+	getMetadataItems( args = {}) {
+		if (!args.asset) {
+			throw new Error('getMetadataItems expected an asset as parameter!');
+		}
+		
+		if (!args.group) {
+			throw new Error('getMetadataItems expected an group as parameter!');
+		}
+		
+		const metadataItemsRequest = new MetadataItems({
+			apiUrl : this.apiUrl,
+		});
+		
+		return metadataItemsRequest.execute({
+			id      : args.group.id,
+			assetId : args.asset.id,
+			language: this.language
+		});
 	}
 	
 }

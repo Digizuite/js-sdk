@@ -44,7 +44,7 @@ export class MetadataGroups extends BaseRequest {
 	 */
 	processRequestData(payload = {}) {
 		
-		payload.itemid = payload.itemId;
+		payload.itemid = payload.assetId;
 		
 		return payload;
 	}

@@ -59,6 +59,6 @@ export const Constants = {
 		OTT        : 101,
 		PHOTOSHOP  : 16,
 		ILLUSTRATOR: 17
-	},
+	}
 	
 };
