@@ -1,6 +1,6 @@
 import {RequestError} from 'common/requestError';
 
-export class Request {
+export class BaseRequest {
 	
 	/**
 	 * To be overwritten
@@ -63,48 +63,33 @@ export class Request {
 			Object.assign({}, this.defaultPayload, payload)
 		);
 		
-		return new Promise( (resolve, reject)=> {
-			
-			const xhr = new XMLHttpRequest();
-			
-			xhr.open('POST', this.endpointUrl);
-			xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-			xhr.setRequestHeader('X-Clacks-Overhead', 'GNU Terry Pratchett'); //A man is not dead while his name is still spoken.
-			xhr.withCredentials = true;
-			
-			xhr.send( this.toQueryString(requestData) );
-			
-			xhr.onload = () => {
-				
-				if( xhr.status !== 200 ) {
-					reject( new RequestError( xhr.statusText, xhr.status ) );
-					return;
-				}
-				
-				const response = JSON.parse(xhr.responseText);
-				
-				if( Request.containsError(response) ) {
-					reject( new RequestError(
-						Request.getErrorMessage(response),
-						Request.getErrorCode(response)
-					) );
-				}
-				
-				try {
-					resolve(JSON.parse(xhr.responseText));
-				} catch(e) {
-					reject(e);
-				}
-			};
-			
-			xhr.onerror = () => {
-				reject( new RequestError('Unknown error', 0) );
-			};
-			
-		}).then((response)=>{
-			return this.processResponseData(response);
-		});
+		const request = new Request(
+			this.endpointUrl,
+			{
+				method : 'POST',
+				mode   : 'cors',
+				headers: new Headers({
+					'Content-Type'     : 'application/x-www-form-urlencoded',
+					'X-Clacks-Overhead': 'GNU Terry Pratchett' //A man is not dead while his name is still spoken.
+				}),
+				body   : this.toQueryString(requestData)
+			}
+		);
 		
+		return fetch(request, {credentials: 'include'})
+			.then(rawResponse => rawResponse.json())
+			.then((response) => {
+				
+				if (BaseRequest.containsError(response)) {
+					throw new RequestError(
+						BaseRequest.getErrorMessage(response),
+						BaseRequest.getErrorCode(response)
+					);
+				}
+				
+				return this.processResponseData(response);
+			});
+
 	}
 	
 	/**

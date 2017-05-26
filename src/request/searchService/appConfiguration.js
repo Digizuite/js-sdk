@@ -1,8 +1,8 @@
-import {Request} from 'common/request';
+import {BaseRequest} from 'common/request';
 import {RequestError} from 'common/requestError';
 import isObject from 'lodash/isObject';
 
-export class AppConfiguration extends Request {
+export class AppConfiguration extends BaseRequest {
 	
 	/**
 	 * Endpoint URL

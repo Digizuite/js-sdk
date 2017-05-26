@@ -1,8 +1,8 @@
-import {Request} from 'common/request';
+import {BaseRequest} from 'common/request';
 import {getItemIdFromIdPath} from 'utilities/helpers/treePath';
 import {Asset as AssetModel} from 'model/asset';
 
-export class Assets extends Request {
+export class Assets extends BaseRequest {
 	
 	/**
 	 * C-tor

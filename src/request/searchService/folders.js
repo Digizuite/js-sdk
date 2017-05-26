@@ -1,7 +1,7 @@
-import {Request} from 'common/request';
+import {BaseRequest} from 'common/request';
 import {getItemIdFromIdPath} from 'utilities/helpers/treePath';
 
-export class Folders extends Request {
+export class Folders extends BaseRequest {
 	
 	/**
 	 * Endpoint URL

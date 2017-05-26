@@ -1,6 +1,6 @@
-import {Request} from 'common/request';
+import {BaseRequest} from 'common/request';
 
-export class AppLabels extends Request {
+export class AppLabels extends BaseRequest {
 	
 	/**
 	 * Endpoint URL

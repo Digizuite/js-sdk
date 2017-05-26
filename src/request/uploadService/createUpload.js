@@ -1,6 +1,6 @@
-import {Request} from 'common/request';
+import {BaseRequest} from 'common/request';
 
-export class CreateUpload extends Request {
+export class CreateUpload extends BaseRequest {
 	
 	/**
 	 * C-tor

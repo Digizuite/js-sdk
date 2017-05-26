@@ -1,7 +1,7 @@
-import {Request} from 'common/request';
+import {BaseRequest} from 'common/request';
 import md5 from 'blueimp-md5';
 
-export class Login extends Request {
+export class Login extends BaseRequest {
 	
 	/**
 	 * Endpoint URL

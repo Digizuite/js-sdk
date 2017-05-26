@@ -1,6 +1,6 @@
-import {Request} from 'common/request';
+import {BaseRequest} from 'common/request';
 
-export class Filters extends Request {
+export class Filters extends BaseRequest {
 	
 	/**
 	 * C-tor

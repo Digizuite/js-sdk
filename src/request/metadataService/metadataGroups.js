@@ -1,8 +1,8 @@
-import {Request} from 'common/request';
+import {BaseRequest} from 'common/request';
 import {MetadataGroup} from 'model/metadata/metadataGroup';
 import {IterativeMetadataGroup} from 'model/metadata/iterativeMetadataGroup';
 
-export class MetadataGroups extends Request {
+export class MetadataGroups extends BaseRequest {
 	
 	/**
 	 * C-tor

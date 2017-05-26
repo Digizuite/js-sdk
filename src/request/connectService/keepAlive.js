@@ -1,6 +1,6 @@
-import {Request} from 'common/request';
+import {BaseRequest} from 'common/request';
 
-export class KeepAlive extends Request {
+export class KeepAlive extends BaseRequest {
 	
 	/**
 	 * Endpoint URL
