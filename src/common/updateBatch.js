@@ -14,6 +14,12 @@ import uniqueId from 'lodash/uniqueId';
 
 export class UpdateBatch {
 	
+	static get ROW_ID() {
+		return {
+			NonIncremental : 1
+		};
+	}
+	
 	/**
 	 * Batch types
 	 * @returns {{Values: number, Delete: number, ValuesRowid: number, DeleteRowid: number, ItemIdsValues: number, ItemIdsDelete: number, ItemIdsValuesRowid: number, ItemIdsDeleteRowid: number}}
@@ -77,7 +83,7 @@ export class UpdateBatch {
 		this.fieldName     = args.fieldName || 'asset';
 		this.containerType = args.type;
 		this.itemIds       = Array.isArray(args.itemIds) ? args.itemIds : [args.itemIds];
-		this.rowId         = args.hasOwnProperty('rowId') ? parseInt(args.rowId, 10) || 1 : 1;
+		this.rowId         = args.hasOwnProperty('rowId') ? parseInt(args.rowId, 10) || UpdateBatch.ROW_ID.NonIncremental : UpdateBatch.ROW_ID.NonIncremental;
 		
 		this.values = [];
 		this.xml    = (new DOMParser()).parseFromString('<r></r>', 'text/xml');
@@ -180,11 +186,28 @@ export class UpdateBatch {
 	}
 	
 	/**
+	 * Stringify XML
+	 * @param xmlDoc
+	 * @returns {string}
+	 */
+	stringifyXML(xmlDoc) {
+		
+		let result = '';
+		const serializer = new XMLSerializer();
+		
+		for (let i = 0; i < xmlDoc.firstChild.childNodes.length; i++) {
+			result += serializer.serializeToString(xmlDoc.firstChild.childNodes[i]);
+		}
+		
+		return result;
+	}
+	
+	/**
 	 * XML part of the batch
 	 * @returns {string}
 	 */
 	getBatchXML() {
-		return this.xml;
+		return this.stringifyXML(this.xml);
 	}
 	
 	/**

@@ -1,6 +1,7 @@
 import {Endpoint} from 'common/endpoint';
 import {MetadataGroups} from 'request/metadataService/metadataGroups';
 import {MetadataItems} from 'request/metadataService/metadataItems';
+import {BatchUpdate} from 'request/batchUpdateService/batchUpdate';
 import {LanguageMetadataGroup} from 'model/metadata/languageMetadataGroup';
 
 export class Metadata extends Endpoint {
@@ -95,7 +96,7 @@ export class Metadata extends Endpoint {
 	 *
 	 * @param args
 	 * @param {Asset} args.asset
-	 * @param {array} args.metadataItems
+	 * @param {Array} args.metadataItems
 	 * @returns {Promise.<T>}
 	 */
 	updateMetadataItems( args = {} ) {
@@ -108,9 +109,14 @@ export class Metadata extends Endpoint {
 			throw new Error('updateMetadataItems expected an metadataItems as parameter!');
 		}
 		
-		debugger;
+		const batchUpdateRequest = new BatchUpdate({
+			apiUrl : this.apiUrl,
+		});
 		
-		return Promise.resolve();
+		return batchUpdateRequest.execute({
+			asset        : args.asset,
+			metadataItems: args.metadataItems,
+		});
 	}
 	
 }

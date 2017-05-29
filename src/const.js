@@ -1,5 +1,9 @@
 export const Constants = {
 	
+	GUID : {
+		LAST_MODIFIED : 'BF26CA13-BE60-4B34-8087-C7F8345158F7'
+	},
+	
 	// Filter types
 	FILTER_TYPE: {
 		STRING       : 'string',
