@@ -101,20 +101,7 @@ export class MetadataItems extends BaseRequest {
 					result = NoteMetadataItem.createFromAPIResponse(thisItem);
 					break;
 				case ComboValueMetadataItem.TYPE:
-					if (Array.isArray(thisItem.item_metafield_valueid)) {
-						value = new ComboValue({
-							id   : parseInt(thisItem.item_metafield_valueid[0].item_combo_valueid, 10),
-							value: thisItem.item_metafield_valueid[0].combooptionvalue
-						});
-					} else {
-						value = null;
-					}
-					return new ComboValueMetadataItem({
-						guid    : thisItem.metafieldid.metafieldItemGuid,
-						name    : thisItem.metafieldid.metafieldName,
-						value   : value,
-						required: parseInt(thisItem.metafieldid.metafieldIsRequired, 10),
-					});
+					result = ComboValueMetadataItem.createFromAPIResponse(thisItem);
 					break;
 				case EditMultiComboValueMetadataItem.TYPE:
 					result = EditMultiComboValueMetadataItem.createFromAPIResponse(thisItem);
@@ -141,20 +128,10 @@ export class MetadataItems extends BaseRequest {
 					result = UniqueVersionMetadataItem.createFromAPIResponse(thisItem);
 					break;
 				case EditComboValueMetadataItem.TYPE:
-					return new EditComboValueMetadataItem({
-						guid    : thisItem.metafieldid.metafieldItemGuid,
-						name    : thisItem.metafieldid.metafieldName,
-						value   : Array.isArray(thisItem.item_metafield_valueid) ? thisItem.item_metafield_valueid[0].metaValue : '',
-						required: parseInt(thisItem.metafieldid.metafieldIsRequired, 10),
-					});
+					result = MultiComboValueMetadataItem.createFromAPIResponse(thisItem);
 					break;
 				case MultiComboValueMetadataItem.TYPE:
-					return new MultiComboValueMetadataItem({
-						guid    : thisItem.metafieldid.metafieldItemGuid,
-						name    : thisItem.metafieldid.metafieldName,
-						value   : Array.isArray(thisItem.item_metafield_valueid) ? thisItem.item_metafield_valueid[0].metaValue : '',
-						required: parseInt(thisItem.metafieldid.metafieldIsRequired, 10),
-					});
+					result = MultiComboValueMetadataItem.createFromAPIResponse(thisItem);
 					break;
 				default:
 					// Lol
