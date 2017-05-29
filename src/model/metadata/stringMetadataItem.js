@@ -14,4 +14,31 @@ export class StringMetadataItem extends MetadataItem {
 		super.setValueFromAPI(args);
 	}
 	
+	/**
+	 * Returns the value of the item
+	 * @returns {string|null}
+	 */
+	getValue() {
+		return this.value;
+	}
+	
+	/**
+	 * Set the value
+	 * @param value
+	 */
+	setValue( value = '' ) {
+		if( typeof value !== 'string' ) {
+			throw new Error('Parameter value needs to be of type string');
+		}
+		
+		this.value = value;
+	}
+	
+	/**
+	 * Clear the value
+	 */
+	clearValue() {
+		this.value = null;
+	}
+	
 }

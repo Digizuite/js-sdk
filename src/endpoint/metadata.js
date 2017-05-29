@@ -91,4 +91,26 @@ export class Metadata extends Endpoint {
 		});
 	}
 	
+	/**
+	 *
+	 * @param args
+	 * @param {Asset} args.asset
+	 * @param {array} args.metadataItems
+	 * @returns {Promise.<T>}
+	 */
+	updateMetadataItems( args = {} ) {
+		
+		if (!args.asset) {
+			throw new Error('updateMetadataItems expected an asset as parameter!');
+		}
+		
+		if (!args.metadataItems) {
+			throw new Error('updateMetadataItems expected an metadataItems as parameter!');
+		}
+		
+		debugger;
+		
+		return Promise.resolve();
+	}
+	
 }

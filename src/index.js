@@ -9,6 +9,8 @@ import {MetadataGroup as MetadataGroupClass} from 'model/metadata/metadataGroup'
 import {IterativeMetadataGroup as IterativeMetadataGroupClass} from 'model/metadata/iterativeMetadataGroup';
 import {LanguageMetadataGroup as LanguageMetadataGroupClass} from 'model/metadata/languageMetadataGroup';
 
+import {UpdateBatch as UpdateBatchClass} from 'common/updateBatch';
+
 export const Connector = ConnectorClass;
 export const Constants = ConstantsClass;
 export const Search    = {
@@ -21,3 +23,4 @@ export const Metadata = {
 	IterativeMetadataGroup: IterativeMetadataGroupClass,
 	LanguageMetadataGroup : LanguageMetadataGroupClass,
 };
+export const UpdateBatch = UpdateBatchClass;
