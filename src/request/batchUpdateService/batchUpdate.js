@@ -1,5 +1,6 @@
 import {BaseRequest} from 'common/request';
 import {UpdateBatch} from 'common/updateBatch';
+import {MetadataItem} from 'model/metadata/metadataItem';
 import {DateTimeMetadataItem} from 'model/metadata/dateTimeMetadataItem';
 import {Constants} from 'const';
 
@@ -31,8 +32,7 @@ export class BatchUpdate extends BaseRequest {
 			// Parameters required by DigiZuite - these should never be changed
 			// when executing the request!
 			useMetadataVersionedAccess: 0,
-			accessKey                 : 0,
-			updateXML                 : 0,
+			updateXML                 : '',
 			values                    : null,
 		};
 	}
@@ -62,29 +62,21 @@ export class BatchUpdate extends BaseRequest {
 		
 		const metadataItems = [ ...payload.metadataItems, this.getLastModifiedMetadataItem() ];
 		
-		// Compose all the metadata items into a batch
-		metadataItems.forEach((thisMetadataItem)=>{
-		
-			const batch = new UpdateBatch({
-				type: UpdateBatch.BATCH_TYPE.ItemIdsValuesRowid,
-				itemIds: [ payload.asset.id ],
-				rowId: UpdateBatch.ROW_ID.NonIncremental
-			});
-			
-			batch.appendValue({
-				// Update specified metafield (given by House og Co.)
-				fieldName: 'metafield',
-				fieldProperties: {
-					standardGuid: 'D10AEF8D-AF0E-4E33-BCB8-4D71E2C55269'
-				},
-				// Update integer-list to contain currently selected favorites
-				valueType: UpdateBatch.VALUE_TYPE.IntList,
-				value: [1,2,3,4]
-			});
-			
-			updateXml += batch.getBatchXML();
-			updateValues.push( batch.getBatchJSON() );
+		// Create an update batch
+		const batch = new UpdateBatch({
+			type: UpdateBatch.BATCH_TYPE.ItemIdsValuesRowid,
+			itemIds: [ payload.asset.id ],
+			rowId: UpdateBatch.ROW_ID.NonIncremental
 		});
+		
+		// Compose all the metadata items into a batch
+		metadataItems.forEach(
+			thisMetadataItem => batch.appendValue( this.getBatchValueFromMetadataItem(thisMetadataItem) )
+		);
+		
+		// Get the XML and JSON
+		updateXml += batch.getBatchXML();
+		updateValues.push( batch.getBatchJSON() );
 		
 		// Final strap to payload
 		payload.updateXML = `<r>${updateXml}</r>`;
@@ -92,10 +84,38 @@ export class BatchUpdate extends BaseRequest {
 		payload.asset = undefined;
 		payload.metadataItems = undefined;
 		
-		debugger;
-		
-		return {};
+		// console.debug(payload);
+		// debugger;
+		//
+		// return {};
 		return payload;
+	}
+	
+	/**
+	 * Computes a batch value from the metadata item
+	 * @param metadataItem
+	 * @returns {{fieldName: string, fieldProperties: {}, valueType: (*|{String: number, Bool: number, Int: number, DateTime: number, Float: number, IntList: number, Folder: number, AssetType: number, StringRow: number, BoolRow: number, IntRow: number, DateTimeRow: number, FloatRow: number, IntListRow: number, Delete: number, ValueExtraValue: number, StringList: number, StringListRow: number}), value: (string|null)}}
+	 */
+	getBatchValueFromMetadataItem( metadataItem ) {
+		
+		const batchValue = {
+			// Update the metafield with the given labelId
+			fieldName      : metadataItem instanceof MetadataItem ? 'metafield' : '',
+			fieldProperties: {},
+			
+			// Store the value
+			valueType: metadataItem.VALUE_TYPE,
+			value    : metadataItem.getValue()
+		};
+		
+		// Determine if we should use labelId or GUID
+		if( metadataItem.labelId ) {
+			batchValue.fieldProperties.labelId = metadataItem.labelId;
+		} else if( metadataItem.guid ) {
+			batchValue.fieldProperties.standardGuid = metadataItem.guid;
+		}
+		
+		return batchValue;
 	}
 	
 	/**
@@ -103,8 +123,7 @@ export class BatchUpdate extends BaseRequest {
 	 * @param response
 	 */
 	processResponseData(response) {
-		debugger;
-		return response;
+		return response.items;
 	}
 	
 }

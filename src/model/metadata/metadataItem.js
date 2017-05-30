@@ -1,5 +1,5 @@
 export class MetadataItem {
-	
+
 	/**
 	 *
 	 * @param args
@@ -7,6 +7,7 @@ export class MetadataItem {
 	constructor( args = {} ) {
 		this.guid = args.guid;
 		this.name = args.name;
+		this.labelId = args.labelId;
 		this.required = !!args.required;
 		this.value = args.value;
 	}
@@ -14,7 +15,7 @@ export class MetadataItem {
 	/**
 	 *
 	 * @param args
-	 * @returns {StringMetadataItem}
+	 * @returns {*}
 	 */
 	static createFromAPIResponse( args = {} ) {
 		const item = new this();
@@ -29,6 +30,7 @@ export class MetadataItem {
 	setValueFromAPI( args = {}) {
 		this.guid  = args.metafieldid.metafieldItemGuid;
 		this.name = args.metafieldid.metafieldName;
+		this.labelId = parseInt(args.metafieldLabelId, 10);
 		this.required = !!parseInt(args.metafieldid.metafieldIsRequired, 10);
 		this.value = Array.isArray(args.item_metafield_valueid) ? args.item_metafield_valueid[0].metaValue : '';
 	}

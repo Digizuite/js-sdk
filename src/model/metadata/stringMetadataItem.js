@@ -2,12 +2,15 @@ import {MetadataItem} from './metadataItem';
 
 export class StringMetadataItem extends MetadataItem {
 	
-	static get TYPE() {
-		return 60;
-	}
+	static get TYPE() { return 60; }
+	static get VALUE_TYPE() { return 1; }
+	
+	get TYPE() { return StringMetadataItem.TYPE; }
+	get VALUE_TYPE() { return StringMetadataItem.VALUE_TYPE; }
 	
 	constructor( args = {} ) {
 		super(args);
+		this.value = '';
 	}
 	
 	setValueFromAPI( args = {}) {
@@ -16,7 +19,7 @@ export class StringMetadataItem extends MetadataItem {
 	
 	/**
 	 * Returns the value of the item
-	 * @returns {string|null}
+	 * @returns {string}
 	 */
 	getValue() {
 		return this.value;
@@ -38,7 +41,7 @@ export class StringMetadataItem extends MetadataItem {
 	 * Clear the value
 	 */
 	clearValue() {
-		this.value = null;
+		this.value = '';
 	}
 	
 }

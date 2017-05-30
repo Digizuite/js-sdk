@@ -87,8 +87,6 @@ export class MetadataItems extends BaseRequest {
 			
 			let result;
 			
-			let value;
-			
 			// Yeahhh... no...
 			switch (parseInt(thisItem.metafieldid.item_datatypeid, 10)) {
 				case BitMetadataItem.TYPE:

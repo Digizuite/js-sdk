@@ -95,15 +95,17 @@ export class UpdateBatch {
 	 */
 	appendValue( args = {} ) {
 		
+		const fieldId = args.fieldId || (`${this.id}Field${this.values.length + 1}`);
+		
 		this.addToValues({
-			FieldId : args.fieldId || (`${this.id}Field${this.values.length + 1}`),
-			Type : args.valueType,
+			FieldId: fieldId,
+			Type   : args.valueType,
 			Values : Array.isArray(args.value) ? args.value : [args.value]
 		});
 		
 		this.addToXML({
-			fieldId: args.fieldId || (`${this.id}Field${this.values.length + 1}`),
-			fieldName: args.fieldName,
+			fieldId   : fieldId,
+			fieldName : args.fieldName,
 			properties: args.fieldProperties
 		});
 		
@@ -152,7 +154,7 @@ export class UpdateBatch {
 		
 		// Search if the value already exists
 		const valueIndex = this.values.findIndex((thisValue)=>{
-			return thisValue.fieldId === valueSet.fieldId;
+			return thisValue.FieldId === valueSet.FieldId;
 		});
 		
 		if( valueIndex === -1 ) {
