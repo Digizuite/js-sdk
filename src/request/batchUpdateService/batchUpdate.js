@@ -1,7 +1,7 @@
 import {BaseRequest} from 'common/request';
 import {UpdateBatch} from 'common/updateBatch';
-import {MetadataItem} from 'model/metadata/metadataItem';
 import {DateTimeMetadataItem} from 'model/metadata/dateTimeMetadataItem';
+import {MetadataItem} from 'model/metadata/metadataItem';
 import {Constants} from 'const';
 
 export class BatchUpdate extends BaseRequest {
@@ -84,10 +84,6 @@ export class BatchUpdate extends BaseRequest {
 		payload.asset = undefined;
 		payload.metadataItems = undefined;
 		
-		// console.debug(payload);
-		// debugger;
-		//
-		// return {};
 		return payload;
 	}
 	
@@ -105,7 +101,7 @@ export class BatchUpdate extends BaseRequest {
 			
 			// Store the value
 			valueType: metadataItem.VALUE_TYPE,
-			value    : metadataItem.getValue()
+			value    : metadataItem.getBatchValue()
 		};
 		
 		// Determine if we should use labelId or GUID

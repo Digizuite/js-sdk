@@ -1,6 +1,7 @@
 import {Endpoint} from 'common/endpoint';
 import {MetadataGroups} from 'request/metadataService/metadataGroups';
 import {MetadataItems} from 'request/metadataService/metadataItems';
+import {ComboOptions} from 'request/metadataService/comboOptions';
 import {BatchUpdate} from 'request/batchUpdateService/batchUpdate';
 import {LanguageMetadataGroup} from 'model/metadata/languageMetadataGroup';
 
@@ -118,6 +119,26 @@ export class Metadata extends Endpoint {
 		return batchUpdateRequest.execute({
 			asset        : args.asset,
 			metadataItems: args.metadataItems,
+		});
+	}
+	
+	/**
+	 * Get
+	 * @param args
+	 */
+	getMetadataItemOptions( args = {} ) {
+		
+		if (!args.metadataItem) {
+			throw new Error('updateMetadataItem expected an metadataItems as parameter!');
+		}
+		
+		const comboOptionsRequest = new ComboOptions({
+			apiUrl : this.apiUrl,
+		});
+		
+		return comboOptionsRequest.execute({
+			metadataItem: args.metadataItem,
+			query: args.query,
 		});
 	}
 	

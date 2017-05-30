@@ -9,6 +9,8 @@ import {MetadataGroup as MetadataGroupClass} from 'model/metadata/metadataGroup'
 import {IterativeMetadataGroup as IterativeMetadataGroupClass} from 'model/metadata/iterativeMetadataGroup';
 import {LanguageMetadataGroup as LanguageMetadataGroupClass} from 'model/metadata/languageMetadataGroup';
 
+import {ComboOption as ComboOptionClass} from 'model/metadata/comboOption';
+
 import {UpdateBatch as UpdateBatchClass} from 'common/updateBatch';
 
 export const Connector = ConnectorClass;
@@ -22,5 +24,7 @@ export const Metadata = {
 	MetadataGroup    : MetadataGroupClass,
 	IterativeMetadataGroup: IterativeMetadataGroupClass,
 	LanguageMetadataGroup : LanguageMetadataGroupClass,
+	
+	ComboOption : ComboOptionClass
 };
 export const UpdateBatch = UpdateBatchClass;

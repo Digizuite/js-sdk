@@ -35,4 +35,28 @@ export class MetadataItem {
 		this.value = Array.isArray(args.item_metafield_valueid) ? args.item_metafield_valueid[0].metaValue : '';
 	}
 	
+	/**
+	 * Sets a value
+	 * @param value
+	 */
+	setValue(value) {
+		this.value = value;
+	}
+	
+	/**
+	 * Returns the value of the item
+	 * @returns {*}
+	 */
+	getValue() {
+		return this.value;
+	}
+	
+	/**
+	 * Returns the batch value of the item
+	 * @returns {*}
+	 */
+	getBatchValue() {
+		return this.getValue();
+	}
+	
 }

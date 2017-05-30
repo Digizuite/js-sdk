@@ -13,8 +13,6 @@ import {MoneyMetadataItem} from 'model/metadata/moneyMetadataItem';
 import {MultiComboValueMetadataItem} from 'model/metadata/multiComboValueMetadataItem';
 import {UniqueVersionMetadataItem} from 'model/metadata/uniqueVersionMetadataItem';
 import {EditComboValueMetadataItem} from 'model/metadata/editComboValueMetadataItem';
-import {ComboValue} from 'model/metadata/comboValue';
-import {TreeValue} from 'model/metadata/treeValue';
 
 export class MetadataItems extends BaseRequest {
 	

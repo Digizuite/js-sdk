@@ -1,5 +1,5 @@
 import {MetadataItem} from './metadataItem';
-import {ComboValue} from './comboValue';
+import {ComboOption} from './comboOption';
 
 export class ComboValueMetadataItem extends MetadataItem {
 	
@@ -16,7 +16,7 @@ export class ComboValueMetadataItem extends MetadataItem {
 		super.setValueFromAPI(args);
 		
 		this.value = Array.isArray(args.item_metafield_valueid) ?
-			ComboValue.createFromAPIResponse(args.item_metafield_valueid[0]) :
+			ComboOption.createFromAPIResponse(args.item_metafield_valueid[0]) :
 			null;
 		
 	}

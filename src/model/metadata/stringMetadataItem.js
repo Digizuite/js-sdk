@@ -18,14 +18,6 @@ export class StringMetadataItem extends MetadataItem {
 	}
 	
 	/**
-	 * Returns the value of the item
-	 * @returns {string}
-	 */
-	getValue() {
-		return this.value;
-	}
-	
-	/**
 	 * Set the value
 	 * @param value
 	 */
@@ -35,13 +27,6 @@ export class StringMetadataItem extends MetadataItem {
 		}
 		
 		this.value = value;
-	}
-	
-	/**
-	 * Clear the value
-	 */
-	clearValue() {
-		this.value = '';
 	}
 	
 }

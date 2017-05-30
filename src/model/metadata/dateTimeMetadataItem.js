@@ -19,17 +19,11 @@ export class DateTimeMetadataItem extends MetadataItem {
 	}
 	
 	/**
-	 * Clear the value
-	 */
-	clearValue() {
-		this.value = null;
-	}
-	
-	/**
 	 * Returns the value of the item
 	 * @returns {string|null}
 	 */
-	getValue( format = 'YYYY-MM-DDTHH:mm:ss.SSS' ) {
+	getBatchValue() {
+		const format = 'YYYY-MM-DDTHH:mm:ss.SSS';
 		return this.value ? fecha.format(this.value, format): null;
 	}
 }
