@@ -32,9 +32,11 @@ export class Metadata extends Endpoint {
 			apiUrl : this.apiUrl,
 		});
 		
+		// Add this.getLanguageMetadataGroups()
+		// for language specific metadata. Beware of not being completed.
 		return Promise.all([
 			groupRequest.execute({ assetId : args.asset.id }),
-			this.getLanguageMetadataGroups()
+			Promise.resolve([]),
 		]).then(([metadataGroups, languageGroups]) => {
 			
 			const groups = [ ...languageGroups, ...metadataGroups ];
