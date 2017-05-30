@@ -1,10 +1,10 @@
-import {MetadataItem} from './metadataItem';
+import {StringMetadataItem} from './stringMetadataItem';
 
-export class NoteMetadataItem extends MetadataItem {
+export class NoteMetadataItem extends StringMetadataItem {
 	
-	static get TYPE() {
-		return 70;
-	}
+	static get TYPE() { return 70; }
+	
+	get TYPE() { return NoteMetadataItem.TYPE; }
 	
 	constructor( args = {} ) {
 		super(args);
