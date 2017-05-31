@@ -1,4 +1,4 @@
-# Digizuite Drive
+# Digizuite JS SDK
 
 ## Requirements
 * NodeJS v6 or greater
