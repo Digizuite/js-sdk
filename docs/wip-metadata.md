@@ -12,7 +12,7 @@ instance.metadata.getMetadataGroups({ asset })
 ## Get a list of metadata items in a group
 
 ```js
-instance.metadata.getMetadataItems({ asset, group,})
+instance.metadata.getMetadataItems({ asset, group })
     .then((items)=>{
         console.log("got metadata items", items);
     });
