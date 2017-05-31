@@ -84,6 +84,11 @@ export class BatchUpdate extends BaseRequest {
 		payload.asset = undefined;
 		payload.metadataItems = undefined;
 		
+		console.debug(payload);
+
+		debugger;
+
+		return {};
 		return payload;
 	}
 	

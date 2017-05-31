@@ -18,11 +18,45 @@ instance.metadata.getMetadataItems({ asset, group,})
     });
 ```
 
-## Manipulating metadata item
+## Manipulating metadata items
 
-### ComboValue, MultiComboValue, EditComboValue, EditMultiComboValue
+All metadata item implement the following methods:
+```js
+// Setting a value
+thisMetadataItem.setValue( myValue );
 
-#### Obtain a list of all possible values
+// Remove the value
+thisMetadataItem.clearValue();
+
+// Getting the value
+const value = thisMetadataItem.getValue();
+```
+
+All metadata items contain the following proprieties:
+* name - string - the name of the metadata item
+* required - boolean - whether of not the metadata item is required to 
+have a value.
+* guid - string - an unique id of the metadata item
+
+### Data type enforcement 
+Some of the metadata items require that the parameter sent in the ```setValue``` 
+to be of a specific type. Failing to provide the parameter with the correct type
+will result in an Error being thrown. 
+
+| Metadata type | Data type enforced | Notes |
+|---------------|--------------------|-------|
+| StringMetadataItem | string | |
+| LinkMetadataItem | string | |
+| DateTimeMetadataItem | Date | ```setValueFromString``` is available where the value can be given as a string with the format ```DD-MM-YYYY HH:mm:ss```. |
+| ComboValue | ComboOption | |
+| EditComboValue | ComboOption | |
+| MultiComboValue | array of ComboOption | |
+| EditMultiComboValue | array of ComboOption | |
+| - | - | |
+
+## Manipulating combo values
+
+### Obtain a list of all possible values
 
 ```js
 instance.metadata.getMetadataItemOptions({
@@ -40,33 +74,35 @@ instance.metadata.getMetadataItemOptions({
 
 Parameters ```navigation``` and ```query``` are optional. 
 
-#### Updating the value of a combo input
+### Updating the value of a combo input
 
+For ComboValue and EditComboValue:
 ```js
-// Append a new option to the metadata item
-thisMetadataItem.appendOption( options[0] );
+// Set a combo option 
+thisMetadataItem.setValue( option );
 
-// Set an array of options to the metadata item
-thisMetadataItem.setValue( options );
-
-// Removes an option from the metadata item
-thisMetadataItem.removeOption( option );
+// Clear the value 
+thisMetadataItem.clearValue();
 ```
-
-For EditMultiComboValue , the following are also available:
+ 
+For MultiComboValue and EditMultiComboValue
 ```js
-// Append an array of options to the metadata item
+// Append an option or an array of options to the metadata item
+thisMetadataItem.appendOption( options[0] );
 thisMetadataItem.appendOptions( options );
 
-// Removes an array of options from the metadata item
-thisMetadataItem.removeOptions( options );
-
 // Set an array of options to the metadata item
 thisMetadataItem.setValue( options );
+
+// Removes an option or an array of options from the metadata item
+thisMetadataItem.removeOption( option );
+thisMetadataItem.removeOptions( options );
+
+// Clear the value 
+thisMetadataItem.clearValue();
 ```
 
-
-#### Create a new ComboOption
+### Create a new combo option
 
 You can create new combo options, that can be added to 
 EditComboValue or EditMultiComboValue metadata items.  
@@ -77,13 +113,13 @@ const myComboOption = new new Digizuite.Metadata.ComboOption({
 });
 ```
 
-## Saving 
+## Saving a changes to metadata items
 
 After modifying one or more metadata items, they can be save as follows:
 ```js
 instance.metadata.updateMetadataItems({
     asset,
-    metadataItems : [ thisMetadataItem ]
+    metadataItems : [ changedMetadataItem ]
 }).then(()=>{
     console.log("Metadata updated!");
 });

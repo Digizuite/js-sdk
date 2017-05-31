@@ -1,25 +1,19 @@
 import {ComboValueMetadataItem} from './comboValueMetadataItem';
-import {ComboOption} from './comboOption';
 
 export class EditComboValueMetadataItem extends ComboValueMetadataItem {
 	
-	static get TYPE() {
-		return 69;
-	}
+	static get TYPE() { return 69; }
+	static get VALUE_TYPE() { return 1; }
+	
+	get TYPE() { return EditComboValueMetadataItem.TYPE; }
+	get VALUE_TYPE() { return EditComboValueMetadataItem.VALUE_TYPE; }
 	
 	constructor( args = {} ) {
 		super(args);
 	}
 	
-	
-	setValueFromAPI(args = {}) {
-		
-		super.setValueFromAPI(args);
-		
-		this.value = Array.isArray(args.item_metafield_valueid) ?
-			ComboOption.createFromAPIResponse(args.item_metafield_valueid[0]) :
-			null;
-		
+	getBatchValue() {
+		return this.value ? this.value.value : null;
 	}
 	
 }

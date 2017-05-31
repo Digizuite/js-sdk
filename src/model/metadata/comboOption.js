@@ -8,6 +8,7 @@ export class ComboOption {
 		
 		this.id    = args.id;
 		this.value = args.value;
+		this._optionvalue = args.optionvalue;
 		
 	}
 	
@@ -32,10 +33,17 @@ export class ComboOption {
 		
 		// Yes, this can be in multiple proprieties.
 		if( args.hasOwnProperty('combooptionvalue') ) {
-			this.value = args.combooptionvalue;
+			this._optionvalue = args.combooptionvalue;
 		} else if( args.hasOwnProperty('optionvalue')  ) {
-			this.value = args.optionvalue;
+			this._optionvalue = args.optionvalue;
+		}
+		
+		if( args.hasOwnProperty('metaValue') ) {
+			this.value = args.metaValue;
+		} else if( args.hasOwnProperty('combovalue')  ) {
+			this.value = args.combovalue;
 		}
 		
 	}
+	
 }

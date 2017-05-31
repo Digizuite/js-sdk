@@ -124,7 +124,7 @@ export class MetadataItems extends BaseRequest {
 					result = UniqueVersionMetadataItem.createFromAPIResponse(thisItem);
 					break;
 				case EditComboValueMetadataItem.TYPE:
-					result = MultiComboValueMetadataItem.createFromAPIResponse(thisItem);
+					result = EditComboValueMetadataItem.createFromAPIResponse(thisItem);
 					break;
 				case MultiComboValueMetadataItem.TYPE:
 					result = MultiComboValueMetadataItem.createFromAPIResponse(thisItem);

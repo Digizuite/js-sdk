@@ -11,6 +11,7 @@
  * /Stefan
  */
 import uniqueId from 'lodash/uniqueId';
+import {toArray} from 'utilities/helpers/array';
 
 export class UpdateBatch {
 	
@@ -82,7 +83,7 @@ export class UpdateBatch {
 		this.id            = this.fieldId;
 		this.fieldName     = args.fieldName || 'asset';
 		this.containerType = args.type;
-		this.itemIds       = Array.isArray(args.itemIds) ? args.itemIds : [args.itemIds];
+		this.itemIds       = toArray(args.itemIds);
 		this.rowId         = args.hasOwnProperty('rowId') ? parseInt(args.rowId, 10) || UpdateBatch.ROW_ID.NonIncremental : UpdateBatch.ROW_ID.NonIncremental;
 		
 		this.values = [];
@@ -100,7 +101,7 @@ export class UpdateBatch {
 		this.addToValues({
 			FieldId: fieldId,
 			Type   : args.valueType,
-			Values : Array.isArray(args.value) ? args.value : [args.value]
+			Values : toArray(args.value)
 		});
 		
 		this.addToXML({

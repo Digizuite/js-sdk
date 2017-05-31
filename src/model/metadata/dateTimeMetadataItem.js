@@ -13,6 +13,33 @@ export class DateTimeMetadataItem extends MetadataItem {
 		super(args);
 	}
 	
+	/**
+	 * Set the value
+	 * @param value
+	 */
+	setValue( value ) {
+		
+		if( !(value instanceof Date) ) {
+			throw new Error('Parameter value needs to be of type Date');
+		}
+		
+		super.setValue(value);
+	}
+	
+	/**
+	 * Sets value from a string
+	 * @param value
+	 * @param format
+	 */
+	setValueFromString( value = '', format = 'DD-MM-YYYY HH:mm:ss' ) {
+		
+		if( typeof value !== 'string' ) {
+			throw new Error('Parameter value needs to be of type string');
+		}
+		
+		this.setValue( fecha.parse(value, format) );
+	}
+	
 	setValueFromAPI( args = {}) {
 		super.setValueFromAPI(args);
 		this.value = this.value ? fecha.parse(this.value, 'DD-MM-YYYY HH:mm:ss') : null;

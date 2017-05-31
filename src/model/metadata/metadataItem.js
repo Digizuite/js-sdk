@@ -36,6 +36,13 @@ export class MetadataItem {
 	}
 	
 	/**
+	 * Clears a value
+	 */
+	clearValue() {
+		this.value = null;
+	}
+	
+	/**
 	 * Sets a value
 	 * @param value
 	 */

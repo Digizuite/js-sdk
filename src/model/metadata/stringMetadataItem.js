@@ -26,7 +26,7 @@ export class StringMetadataItem extends MetadataItem {
 			throw new Error('Parameter value needs to be of type string');
 		}
 		
-		this.value = value;
+		super.setValue(value);
 	}
 	
 }
