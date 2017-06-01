@@ -3,6 +3,7 @@ import {MetadataGroups} from 'request/metadataService/metadataGroups';
 import {MetadataItems} from 'request/metadataService/metadataItems';
 import {ComboOptions} from 'request/metadataService/comboOptions';
 import {TreeOptions} from 'request/metadataService/treeOptions';
+import {IsUniqueVersion} from 'request/metadataService/isUniqueVersion';
 import {BatchUpdate} from 'request/batchUpdateService/batchUpdate';
 import {LanguageMetadataGroup} from 'model/metadata/languageMetadataGroup';
 import {TreeMetadataItem} from'model/metadata/treeMetadataItem';
@@ -194,6 +195,33 @@ export class Metadata extends Endpoint {
 			query: args.query,
 		});
 		
+	}
+	
+	/**
+	 * Checks if a version is unique
+	 * @param args
+	 * @param {Asset} args.asset
+	 * @param {UniqueVersionMetadataItem} args.metadataItem
+	 * @returns {Promise}
+	 */
+	verifyUniqueVersion( args = {} ) {
+		
+		if (!args.asset) {
+			throw new Error('verifyUniqueVersion expected an asset as parameter!');
+		}
+		
+		if (!args.metadataItem) {
+			throw new Error('verifyUniqueVersion expected an metadataItem as parameter!');
+		}
+		
+		const isUniqueVersionRequest = new IsUniqueVersion({
+			apiUrl : this.apiUrl,
+		});
+		
+		return isUniqueVersionRequest.execute({
+			metadataItem: args.metadataItem,
+			asset: args.asset
+		});
 	}
 	
 }
