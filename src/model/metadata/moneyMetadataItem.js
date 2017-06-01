@@ -1,11 +1,7 @@
-import {MetadataItem} from './metadataItem';
+import {StringMetadataItem} from './stringMetadataItem';
 
-export class MoneyMetadataItem extends MetadataItem {
-	
-	static get TYPE() {
-		return 62;
-	}
-	
+export class MoneyMetadataItem extends StringMetadataItem {
+
 	constructor( args = {} ) {
 		super(args);
 	}

@@ -49,6 +49,7 @@ will result in an Error being thrown.
 | IntMetadataItem | number | There is an additional check for number to be integer. NaN is not allowed. |
 | FloatMetadataItem | number | NaN is not allowed. |
 | StringMetadataItem | string | |
+| MoneyMetadataItem | string | |
 | LinkMetadataItem | string | |
 | DateTimeMetadataItem | Date | ```setValueFromString``` is available where the value can be given as a string with the format ```DD-MM-YYYY HH:mm:ss```. |
 | ComboValueMetadataItem | ComboOption | |
