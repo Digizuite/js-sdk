@@ -31,11 +31,11 @@ export class MultiComboValueMetadataItem extends ComboValueMetadataItem {
 	}
 	
 	/**
-	 * Appends a series of values to the combo
-	 * @param comboComboOption
+	 * Appends a series of values to the tree
+	 * @param comboOptions
 	 */
-	appendOptions( comboComboOption = [] ) {
-		this.setValue( this.value.concat( comboComboOption ) );
+	appendOptions( comboOptions = [] ) {
+		this.setValue( this.value.concat( comboOptions ) );
 	}
 	
 	/**
@@ -48,7 +48,7 @@ export class MultiComboValueMetadataItem extends ComboValueMetadataItem {
 			throw new Error('removeOption requires that values of comboOptions be instances of ComboOption');
 		}
 		
-		this.value = this.value.filter( (thisComboOption) => thisComboOption.value === comboOption.value );
+		this.value = this.value.filter( (thisComboOption) => thisComboOption.value !== comboOption.value );
 	}
 	
 	/**

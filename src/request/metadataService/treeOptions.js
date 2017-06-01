@@ -1,7 +1,8 @@
 import {BaseRequest} from 'common/request';
-import {ComboOption} from 'model/metadata/comboOption';
+import {TreeOption} from 'model/metadata/treeOption';
+import {getItemIdFromIdPath} from 'utilities/helpers/treePath';
 
-export class ComboOptions extends BaseRequest {
+export class TreeOptions extends BaseRequest {
 	
 	/**
 	 * C-tor
@@ -21,17 +22,18 @@ export class ComboOptions extends BaseRequest {
 	}
 	
 	/**
-	 *
+	 * Default payload
 	 * @returns {Object}
 	 */
 	get defaultPayload() {
 		return {
 			// Parameters required by DigiZuite - these should never be changed
 			// when executing the request!
-			searchName        : 'DigiZuite_System_metadatav2_combobox',
+			searchName        : 'Digizuite_system_metadatav2_tree',
 			page              : 1,
 			limit             : 25,
 			sfMetafieldLabelId: null,
+			node              : 0,
 		};
 	}
 	
@@ -58,6 +60,11 @@ export class ComboOptions extends BaseRequest {
 			payload.navigation = undefined;
 		}
 		
+		if( payload.hasOwnProperty('path') ) {
+			payload.node = payload.path ? getItemIdFromIdPath(payload.path) : 0;
+			payload.path = undefined;
+		}
+		
 		return payload;
 	}
 	
@@ -68,7 +75,7 @@ export class ComboOptions extends BaseRequest {
 	processResponseData(response) {
 		return {
 			navigation : {total: parseInt(response.total, 10)},
-			options     : response.items.map( thisOption => ComboOption.createFromAPIResponse(thisOption)),
+			options     : response.items.map( thisOption => TreeOption.createFromAPIResponse(thisOption)),
 		};
 	}
 	

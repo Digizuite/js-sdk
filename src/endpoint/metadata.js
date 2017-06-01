@@ -2,8 +2,14 @@ import {Endpoint} from 'common/endpoint';
 import {MetadataGroups} from 'request/metadataService/metadataGroups';
 import {MetadataItems} from 'request/metadataService/metadataItems';
 import {ComboOptions} from 'request/metadataService/comboOptions';
+import {TreeOptions} from 'request/metadataService/treeOptions';
 import {BatchUpdate} from 'request/batchUpdateService/batchUpdate';
 import {LanguageMetadataGroup} from 'model/metadata/languageMetadataGroup';
+import {TreeMetadataItem} from'model/metadata/treeMetadataItem';
+import {ComboValueMetadataItem} from'model/metadata/comboValueMetadataItem';
+import {EditComboValueMetadataItem} from'model/metadata/editComboValueMetadataItem';
+import {MultiComboValueMetadataItem} from'model/metadata/multiComboValueMetadataItem';
+import {EditMultiComboValueMetadataItem} from'model/metadata/editMultiComboValueMetadataItem';
 
 export class Metadata extends Endpoint {
 	
@@ -123,10 +129,57 @@ export class Metadata extends Endpoint {
 	}
 	
 	/**
-	 * Get
+	 * Get metadata options
 	 * @param args
 	 */
 	getMetadataItemOptions( args = {} ) {
+		
+		if( args.metadataItem instanceof TreeMetadataItem ) {
+			
+			return this.getTreeOptions(args);
+			
+		} else if(
+			(args.metadataItem instanceof ComboValueMetadataItem) ||
+			(args.metadataItem instanceof EditComboValueMetadataItem) ||
+			(args.metadataItem instanceof MultiComboValueMetadataItem) ||
+			(args.metadataItem instanceof EditMultiComboValueMetadataItem)
+		) {
+			
+			return this.getComboOptions(args);
+			
+		} else {
+			throw new Error('getMetadataItemOptions required a metadata item of type tree or combo value');
+		}
+		
+	}
+	
+	/**
+	 * Get tree options
+	 * @param args
+	 * @returns {Promise}
+	 */
+	getTreeOptions( args = {} ) {
+		
+		if (!args.metadataItem) {
+			throw new Error('updateMetadataItem expected an metadataItems as parameter!');
+		}
+		
+		const treeOptionsRequest = new TreeOptions({
+			apiUrl : this.apiUrl,
+		});
+		
+		return treeOptionsRequest.execute({
+			metadataItem: args.metadataItem,
+			path: args.path,
+		});
+	}
+	
+	/**
+	 * Get combo options
+	 * @param args
+	 * @returns {Promise}
+	 */
+	getComboOptions( args = {} ) {
 		
 		if (!args.metadataItem) {
 			throw new Error('updateMetadataItem expected an metadataItems as parameter!');
@@ -140,6 +193,7 @@ export class Metadata extends Endpoint {
 			metadataItem: args.metadataItem,
 			query: args.query,
 		});
+		
 	}
 	
 }

@@ -52,9 +52,10 @@ will result in an Error being thrown.
 | EditComboValue | ComboOption | |
 | MultiComboValue | array of ComboOption | |
 | EditMultiComboValue | array of ComboOption | |
+| Tree | array of TreeOption | |
 | - | - | |
 
-## Manipulating combo values
+## Working with combo values
 
 ### Obtain a list of all possible values
 
@@ -74,7 +75,7 @@ instance.metadata.getMetadataItemOptions({
 
 Parameters ```navigation``` and ```query``` are optional. 
 
-### Updating the value of a combo input
+### Updating the value of a combo value
 
 For ComboValue and EditComboValue:
 ```js
@@ -112,6 +113,45 @@ const myComboOption = new new Digizuite.Metadata.ComboOption({
     value : 'MyComboOptionValue' 
 });
 ```
+
+## Working with trees
+
+### Obtain a list of all possible values
+
+```js
+instance.metadata.getMetadataItemOptions({
+    metadataItem : thisMetadataItem,
+    path : '/',
+    navigation: {
+        page : 1,
+        limit: 12
+    }
+}).then(({ options, navigation })=>{
+	console.log("Got options!", options);
+    console.log("Got navigation info!", navigation);
+});
+```
+
+Parameters ```navigation``` and ```path``` are optional. 
+
+### Updating the value of a tree
+
+```js
+// Append an option or an array of options to the metadata item
+thisMetadataItem.appendOption( options[0] );
+thisMetadataItem.appendOptions( options );
+
+// Set an array of options to the metadata item
+thisMetadataItem.setValue( options );
+
+// Removes an option or an array of options from the metadata item
+thisMetadataItem.removeOption( option );
+thisMetadataItem.removeOptions( options );
+
+// Clear the value 
+thisMetadataItem.clearValue();
+```
+
 
 ## Saving a changes to metadata items
 
