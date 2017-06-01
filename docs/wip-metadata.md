@@ -45,14 +45,17 @@ will result in an Error being thrown.
 
 | Metadata type | Data type enforced | Notes |
 |---------------|--------------------|-------|
+| BitMetadataItem | boolean | |
+| IntMetadataItem | number | There is an additional check for number to be integer. NaN is not allowed. |
+| FloatMetadataItem | number | NaN is not allowed. |
 | StringMetadataItem | string | |
 | LinkMetadataItem | string | |
 | DateTimeMetadataItem | Date | ```setValueFromString``` is available where the value can be given as a string with the format ```DD-MM-YYYY HH:mm:ss```. |
-| ComboValue | ComboOption | |
-| EditComboValue | ComboOption | |
-| MultiComboValue | array of ComboOption | |
-| EditMultiComboValue | array of ComboOption | |
-| Tree | array of TreeOption | |
+| ComboValueMetadataItem | ComboOption | |
+| EditComboValueMetadataItem | ComboOption | |
+| MultiComboValueMetadataItem | array of ComboOption | |
+| EditMultiComboValueMetadataItem | array of ComboOption | |
+| TreeMetadataItem | array of TreeOption | |
 | - | - | |
 
 ## Working with combo values
