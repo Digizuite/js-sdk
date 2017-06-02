@@ -4,9 +4,9 @@
   "version": "0.6.9",
   "main": "index.js",
   "scripts": {
-    "build": ".\\node_modules\\.bin\\webpack --progress",
-    "watch": ".\\node_modules\\.bin\\webpack --progress --watch",
-    "dist": ".\\node_modules\\.bin\\webpack --progress"
+    "build": ".\\node_modules\\.bin\\webpack --progress --env=dev",
+    "watch": ".\\node_modules\\.bin\\webpack --progress --env=dev --watch",
+    "dist": ".\\node_modules\\.bin\\webpack --progress --env=prod"
   },
   "dependencies": {
     "blueimp-md5": "^2.7.0",
@@ -14,6 +14,7 @@
     "lodash": "^4.17.4"
   },
   "devDependencies": {
+    "babili-webpack-plugin": "^0.1.1",
     "eslint": "^3.19.0",
     "webpack": "^2.5.1"
   },
