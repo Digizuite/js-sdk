@@ -10,6 +10,7 @@ import {IterativeMetadataGroup as IterativeMetadataGroupClass} from 'model/metad
 import {LanguageMetadataGroup as LanguageMetadataGroupClass} from 'model/metadata/languageMetadataGroup';
 
 import {ComboOption as ComboOptionClass} from 'model/metadata/comboOption';
+import {UniqueOption as UniqueOptionClass} from 'model/metadata/uniqueOption';
 
 import {UpdateBatch as UpdateBatchClass} from 'common/updateBatch';
 
@@ -25,6 +26,7 @@ export const Metadata = {
 	IterativeMetadataGroup: IterativeMetadataGroupClass,
 	LanguageMetadataGroup : LanguageMetadataGroupClass,
 	
-	ComboOption : ComboOptionClass
+	ComboOption : ComboOptionClass,
+	UniqueOption : UniqueOptionClass,
 };
 export const UpdateBatch = UpdateBatchClass;

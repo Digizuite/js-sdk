@@ -38,15 +38,30 @@ export class IsUniqueVersion extends BaseRequest {
 	}
 	
 	/**
-	 * Pass-through
+	 * Pre-process
 	 * @param {Object} payload
 	 * @returns {Object}
 	 */
 	processRequestData(payload = {}) {
 		
-		debugger;
+		payload.itemId = payload.asset.id;
+		payload.asset = undefined;
+		
+		payload.mlid = payload.metadataItem.labelId;
+		payload.version = payload.metadataItem.value.version;
+		payload.unique = payload.metadataItem.value.unique;
+		
+		payload.metadataItem = undefined;
 		
 		return payload;
+	}
+	
+	/**
+	 * Return empty
+	 * @returns {undefined}
+	 */
+	processResponseData() {
+		return undefined;
 	}
 	
 }

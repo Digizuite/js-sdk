@@ -214,6 +214,14 @@ export class Metadata extends Endpoint {
 			throw new Error('verifyUniqueVersion expected an metadataItem as parameter!');
 		}
 		
+		if(!args.metadataItem.value) {
+			throw new Error('verifyUniqueVersion expected an metadataItem  with a value set!');
+		}
+		
+		if(!args.metadataItem.value.version || !args.metadataItem.value.unique) {
+			throw new Error('verifyUniqueVersion expected an metadataItem  with a value set!');
+		}
+		
 		const isUniqueVersionRequest = new IsUniqueVersion({
 			apiUrl : this.apiUrl,
 		});

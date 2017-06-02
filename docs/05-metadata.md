@@ -1,4 +1,4 @@
-# Metadata (WIP)
+# Metadata
 
 ## Get a list of metadata groups
 
@@ -57,7 +57,7 @@ will result in an Error being thrown.
 | MultiComboValueMetadataItem | array of ComboOption | |
 | EditMultiComboValueMetadataItem | array of ComboOption | |
 | TreeMetadataItem | array of TreeOption | |
-| - | - | |
+| UniqueVersionMetadataItem | UniqueOption | |
 
 ## Working with combo values
 
@@ -113,7 +113,7 @@ You can create new combo options, that can be added to
 EditComboValue or EditMultiComboValue metadata items.  
 
 ```js
-const myComboOption = new new Digizuite.Metadata.ComboOption({ 
+const myComboOption = new Digizuite.Metadata.ComboOption({ 
     value : 'MyComboOptionValue' 
 });
 ```
@@ -156,6 +156,40 @@ thisMetadataItem.removeOptions( options );
 thisMetadataItem.clearValue();
 ```
 
+## Working with UniqueVersion
+
+Unique version is a metadata item composed of 2 values(unique and version), which should be unique.
+
+### Create a new UniqueVersion
+```js
+const uniqueOption = new Digizuite.Metadata.UniqueOption({
+    unique : '666',
+    version : '1337'
+});
+```
+
+### Setting and updating the value on UniqueVersion
+
+When updating an existing option, it is recommended to create a new instance of UniqueOption and set it as the value.
+```js
+const uniqueOption = new Digizuite.Metadata.UniqueOption({
+    unique : '666',
+    version : '1337'
+});
+thisMetadataItem.setValue(uniqueOption);
+```
+
+### Verify that a UniqueVersion is unique
+```js
+instance.metadata.verifyUniqueVersion({
+    asset,
+    metadataItem : thisMetadataItem
+}).then(() => {
+   console.debug("Is Unique");
+}).catch(()=>{
+    console.debug("Is NOT Unique");
+});
+```
 
 ## Saving a changes to metadata items
 

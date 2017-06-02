@@ -1,13 +1,22 @@
 export class UniqueOption {
 	
+	get unique() {
+		return this._unique;
+	}
+	
+	
+	get version() {
+		return this._version;
+	}
+	
 	/**
 	 * C-tor
 	 * @param args
 	 */
 	constructor( args = {} ) {
 		
-		this.unique = args.unique;
-		this.version = args.version;
+		this._unique = args.unique;
+		this._version = args.version;
 		
 	}
 	
@@ -27,8 +36,8 @@ export class UniqueOption {
 	 * @param args
 	 */
 	setValueFromAPI(args = {}) {
-		this.unique = args.metaValue;
-		this.version = args.extraValue;
+		this._unique = args.metaValue;
+		this._version = args.extraValue;
 		
 	}
 }
