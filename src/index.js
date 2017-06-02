@@ -34,4 +34,3 @@ export {UniqueOption} from 'model/metadata/uniqueOption';
 
 export {Auth} from 'endpoint/auth';
 export {Metadata} from 'endpoint/metadata';
-export {Config} from 'endpoint/config';
