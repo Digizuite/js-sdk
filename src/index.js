@@ -30,4 +30,5 @@ export {EditComboValueMetadataItem} from 'model/metadata/editComboValueMetadataI
 
 // metadata options
 export {ComboOption} from 'model/metadata/comboOption';
+export {TreeOption} from 'model/metadata/treeOption';
 export {UniqueOption} from 'model/metadata/uniqueOption';
