@@ -1,6 +1,8 @@
 {
   "name": "digizuite-js-sdk",
-  "version": "0.1.0",
+  "description": "JS SDK for Digizuite API",
+  "version": "0.6.9",
+  "main": "index.js",
   "scripts": {
     "build": ".\\node_modules\\.bin\\webpack --progress",
     "watch": ".\\node_modules\\.bin\\webpack --progress --watch",
@@ -8,9 +10,18 @@
   },
   "dependencies": {
     "blueimp-md5": "^2.7.0",
-    "eslint": "^3.19.0",
     "fecha": "^2.3.1",
-    "lodash": "^4.17.4",
+    "lodash": "^4.17.4"
+  },
+  "devDependencies": {
+    "eslint": "^3.19.0",
     "webpack": "^2.5.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://sf-digizuite@bitbucket.org/digizuite/js-sdk.git"
+  },
+  "author": "Digizuite A/S",
+  "license": "MIT",
+  "homepage": "https://bitbucket.org/digizuite/js-sdk"
 }

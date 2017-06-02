@@ -5,7 +5,7 @@
 ### Filter by name
 Filter for an asset with a given name:
 ```js
-const  assetNameFilter = new Digizuite.Search.AssetNameFilter({
+const  assetNameFilter = new Digizuite.AssetNameFilter({
     name : 'takeoff'
 });
 instance.content.getAssets({
@@ -18,7 +18,7 @@ instance.content.getAssets({
 ### Filter by asset type 
 Filter for an asset of an given type:
 ```js
-const assetTypeFilter = new Digizuite.Search.AssetTypeFilter({
+const assetTypeFilter = new Digizuite.AssetTypeFilter({
    types : [ Digizuite.Constants.ASSET_TYPE.IMAGE ]
 });
 instance.content.getAssets({
@@ -31,7 +31,7 @@ instance.content.getAssets({
 ### Filter by asset created date
 Filter for an asset created in a given time interval
 ```js
-const assetCreatedFilter = new Digizuite.Search.AssetCreatedFilter({
+const assetCreatedFilter = new Digizuite.AssetCreatedFilter({
     from : 1494720000,
     to : 1495459813
 });

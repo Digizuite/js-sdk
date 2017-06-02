@@ -113,7 +113,7 @@ You can create new combo options, that can be added to
 EditComboValue or EditMultiComboValue metadata items.  
 
 ```js
-const myComboOption = new Digizuite.Metadata.ComboOption({ 
+const myComboOption = new Digizuite.ComboOption({ 
     value : 'MyComboOptionValue' 
 });
 ```
@@ -162,7 +162,7 @@ Unique version is a metadata item composed of 2 values(unique and version), whic
 
 ### Create a new UniqueVersion
 ```js
-const uniqueOption = new Digizuite.Metadata.UniqueOption({
+const uniqueOption = new Digizuite.UniqueOption({
     unique : '666',
     version : '1337'
 });
@@ -172,7 +172,7 @@ const uniqueOption = new Digizuite.Metadata.UniqueOption({
 
 When updating an existing option, it is recommended to create a new instance of UniqueOption and set it as the value.
 ```js
-const uniqueOption = new Digizuite.Metadata.UniqueOption({
+const uniqueOption = new Digizuite.UniqueOption({
     unique : '666',
     version : '1337'
 });
