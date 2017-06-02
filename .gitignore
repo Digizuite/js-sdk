@@ -46,6 +46,5 @@ fabric.properties
 
 .idea/
 node_modules/
-dist/
 browser_test/
 TODO
