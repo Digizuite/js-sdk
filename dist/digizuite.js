@@ -81,7 +81,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_common_requestError__ = __webpack_require__(38);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_common_requestError__ = __webpack_require__(36);
 
 
 class BaseRequest {
@@ -741,7 +741,7 @@ const Constants = {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__metadataItem__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_fecha__ = __webpack_require__(45);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_fecha__ = __webpack_require__(43);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_fecha___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_fecha__);
 
 
@@ -864,7 +864,7 @@ class EditMultiComboValueMetadataItem extends __WEBPACK_IMPORTED_MODULE_0__multi
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__metadataItem__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_model_metadata_treeOption__ = __webpack_require__(39);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_model_metadata_treeOption__ = __webpack_require__(37);
 
 
 
@@ -990,7 +990,7 @@ class TreeMetadataItem extends __WEBPACK_IMPORTED_MODULE_0__metadataItem__["a" /
 /* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var root = __webpack_require__(58);
+var root = __webpack_require__(56);
 
 /** Built-in value references. */
 var Symbol = root.Symbol;
@@ -1003,9 +1003,9 @@ module.exports = Symbol;
 /***/ (function(module, exports, __webpack_require__) {
 
 var Symbol = __webpack_require__(14),
-    arrayMap = __webpack_require__(46),
-    isArray = __webpack_require__(63),
-    isSymbol = __webpack_require__(37);
+    arrayMap = __webpack_require__(44),
+    isArray = __webpack_require__(61),
+    isSymbol = __webpack_require__(35);
 
 /** Used as references for various `Number` constants. */
 var INFINITY = 1 / 0;
@@ -1077,11 +1077,11 @@ class Filter {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_trim__ = __webpack_require__(69);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_trim__ = __webpack_require__(67);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_trim___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash_trim__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lodash_last__ = __webpack_require__(65);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lodash_last__ = __webpack_require__(63);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lodash_last___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_lodash_last__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_lodash_initial__ = __webpack_require__(62);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_lodash_initial__ = __webpack_require__(60);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_lodash_initial___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_lodash_initial__);
 
 
@@ -1264,314 +1264,6 @@ class Auth extends __WEBPACK_IMPORTED_MODULE_0_common_endpoint__["a" /* Endpoint
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_common_endpoint__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_request_searchService_appConfiguration__ = __webpack_require__(92);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_request_configService_appLabels__ = __webpack_require__(83);
-
-
-
-
-class Config extends __WEBPACK_IMPORTED_MODULE_0_common_endpoint__["a" /* Endpoint */] {
-	
-	/**
-	 * C-tor
-	 * @param {Object} args
-	 * @param {String} args.apiUrl - Full URL to the api end-point.
-	 */
-	constructor( args = {}  ) {
-		super(args);
-	}
-	
-	/**
-	 * Get app configurations
-	 * @returns {Promise}
-	 */
-	getAppConfiguration() {
-		
-		const appConfigRequest = new __WEBPACK_IMPORTED_MODULE_1_request_searchService_appConfiguration__["a" /* AppConfiguration */]({
-			apiUrl : this.apiUrl
-		});
-		
-		return appConfigRequest.execute();
-	}
-	
-	/**
-	 * Get app labels
-	 * @returns {Promise}
-	 */
-	getAppLabels() {
-		const appConfigRequest = new __WEBPACK_IMPORTED_MODULE_2_request_configService_appLabels__["a" /* AppLabels */]({
-			apiUrl : this.apiUrl
-		});
-		
-		return appConfigRequest.execute();
-	}
-	
-}
-/* harmony export (immutable) */ __webpack_exports__["a"] = Config;
-
-
-/***/ }),
-/* 20 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_common_endpoint__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_request_metadataService_metadataGroups__ = __webpack_require__(89);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_request_metadataService_metadataItems__ = __webpack_require__(90);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_request_metadataService_comboOptions__ = __webpack_require__(87);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_request_metadataService_treeOptions__ = __webpack_require__(91);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_request_metadataService_isUniqueVersion__ = __webpack_require__(88);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_request_batchUpdateService_batchUpdate__ = __webpack_require__(82);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_model_metadata_languageMetadataGroup__ = __webpack_require__(25);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_model_metadata_treeMetadataItem__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_model_metadata_comboValueMetadataItem__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_model_metadata_editComboValueMetadataItem__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_model_metadata_multiComboValueMetadataItem__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_model_metadata_editMultiComboValueMetadataItem__ = __webpack_require__(12);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-class Metadata extends __WEBPACK_IMPORTED_MODULE_0_common_endpoint__["a" /* Endpoint */] {
-	
-	/**
-	 * C-tor
-	 * @param {Object} args
-	 * @param {String} args.apiUrl - Full URL to the api end-point.
-	 */
-	constructor( args = {}  ) {
-		super(args);
-		this.language = args.language;
-		this.languages = args.languages;
-	}
-	
-	/**
-	 * Returns a list of metadata groups
-	 * @param {Object} args
-	 * @param {Asset} args.asset - Asset for which to get the metadata
-	 */
-	getMetadataGroups( args = {} ) {
-		
-		if (!args.asset) {
-			throw new Error('getMetadataGroups expected an asset as parameter!');
-		}
-		
-		const groupRequest = new __WEBPACK_IMPORTED_MODULE_1_request_metadataService_metadataGroups__["a" /* MetadataGroups */]({
-			apiUrl : this.apiUrl,
-		});
-		
-		// Add this.getLanguageMetadataGroups()
-		// for language specific metadata. Beware of not being completed.
-		return Promise.all([
-			groupRequest.execute({ assetId : args.asset.id }),
-			Promise.resolve([]),
-		]).then(([metadataGroups, languageGroups]) => {
-			
-			const groups = [ ...languageGroups, ...metadataGroups ];
-			
-			groups.sort((a, b) => {
-				return a.sortIndex - b.sortIndex;
-			});
-			
-			return groups;
-		});
-	}
-	
-	/**
-	 * Returns a list of language metadata
-	 * @returns {Promise.<Array>}
-	 */
-	getLanguageMetadataGroups() {
-		
-		const groups = this.languages.map((thisLanguage) => {
-			return new __WEBPACK_IMPORTED_MODULE_7_model_metadata_languageMetadataGroup__["a" /* LanguageMetadataGroup */]({
-				id        : thisLanguage.languageId,
-				languageId: thisLanguage.languageId,
-				name      : thisLanguage.languageName,
-				sortIndex : Infinity
-			});
-		});
-		
-		return Promise.resolve(groups);
-	}
-	
-	/**
-	 * Returns a list of metadata items in a group
-	 * @param args
-	 * @param {Asset} args.asset
-	 * @param {MetadataGroup} args.group
-	 * @returns {Promise.<T>}
-	 */
-	getMetadataItems( args = {}) {
-		if (!args.asset) {
-			throw new Error('getMetadataItems expected an asset as parameter!');
-		}
-		
-		if (!args.group) {
-			throw new Error('getMetadataItems expected an group as parameter!');
-		}
-		
-		const metadataItemsRequest = new __WEBPACK_IMPORTED_MODULE_2_request_metadataService_metadataItems__["a" /* MetadataItems */]({
-			apiUrl : this.apiUrl,
-		});
-		
-		return metadataItemsRequest.execute({
-			id      : args.group.id,
-			assetId : args.asset.id,
-			language: this.language
-		});
-	}
-	
-	/**
-	 *
-	 * @param args
-	 * @param {Asset} args.asset
-	 * @param {Array} args.metadataItems
-	 * @returns {Promise.<T>}
-	 */
-	updateMetadataItems( args = {} ) {
-		
-		if (!args.asset) {
-			throw new Error('updateMetadataItems expected an asset as parameter!');
-		}
-		
-		if (!args.metadataItems) {
-			throw new Error('updateMetadataItems expected an metadataItems as parameter!');
-		}
-		
-		const batchUpdateRequest = new __WEBPACK_IMPORTED_MODULE_6_request_batchUpdateService_batchUpdate__["a" /* BatchUpdate */]({
-			apiUrl : this.apiUrl,
-		});
-		
-		return batchUpdateRequest.execute({
-			asset        : args.asset,
-			metadataItems: args.metadataItems,
-		});
-	}
-	
-	/**
-	 * Get metadata options
-	 * @param args
-	 */
-	getMetadataItemOptions( args = {} ) {
-		
-		if( args.metadataItem instanceof __WEBPACK_IMPORTED_MODULE_8_model_metadata_treeMetadataItem__["a" /* TreeMetadataItem */] ) {
-			
-			return this.getTreeOptions(args);
-			
-		} else if(
-			(args.metadataItem instanceof __WEBPACK_IMPORTED_MODULE_9_model_metadata_comboValueMetadataItem__["a" /* ComboValueMetadataItem */]) ||
-			(args.metadataItem instanceof __WEBPACK_IMPORTED_MODULE_10_model_metadata_editComboValueMetadataItem__["a" /* EditComboValueMetadataItem */]) ||
-			(args.metadataItem instanceof __WEBPACK_IMPORTED_MODULE_11_model_metadata_multiComboValueMetadataItem__["a" /* MultiComboValueMetadataItem */]) ||
-			(args.metadataItem instanceof __WEBPACK_IMPORTED_MODULE_12_model_metadata_editMultiComboValueMetadataItem__["a" /* EditMultiComboValueMetadataItem */])
-		) {
-			
-			return this.getComboOptions(args);
-			
-		} else {
-			throw new Error('getMetadataItemOptions required a metadata item of type tree or combo value');
-		}
-		
-	}
-	
-	/**
-	 * Get tree options
-	 * @param args
-	 * @returns {Promise}
-	 */
-	getTreeOptions( args = {} ) {
-		
-		if (!args.metadataItem) {
-			throw new Error('updateMetadataItem expected an metadataItems as parameter!');
-		}
-		
-		const treeOptionsRequest = new __WEBPACK_IMPORTED_MODULE_4_request_metadataService_treeOptions__["a" /* TreeOptions */]({
-			apiUrl : this.apiUrl,
-		});
-		
-		return treeOptionsRequest.execute({
-			metadataItem: args.metadataItem,
-			path: args.path,
-		});
-	}
-	
-	/**
-	 * Get combo options
-	 * @param args
-	 * @returns {Promise}
-	 */
-	getComboOptions( args = {} ) {
-		
-		if (!args.metadataItem) {
-			throw new Error('updateMetadataItem expected an metadataItems as parameter!');
-		}
-		
-		const comboOptionsRequest = new __WEBPACK_IMPORTED_MODULE_3_request_metadataService_comboOptions__["a" /* ComboOptions */]({
-			apiUrl : this.apiUrl,
-		});
-		
-		return comboOptionsRequest.execute({
-			metadataItem: args.metadataItem,
-			query: args.query,
-		});
-		
-	}
-	
-	/**
-	 * Checks if a version is unique
-	 * @param args
-	 * @param {Asset} args.asset
-	 * @param {UniqueVersionMetadataItem} args.metadataItem
-	 * @returns {Promise}
-	 */
-	verifyUniqueVersion( args = {} ) {
-		
-		if (!args.asset) {
-			throw new Error('verifyUniqueVersion expected an asset as parameter!');
-		}
-		
-		if (!args.metadataItem) {
-			throw new Error('verifyUniqueVersion expected an metadataItem as parameter!');
-		}
-		
-		if(!args.metadataItem.value) {
-			throw new Error('verifyUniqueVersion expected an metadataItem  with a value set!');
-		}
-		
-		if(!args.metadataItem.value.version || !args.metadataItem.value.unique) {
-			throw new Error('verifyUniqueVersion expected an metadataItem  with a value set!');
-		}
-		
-		const isUniqueVersionRequest = new __WEBPACK_IMPORTED_MODULE_5_request_metadataService_isUniqueVersion__["a" /* IsUniqueVersion */]({
-			apiUrl : this.apiUrl,
-		});
-		
-		return isUniqueVersionRequest.execute({
-			metadataItem: args.metadataItem,
-			asset: args.asset
-		});
-	}
-	
-}
-/* harmony export (immutable) */ __webpack_exports__["a"] = Metadata;
-
-
-/***/ }),
-/* 21 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__metadataItem__ = __webpack_require__(1);
 
 
@@ -1617,7 +1309,7 @@ class BitMetadataItem extends __WEBPACK_IMPORTED_MODULE_0__metadataItem__["a" /*
 
 
 /***/ }),
-/* 22 */
+/* 20 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1666,7 +1358,7 @@ class FloatMetadataItem extends __WEBPACK_IMPORTED_MODULE_0__metadataItem__["a" 
 
 
 /***/ }),
-/* 23 */
+/* 21 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1715,7 +1407,7 @@ class IntMetadataItem extends __WEBPACK_IMPORTED_MODULE_0__metadataItem__["a" /*
 
 
 /***/ }),
-/* 24 */
+/* 22 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1737,7 +1429,7 @@ class IterativeMetadataGroup extends __WEBPACK_IMPORTED_MODULE_0__metadataGroup_
 
 
 /***/ }),
-/* 25 */
+/* 23 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1761,7 +1453,7 @@ class LanguageMetadataGroup extends __WEBPACK_IMPORTED_MODULE_0__metadataGroup__
 
 
 /***/ }),
-/* 26 */
+/* 24 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1793,7 +1485,7 @@ class LinkMetadataItem extends __WEBPACK_IMPORTED_MODULE_0__stringMetadataItem__
 
 
 /***/ }),
-/* 27 */
+/* 25 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1811,7 +1503,7 @@ class MoneyMetadataItem extends __WEBPACK_IMPORTED_MODULE_0__stringMetadataItem_
 
 
 /***/ }),
-/* 28 */
+/* 26 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1838,7 +1530,7 @@ class NoteMetadataItem extends __WEBPACK_IMPORTED_MODULE_0__stringMetadataItem__
 
 
 /***/ }),
-/* 29 */
+/* 27 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1889,12 +1581,12 @@ class UniqueOption {
 
 
 /***/ }),
-/* 30 */
+/* 28 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__metadataItem__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__uniqueOption__ = __webpack_require__(29);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__uniqueOption__ = __webpack_require__(27);
 
 
 
@@ -1944,12 +1636,12 @@ class UniqueVersionMetadataItem extends __WEBPACK_IMPORTED_MODULE_0__metadataIte
 
 
 /***/ }),
-/* 31 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseFindIndex = __webpack_require__(49),
-    baseIsNaN = __webpack_require__(51),
-    strictIndexOf = __webpack_require__(59);
+var baseFindIndex = __webpack_require__(47),
+    baseIsNaN = __webpack_require__(49),
+    strictIndexOf = __webpack_require__(57);
 
 /**
  * The base implementation of `_.indexOf` without `fromIndex` bounds checks.
@@ -1970,7 +1662,7 @@ module.exports = baseIndexOf;
 
 
 /***/ }),
-/* 32 */
+/* 30 */
 /***/ (function(module, exports) {
 
 /**
@@ -2007,10 +1699,10 @@ module.exports = baseSlice;
 
 
 /***/ }),
-/* 33 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseSlice = __webpack_require__(32);
+var baseSlice = __webpack_require__(30);
 
 /**
  * Casts `array` to a slice if it's needed.
@@ -2031,7 +1723,7 @@ module.exports = castSlice;
 
 
 /***/ }),
-/* 34 */
+/* 32 */
 /***/ (function(module, exports) {
 
 /** Used to compose unicode character classes. */
@@ -2063,12 +1755,12 @@ module.exports = hasUnicode;
 
 
 /***/ }),
-/* 35 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var asciiToArray = __webpack_require__(47),
-    hasUnicode = __webpack_require__(34),
-    unicodeToArray = __webpack_require__(60);
+var asciiToArray = __webpack_require__(45),
+    hasUnicode = __webpack_require__(32),
+    unicodeToArray = __webpack_require__(58);
 
 /**
  * Converts `string` to an array.
@@ -2087,7 +1779,7 @@ module.exports = stringToArray;
 
 
 /***/ }),
-/* 36 */
+/* 34 */
 /***/ (function(module, exports) {
 
 /**
@@ -2124,11 +1816,11 @@ module.exports = isObject;
 
 
 /***/ }),
-/* 37 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGetTag = __webpack_require__(50),
-    isObjectLike = __webpack_require__(64);
+var baseGetTag = __webpack_require__(48),
+    isObjectLike = __webpack_require__(62);
 
 /** `Object#toString` result references. */
 var symbolTag = '[object Symbol]';
@@ -2159,7 +1851,7 @@ module.exports = isSymbol;
 
 
 /***/ }),
-/* 38 */
+/* 36 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2181,7 +1873,7 @@ class RequestError extends Error {
 
 
 /***/ }),
-/* 39 */
+/* 37 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2243,16 +1935,16 @@ class TreeOption {
 
 
 /***/ }),
-/* 40 */
+/* 38 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_endpoint_auth__ = __webpack_require__(18);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_endpoint_config__ = __webpack_require__(19);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_endpoint_content__ = __webpack_require__(74);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_endpoint_download__ = __webpack_require__(75);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_endpoint_config__ = __webpack_require__(72);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_endpoint_content__ = __webpack_require__(73);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_endpoint_download__ = __webpack_require__(74);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_endpoint_upload__ = __webpack_require__(76);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_endpoint_metadata__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_endpoint_metadata__ = __webpack_require__(75);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_utilities_helpers_url__ = __webpack_require__(99);
 
 
@@ -2482,7 +2174,7 @@ class Connector {
 
 
 /***/ }),
-/* 41 */
+/* 39 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2508,7 +2200,7 @@ class AssetCreatedFilter extends __WEBPACK_IMPORTED_MODULE_0__dateFilter__["a" /
 
 
 /***/ }),
-/* 42 */
+/* 40 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2533,7 +2225,7 @@ class AssetNameFilter extends __WEBPACK_IMPORTED_MODULE_0__stringFilter__["a" /*
 
 
 /***/ }),
-/* 43 */
+/* 41 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2558,7 +2250,7 @@ class AssetTypeFilter extends __WEBPACK_IMPORTED_MODULE_0__arrayFilter__["a" /* 
 
 
 /***/ }),
-/* 44 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -2846,7 +2538,7 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/*
 
 
 /***/ }),
-/* 45 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_RESULT__;(function (main) {
@@ -3187,7 +2879,7 @@ var __WEBPACK_AMD_DEFINE_RESULT__;(function (main) {
 
 
 /***/ }),
-/* 46 */
+/* 44 */
 /***/ (function(module, exports) {
 
 /**
@@ -3214,7 +2906,7 @@ module.exports = arrayMap;
 
 
 /***/ }),
-/* 47 */
+/* 45 */
 /***/ (function(module, exports) {
 
 /**
@@ -3232,7 +2924,7 @@ module.exports = asciiToArray;
 
 
 /***/ }),
-/* 48 */
+/* 46 */
 /***/ (function(module, exports) {
 
 /**
@@ -3260,7 +2952,7 @@ module.exports = baseClamp;
 
 
 /***/ }),
-/* 49 */
+/* 47 */
 /***/ (function(module, exports) {
 
 /**
@@ -3290,12 +2982,12 @@ module.exports = baseFindIndex;
 
 
 /***/ }),
-/* 50 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Symbol = __webpack_require__(14),
-    getRawTag = __webpack_require__(56),
-    objectToString = __webpack_require__(57);
+    getRawTag = __webpack_require__(54),
+    objectToString = __webpack_require__(55);
 
 /** `Object#toString` result references. */
 var nullTag = '[object Null]',
@@ -3324,7 +3016,7 @@ module.exports = baseGetTag;
 
 
 /***/ }),
-/* 51 */
+/* 49 */
 /***/ (function(module, exports) {
 
 /**
@@ -3342,10 +3034,10 @@ module.exports = baseIsNaN;
 
 
 /***/ }),
-/* 52 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseIndexOf = __webpack_require__(31);
+var baseIndexOf = __webpack_require__(29);
 
 /**
  * Used by `_.trim` and `_.trimEnd` to get the index of the last string symbol
@@ -3367,10 +3059,10 @@ module.exports = charsEndIndex;
 
 
 /***/ }),
-/* 53 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseIndexOf = __webpack_require__(31);
+var baseIndexOf = __webpack_require__(29);
 
 /**
  * Used by `_.trim` and `_.trimStart` to get the index of the first string symbol
@@ -3393,12 +3085,12 @@ module.exports = charsStartIndex;
 
 
 /***/ }),
-/* 54 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var castSlice = __webpack_require__(33),
-    hasUnicode = __webpack_require__(34),
-    stringToArray = __webpack_require__(35),
+var castSlice = __webpack_require__(31),
+    hasUnicode = __webpack_require__(32),
+    stringToArray = __webpack_require__(33),
     toString = __webpack_require__(8);
 
 /**
@@ -3432,7 +3124,7 @@ module.exports = createCaseFirst;
 
 
 /***/ }),
-/* 55 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/** Detect free variable `global` from Node.js. */
@@ -3440,10 +3132,10 @@ var freeGlobal = typeof global == 'object' && global && global.Object === Object
 
 module.exports = freeGlobal;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(72)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(70)))
 
 /***/ }),
-/* 56 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Symbol = __webpack_require__(14);
@@ -3495,7 +3187,7 @@ module.exports = getRawTag;
 
 
 /***/ }),
-/* 57 */
+/* 55 */
 /***/ (function(module, exports) {
 
 /** Used for built-in method references. */
@@ -3523,10 +3215,10 @@ module.exports = objectToString;
 
 
 /***/ }),
-/* 58 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var freeGlobal = __webpack_require__(55);
+var freeGlobal = __webpack_require__(53);
 
 /** Detect free variable `self`. */
 var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
@@ -3538,7 +3230,7 @@ module.exports = root;
 
 
 /***/ }),
-/* 59 */
+/* 57 */
 /***/ (function(module, exports) {
 
 /**
@@ -3567,7 +3259,7 @@ module.exports = strictIndexOf;
 
 
 /***/ }),
-/* 60 */
+/* 58 */
 /***/ (function(module, exports) {
 
 /** Used to compose unicode character classes. */
@@ -3613,12 +3305,12 @@ module.exports = unicodeToArray;
 
 
 /***/ }),
-/* 61 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseClamp = __webpack_require__(48),
+var baseClamp = __webpack_require__(46),
     baseToString = __webpack_require__(15),
-    toInteger = __webpack_require__(67),
+    toInteger = __webpack_require__(65),
     toString = __webpack_require__(8);
 
 /**
@@ -3662,10 +3354,10 @@ module.exports = endsWith;
 
 
 /***/ }),
-/* 62 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseSlice = __webpack_require__(32);
+var baseSlice = __webpack_require__(30);
 
 /**
  * Gets all but the last element of `array`.
@@ -3690,7 +3382,7 @@ module.exports = initial;
 
 
 /***/ }),
-/* 63 */
+/* 61 */
 /***/ (function(module, exports) {
 
 /**
@@ -3722,7 +3414,7 @@ module.exports = isArray;
 
 
 /***/ }),
-/* 64 */
+/* 62 */
 /***/ (function(module, exports) {
 
 /**
@@ -3757,7 +3449,7 @@ module.exports = isObjectLike;
 
 
 /***/ }),
-/* 65 */
+/* 63 */
 /***/ (function(module, exports) {
 
 /**
@@ -3783,10 +3475,10 @@ module.exports = last;
 
 
 /***/ }),
-/* 66 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var toNumber = __webpack_require__(68);
+var toNumber = __webpack_require__(66);
 
 /** Used as references for various `Number` constants. */
 var INFINITY = 1 / 0,
@@ -3831,10 +3523,10 @@ module.exports = toFinite;
 
 
 /***/ }),
-/* 67 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var toFinite = __webpack_require__(66);
+var toFinite = __webpack_require__(64);
 
 /**
  * Converts `value` to an integer.
@@ -3873,11 +3565,11 @@ module.exports = toInteger;
 
 
 /***/ }),
-/* 68 */
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(36),
-    isSymbol = __webpack_require__(37);
+var isObject = __webpack_require__(34),
+    isSymbol = __webpack_require__(35);
 
 /** Used as references for various `Number` constants. */
 var NAN = 0 / 0;
@@ -3945,14 +3637,14 @@ module.exports = toNumber;
 
 
 /***/ }),
-/* 69 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseToString = __webpack_require__(15),
-    castSlice = __webpack_require__(33),
-    charsEndIndex = __webpack_require__(52),
-    charsStartIndex = __webpack_require__(53),
-    stringToArray = __webpack_require__(35),
+    castSlice = __webpack_require__(31),
+    charsEndIndex = __webpack_require__(50),
+    charsStartIndex = __webpack_require__(51),
+    stringToArray = __webpack_require__(33),
     toString = __webpack_require__(8);
 
 /** Used to match leading and trailing whitespace. */
@@ -4000,7 +3692,7 @@ module.exports = trim;
 
 
 /***/ }),
-/* 70 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var toString = __webpack_require__(8);
@@ -4034,10 +3726,10 @@ module.exports = uniqueId;
 
 
 /***/ }),
-/* 71 */
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var createCaseFirst = __webpack_require__(54);
+var createCaseFirst = __webpack_require__(52);
 
 /**
  * Converts the first character of `string` to upper case.
@@ -4062,7 +3754,7 @@ module.exports = upperFirst;
 
 
 /***/ }),
-/* 72 */
+/* 70 */
 /***/ (function(module, exports) {
 
 var g;
@@ -4089,11 +3781,11 @@ module.exports = g;
 
 
 /***/ }),
-/* 73 */
+/* 71 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_uniqueId__ = __webpack_require__(70);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_uniqueId__ = __webpack_require__(68);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_uniqueId___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash_uniqueId__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_utilities_helpers_array__ = __webpack_require__(98);
 /**
@@ -4331,7 +4023,59 @@ class UpdateBatch {
 
 
 /***/ }),
-/* 74 */
+/* 72 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_common_endpoint__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_request_searchService_appConfiguration__ = __webpack_require__(92);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_request_configService_appLabels__ = __webpack_require__(83);
+
+
+
+
+class Config extends __WEBPACK_IMPORTED_MODULE_0_common_endpoint__["a" /* Endpoint */] {
+	
+	/**
+	 * C-tor
+	 * @param {Object} args
+	 * @param {String} args.apiUrl - Full URL to the api end-point.
+	 */
+	constructor( args = {}  ) {
+		super(args);
+	}
+	
+	/**
+	 * Get app configurations
+	 * @returns {Promise}
+	 */
+	getAppConfiguration() {
+		
+		const appConfigRequest = new __WEBPACK_IMPORTED_MODULE_1_request_searchService_appConfiguration__["a" /* AppConfiguration */]({
+			apiUrl : this.apiUrl
+		});
+		
+		return appConfigRequest.execute();
+	}
+	
+	/**
+	 * Get app labels
+	 * @returns {Promise}
+	 */
+	getAppLabels() {
+		const appConfigRequest = new __WEBPACK_IMPORTED_MODULE_2_request_configService_appLabels__["a" /* AppLabels */]({
+			apiUrl : this.apiUrl
+		});
+		
+		return appConfigRequest.execute();
+	}
+	
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = Config;
+
+
+/***/ }),
+/* 73 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4339,7 +4083,7 @@ class UpdateBatch {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_request_searchService_folders__ = __webpack_require__(95);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_request_searchService_filters__ = __webpack_require__(94);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_request_searchService_assets__ = __webpack_require__(93);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_lodash_upperFirst__ = __webpack_require__(71);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_lodash_upperFirst__ = __webpack_require__(69);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_lodash_upperFirst___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_lodash_upperFirst__);
 
 
@@ -4499,7 +4243,7 @@ class Content extends __WEBPACK_IMPORTED_MODULE_0_common_endpoint__["a" /* Endpo
 
 
 /***/ }),
-/* 75 */
+/* 74 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4665,6 +4409,262 @@ class Download extends __WEBPACK_IMPORTED_MODULE_0_common_endpoint__["a" /* Endp
 
 
 /***/ }),
+/* 75 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_common_endpoint__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_request_metadataService_metadataGroups__ = __webpack_require__(89);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_request_metadataService_metadataItems__ = __webpack_require__(90);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_request_metadataService_comboOptions__ = __webpack_require__(87);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_request_metadataService_treeOptions__ = __webpack_require__(91);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_request_metadataService_isUniqueVersion__ = __webpack_require__(88);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_request_batchUpdateService_batchUpdate__ = __webpack_require__(82);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_model_metadata_languageMetadataGroup__ = __webpack_require__(23);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_model_metadata_treeMetadataItem__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_model_metadata_comboValueMetadataItem__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_model_metadata_editComboValueMetadataItem__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_model_metadata_multiComboValueMetadataItem__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_model_metadata_editMultiComboValueMetadataItem__ = __webpack_require__(12);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class Metadata extends __WEBPACK_IMPORTED_MODULE_0_common_endpoint__["a" /* Endpoint */] {
+	
+	/**
+	 * C-tor
+	 * @param {Object} args
+	 * @param {String} args.apiUrl - Full URL to the api end-point.
+	 */
+	constructor( args = {}  ) {
+		super(args);
+		this.language = args.language;
+		this.languages = args.languages;
+	}
+	
+	/**
+	 * Returns a list of metadata groups
+	 * @param {Object} args
+	 * @param {Asset} args.asset - Asset for which to get the metadata
+	 */
+	getMetadataGroups( args = {} ) {
+		
+		if (!args.asset) {
+			throw new Error('getMetadataGroups expected an asset as parameter!');
+		}
+		
+		const groupRequest = new __WEBPACK_IMPORTED_MODULE_1_request_metadataService_metadataGroups__["a" /* MetadataGroups */]({
+			apiUrl : this.apiUrl,
+		});
+		
+		// Add this.getLanguageMetadataGroups()
+		// for language specific metadata. Beware of not being completed.
+		return Promise.all([
+			groupRequest.execute({ assetId : args.asset.id }),
+			Promise.resolve([]),
+		]).then(([metadataGroups, languageGroups]) => {
+			
+			const groups = [ ...languageGroups, ...metadataGroups ];
+			
+			groups.sort((a, b) => {
+				return a.sortIndex - b.sortIndex;
+			});
+			
+			return groups;
+		});
+	}
+	
+	/**
+	 * Returns a list of language metadata
+	 * @returns {Promise.<Array>}
+	 */
+	getLanguageMetadataGroups() {
+		
+		const groups = this.languages.map((thisLanguage) => {
+			return new __WEBPACK_IMPORTED_MODULE_7_model_metadata_languageMetadataGroup__["a" /* LanguageMetadataGroup */]({
+				id        : thisLanguage.languageId,
+				languageId: thisLanguage.languageId,
+				name      : thisLanguage.languageName,
+				sortIndex : Infinity
+			});
+		});
+		
+		return Promise.resolve(groups);
+	}
+	
+	/**
+	 * Returns a list of metadata items in a group
+	 * @param args
+	 * @param {Asset} args.asset
+	 * @param {MetadataGroup} args.group
+	 * @returns {Promise.<T>}
+	 */
+	getMetadataItems( args = {}) {
+		if (!args.asset) {
+			throw new Error('getMetadataItems expected an asset as parameter!');
+		}
+		
+		if (!args.group) {
+			throw new Error('getMetadataItems expected an group as parameter!');
+		}
+		
+		const metadataItemsRequest = new __WEBPACK_IMPORTED_MODULE_2_request_metadataService_metadataItems__["a" /* MetadataItems */]({
+			apiUrl : this.apiUrl,
+		});
+		
+		return metadataItemsRequest.execute({
+			id      : args.group.id,
+			assetId : args.asset.id,
+			language: this.language
+		});
+	}
+	
+	/**
+	 *
+	 * @param args
+	 * @param {Asset} args.asset
+	 * @param {Array} args.metadataItems
+	 * @returns {Promise.<T>}
+	 */
+	updateMetadataItems( args = {} ) {
+		
+		if (!args.asset) {
+			throw new Error('updateMetadataItems expected an asset as parameter!');
+		}
+		
+		if (!args.metadataItems) {
+			throw new Error('updateMetadataItems expected an metadataItems as parameter!');
+		}
+		
+		const batchUpdateRequest = new __WEBPACK_IMPORTED_MODULE_6_request_batchUpdateService_batchUpdate__["a" /* BatchUpdate */]({
+			apiUrl : this.apiUrl,
+		});
+		
+		return batchUpdateRequest.execute({
+			asset        : args.asset,
+			metadataItems: args.metadataItems,
+		});
+	}
+	
+	/**
+	 * Get metadata options
+	 * @param args
+	 */
+	getMetadataItemOptions( args = {} ) {
+		
+		if( args.metadataItem instanceof __WEBPACK_IMPORTED_MODULE_8_model_metadata_treeMetadataItem__["a" /* TreeMetadataItem */] ) {
+			
+			return this.getTreeOptions(args);
+			
+		} else if(
+			(args.metadataItem instanceof __WEBPACK_IMPORTED_MODULE_9_model_metadata_comboValueMetadataItem__["a" /* ComboValueMetadataItem */]) ||
+			(args.metadataItem instanceof __WEBPACK_IMPORTED_MODULE_10_model_metadata_editComboValueMetadataItem__["a" /* EditComboValueMetadataItem */]) ||
+			(args.metadataItem instanceof __WEBPACK_IMPORTED_MODULE_11_model_metadata_multiComboValueMetadataItem__["a" /* MultiComboValueMetadataItem */]) ||
+			(args.metadataItem instanceof __WEBPACK_IMPORTED_MODULE_12_model_metadata_editMultiComboValueMetadataItem__["a" /* EditMultiComboValueMetadataItem */])
+		) {
+			
+			return this.getComboOptions(args);
+			
+		} else {
+			throw new Error('getMetadataItemOptions required a metadata item of type tree or combo value');
+		}
+		
+	}
+	
+	/**
+	 * Get tree options
+	 * @param args
+	 * @returns {Promise}
+	 */
+	getTreeOptions( args = {} ) {
+		
+		if (!args.metadataItem) {
+			throw new Error('updateMetadataItem expected an metadataItems as parameter!');
+		}
+		
+		const treeOptionsRequest = new __WEBPACK_IMPORTED_MODULE_4_request_metadataService_treeOptions__["a" /* TreeOptions */]({
+			apiUrl : this.apiUrl,
+		});
+		
+		return treeOptionsRequest.execute({
+			metadataItem: args.metadataItem,
+			path: args.path,
+		});
+	}
+	
+	/**
+	 * Get combo options
+	 * @param args
+	 * @returns {Promise}
+	 */
+	getComboOptions( args = {} ) {
+		
+		if (!args.metadataItem) {
+			throw new Error('updateMetadataItem expected an metadataItems as parameter!');
+		}
+		
+		const comboOptionsRequest = new __WEBPACK_IMPORTED_MODULE_3_request_metadataService_comboOptions__["a" /* ComboOptions */]({
+			apiUrl : this.apiUrl,
+		});
+		
+		return comboOptionsRequest.execute({
+			metadataItem: args.metadataItem,
+			query: args.query,
+		});
+		
+	}
+	
+	/**
+	 * Checks if a version is unique
+	 * @param args
+	 * @param {Asset} args.asset
+	 * @param {UniqueVersionMetadataItem} args.metadataItem
+	 * @returns {Promise}
+	 */
+	verifyUniqueVersion( args = {} ) {
+		
+		if (!args.asset) {
+			throw new Error('verifyUniqueVersion expected an asset as parameter!');
+		}
+		
+		if (!args.metadataItem) {
+			throw new Error('verifyUniqueVersion expected an metadataItem as parameter!');
+		}
+		
+		if(!args.metadataItem.value) {
+			throw new Error('verifyUniqueVersion expected an metadataItem  with a value set!');
+		}
+		
+		if(!args.metadataItem.value.version || !args.metadataItem.value.unique) {
+			throw new Error('verifyUniqueVersion expected an metadataItem  with a value set!');
+		}
+		
+		const isUniqueVersionRequest = new __WEBPACK_IMPORTED_MODULE_5_request_metadataService_isUniqueVersion__["a" /* IsUniqueVersion */]({
+			apiUrl : this.apiUrl,
+		});
+		
+		return isUniqueVersionRequest.execute({
+			metadataItem: args.metadataItem,
+			asset: args.asset
+		});
+	}
+	
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = Metadata;
+
+
+/***/ }),
 /* 76 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -4749,60 +4749,56 @@ class Upload extends __WEBPACK_IMPORTED_MODULE_0_common_endpoint__["a" /* Endpoi
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_connector__ = __webpack_require__(40);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_connector__ = __webpack_require__(38);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Connector", function() { return __WEBPACK_IMPORTED_MODULE_0_connector__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_const__ = __webpack_require__(9);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Constants", function() { return __WEBPACK_IMPORTED_MODULE_1_const__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_model_filter_assetTypeFilter__ = __webpack_require__(43);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_model_filter_assetTypeFilter__ = __webpack_require__(41);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "AssetTypeFilter", function() { return __WEBPACK_IMPORTED_MODULE_2_model_filter_assetTypeFilter__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_model_filter_assetNameFilter__ = __webpack_require__(42);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_model_filter_assetNameFilter__ = __webpack_require__(40);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "AssetNameFilter", function() { return __WEBPACK_IMPORTED_MODULE_3_model_filter_assetNameFilter__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_model_filter_assetCreatedFilter__ = __webpack_require__(41);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_model_filter_assetCreatedFilter__ = __webpack_require__(39);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "AssetCreatedFilter", function() { return __WEBPACK_IMPORTED_MODULE_4_model_filter_assetCreatedFilter__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_model_metadata_metadataGroup__ = __webpack_require__(6);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "MetadataGroup", function() { return __WEBPACK_IMPORTED_MODULE_5_model_metadata_metadataGroup__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_model_metadata_iterativeMetadataGroup__ = __webpack_require__(24);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_model_metadata_iterativeMetadataGroup__ = __webpack_require__(22);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "IterativeMetadataGroup", function() { return __WEBPACK_IMPORTED_MODULE_6_model_metadata_iterativeMetadataGroup__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_model_metadata_languageMetadataGroup__ = __webpack_require__(25);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_model_metadata_languageMetadataGroup__ = __webpack_require__(23);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "LanguageMetadataGroup", function() { return __WEBPACK_IMPORTED_MODULE_7_model_metadata_languageMetadataGroup__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_model_metadata_bitMetadataItem__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_model_metadata_bitMetadataItem__ = __webpack_require__(19);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "BitMetadataItem", function() { return __WEBPACK_IMPORTED_MODULE_8_model_metadata_bitMetadataItem__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_model_metadata_stringMetadataItem__ = __webpack_require__(5);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "StringMetadataItem", function() { return __WEBPACK_IMPORTED_MODULE_9_model_metadata_stringMetadataItem__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_model_metadata_noteMetadataItem__ = __webpack_require__(28);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_model_metadata_noteMetadataItem__ = __webpack_require__(26);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "NoteMetadataItem", function() { return __WEBPACK_IMPORTED_MODULE_10_model_metadata_noteMetadataItem__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_model_metadata_editMultiComboValueMetadataItem__ = __webpack_require__(12);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "EditMultiComboValueMetadataItem", function() { return __WEBPACK_IMPORTED_MODULE_11_model_metadata_editMultiComboValueMetadataItem__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_model_metadata_treeMetadataItem__ = __webpack_require__(13);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "TreeMetadataItem", function() { return __WEBPACK_IMPORTED_MODULE_12_model_metadata_treeMetadataItem__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_model_metadata_linkMetadataItem__ = __webpack_require__(26);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_model_metadata_linkMetadataItem__ = __webpack_require__(24);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "LinkMetadataItem", function() { return __WEBPACK_IMPORTED_MODULE_13_model_metadata_linkMetadataItem__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_model_metadata_comboValueMetadataItem__ = __webpack_require__(4);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "ComboValueMetadataItem", function() { return __WEBPACK_IMPORTED_MODULE_14_model_metadata_comboValueMetadataItem__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_model_metadata_dateTimeMetadataItem__ = __webpack_require__(10);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "DateTimeMetadataItem", function() { return __WEBPACK_IMPORTED_MODULE_15_model_metadata_dateTimeMetadataItem__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16_model_metadata_floatMetadataItem__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16_model_metadata_floatMetadataItem__ = __webpack_require__(20);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "FloatMetadataItem", function() { return __WEBPACK_IMPORTED_MODULE_16_model_metadata_floatMetadataItem__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17_model_metadata_intMetadataItem__ = __webpack_require__(23);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17_model_metadata_intMetadataItem__ = __webpack_require__(21);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "IntMetadataItem", function() { return __WEBPACK_IMPORTED_MODULE_17_model_metadata_intMetadataItem__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18_model_metadata_moneyMetadataItem__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18_model_metadata_moneyMetadataItem__ = __webpack_require__(25);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "MoneyMetadataItem", function() { return __WEBPACK_IMPORTED_MODULE_18_model_metadata_moneyMetadataItem__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_19_model_metadata_multiComboValueMetadataItem__ = __webpack_require__(7);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "MultiComboValueMetadataItem", function() { return __WEBPACK_IMPORTED_MODULE_19_model_metadata_multiComboValueMetadataItem__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20_model_metadata_uniqueVersionMetadataItem__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20_model_metadata_uniqueVersionMetadataItem__ = __webpack_require__(28);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "UniqueVersionMetadataItem", function() { return __WEBPACK_IMPORTED_MODULE_20_model_metadata_uniqueVersionMetadataItem__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_21_model_metadata_editComboValueMetadataItem__ = __webpack_require__(11);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "EditComboValueMetadataItem", function() { return __WEBPACK_IMPORTED_MODULE_21_model_metadata_editComboValueMetadataItem__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_22_model_metadata_comboOption__ = __webpack_require__(3);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "ComboOption", function() { return __WEBPACK_IMPORTED_MODULE_22_model_metadata_comboOption__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23_model_metadata_uniqueOption__ = __webpack_require__(29);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23_model_metadata_uniqueOption__ = __webpack_require__(27);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "UniqueOption", function() { return __WEBPACK_IMPORTED_MODULE_23_model_metadata_uniqueOption__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_24_endpoint_auth__ = __webpack_require__(18);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Auth", function() { return __WEBPACK_IMPORTED_MODULE_24_endpoint_auth__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25_endpoint_metadata__ = __webpack_require__(20);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Metadata", function() { return __WEBPACK_IMPORTED_MODULE_25_endpoint_metadata__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26_endpoint_config__ = __webpack_require__(19);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Config", function() { return __WEBPACK_IMPORTED_MODULE_26_endpoint_config__["a"]; });
 // main
 
 
@@ -4834,9 +4830,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 // metadata options
-
-
-
 
 
 
@@ -5024,7 +5017,7 @@ class StringFilter extends __WEBPACK_IMPORTED_MODULE_0__filter__["a" /* Filter *
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_common_request__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_common_updateBatch__ = __webpack_require__(73);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_common_updateBatch__ = __webpack_require__(71);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_model_metadata_dateTimeMetadataItem__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_model_metadata_metadataItem__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_const__ = __webpack_require__(9);
@@ -5250,7 +5243,7 @@ class KeepAlive extends __WEBPACK_IMPORTED_MODULE_0_common_request__["a" /* Base
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_common_request__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_blueimp_md5__ = __webpack_require__(44);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_blueimp_md5__ = __webpack_require__(42);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_blueimp_md5___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_blueimp_md5__);
 
 
@@ -5531,7 +5524,7 @@ class IsUniqueVersion extends __WEBPACK_IMPORTED_MODULE_0_common_request__["a" /
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_common_request__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_model_metadata_metadataGroup__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_model_metadata_iterativeMetadataGroup__ = __webpack_require__(24);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_model_metadata_iterativeMetadataGroup__ = __webpack_require__(22);
 
 
 
@@ -5622,18 +5615,18 @@ class MetadataGroups extends __WEBPACK_IMPORTED_MODULE_0_common_request__["a" /*
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_common_request__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_model_metadata_stringMetadataItem__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_model_metadata_noteMetadataItem__ = __webpack_require__(28);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_model_metadata_noteMetadataItem__ = __webpack_require__(26);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_model_metadata_editMultiComboValueMetadataItem__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_model_metadata_treeMetadataItem__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_model_metadata_linkMetadataItem__ = __webpack_require__(26);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_model_metadata_bitMetadataItem__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_model_metadata_linkMetadataItem__ = __webpack_require__(24);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_model_metadata_bitMetadataItem__ = __webpack_require__(19);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_model_metadata_comboValueMetadataItem__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_model_metadata_dateTimeMetadataItem__ = __webpack_require__(10);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_model_metadata_floatMetadataItem__ = __webpack_require__(22);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_model_metadata_intMetadataItem__ = __webpack_require__(23);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_model_metadata_moneyMetadataItem__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_model_metadata_floatMetadataItem__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_model_metadata_intMetadataItem__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_model_metadata_moneyMetadataItem__ = __webpack_require__(25);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_model_metadata_multiComboValueMetadataItem__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_model_metadata_uniqueVersionMetadataItem__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_model_metadata_uniqueVersionMetadataItem__ = __webpack_require__(28);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_model_metadata_editComboValueMetadataItem__ = __webpack_require__(11);
 
 
@@ -5786,7 +5779,7 @@ class MetadataItems extends __WEBPACK_IMPORTED_MODULE_0_common_request__["a" /* 
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_common_request__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_model_metadata_treeOption__ = __webpack_require__(39);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_model_metadata_treeOption__ = __webpack_require__(37);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_utilities_helpers_treePath__ = __webpack_require__(17);
 
 
@@ -5879,8 +5872,8 @@ class TreeOptions extends __WEBPACK_IMPORTED_MODULE_0_common_request__["a" /* Ba
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_common_request__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_common_requestError__ = __webpack_require__(38);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_lodash_isObject__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_common_requestError__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_lodash_isObject__ = __webpack_require__(34);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_lodash_isObject___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_lodash_isObject__);
 
 
@@ -6400,7 +6393,7 @@ const toArray = ( value ) => {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_endsWith__ = __webpack_require__(61);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_endsWith__ = __webpack_require__(59);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_endsWith___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash_endsWith__);
 
 

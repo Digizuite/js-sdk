@@ -7,9 +7,10 @@
     "build": ".\\node_modules\\.bin\\webpack --progress --env=dev",
     "watch": ".\\node_modules\\.bin\\webpack --progress --env=dev --watch",
     "dist": ".\\node_modules\\.bin\\webpack --progress --env=prod",
-    "precommit-msg": "echo 'Pre-commit build...' && exit 0"
+    "precommit-msg": "echo 'Pre-commit build...' && exit 0",
+    "git-add" : "git add dist"
   },
-  "pre-commit": [ "dist" ],
+  "pre-commit": [ "precommit-msg", "dist", "git-add" ],
   "dependencies": {
     "blueimp-md5": "^2.7.0",
     "fecha": "^2.3.1",
