@@ -32,7 +32,8 @@
     "karma-sourcemap-loader": "^0.3.7",
     "karma-teamcity-reporter": "^1.0.0",
     "pre-commit": "^1.2.2",
-    "webpack": "^2.5.1"
+    "webpack": "^2.5.1",
+    "babili-webpack-plugin": "^0.1.1"
   },
   "repository": {
     "type": "git",
