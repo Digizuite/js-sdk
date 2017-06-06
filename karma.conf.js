@@ -1,6 +1,8 @@
 // Karma configuration
 const webpackConfigFn = require('./webpack.config.js');
-const  webpackConfig = webpackConfigFn('dev')[0];
+const webpackConfig = webpackConfigFn('dev')[0];
+webpackConfig.resolve.modules.push('test');
+webpackConfig.module.rules.shift();
 
 module.exports = function (config) {
 	config.set({
@@ -19,12 +21,12 @@ module.exports = function (config) {
 			'./test/setup.js'
 		],
 
-		preprocessors: { './test/setup.js': ['coverage', 'webpack'] },
+		preprocessors: { './test/setup.js': ['coverage', 'webpack', 'sourcemap'] },
 
 		// test results reporter to use
 		// possible values: 'dots', 'progress'
 		// available reporters: https://npmjs.org/browse/keyword/karma-reporter
-		reporters: ['dots', 'coverage'],
+		reporters: ['teamcity'],
 
 		// web server port
 		port: 9876,

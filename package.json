@@ -8,7 +8,7 @@
     "watch": ".\\node_modules\\.bin\\webpack --progress --env=dev --watch",
     "dist": ".\\node_modules\\.bin\\webpack --progress --env=prod",
     "git-add": "git add dist",
-    "test": "node .\\test\\karma.js --browser=Chrome"
+    "test": "node node_modules/karma/bin/karma start ./karma.conf.js --single-run"
   },
   "pre-commit": [
     "dist",
@@ -22,10 +22,15 @@
   "devDependencies": {
     "eslint": "^3.19.0",
     "jasmine": "^2.6.0",
+    "jasmine-core": "^2.6.2",
     "karma": "^1.7.0",
+    "karma-cli": "^1.0.1",
     "karma-chrome-launcher": "^2.1.1",
     "karma-jasmine": "^1.1.0",
     "karma-webpack": "^2.0.3",
+    "karma-coverage": "^1.1.1",
+    "karma-sourcemap-loader": "^0.3.7",
+    "karma-teamcity-reporter": "^1.0.0",
     "pre-commit": "^1.2.2",
     "webpack": "^2.5.1"
   },

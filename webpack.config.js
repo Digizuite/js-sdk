@@ -34,16 +34,14 @@ function getWebpackConfig(env) {
 		
 		resolve: {
 			modules   : [
-				'src/', 'node_modules', 'test/'
+				'src', 'node_modules', 'test'
 			],
 			extensions: ['.js']
 		},
 		
 		resolveLoader: {
 			modules: [
-				'node_modules',
-				path.resolve(__dirname, 'src'),
-				path.resolve(__dirname, 'test'),
+				'node_modules'
 			]
 		},
 		
