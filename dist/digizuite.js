@@ -1885,7 +1885,7 @@ class RequestError extends Error {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_endpoint_download__ = __webpack_require__(74);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_endpoint_upload__ = __webpack_require__(76);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_endpoint_metadata__ = __webpack_require__(75);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_utilities_helpers_url__ = __webpack_require__(99);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_utilities_helpers_url__ = __webpack_require__(104);
 
 
 
@@ -3727,7 +3727,7 @@ module.exports = g;
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_uniqueId__ = __webpack_require__(67);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_uniqueId___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash_uniqueId__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_utilities_helpers_array__ = __webpack_require__(98);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_utilities_helpers_array__ = __webpack_require__(103);
 /**
  * Dear future developer,
  *
@@ -3968,8 +3968,8 @@ class UpdateBatch {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_common_endpoint__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_request_connectService_login__ = __webpack_require__(85);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_request_connectService_keepAlive__ = __webpack_require__(84);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_request_connectService_login__ = __webpack_require__(86);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_request_connectService_keepAlive__ = __webpack_require__(85);
 
 
 
@@ -4028,8 +4028,8 @@ class Auth extends __WEBPACK_IMPORTED_MODULE_0_common_endpoint__["a" /* Endpoint
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_common_endpoint__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_request_searchService_appConfiguration__ = __webpack_require__(92);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_request_configService_appLabels__ = __webpack_require__(83);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_request_searchService_appConfiguration__ = __webpack_require__(93);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_request_configService_appLabels__ = __webpack_require__(84);
 
 
 
@@ -4080,9 +4080,9 @@ class Config extends __WEBPACK_IMPORTED_MODULE_0_common_endpoint__["a" /* Endpoi
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_common_endpoint__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_request_searchService_folders__ = __webpack_require__(95);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_request_searchService_filters__ = __webpack_require__(94);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_request_searchService_assets__ = __webpack_require__(93);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_request_searchService_folders__ = __webpack_require__(96);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_request_searchService_filters__ = __webpack_require__(95);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_request_searchService_assets__ = __webpack_require__(94);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_lodash_upperFirst__ = __webpack_require__(68);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_lodash_upperFirst___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_lodash_upperFirst__);
 
@@ -4248,7 +4248,7 @@ class Content extends __WEBPACK_IMPORTED_MODULE_0_common_endpoint__["a" /* Endpo
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_common_endpoint__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_request_memberService_downloadQualities__ = __webpack_require__(86);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_request_memberService_downloadQualities__ = __webpack_require__(87);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_const__ = __webpack_require__(9);
 
 
@@ -4414,12 +4414,12 @@ class Download extends __WEBPACK_IMPORTED_MODULE_0_common_endpoint__["a" /* Endp
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_common_endpoint__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_request_metadataService_metadataGroups__ = __webpack_require__(89);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_request_metadataService_metadataItems__ = __webpack_require__(90);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_request_metadataService_comboOptions__ = __webpack_require__(87);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_request_metadataService_treeOptions__ = __webpack_require__(91);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_request_metadataService_isUniqueVersion__ = __webpack_require__(88);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_request_batchUpdateService_batchUpdate__ = __webpack_require__(82);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_request_metadataService_metadataGroups__ = __webpack_require__(90);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_request_metadataService_metadataItems__ = __webpack_require__(91);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_request_metadataService_comboOptions__ = __webpack_require__(88);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_request_metadataService_treeOptions__ = __webpack_require__(92);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_request_metadataService_isUniqueVersion__ = __webpack_require__(89);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_request_batchUpdateService_batchUpdate__ = __webpack_require__(83);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_model_metadata_languageMetadataGroup__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_model_metadata_treeMetadataItem__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_model_metadata_comboValueMetadataItem__ = __webpack_require__(4);
@@ -4670,8 +4670,18 @@ class Metadata extends __WEBPACK_IMPORTED_MODULE_0_common_endpoint__["a" /* Endp
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_common_endpoint__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_request_uploadService_createUpload__ = __webpack_require__(96);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_request_uploadService_itemIdUpload__ = __webpack_require__(97);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_model_uploadTicket__ = __webpack_require__(82);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_request_uploadService_createUpload__ = __webpack_require__(97);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_request_uploadService_itemIdUpload__ = __webpack_require__(98);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_request_uploadService_setFileName__ = __webpack_require__(99);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_request_uploadService_setTransferMode__ = __webpack_require__(100);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_request_uploadService_submitUpload__ = __webpack_require__(101);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_request_uploadService_uploadFileChunk__ = __webpack_require__(102);
+
+
+
+
+
 
 
 
@@ -4688,18 +4698,68 @@ class Upload extends __WEBPACK_IMPORTED_MODULE_0_common_endpoint__["a" /* Endpoi
 	}
 	
 	/**
+	 *
+	 * @param args
+	 * @returns {Promise.<array>}
+	 */
+	requestUploadTickets( args = {} ) {
+		return Promise.all(
+			args.files.map( thisFile => this._getUploadId(thisFile) )
+		).then((results)=>{
+			return results.map( (thisResult, index) => {
+				return new __WEBPACK_IMPORTED_MODULE_1_model_uploadTicket__["a" /* UploadTicket */]({
+					uploadId : thisResult.uploadId,
+					itemId : thisResult.itemId,
+					file : args.files[index]
+				});
+			} );
+		});
+	}
+	
+	/**
 	 * Upload a file
 	 * @param {Object} args
 	 * @param args.file
 	 */
-	uploadAsset( args = {} ) {
+	_uploadAsset( args = {} ) {
 	
 		if(!args.file) {
 			throw new Error('Upload expect a file as parameter');
 		}
 		
+		let itemId;
+		
 		return this._getUploadId(args.file)
-			.then((result) => console.log(result));
+			.then((result) => { itemId = result.itemId; return result; })
+			.then((result) => this._uploadFile({ uploadId : result.uploadId, file : args.file }) )
+			.then((result) => this._finishUpload({ uploadId : result.uploadId, file : args.file }) )
+			.then(() => { return { itemId }; } );
+	}
+	
+	/**
+	 * Upload a file
+	 * @param args
+	 * @private
+	 */
+	_uploadFile( args = {} ) {
+		
+		if(!args.file) {
+			throw new Error('Upload expect a file as parameter');
+		}
+		
+		if(!args.uploadId) {
+			throw new Error('Upload expect a file as parameter');
+		}
+		
+		this.fileChunkUploader = new __WEBPACK_IMPORTED_MODULE_7_request_uploadService_uploadFileChunk__["a" /* UploadFileChunk */]({
+			apiUrl : this.apiUrl
+		});
+		
+		return this.fileChunkUploader.uploadFile({
+			file : args.file,
+			uploadId : args.uploadId
+		});
+		
 	}
 	
 	/**
@@ -4709,6 +4769,24 @@ class Upload extends __WEBPACK_IMPORTED_MODULE_0_common_endpoint__["a" /* Endpoi
 	 */
 	_finishUpload( args = {} ) {
 	
+		const setFileNameRequest = new __WEBPACK_IMPORTED_MODULE_4_request_uploadService_setFileName__["a" /* SetFileName */]({
+			apiUrl : this.apiUrl
+		});
+
+		const setTransferModeRequest = new __WEBPACK_IMPORTED_MODULE_5_request_uploadService_setTransferMode__["a" /* SetTransferMode */]({
+			apiUrl : this.apiUrl
+		});
+
+		const submitUploadRequest = new __WEBPACK_IMPORTED_MODULE_6_request_uploadService_submitUpload__["a" /* SubmitUpload */]({
+			apiUrl : this.apiUrl
+		});
+
+		return Promise.all([
+			setFileNameRequest.execute({ uploadId : args.uploadId, file : args.file }),
+			setTransferModeRequest.execute({ uploadId : args.uploadId }),
+		]).then(()=>{
+			return submitUploadRequest.execute({ uploadId : args.uploadId });
+		});
 	}
 	
 	/**
@@ -4718,11 +4796,11 @@ class Upload extends __WEBPACK_IMPORTED_MODULE_0_common_endpoint__["a" /* Endpoi
 	 */
 	_getUploadId( file ) {
 		
-		const createUploadRequest = new __WEBPACK_IMPORTED_MODULE_1_request_uploadService_createUpload__["a" /* CreateUpload */]({
+		const createUploadRequest = new __WEBPACK_IMPORTED_MODULE_2_request_uploadService_createUpload__["a" /* CreateUpload */]({
 			apiUrl : this.apiUrl
 		});
 		
-		const itemIdUploadRequest = new __WEBPACK_IMPORTED_MODULE_2_request_uploadService_itemIdUpload__["a" /* ItemIdUpload */]({
+		const itemIdUploadRequest = new __WEBPACK_IMPORTED_MODULE_3_request_uploadService_itemIdUpload__["a" /* ItemIdUpload */]({
 			apiUrl : this.apiUrl
 		});
 		
@@ -5016,6 +5094,28 @@ class StringFilter extends __WEBPACK_IMPORTED_MODULE_0__filter__["a" /* Filter *
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+class UploadTicket {
+	
+	/**
+	 * C-tor
+	 * @param args
+	 */
+	constructor( args = {} ) {
+		this.itemId = args.itemId;
+		this.uploadId = args.uploadId;
+		this.file = args.file;
+		this.onProgress = function() {};
+	}
+	
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = UploadTicket;
+
+
+/***/ }),
+/* 83 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_common_request__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_common_updateBatch__ = __webpack_require__(70);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_model_metadata_dateTimeMetadataItem__ = __webpack_require__(10);
@@ -5150,7 +5250,7 @@ class BatchUpdate extends __WEBPACK_IMPORTED_MODULE_0_common_request__["a" /* Ba
 
 
 /***/ }),
-/* 83 */
+/* 84 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5203,7 +5303,7 @@ class AppLabels extends __WEBPACK_IMPORTED_MODULE_0_common_request__["a" /* Base
 
 
 /***/ }),
-/* 84 */
+/* 85 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5238,7 +5338,7 @@ class KeepAlive extends __WEBPACK_IMPORTED_MODULE_0_common_request__["a" /* Base
 
 
 /***/ }),
-/* 85 */
+/* 86 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5312,7 +5412,7 @@ class Login extends __WEBPACK_IMPORTED_MODULE_0_common_request__["a" /* BaseRequ
 
 
 /***/ }),
-/* 86 */
+/* 87 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5356,7 +5456,7 @@ class DownloadQualities extends __WEBPACK_IMPORTED_MODULE_0_common_request__["a"
 
 
 /***/ }),
-/* 87 */
+/* 88 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5441,7 +5541,7 @@ class ComboOptions extends __WEBPACK_IMPORTED_MODULE_0_common_request__["a" /* B
 
 
 /***/ }),
-/* 88 */
+/* 89 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5518,7 +5618,7 @@ class IsUniqueVersion extends __WEBPACK_IMPORTED_MODULE_0_common_request__["a" /
 
 
 /***/ }),
-/* 89 */
+/* 90 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5609,7 +5709,7 @@ class MetadataGroups extends __WEBPACK_IMPORTED_MODULE_0_common_request__["a" /*
 
 
 /***/ }),
-/* 90 */
+/* 91 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5774,7 +5874,7 @@ class MetadataItems extends __WEBPACK_IMPORTED_MODULE_0_common_request__["a" /* 
 
 
 /***/ }),
-/* 91 */
+/* 92 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5867,7 +5967,7 @@ class TreeOptions extends __WEBPACK_IMPORTED_MODULE_0_common_request__["a" /* Ba
 
 
 /***/ }),
-/* 92 */
+/* 93 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5931,7 +6031,7 @@ class AppConfiguration extends __WEBPACK_IMPORTED_MODULE_0_common_request__["a" 
 
 
 /***/ }),
-/* 93 */
+/* 94 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6073,7 +6173,7 @@ class Assets extends __WEBPACK_IMPORTED_MODULE_0_common_request__["a" /* BaseReq
 
 
 /***/ }),
-/* 94 */
+/* 95 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6143,7 +6243,7 @@ class Filters extends __WEBPACK_IMPORTED_MODULE_0_common_request__["a" /* BaseRe
 
 
 /***/ }),
-/* 95 */
+/* 96 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6223,7 +6323,7 @@ class Folders extends __WEBPACK_IMPORTED_MODULE_0_common_request__["a" /* BaseRe
 
 
 /***/ }),
-/* 96 */
+/* 97 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6302,7 +6402,7 @@ class CreateUpload extends __WEBPACK_IMPORTED_MODULE_0_common_request__["a" /* B
 
 
 /***/ }),
-/* 97 */
+/* 98 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6368,7 +6468,412 @@ class ItemIdUpload extends __WEBPACK_IMPORTED_MODULE_0_common_request__["a" /* B
 
 
 /***/ }),
-/* 98 */
+/* 99 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_common_request__ = __webpack_require__(0);
+
+
+class SetFileName extends __WEBPACK_IMPORTED_MODULE_0_common_request__["a" /* BaseRequest */] {
+	
+	/**
+	 * C-tor
+	 * @param {Object} args
+	 */
+	constructor( args = {}  ) {
+		super(args);
+		
+	}
+	
+	/**
+	 * Endpoint URL
+	 * @returns {string}
+	 */
+	get endpointUrl() {
+		return `${this.apiUrl}UploadRest.js`;
+	}
+	
+	/**
+	 *
+	 * @returns {Object}
+	 */
+	get defaultPayload() {
+		return {
+			// Parameters required by DigiZuite - these should never be changed
+			// when executing the request!
+			method  : 'SetFileName',
+			UploadID: null,
+			fileName: null,
+		};
+	}
+	
+	/**
+	 * Pass-through
+	 * @param {Object} payload
+	 * @returns {Object}
+	 */
+	processRequestData(payload = {}) {
+		
+		// File name
+		payload.filename = payload.file.name;
+		payload.file = undefined;
+		
+		// UploadID
+		payload.UploadID = payload.uploadId;
+		payload.uploadId = undefined;
+		
+		return payload;
+	}
+	
+	/**
+	 * Process response
+	 */
+	processResponseData() {
+		return {};
+	}
+	
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = SetFileName;
+
+
+/***/ }),
+/* 100 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_common_request__ = __webpack_require__(0);
+
+
+class SetTransferMode extends __WEBPACK_IMPORTED_MODULE_0_common_request__["a" /* BaseRequest */] {
+	
+	/**
+	 * Transfer mode
+	 * @returns {{NONE: number, UNC: number, FTP: number, HTTP: number, DIRECT: number, HTTP_DOWNLOAD: number, DIRECT_COPY: number}}
+	 * @constructor
+	 */
+	static get TRANSFER_MODE() {
+		return {
+			NONE         : 0,
+			UNC          : 1,
+			FTP          : 2,
+			HTTP         : 3,
+			DIRECT       : 4,
+			HTTP_DOWNLOAD: 5,
+			DIRECT_COPY  : 6,
+		};
+	}
+	
+	/**
+	 * C-tor
+	 * @param {Object} args
+	 */
+	constructor( args = {}  ) {
+		super(args);
+		
+	}
+	
+	/**
+	 * Endpoint URL
+	 * @returns {string}
+	 */
+	get endpointUrl() {
+		return `${this.apiUrl}UploadRest.js`;
+	}
+	
+	/**
+	 *
+	 * @returns {Object}
+	 */
+	get defaultPayload() {
+		return {
+			// Parameters required by DigiZuite - these should never be changed
+			// when executing the request!
+			method      : 'SetTransferMode',
+			transferMode: SetTransferMode.TRANSFER_MODE.UNC,
+			UploadID    : null
+		};
+	}
+	
+	/**
+	 * Pass-through
+	 * @param {Object} payload
+	 * @returns {Object}
+	 */
+	processRequestData(payload = {}) {
+		
+		// UploadID
+		payload.UploadID = payload.uploadId;
+		payload.uploadId = undefined;
+		
+		return payload;
+	}
+	
+	/**
+	 * Process response
+	 */
+	processResponseData() {
+		return {};
+	}
+	
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = SetTransferMode;
+
+
+/***/ }),
+/* 101 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_common_request__ = __webpack_require__(0);
+
+
+class SubmitUpload extends __WEBPACK_IMPORTED_MODULE_0_common_request__["a" /* BaseRequest */] {
+	
+	/**
+	 * C-tor
+	 * @param {Object} args
+	 */
+	constructor( args = {}  ) {
+		super(args);
+		
+	}
+	
+	/**
+	 * Endpoint URL
+	 * @returns {string}
+	 */
+	get endpointUrl() {
+		return `${this.apiUrl}UploadRest.js`;
+	}
+	
+	/**
+	 *
+	 * @returns {Object}
+	 */
+	get defaultPayload() {
+		return {
+			// Parameters required by DigiZuite - these should never be changed
+			// when executing the request!
+			method  : 'SubmitUpload',
+			UploadID: null
+		};
+	}
+	
+	/**
+	 * Pass-through
+	 * @param {Object} payload
+	 * @returns {Object}
+	 */
+	processRequestData(payload = {}) {
+		
+		// UploadID
+		payload.UploadID = payload.uploadId;
+		payload.uploadId = undefined;
+		
+		return payload;
+	}
+	
+	/**
+	 * Process response
+	 */
+	processResponseData() {
+		return {};
+	}
+	
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = SubmitUpload;
+
+
+/***/ }),
+/* 102 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_common_request__ = __webpack_require__(0);
+
+
+class UploadFileChunk extends __WEBPACK_IMPORTED_MODULE_0_common_request__["a" /* BaseRequest */] {
+	
+	static get CHUNK_SIZE() {
+		return 524288;
+	}
+	
+	static get MAX_UPLOAD_CHUNK_RETRIES() {
+		return 10;
+	}
+	
+	/**
+	 * C-tor
+	 * @param {Object} args
+	 */
+	constructor( args = {}  ) {
+		super(args);
+		
+	}
+	
+	/**
+	 * Endpoint URL
+	 * @returns {string}
+	 */
+	get endpointUrl() {
+		return `${this.apiUrl}UploadFileChunk.js`;
+	}
+	
+	/**
+	 *
+	 * @returns {Object}
+	 */
+	get defaultPayload() {
+		return {
+			// Parameters required by DigiZuite - these should never be changed
+			// when executing the request!
+			jsonresponse: 1,
+			uploadid    : null,
+			finished    : null
+		};
+	}
+	
+	/**
+	 *
+	 * @param args
+	 */
+	uploadFile( args = {} ) {
+		
+		if(!args.file) {
+			throw new Error('Upload expect a file as parameter');
+		}
+		
+		if(!args.uploadId) {
+			throw new Error('Upload expect a file as parameter');
+		}
+		
+		return new Promise((resolve, reject) => {
+			
+			this._uploadChunk({
+				file       : args.file,
+				uploadId   : args.uploadId,
+				chunkIndex : 0,
+				retry      : 0,
+				totalChunks: args.file.size / UploadFileChunk.CHUNK_SIZE,
+				resolve,
+				reject
+			});
+			
+		});
+	}
+	
+	/**
+	 *
+	 * @param args
+	 * @private
+	 */
+	_uploadChunk( args = {} ) {
+		
+		const startByte = args.chunkIndex * UploadFileChunk.CHUNK_SIZE;
+		const endByte = (args.chunkIndex + 1) * UploadFileChunk.CHUNK_SIZE;
+		
+		const blob = args.file.slice(startByte, endByte);
+		
+		// Upload a chunk
+		this.execute(
+			{
+				uploadId : args.uploadId,
+				finished : args.chunkIndex >= args.totalChunks - 1
+			},
+			blob
+		)
+			// Move to the next chunk if OK
+			.then(()=>{
+				
+				if (args.chunkIndex >= args.totalChunks - 1) {
+					args.resolve({ file : args.file, uploadId : args.uploadId });
+				} else {
+					
+					args.chunkIndex += 1;
+					args.retry = 0;
+					
+					this._uploadChunk(args);
+				}
+			
+			})
+			
+			// Retry to upload chunk
+			.catch(()=>{
+				
+				if ( args.retry < UploadFileChunk.MAX_UPLOAD_CHUNK_RETRIES) {
+			
+					args.retry += 1;
+					this._uploadChunk(args);
+					
+				} else {
+					args.reject();
+				}
+			
+			});
+	}
+	
+	/**
+	 *
+	 * @param payload
+	 * @param blob
+	 * @returns {Promise}
+	 */
+	execute( payload = {}, blob ) {
+		
+		// Merge the payload with the default one and pass it though the pre-process
+		const requestData = this.processRequestData(
+			Object.assign({}, this.defaultPayload, payload)
+		);
+		
+		return new Promise((resolve, reject)=>{
+			
+			const url= `${this.endpointUrl}?${this.toQueryString(requestData)}`;
+			
+			const xhr = new XMLHttpRequest();
+			xhr.withCredentials = true;
+			xhr.open('POST', url, true);
+			xhr.setRequestHeader('Content-Type', 'application/octet-stream');
+			
+			xhr.onload = resolve;
+			xhr.onerror = reject;
+			
+			// Send the request to the server
+			xhr.send( blob );
+		});
+		
+	}
+	
+	/**
+	 * Pass-through
+	 * @param {Object} payload
+	 * @returns {Object}
+	 */
+	processRequestData(payload = {}) {
+		
+		// UploadID
+		payload.uploadid = payload.uploadId;
+		payload.uploadId = undefined;
+		
+		// File name
+		payload.finished = payload.finished ? 1 : 0;
+		
+		return payload;
+	}
+	
+	/**
+	 * Process response
+	 */
+	processResponseData() {
+		return {};
+	}
+	
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = UploadFileChunk;
+
+
+/***/ }),
+/* 103 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6389,7 +6894,7 @@ const toArray = ( value ) => {
 
 
 /***/ }),
-/* 99 */
+/* 104 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
