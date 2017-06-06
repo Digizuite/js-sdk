@@ -34,7 +34,7 @@ function getWebpackConfig(env) {
 		
 		resolve: {
 			modules   : [
-				'src/', 'node_modules'
+				'src/', 'node_modules', 'test/'
 			],
 			extensions: ['.js']
 		},
@@ -42,7 +42,8 @@ function getWebpackConfig(env) {
 		resolveLoader: {
 			modules: [
 				'node_modules',
-				path.resolve(__dirname, 'src')
+				path.resolve(__dirname, 'src'),
+				path.resolve(__dirname, 'test'),
 			]
 		},
 		

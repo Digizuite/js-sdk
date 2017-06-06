@@ -2,7 +2,7 @@
 const Server = require('karma').Server;
 
 const server = new Server({
-	configFile: __dirname + '/../karma.config.js'
+	configFile: __dirname + '/../karma.conf.js'
 });
 
 server.start();

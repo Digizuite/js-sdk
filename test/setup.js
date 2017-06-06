@@ -1,10 +1,4 @@
-import chai, { expect } from 'chai';
-import sinon from 'sinon';
-import sinonChai from 'sinon-chai';
-
-chai.use(sinonChai);
-
-chai.config.truncateThreshold = 0;
-
-global.expect = expect;
-global.sinon = sinon;
+// Run all the rests
+console.log("in");
+const testsContext = require.context('.', true, /\.spec$/);
+testsContext.keys().forEach((x)=>console.log(x));
