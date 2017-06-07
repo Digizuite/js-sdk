@@ -1,6 +1,6 @@
 import {BaseRequest} from 'common/request';
 import {getItemIdFromIdPath} from 'utilities/helpers/treePath';
-import {Asset as AssetModel} from 'model/asset';
+import {Asset} from 'model/asset';
 
 export class Assets extends BaseRequest {
 	
@@ -123,7 +123,7 @@ export class Assets extends BaseRequest {
 	processResponseData(response) {
 		return {
 			navigation : {total: parseInt(response.total, 10)},
-			assets     : response.items.map( thisAsset => new AssetModel(thisAsset)),
+			assets     : response.items.map( thisAsset => Asset.createFromAPIResponse(thisAsset)),
 			facetResult: Array.isArray(response.extra) && response.extra.length > 1 ? response.extra[1].facet_counts.facet_fields : null
 		};
 	}

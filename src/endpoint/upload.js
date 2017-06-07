@@ -1,85 +1,253 @@
 import {Endpoint} from 'common/endpoint';
 import {UploadTicket} from 'model/uploadTicket';
+import {Asset} from 'model/asset';
 import {CreateUpload} from 'request/uploadService/createUpload';
 import {ItemIdUpload} from 'request/uploadService/itemIdUpload';
 import {SetFileName} from 'request/uploadService/setFileName';
 import {SetTransferMode} from 'request/uploadService/setTransferMode';
 import {SubmitUpload} from 'request/uploadService/submitUpload';
 import {UploadFileChunk} from 'request/uploadService/uploadFileChunk';
+import {AssetsBasicInformation} from 'request/searchService/assetsBasicInformation';
+import {AssetsInformation} from 'request/searchService/assetsInformation';
 
 export class Upload extends Endpoint {
+	
+	static get ASSET_EDITABLE_TIMEOUT() {
+		return 10000;
+	} // 10 seconds
+	static get ASSET_PUBLISHED_TIMEOUT() {
+		return 60000;
+	} // 60 seconds
 	
 	/**
 	 * C-tor
 	 * @param {Object} args
+	 * @param {string} args.computerName
 	 */
 	constructor(args = {}) {
 		super(args);
 		this.computerName = args.computerName;
+		
+		this._assetEditableQueue = [];
+		this._assetPublishedQueue = [];
 	}
 	
 	/**
-	 *
+	 * Returns a promise that resolves to an array of upload tickets
 	 * @param args
-	 * @returns {Promise.<array>}
+	 * @param {File[]} args.files
+	 * @returns {Promise.<UploadTicket[]>}
 	 */
-	requestUploadTickets( args = {} ) {
+	requestUploadTickets(args = {}) {
+		
+		if (!Array.isArray(args.files)) {
+			throw new Error('Upload expect array of files as parameter');
+		}
+		
 		return Promise.all(
-			args.files.map( thisFile => this._getUploadId(thisFile) )
-		).then((results)=>{
-			return results.map( (thisResult, index) => {
+			args.files.map(thisFile => this._getUploadId(thisFile))
+		).then((results) => {
+			return results.map((thisResult, index) => {
 				return new UploadTicket({
-					uploadId : thisResult.uploadId,
-					itemId : thisResult.itemId,
-					file : args.files[index]
+					uploadId: thisResult.uploadId,
+					itemId  : thisResult.itemId,
+					file    : args.files[index]
 				});
-			} );
+			});
 		});
 	}
 	
 	/**
-	 * Upload a file
-	 * @param {Object} args
-	 * @param args.file
+	 * Upload assets from upload tickets
+	 * @param args
+	 * @param {UploadTicket[]} args.tickets
+	 * @returns {Promise.<UploadTicket[]>}
 	 */
-	_uploadAsset( args = {} ) {
-	
-		if(!args.file) {
-			throw new Error('Upload expect a file as parameter');
+	uploadAssetsByTicket(args = {}) {
+		
+		if (!Array.isArray(args.tickets)) {
+			throw new Error('Upload expect array of tickets as parameter');
 		}
 		
-		let itemId;
-		
-		return this._getUploadId(args.file)
-			.then((result) => { itemId = result.itemId; return result; })
-			.then((result) => this._uploadFile({ uploadId : result.uploadId, file : args.file }) )
-			.then((result) => this._finishUpload({ uploadId : result.uploadId, file : args.file }) )
-			.then(() => { return { itemId }; } );
+		return Promise.all(
+			args.tickets.map(thisTicket => {
+				return this._uploadFile(thisTicket)
+					.then(() => this._finishUpload(thisTicket))
+					.then(() => {
+						return new Asset({
+							id  : thisTicket.itemId,
+							name: thisTicket.file.name.substr(0, thisTicket.file.name.lastIndexOf('.'))
+						});
+					});
+			})
+		);
 	}
 	
 	/**
-	 * Upload a file
+	 * Returns a promise that resolves when the asset becomes editable
+	 * @param asset
+	 * @returns {Promise}
+	 */
+	awaitAssetEditable(asset) {
+		
+		if (!(asset instanceof Asset)) {
+			throw new Error('awaitAssetEditable expects an asset as parameter');
+		}
+		
+		return new Promise((resolve) => {
+			this._addToAssetEditableQueue({asset, resolve});
+		});
+	}
+	
+	/**
+	 * Returns a promise that resolves when the asset is published
+	 * @param asset
+	 * @returns {Promise}
+	 */
+	awaitAssetPublished(asset) {
+		
+		if (!(asset instanceof Asset)) {
+			throw new Error('awaitAssetPublished expects an asset as parameter');
+		}
+		
+		return new Promise((resolve) => {
+			this._addToAssetPublishedQueue({asset, resolve});
+		});
+	}
+	
+	/**
+	 * Creates a queue for published assets
 	 * @param args
 	 * @private
 	 */
-	_uploadFile( args = {} ) {
+	_addToAssetPublishedQueue(args = {}) {
 		
-		if(!args.file) {
-			throw new Error('Upload expect a file as parameter');
+		this._assetPublishedQueue.push(args);
+		
+		// If there is more than 1 item in the queue, it will be picked up auto-magically
+		if (this._assetPublishedQueue.length === 1) {
+			this._checkAssetsPublished();
 		}
 		
-		if(!args.uploadId) {
-			throw new Error('Upload expect a file as parameter');
+	}
+	
+	/**
+	 * Creates a queue for editable assets
+	 * @param args
+	 * @private
+	 */
+	_addToAssetEditableQueue(args = {}) {
+		
+		this._assetEditableQueue.push(args);
+		
+		// If there is more than 1 item in the queue, it will be picked up auto-magically
+		if (this._assetEditableQueue.length === 1) {
+			this._checkAssetsEditable();
+		}
+		
+	}
+	
+	/**
+	 * Check if a list of assets is editable
+	 * @private
+	 */
+	_checkAssetsPublished() {
+		
+		if (!this._assetPublishedRequest) {
+			this._assetPublishedRequest = new AssetsInformation({
+				apiUrl: this.apiUrl
+			});
+		}
+		
+		this._assetPublishedRequest.execute({
+			assets: this._assetPublishedQueue.map(thisQueueItem => thisQueueItem.asset)
+		}).then((assets) => {
+			
+			// Resolve the promise for the found assets
+			assets
+				.filter((thisAsset) => (thisAsset.publishedDate instanceof Date))
+				.forEach((thisAsset) => {
+					
+					const queueIndex = this._assetPublishedQueue.findIndex(
+						(thisQueueItem) => thisQueueItem.asset.id === thisAsset.id
+					);
+					const queueItem  = this._assetPublishedQueue[queueIndex];
+					
+					// remove it from the queue
+					this._assetPublishedQueue.splice(queueIndex, 1);
+					
+					queueItem.resolve(thisAsset);
+				});
+			
+			if (this._assetPublishedQueue.length > 0) {
+				setTimeout(
+					this._checkAssetsPublished.bind(this),
+					Upload.ASSET_PUBLISHED_TIMEOUT
+				);
+			}
+			
+		});
+		
+	}
+	
+	/**
+	 * Check if a list of assets is editable
+	 * @private
+	 */
+	_checkAssetsEditable() {
+		
+		if (!this._assetBasicInformationRequest) {
+			this._assetBasicInformationRequest = new AssetsBasicInformation({
+				apiUrl: this.apiUrl
+			});
+		}
+		
+		this._assetBasicInformationRequest.execute({
+			assets: this._assetEditableQueue.map(thisQueueItem => thisQueueItem.asset)
+		}).then((basicAssets) => {
+			
+			// Resolve the promise for the found assets
+			basicAssets.forEach((thisBasicAsset) => {
+				
+				const queueIndex = this._assetEditableQueue.findIndex(
+					(thisQueueItem) => thisQueueItem.asset.id === thisBasicAsset.id
+				);
+				const queueItem  = this._assetEditableQueue[queueIndex];
+				
+				// remove it from the queue
+				this._assetEditableQueue.splice(queueIndex, 1);
+				
+				queueItem.asset.type = thisBasicAsset.type;
+				queueItem.resolve(queueItem.asset);
+			});
+			
+			if (this._assetEditableQueue.length > 0) {
+				setTimeout(
+					this._checkAssetsEditable.bind(this),
+					Upload.ASSET_EDITABLE_TIMEOUT
+				);
+			}
+			
+		});
+		
+	}
+	
+	/**
+	 * Upload a file
+	 * @param {UploadTicket} ticket
+	 * @private
+	 */
+	_uploadFile(ticket) {
+		
+		if (!(ticket instanceof UploadTicket)) {
+			throw new Error('Upload expect an upload ticket as parameter');
 		}
 		
 		this.fileChunkUploader = new UploadFileChunk({
-			apiUrl : this.apiUrl
+			apiUrl: this.apiUrl
 		});
 		
-		return this.fileChunkUploader.uploadFile({
-			file : args.file,
-			uploadId : args.uploadId
-		});
+		return this.fileChunkUploader.uploadFile(ticket);
 		
 	}
 	
@@ -88,25 +256,25 @@ export class Upload extends Endpoint {
 	 * @param args
 	 * @private
 	 */
-	_finishUpload( args = {} ) {
-	
+	_finishUpload(args = {}) {
+		
 		const setFileNameRequest = new SetFileName({
-			apiUrl : this.apiUrl
+			apiUrl: this.apiUrl
 		});
-
+		
 		const setTransferModeRequest = new SetTransferMode({
-			apiUrl : this.apiUrl
+			apiUrl: this.apiUrl
 		});
-
+		
 		const submitUploadRequest = new SubmitUpload({
-			apiUrl : this.apiUrl
+			apiUrl: this.apiUrl
 		});
-
+		
 		return Promise.all([
-			setFileNameRequest.execute({ uploadId : args.uploadId, file : args.file }),
-			setTransferModeRequest.execute({ uploadId : args.uploadId }),
-		]).then(()=>{
-			return submitUploadRequest.execute({ uploadId : args.uploadId });
+			setFileNameRequest.execute({uploadId: args.uploadId, file: args.file}),
+			setTransferModeRequest.execute({uploadId: args.uploadId}),
+		]).then(() => {
+			return submitUploadRequest.execute({uploadId: args.uploadId});
 		});
 	}
 	
@@ -115,26 +283,34 @@ export class Upload extends Endpoint {
 	 * @param file
 	 * @private
 	 */
-	_getUploadId( file ) {
+	_getUploadId(file) {
+		
+		if (!(file instanceof File)) {
+			throw new Error('_getUploadID expect parameter file to be an instance of File');
+		}
 		
 		const createUploadRequest = new CreateUpload({
-			apiUrl : this.apiUrl
+			apiUrl: this.apiUrl
 		});
 		
 		const itemIdUploadRequest = new ItemIdUpload({
-			apiUrl : this.apiUrl
+			apiUrl: this.apiUrl
 		});
+		
+		let uploadId;
 		
 		// Create an upload request
 		return createUploadRequest.execute({
 			computerName: this.computerName,
-			file        : file
-		}).then(( { uploadId } )=>{
+			file
+		}).then(result => {
 			
-			return itemIdUploadRequest.execute({
-				uploadId
-			}).then(({itemId}) => { return {itemId, uploadId}; });
+			uploadId = result.uploadId;
 			
+			return itemIdUploadRequest.execute({uploadId});
+			
+		}).then(({itemId}) => {
+			return {itemId, uploadId};
 		});
 	}
 	
