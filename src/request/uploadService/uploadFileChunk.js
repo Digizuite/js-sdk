@@ -1,5 +1,5 @@
 import {BaseRequest} from 'common/request';
-import {UploadTicket} from 'model/uploadTicket';
+import {UploadTicket} from 'model/ticket/uploadTicket';
 
 export class UploadFileChunk extends BaseRequest {
 	

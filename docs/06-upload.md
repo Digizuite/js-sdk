@@ -1,4 +1,4 @@
-# Upload
+# Upload an asset
 
 ## Request an upload ticket
 

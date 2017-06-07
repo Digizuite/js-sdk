@@ -17,6 +17,7 @@ export class Asset {
 		this.type = args.type;
 		this.thumbnail =  args.thumbnail;
 		this.publishedDate = null;
+		this.__assetId__DO_NOT_USE_THIS_OR_KITTENS_WILL_DIE = null;
 		
 	}
 	
@@ -50,6 +51,9 @@ export class Asset {
 		if( args.firstPublished ) {
 			this.publishedDate = fecha.parse(args.firstPublished, Asset.DATETIME_FORMAT);
 		}
+		
+		// for legacy reason we still need this
+		this.__assetId__DO_NOT_USE_THIS_OR_KITTENS_WILL_DIE = parseInt(args.assetId, 10);
 	}
 	
 	/**

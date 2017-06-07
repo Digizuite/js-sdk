@@ -1,10 +1,14 @@
 import {Endpoint} from 'common/endpoint';
-import {UploadTicket} from 'model/uploadTicket';
+import {UploadTicket} from 'model/ticket/uploadTicket';
+import {ReplaceTicket} from 'model/ticket/replaceTicket';
 import {Asset} from 'model/asset';
 import {CreateUpload} from 'request/uploadService/createUpload';
 import {ItemIdUpload} from 'request/uploadService/itemIdUpload';
 import {SetFileName} from 'request/uploadService/setFileName';
 import {SetTransferMode} from 'request/uploadService/setTransferMode';
+import {SetAssetId} from 'request/uploadService/setAssetId';
+import {SetMetaSource} from 'request/uploadService/setMetaSource';
+import {SetArchiveReplace} from 'request/uploadService/setArchiveReplace';
 import {SubmitUpload} from 'request/uploadService/submitUpload';
 import {UploadFileChunk} from 'request/uploadService/uploadFileChunk';
 import {AssetsBasicInformation} from 'request/searchService/assetsBasicInformation';
@@ -58,10 +62,32 @@ export class Upload extends Endpoint {
 	}
 	
 	/**
+	 * Returns a promise that resolved to a replace ticket
+	 * @param args
+	 * @returns {Promise.<ReplaceTicket>}
+	 */
+	requestReplaceTicket(args = {}) {
+		
+		if( !(args.asset instanceof Asset) ) {
+			throw new Error('Replace expect an asset as parameter');
+		}
+		
+		return this._getUploadId(args.file)
+			.then((result) => {
+				return new ReplaceTicket({
+					uploadId: result.uploadId,
+					itemId  : result.itemId,
+					file    : args.file,
+					asset   : args.asset
+				});
+			});
+	}
+	
+	/**
 	 * Upload assets from upload tickets
 	 * @param args
 	 * @param {UploadTicket[]} args.tickets
-	 * @returns {Promise.<UploadTicket[]>}
+	 * @returns {Promise.<Asset[]>}
 	 */
 	uploadAssetsByTicket(args = {}) {
 		
@@ -81,6 +107,24 @@ export class Upload extends Endpoint {
 					});
 			})
 		);
+	}
+	
+	/**
+	 * Upload assets from upload tickets
+	 * @param args
+	 * @param {ReplaceTicket} args.ticket
+	 * @returns {Promise.<>}
+	 */
+	replaceAssetByTicket( args = {} ) {
+		
+		if ( !(args.ticket instanceof ReplaceTicket)) {
+			throw new Error('Replace expect a replace ticket as parameter');
+		}
+		
+		return this._uploadFile(args.ticket)
+			.then(() => this._finishUpload(args.ticket))
+			.then(() => { return {}; });
+		
 	}
 	
 	/**
@@ -253,10 +297,10 @@ export class Upload extends Endpoint {
 	
 	/**
 	 * Finishes an upload
-	 * @param args
+	 * @param {UploadTicket|ReplaceTicket} ticket
 	 * @private
 	 */
-	_finishUpload(args = {}) {
+	_finishUpload(ticket) {
 		
 		const setFileNameRequest = new SetFileName({
 			apiUrl: this.apiUrl
@@ -270,11 +314,41 @@ export class Upload extends Endpoint {
 			apiUrl: this.apiUrl
 		});
 		
-		return Promise.all([
-			setFileNameRequest.execute({uploadId: args.uploadId, file: args.file}),
-			setTransferModeRequest.execute({uploadId: args.uploadId}),
-		]).then(() => {
-			return submitUploadRequest.execute({uploadId: args.uploadId});
+		const requests = [
+			setFileNameRequest.execute({uploadId: ticket.uploadId, file: ticket.file}),
+			setTransferModeRequest.execute({uploadId: ticket.uploadId})
+		];
+		
+		// When replacing we need 3!! more requests.
+		if( ticket instanceof ReplaceTicket) {
+			
+			const setAssetIdRequest = new SetAssetId({
+				apiUrl: this.apiUrl
+			});
+			
+			
+			const setMetaSourceRequest = new SetMetaSource({
+				apiUrl: this.apiUrl
+			});
+			
+			
+			const setArchiveReplaceRequest = new SetArchiveReplace({
+				apiUrl: this.apiUrl
+			});
+			
+			requests.push(
+				setAssetIdRequest.execute({ uploadId: ticket.uploadId, asset: ticket.asset })
+			);
+			requests.push(
+				setMetaSourceRequest.execute({ uploadId: ticket.uploadId })
+			);
+			requests.push(
+				setArchiveReplaceRequest.execute({ uploadId: ticket.uploadId })
+			);
+		}
+		
+		return Promise.all(requests).then(() => {
+			return submitUploadRequest.execute({uploadId: ticket.uploadId});
 		});
 	}
 	
