@@ -1,5 +1,5 @@
 import {BaseRequest} from 'common/request';
-import {UpdateBatch} from 'common/updateBatch';
+import {UpdateBatch} from 'utilities/digizuite/updateBatch';
 import {DateTimeMetadataItem} from 'model/metadata/dateTimeMetadataItem';
 import {MetadataItem} from 'model/metadata/metadataItem';
 import {Constants} from 'const';
@@ -57,8 +57,6 @@ export class BatchUpdate extends BaseRequest {
 		
 		let updateXml = '';
 		let updateValues = [];
-		
-		console.debug("---------------------");
 		
 		const metadataItems = [ ...payload.metadataItems, this.getLastModifiedMetadataItem() ];
 		

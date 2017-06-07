@@ -1,16 +1,7 @@
 import {Endpoint} from 'common/endpoint';
 import {UploadTicket} from 'model/ticket/uploadTicket';
-import {ReplaceTicket} from 'model/ticket/replaceTicket';
 import {Asset} from 'model/asset';
-import {CreateUpload} from 'request/uploadService/createUpload';
-import {ItemIdUpload} from 'request/uploadService/itemIdUpload';
-import {SetFileName} from 'request/uploadService/setFileName';
-import {SetTransferMode} from 'request/uploadService/setTransferMode';
-import {SetAssetId} from 'request/uploadService/setAssetId';
-import {SetMetaSource} from 'request/uploadService/setMetaSource';
-import {SetArchiveReplace} from 'request/uploadService/setArchiveReplace';
-import {SubmitUpload} from 'request/uploadService/submitUpload';
-import {UploadFileChunk} from 'request/uploadService/uploadFileChunk';
+import {DigiUploader} from 'utilities/digizuite/digiUploader';
 import {AssetsBasicInformation} from 'request/searchService/assetsBasicInformation';
 import {AssetsInformation} from 'request/searchService/assetsInformation';
 
@@ -30,7 +21,7 @@ export class Upload extends Endpoint {
 	 */
 	constructor(args = {}) {
 		super(args);
-		this.computerName = args.computerName;
+		this._digiUpload = new DigiUploader(args);
 		
 		this._assetEditableQueue = [];
 		this._assetPublishedQueue = [];
@@ -49,7 +40,7 @@ export class Upload extends Endpoint {
 		}
 		
 		return Promise.all(
-			args.files.map(thisFile => this._getUploadId(thisFile))
+			args.files.map(thisFile => this._digiUpload.getUploadId(thisFile))
 		).then((results) => {
 			return results.map((thisResult, index) => {
 				return new UploadTicket({
@@ -59,28 +50,6 @@ export class Upload extends Endpoint {
 				});
 			});
 		});
-	}
-	
-	/**
-	 * Returns a promise that resolved to a replace ticket
-	 * @param args
-	 * @returns {Promise.<ReplaceTicket>}
-	 */
-	requestReplaceTicket(args = {}) {
-		
-		if( !(args.asset instanceof Asset) ) {
-			throw new Error('Replace expect an asset as parameter');
-		}
-		
-		return this._getUploadId(args.file)
-			.then((result) => {
-				return new ReplaceTicket({
-					uploadId: result.uploadId,
-					itemId  : result.itemId,
-					file    : args.file,
-					asset   : args.asset
-				});
-			});
 	}
 	
 	/**
@@ -97,8 +66,8 @@ export class Upload extends Endpoint {
 		
 		return Promise.all(
 			args.tickets.map(thisTicket => {
-				return this._uploadFile(thisTicket)
-					.then(() => this._finishUpload(thisTicket))
+				return this._digiUpload.uploadFile(thisTicket)
+					.then(() => this._digiUpload.finishUpload(thisTicket))
 					.then(() => {
 						return new Asset({
 							id  : thisTicket.itemId,
@@ -107,24 +76,6 @@ export class Upload extends Endpoint {
 					});
 			})
 		);
-	}
-	
-	/**
-	 * Upload assets from upload tickets
-	 * @param args
-	 * @param {ReplaceTicket} args.ticket
-	 * @returns {Promise.<>}
-	 */
-	replaceAssetByTicket( args = {} ) {
-		
-		if ( !(args.ticket instanceof ReplaceTicket)) {
-			throw new Error('Replace expect a replace ticket as parameter');
-		}
-		
-		return this._uploadFile(args.ticket)
-			.then(() => this._finishUpload(args.ticket))
-			.then(() => { return {}; });
-		
 	}
 	
 	/**
@@ -274,118 +225,6 @@ export class Upload extends Endpoint {
 			
 		});
 		
-	}
-	
-	/**
-	 * Upload a file
-	 * @param {UploadTicket} ticket
-	 * @private
-	 */
-	_uploadFile(ticket) {
-		
-		if (!(ticket instanceof UploadTicket)) {
-			throw new Error('Upload expect an upload ticket as parameter');
-		}
-		
-		this.fileChunkUploader = new UploadFileChunk({
-			apiUrl: this.apiUrl
-		});
-		
-		return this.fileChunkUploader.uploadFile(ticket);
-		
-	}
-	
-	/**
-	 * Finishes an upload
-	 * @param {UploadTicket|ReplaceTicket} ticket
-	 * @private
-	 */
-	_finishUpload(ticket) {
-		
-		const setFileNameRequest = new SetFileName({
-			apiUrl: this.apiUrl
-		});
-		
-		const setTransferModeRequest = new SetTransferMode({
-			apiUrl: this.apiUrl
-		});
-		
-		const submitUploadRequest = new SubmitUpload({
-			apiUrl: this.apiUrl
-		});
-		
-		const requests = [
-			setFileNameRequest.execute({uploadId: ticket.uploadId, file: ticket.file}),
-			setTransferModeRequest.execute({uploadId: ticket.uploadId})
-		];
-		
-		// When replacing we need 3!! more requests.
-		if( ticket instanceof ReplaceTicket) {
-			
-			const setAssetIdRequest = new SetAssetId({
-				apiUrl: this.apiUrl
-			});
-			
-			
-			const setMetaSourceRequest = new SetMetaSource({
-				apiUrl: this.apiUrl
-			});
-			
-			
-			const setArchiveReplaceRequest = new SetArchiveReplace({
-				apiUrl: this.apiUrl
-			});
-			
-			requests.push(
-				setAssetIdRequest.execute({ uploadId: ticket.uploadId, asset: ticket.asset })
-			);
-			requests.push(
-				setMetaSourceRequest.execute({ uploadId: ticket.uploadId })
-			);
-			requests.push(
-				setArchiveReplaceRequest.execute({ uploadId: ticket.uploadId })
-			);
-		}
-		
-		return Promise.all(requests).then(() => {
-			return submitUploadRequest.execute({uploadId: ticket.uploadId});
-		});
-	}
-	
-	/**
-	 * Get upload ID
-	 * @param file
-	 * @private
-	 */
-	_getUploadId(file) {
-		
-		if (!(file instanceof File)) {
-			throw new Error('_getUploadID expect parameter file to be an instance of File');
-		}
-		
-		const createUploadRequest = new CreateUpload({
-			apiUrl: this.apiUrl
-		});
-		
-		const itemIdUploadRequest = new ItemIdUpload({
-			apiUrl: this.apiUrl
-		});
-		
-		let uploadId;
-		
-		// Create an upload request
-		return createUploadRequest.execute({
-			computerName: this.computerName,
-			file
-		}).then(result => {
-			
-			uploadId = result.uploadId;
-			
-			return itemIdUploadRequest.execute({uploadId});
-			
-		}).then(({itemId}) => {
-			return {itemId, uploadId};
-		});
 	}
 	
 }

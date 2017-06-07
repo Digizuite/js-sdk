@@ -3,6 +3,7 @@ import {Config} from 'endpoint/config';
 import {Content} from 'endpoint/content';
 import {Download} from 'endpoint/download';
 import {Upload} from 'endpoint/upload';
+import {Version} from 'endpoint/version';
 import {Metadata} from 'endpoint/metadata';
 import {ensureTrailingSeparator} from 'utilities/helpers/url';
 
@@ -93,6 +94,22 @@ export class Connector {
 		}
 		
 		return this._uploadEndpoint;
+	}
+	
+	/**
+	 * Getter for the upload endpoint
+	 * @returns {Version}
+	 */
+	get version() {
+		
+		if( !this._versionEndpoint ) {
+			this._versionEndpoint = new Version( {
+				apiUrl : this.apiUrl,
+				computerName : this.state.config.UploadName
+			} );
+		}
+		
+		return this._versionEndpoint;
 	}
 	
 	/**

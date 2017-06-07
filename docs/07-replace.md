@@ -6,7 +6,7 @@ First step in replacing an asset is requesting a replace ticket.
 
 ```js
  document.querySelector('#fileUpload').addEventListener('change', (event)=>{
-    instance.upload.requestReplaceTicket({
+    instance.version.requestReplaceTicket({
         file : event.target.files[0],
         asset    
     }).then((tickets) => {
@@ -20,7 +20,7 @@ First step in replacing an asset is requesting a replace ticket.
 After the replace tickets are obtain, the upload process for the replacement file can begin.
 
 ```js
-instance.upload.replaceAssetByTicket({
+instance.version.replaceAssetByTicket({
     ticket
 }).then(() => {
 	console.debug("Assets replacement uploaded!");
