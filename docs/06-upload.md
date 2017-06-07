@@ -70,14 +70,14 @@ The asset instance obtain at this point contains all the proprieties.
 ## Putting everything together 
 
 ```js
- document.querySelector('#fileUpload').addEventListener('change', (event)=>{
+document.querySelector('#fileUpload').addEventListener('change', (event)=>{
 
     instance.upload.requestUploadTickets({
         files : Array.from(event.target.files),
     }).then((tickets) => {
 
         tickets.forEach( thisTicket => { 
-        	thisTicket.onProgress = (progress) => { console.log("Progress", progress) }; 
+        	thisTicket.onProgress = (progress) => { console.log( `File uploaded ${progress}%.` ); }; 
         });
 
         return instance.upload.uploadAssetsByTicket({ 
