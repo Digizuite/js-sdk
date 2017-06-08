@@ -2,6 +2,7 @@ import {Endpoint} from 'common/endpoint';
 import {ReplaceTicket} from 'model/ticket/replaceTicket';
 import {DigiUploader} from 'utilities/digizuite/digiUploader';
 import {Asset} from 'model/asset';
+import {AssetVersions} from 'request/searchService/assetVersions';
 
 export class Version extends Endpoint {
 
@@ -55,5 +56,24 @@ export class Version extends Endpoint {
 		
 	}
 	
+	/**
+	 * Get a list of asset versions
+	 * @param args
+	 * @returns {Promise}
+	 */
+	getAssetVersions( args = {} ) {
+		
+		if( !(args.asset instanceof Asset) ) {
+			throw new Error('getAssetVersions expect an asset as parameter');
+		}
+		
+		const assetVersionsRequest = new AssetVersions({
+			apiUrl : this.apiUrl
+		});
+		
+		return assetVersionsRequest.execute({
+			asset : args.asset
+		});
+	}
 	
 }
