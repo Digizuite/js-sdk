@@ -90,7 +90,10 @@ export class DigiUploader {
 		}
 		
 		// Specific to replace
-		if( ticket instanceof ReplaceTicket ) {
+		if(
+			(ticket instanceof ReplaceTicket) &&
+			!(ticket instanceof RestoreTicket)
+		) {
 			const setMetaSourceRequest = new SetMetaSource({
 				apiUrl: this.apiUrl
 			});

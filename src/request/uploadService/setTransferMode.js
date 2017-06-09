@@ -64,11 +64,10 @@ export class SetTransferMode extends BaseRequest {
 			payload.transferMode = SetTransferMode.TRANSFER_MODE.UNC;
 		}
 		
-		payload.ticket = undefined;
-		
 		// UploadID
-		payload.UploadID = payload.uploadId;
-		payload.uploadId = undefined;
+		payload.UploadID = payload.ticket.uploadId;
+		
+		payload.ticket = undefined;
 		
 		return payload;
 	}

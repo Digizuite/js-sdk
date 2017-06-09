@@ -2548,7 +2548,10 @@ class DigiUploader {
 		}
 		
 		// Specific to replace
-		if( ticket instanceof __WEBPACK_IMPORTED_MODULE_1_model_ticket_replaceTicket__["a" /* ReplaceTicket */] ) {
+		if(
+			(ticket instanceof __WEBPACK_IMPORTED_MODULE_1_model_ticket_replaceTicket__["a" /* ReplaceTicket */]) &&
+			!(ticket instanceof __WEBPACK_IMPORTED_MODULE_2_model_ticket_restoreTicket__["a" /* RestoreTicket */])
+		) {
 			const setMetaSourceRequest = new __WEBPACK_IMPORTED_MODULE_9_request_uploadService_setMetaSource__["a" /* SetMetaSource */]({
 				apiUrl: this.apiUrl
 			});
@@ -5199,7 +5202,8 @@ class Version extends __WEBPACK_IMPORTED_MODULE_0_common_endpoint__["a" /* Endpo
 			throw new Error('Restore expect a replace ticket as parameter');
 		}
 		
-		return
+		return this._digiUpload.finishUpload(args.ticket)
+			.then(()=> { return {}; });
 		
 	}
 	
@@ -7236,7 +7240,7 @@ class SetAssetId extends __WEBPACK_IMPORTED_MODULE_0_common_request__["a" /* Bas
 		if( payload.ticket instanceof  __WEBPACK_IMPORTED_MODULE_1_model_ticket_replaceTicket__["a" /* ReplaceTicket */] ) {
 			payload.assetId = payload.ticket.asset.__assetId__DO_NOT_USE_THIS_OR_KITTENS_WILL_DIE;
 		} else {
-			payload.assetId = payload.ticket.version.versionId;
+			payload.assetId = payload.ticket.version.id;
 		}
 		
 		payload.ticket = undefined;
@@ -7312,11 +7316,10 @@ class SetFileName extends __WEBPACK_IMPORTED_MODULE_0_common_request__["a" /* Ba
 			payload.fileName = payload.ticket.file.name;
 		}
 		
-		payload.ticket = undefined;
-		
 		// UploadID
-		payload.UploadID = payload.uploadId;
-		payload.uploadId = undefined;
+		payload.UploadID = payload.ticket.uploadId;
+		
+		payload.ticket = undefined;
 		
 		return payload;
 	}
@@ -7483,11 +7486,10 @@ class SetTransferMode extends __WEBPACK_IMPORTED_MODULE_0_common_request__["a" /
 			payload.transferMode = SetTransferMode.TRANSFER_MODE.UNC;
 		}
 		
-		payload.ticket = undefined;
-		
 		// UploadID
-		payload.UploadID = payload.uploadId;
-		payload.uploadId = undefined;
+		payload.UploadID = payload.ticket.uploadId;
+		
+		payload.ticket = undefined;
 		
 		return payload;
 	}

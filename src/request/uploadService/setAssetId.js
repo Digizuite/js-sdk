@@ -47,7 +47,7 @@ export class SetAssetId extends BaseRequest {
 		if( payload.ticket instanceof  ReplaceTicket ) {
 			payload.assetId = payload.ticket.asset.__assetId__DO_NOT_USE_THIS_OR_KITTENS_WILL_DIE;
 		} else {
-			payload.assetId = payload.ticket.version.versionId;
+			payload.assetId = payload.ticket.version.id;
 		}
 		
 		payload.ticket = undefined;

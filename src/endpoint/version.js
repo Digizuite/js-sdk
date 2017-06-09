@@ -101,7 +101,8 @@ export class Version extends Endpoint {
 			throw new Error('Restore expect a replace ticket as parameter');
 		}
 		
-		return
+		return this._digiUpload.finishUpload(args.ticket)
+			.then(()=> { return {}; });
 		
 	}
 	

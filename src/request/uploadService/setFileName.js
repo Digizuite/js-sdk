@@ -48,11 +48,10 @@ export class SetFileName extends BaseRequest {
 			payload.fileName = payload.ticket.file.name;
 		}
 		
-		payload.ticket = undefined;
-		
 		// UploadID
-		payload.UploadID = payload.uploadId;
-		payload.uploadId = undefined;
+		payload.UploadID = payload.ticket.uploadId;
+		
+		payload.ticket = undefined;
 		
 		return payload;
 	}
