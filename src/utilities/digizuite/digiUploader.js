@@ -1,5 +1,7 @@
 import {UploadTicket} from 'model/ticket/uploadTicket';
 import {ReplaceTicket} from 'model/ticket/replaceTicket';
+import {RestoreTicket} from 'model/ticket/restoreTicket';
+import {CopyMetadata} from 'request/metadataService/copyMetadata';
 import {CreateUpload} from 'request/uploadService/createUpload';
 import {ItemIdUpload} from 'request/uploadService/itemIdUpload';
 import {SetFileName} from 'request/uploadService/setFileName';
@@ -58,39 +60,58 @@ export class DigiUploader {
 			apiUrl: this.apiUrl
 		});
 		
+		// Valid for all uploads
 		const requests = [
-			setFileNameRequest.execute({uploadId: ticket.uploadId, file: ticket.file}),
-			setTransferModeRequest.execute({uploadId: ticket.uploadId})
+			setFileNameRequest.execute({ ticket }),
+			setTransferModeRequest.execute({ ticket })
 		];
 		
-		// When replacing we need 3!! more requests.
-		if( ticket instanceof ReplaceTicket) {
+		// Common for restore or replace
+		if(
+			(ticket instanceof ReplaceTicket) ||
+			(ticket instanceof RestoreTicket)
+		) {
 			
 			const setAssetIdRequest = new SetAssetId({
 				apiUrl: this.apiUrl
 			});
-			
-			
-			const setMetaSourceRequest = new SetMetaSource({
-				apiUrl: this.apiUrl
-			});
-			
 			
 			const setArchiveReplaceRequest = new SetArchiveReplace({
 				apiUrl: this.apiUrl
 			});
 			
 			requests.push(
-				setAssetIdRequest.execute({ uploadId: ticket.uploadId, asset: ticket.asset })
+				setAssetIdRequest.execute({ ticket })
 			);
-			requests.push(
-				setMetaSourceRequest.execute({ uploadId: ticket.uploadId })
-			);
+			
 			requests.push(
 				setArchiveReplaceRequest.execute({ uploadId: ticket.uploadId })
 			);
 		}
 		
+		// Specific to replace
+		if( ticket instanceof ReplaceTicket ) {
+			const setMetaSourceRequest = new SetMetaSource({
+				apiUrl: this.apiUrl
+			});
+			
+			requests.push(
+				setMetaSourceRequest.execute({ uploadId: ticket.uploadId })
+			);
+		}
+		
+		// Specific to restore
+		if( ticket instanceof RestoreTicket ) {
+			const copyMetadataRequest = new CopyMetadata({
+				apiUrl: this.apiUrl
+			});
+			
+			requests.push(
+				copyMetadataRequest.execute({ ticket })
+			);
+		}
+		
+		// Submit!
 		return Promise.all(requests).then(() => {
 			return submitUploadRequest.execute({uploadId: ticket.uploadId});
 		});
@@ -98,13 +119,12 @@ export class DigiUploader {
 	
 	/**
 	 * Get upload ID
-	 * @param {File} file
+	 * @param {Object} args
+	 * @param {File} [args.file]
+	 * @param {String} [args.filename]
+	 * @param {String} [args.name]
 	 */
-	getUploadId(file) {
-		
-		if (!(file instanceof File)) {
-			throw new Error('_getUploadID expect parameter file to be an instance of File');
-		}
+	getUploadId( args = {} ) {
 		
 		const createUploadRequest = new CreateUpload({
 			apiUrl: this.apiUrl
@@ -119,7 +139,9 @@ export class DigiUploader {
 		// Create an upload request
 		return createUploadRequest.execute({
 			computerName: this.computerName,
-			file
+			file        : args.file,
+			filename    : args.filename,
+			name        : args.name
 		}).then(result => {
 			
 			uploadId = result.uploadId;

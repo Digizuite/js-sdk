@@ -1,4 +1,5 @@
 import {BaseRequest} from 'common/request';
+import {ReplaceTicket} from 'model/ticket/replaceTicket';
 
 export class SetAssetId extends BaseRequest {
 	
@@ -41,11 +42,15 @@ export class SetAssetId extends BaseRequest {
 	processRequestData(payload = {}) {
 		
 		// UploadID
-		payload.UploadID = payload.uploadId;
-		payload.uploadId = undefined;
+		payload.UploadID = payload.ticket.uploadId;
 		
-		payload.assetId = payload.asset.__assetId__DO_NOT_USE_THIS_OR_KITTENS_WILL_DIE;
-		payload.asset = undefined;
+		if( payload.ticket instanceof  ReplaceTicket ) {
+			payload.assetId = payload.ticket.asset.__assetId__DO_NOT_USE_THIS_OR_KITTENS_WILL_DIE;
+		} else {
+			payload.assetId = payload.ticket.version.versionId;
+		}
+		
+		payload.ticket = undefined;
 		
 		return payload;
 	}

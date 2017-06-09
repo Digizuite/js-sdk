@@ -1,7 +1,9 @@
 import {Endpoint} from 'common/endpoint';
 import {ReplaceTicket} from 'model/ticket/replaceTicket';
+import {RestoreTicket} from 'model/ticket/restoreTicket';
 import {DigiUploader} from 'utilities/digizuite/digiUploader';
 import {Asset} from 'model/asset';
+import {AssetVersion} from 'model/assetVersion';
 import {AssetVersions} from 'request/searchService/assetVersions';
 
 export class Version extends Endpoint {
@@ -27,7 +29,7 @@ export class Version extends Endpoint {
 			throw new Error('Replace expect an asset as parameter');
 		}
 		
-		return this._digiUpload.getUploadId(args.file)
+		return this._digiUpload.getUploadId({ file : args.file })
 			.then((result) => {
 				return new ReplaceTicket({
 					uploadId: result.uploadId,
@@ -39,7 +41,37 @@ export class Version extends Endpoint {
 	}
 	
 	/**
-	 * Upload assets from upload tickets
+	 * Returns a promise that resolved to a restore ticket
+	 * @param args
+	 * @param {Asset} args.asset
+	 * @param {AssetVersion} args.version
+	 * @returns {Promise.<RestoreTicket>}
+	 */
+	requestRestoreTicket( args = {} ) {
+		
+		if( !(args.asset instanceof Asset) ) {
+			throw new Error('Restore expect an asset as parameter');
+		}
+		
+		if( !(args.version instanceof AssetVersion) ) {
+			throw new Error('Restore expect an asset version as parameter');
+		}
+		
+		return this._digiUpload.getUploadId({
+			filename: args.version.getFilename(),
+			name    : args.asset.name
+		}).then((result) => {
+			return new RestoreTicket({
+				uploadId: result.uploadId,
+				itemId  : result.itemId,
+				version : args.version,
+				asset   : args.asset
+			});
+		});
+	}
+	
+	/**
+	 * Replace asset from ticket
 	 * @param args
 	 * @param {ReplaceTicket} args.ticket
 	 * @returns {Promise.<>}
@@ -56,10 +88,28 @@ export class Version extends Endpoint {
 		
 	}
 	
+	
+	/**
+	 * Restore an asset from ticket
+	 * @param args
+	 * @param {ReplaceTicket} args.ticket
+	 * @returns {Promise.<>}
+	 */
+	restoreAssetByTicket( args = {} ) {
+		
+		if ( !(args.ticket instanceof RestoreTicket)) {
+			throw new Error('Restore expect a replace ticket as parameter');
+		}
+		
+		return
+		
+	}
+	
 	/**
 	 * Get a list of asset versions
 	 * @param args
-	 * @returns {Promise}
+	 * @param {Asset} args.asset
+	 * @returns {Promise.<AssetVersion[]>}
 	 */
 	getAssetVersions( args = {} ) {
 		

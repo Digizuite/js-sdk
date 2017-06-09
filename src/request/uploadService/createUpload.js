@@ -31,7 +31,7 @@ export class CreateUpload extends BaseRequest {
 			computername: this.computerName,
 			filename    : null,
 			name        : null,
-			filesize    : null,
+			filesize    : 0,
 			settingsxml : null,
 		};
 	}
@@ -47,14 +47,23 @@ export class CreateUpload extends BaseRequest {
 		payload.computername = payload.computerName;
 		payload.computerName = undefined;
 		
-		// File name
-		payload.filename = payload.file.name;
-		payload.name = payload.file.name.substring( 0, payload.file.name.lastIndexOf('.')  );
+		// File info
+		if( payload.file ) {
+			
+			
+			if( !payload.filename ) {
+				payload.filename = payload.file.name;
+			}
+			
+			if( !payload.name ) {
+				payload.name = payload.file.name.substring(0, payload.file.name.lastIndexOf('.'));
+			}
+			
+			payload.filesize = payload.file.size;
+			
+			payload.file = undefined;
+		}
 		
-		// File size
-		payload.filesize = payload.file.size;
-		
-		payload.file = undefined;
 		
 		return payload;
 	}

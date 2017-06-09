@@ -1,15 +1,14 @@
 import {BaseRequest} from 'common/request';
-import {RestoreTicket} from 'model/ticket/restoreTicket';
 
-export class SetFileName extends BaseRequest {
+export class CopyMetadata extends BaseRequest {
 	
 	/**
 	 * C-tor
 	 * @param {Object} args
+	 * @param {String} args.apiUrl - Full URL to the api end-point.
 	 */
-	constructor( args = {}  ) {
+	constructor(args = {}) {
 		super(args);
-		
 	}
 	
 	/**
@@ -17,7 +16,7 @@ export class SetFileName extends BaseRequest {
 	 * @returns {string}
 	 */
 	get endpointUrl() {
-		return `${this.apiUrl}UploadRest.js`;
+		return `${this.apiUrl}MetadataService.js`;
 	}
 	
 	/**
@@ -28,9 +27,11 @@ export class SetFileName extends BaseRequest {
 		return {
 			// Parameters required by DigiZuite - these should never be changed
 			// when executing the request!
-			method  : 'SetFileName',
-			UploadID: null,
-			fileName: null,
+			method           : 'CopyMetadata',
+			copyDeps         : 1,
+			copyUniqueVersion: 1,
+			sourceItemId     : null,
+			targetItemId     : null
 		};
 	}
 	
@@ -41,18 +42,10 @@ export class SetFileName extends BaseRequest {
 	 */
 	processRequestData(payload = {}) {
 		
-		// File name
-		if( payload.ticket instanceof RestoreTicket) {
-			payload.fileName = payload.ticket.version.getSourceLocation();
-		} else {
-			payload.fileName = payload.ticket.file.name;
-		}
+		payload.sourceItemId = payload.ticket.version.id;
+		payload.targetItemId = payload.ticket.asset.id;
 		
 		payload.ticket = undefined;
-		
-		// UploadID
-		payload.UploadID = payload.uploadId;
-		payload.uploadId = undefined;
 		
 		return payload;
 	}

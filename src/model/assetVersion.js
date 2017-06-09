@@ -10,8 +10,10 @@ export class AssetVersion {
 		this.type                                           = args.type;
 		this.versionId                                      = args.versionId;
 		this.thumbnail                                      = args.thumbnail;
+		this._sourceLocation                                = args.sourceLocation;
 		this.isCurrentVersion                               = !!args.isCurrentVersion;
 		this.__assetId__DO_NOT_USE_THIS_OR_KITTENS_WILL_DIE = null;
+		
 	}
 	
 	/**
@@ -30,8 +32,11 @@ export class AssetVersion {
 	 * @param args
 	 */
 	setValueFromAPI(args = {}) {
+		
 		this.id   = parseInt(args.itemId, 10);
 		this.type = parseInt(args.assetType, 10);
+		
+		this._sourceLocation = args.sourceLocation;
 		
 		const versionId = parseInt(args.assetVersionId, 10);
 		this.versionId  = !Number.isNaN(versionId) ? versionId : 0;
@@ -43,6 +48,22 @@ export class AssetVersion {
 		
 		// for legacy reason we still need this
 		this.__assetId__DO_NOT_USE_THIS_OR_KITTENS_WILL_DIE = parseInt(args.assetId, 10);
+	}
+	
+	/**
+	 * Returns the filename from source
+	 * @returns {string}
+	 */
+	getFilename() {
+		return this._sourceLocation.substring( this._sourceLocation.lastIndexOf('\\') + 1 );
+	}
+	
+	/**
+	 * Returns source location
+	 * @returns {*}
+	 */
+	getSourceLocation() {
+		return this._sourceLocation;
 	}
 	
 }

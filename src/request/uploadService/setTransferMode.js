@@ -1,4 +1,5 @@
 import {BaseRequest} from 'common/request';
+import {RestoreTicket} from 'model/ticket/restoreTicket';
 
 export class SetTransferMode extends BaseRequest {
 	
@@ -45,7 +46,7 @@ export class SetTransferMode extends BaseRequest {
 			// Parameters required by DigiZuite - these should never be changed
 			// when executing the request!
 			method      : 'SetTransferMode',
-			transferMode: SetTransferMode.TRANSFER_MODE.UNC,
+			transferMode: null,
 			UploadID    : null
 		};
 	}
@@ -56,6 +57,14 @@ export class SetTransferMode extends BaseRequest {
 	 * @returns {Object}
 	 */
 	processRequestData(payload = {}) {
+		
+		if( payload.ticket instanceof RestoreTicket) {
+			payload.transferMode = SetTransferMode.TRANSFER_MODE.DIRECT_COPY;
+		} else {
+			payload.transferMode = SetTransferMode.TRANSFER_MODE.UNC;
+		}
+		
+		payload.ticket = undefined;
 		
 		// UploadID
 		payload.UploadID = payload.uploadId;
