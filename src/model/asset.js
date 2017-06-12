@@ -6,6 +6,10 @@ export class Asset {
 		return 'YYYY-MM-DDTHH:mm:ss.SSS';
 	}
 	
+	static get DATETIMETZ_FORMAT() {
+		return 'YYYY-MM-DDTHH:mm:ssZZ';
+	}
+	
 	/**
 	 * C-tor
 	 * @param args
@@ -17,6 +21,7 @@ export class Asset {
 		this.type = args.type;
 		this.thumbnail =  args.thumbnail;
 		this.publishedDate = null;
+		this.lastEditedDate = null;
 		this.__assetId__DO_NOT_USE_THIS_OR_KITTENS_WILL_DIE = null;
 		
 	}
@@ -37,6 +42,7 @@ export class Asset {
 	 * @param args
 	 */
 	setValueFromAPI( args = {} ) {
+		
 		this.id = parseInt(args.itemId, 10);
 		this.name = args.name;
 		this.type = parseInt(args.assetType, 10);
@@ -50,6 +56,10 @@ export class Asset {
 		
 		if( args.firstPublished ) {
 			this.publishedDate = fecha.parse(args.firstPublished, Asset.DATETIME_FORMAT);
+		}
+		
+		if( args.edited ) {
+			this.lastEditedDate = fecha.parse(args.edited, Asset.DATETIMETZ_FORMAT);
 		}
 		
 		// for legacy reason we still need this
