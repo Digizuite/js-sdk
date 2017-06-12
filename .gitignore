@@ -47,4 +47,6 @@ fabric.properties
 .idea/
 node_modules/
 browser_test/
+dist/
+coverage/
 TODO

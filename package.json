@@ -1,19 +1,14 @@
 {
   "name": "digizuite-js-sdk",
   "description": "JS SDK for Digizuite API",
-  "version": "0.6.9",
+  "version": "0.0.1",
   "main": "src/index.js",
   "scripts": {
     "build": ".\\node_modules\\.bin\\webpack --progress --env=dev",
     "watch": ".\\node_modules\\.bin\\webpack --progress --env=dev --watch",
-    "dist": ".\\node_modules\\.bin\\webpack --progress --env=prod",
-    "git-add": "git add dist",
+    "dist": ".\\node_modules\\.bin\\webpack --progress --env=prod -p",
     "test": "node node_modules/karma/bin/karma start ./karma.conf.js --single-run"
   },
-  "pre-commit": [
-    "dist",
-    "git-add"
-  ],
   "dependencies": {
     "blueimp-md5": "^2.7.0",
     "fecha": "^2.3.1",
@@ -31,7 +26,6 @@
     "karma-coverage": "^1.1.1",
     "karma-sourcemap-loader": "^0.3.7",
     "karma-teamcity-reporter": "^1.0.0",
-    "pre-commit": "^1.2.2",
     "webpack": "^2.5.1",
     "babili-webpack-plugin": "^0.1.1"
   },
