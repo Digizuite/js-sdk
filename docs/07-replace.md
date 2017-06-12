@@ -41,3 +41,28 @@ uploadTicket.onProgress = (progress) => {
 ## Awaiting
 
 Unlike during upload, there is no way to await for the replacement asset to published at the moment.
+
+## Putting everything together 
+
+```js
+document.querySelector('#fileUpload').addEventListener('change', (event)=>{
+
+    instance.version.requestReplaceTicket({
+        file : event.target.files[0],
+        asset
+    }).then((ticket) => {
+
+        ticket.onProgress = (progress) => {
+            console.log( `File uploaded ${progress}%.` );
+        };
+
+        return instance.version.replaceAssetByTicket({
+            ticket
+        });
+
+    }).then(()=>{
+        console.debug("Asset replaced!");
+    });
+    
+});
+```

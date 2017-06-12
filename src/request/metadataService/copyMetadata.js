@@ -42,8 +42,8 @@ export class CopyMetadata extends BaseRequest {
 	 */
 	processRequestData(payload = {}) {
 		
-		payload.sourceItemId = payload.ticket.version.id;
-		payload.targetItemId = payload.ticket.asset.id;
+		payload.sourceItemId = payload.ticket.asset.id;
+		payload.targetItemId = payload.ticket.itemId;
 		
 		payload.ticket = undefined;
 		

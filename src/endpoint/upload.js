@@ -40,7 +40,7 @@ export class Upload extends Endpoint {
 		}
 		
 		return Promise.all(
-			args.files.map(thisFile => this._digiUpload.getUploadId({ file : thisFile } ))
+			args.files.map(thisFile => this._digiUpload.getUploadId({file: thisFile}))
 		).then((results) => {
 			return results.map((thisResult, index) => {
 				return new UploadTicket({
@@ -50,6 +50,7 @@ export class Upload extends Endpoint {
 				});
 			});
 		});
+		
 	}
 	
 	/**

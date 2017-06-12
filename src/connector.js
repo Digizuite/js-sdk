@@ -5,6 +5,7 @@ import {Download} from 'endpoint/download';
 import {Upload} from 'endpoint/upload';
 import {Version} from 'endpoint/version';
 import {Metadata} from 'endpoint/metadata';
+import {Member} from 'endpoint/member';
 import {ensureTrailingSeparator} from 'utilities/helpers/url';
 
 export class Connector {
@@ -22,6 +23,21 @@ export class Connector {
 		}
 		
 		return this._authEndpoint;
+	}
+	
+	/**
+	 * Getter for the member endpoint
+	 * @returns {Member}
+	 */
+	get member() {
+		
+		if( !this._memberEndpoint ) {
+			this._memberEndpoint = new Member( {
+				apiUrl : this.apiUrl
+			} );
+		}
+		
+		return this._memberEndpoint;
 	}
 	
 	/**
@@ -50,7 +66,7 @@ export class Connector {
 				apiUrl          : this.apiUrl,
 				metafieldLabelId: this.state.config.PortalMenu.metafieldLabelId,
 				sLayoutFolderId : this.state.config.MainSearchFolderId,
-				labels          : this.state.labels,
+				labelsPromise   : this.config.getAppLabels(),
 				sortTypes       : this.state.config.SortTypes,
 				defaultSortType : this.state.config.SortType
 			});
@@ -148,6 +164,7 @@ export class Connector {
 			user : {},
 			config : {}
 		};
+		
 	}
 	
 	/**
@@ -185,7 +202,7 @@ export class Connector {
 			return Promise.reject( new Error( 'password is a required parameter' ) );
 		}
 		
-		return this.auth.login({
+		const bootstrapPromise = this.auth.login({
 			username : args.username,
 			password : args.password
 		}).then((loginResponse)=>{
@@ -195,16 +212,18 @@ export class Connector {
 				password : args.password
 			});
 		}).then(()=>{
-			return Promise.all([
-				this.config.getAppConfiguration(),
-				this.config.getAppLabels()
-			]);
-		}).then(([configResponse, labelsResponse])=> {
+			return this.config.getAppConfiguration();
+		}).then((configResponse)=> {
 			this.state.config = configResponse;
-			this.state.labels = labelsResponse;
 			return this;
 		});
 		
+		// We don't need this immediately, but we preload it for future use
+		bootstrapPromise.then(()=>{
+			this.config.getAppLabels();
+		});
+	
+		return bootstrapPromise;
 	}
 	
 	/**
