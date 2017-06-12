@@ -11,6 +11,8 @@ export class Config extends Endpoint {
 	 */
 	constructor( args = {}  ) {
 		super(args);
+		
+		this._cache = {};
 	}
 	
 	/**
@@ -31,11 +33,17 @@ export class Config extends Endpoint {
 	 * @returns {Promise}
 	 */
 	getAppLabels() {
-		const appConfigRequest = new AppLabels({
-			apiUrl : this.apiUrl
-		});
 		
-		return appConfigRequest.execute();
+		if( !this._cache.labelsPromise ) {
+			
+			const appConfigRequest = new AppLabels({
+				apiUrl : this.apiUrl
+			});
+			
+			this._cache.labelsPromise = appConfigRequest.execute();
+		}
+		
+		return this._cache.labelsPromise;
 	}
 	
 }

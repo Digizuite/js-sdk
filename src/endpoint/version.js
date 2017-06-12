@@ -38,6 +38,7 @@ export class Version extends Endpoint {
 					asset   : args.asset
 				});
 			});
+			
 	}
 	
 	/**
@@ -68,6 +69,7 @@ export class Version extends Endpoint {
 				asset   : args.asset
 			});
 		});
+		
 	}
 	
 	/**

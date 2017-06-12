@@ -34,9 +34,14 @@ export class Content extends Endpoint {
 		
 		this.metafieldLabelId = args.metafieldLabelId;
 		this.sLayoutFolderId = args.sLayoutFolderId;
-		this.labels = args.labels;
+		this.labelsPromise = args.labelsPromise;
+		this.labels = {};
 		this.rawSortTypes = args.sortTypes;
 		this.defaultSortType = upperFirst(args.defaultSortType);
+		
+		this.labelsPromise.then((labels)=>{
+			this.labels = labels;
+		});
 		
 		this.cache  = {
 			total : {},
@@ -85,17 +90,22 @@ export class Content extends Endpoint {
 			return Promise.resolve(this.cache.filters[searchName]);
 		}
 		
-		const filtersRequest = new Filters({
-			apiUrl : this.apiUrl,
-			labels : this.labels
-		});
-		
-		return filtersRequest.execute({
-			searchName
-		}).then( (response) => {
-			this.cache.filters[searchName] = response;
-			return response;
-		});
+		return this.labelsPromise
+			.then(()=>{
+				
+				const filtersRequest = new Filters({
+					apiUrl : this.apiUrl,
+					labels : this.labels
+				});
+
+				return filtersRequest.execute({
+					searchName
+				});
+				
+			}).then( (response) => {
+				this.cache.filters[searchName] = response;
+				return response;
+			});
 		
 	}
 	
@@ -112,7 +122,7 @@ export class Content extends Endpoint {
 		const assetsRequest = new Assets({
 			apiUrl         : this.apiUrl,
 			sLayoutFolderId: this.sLayoutFolderId,
-			filters        : this.cache.filters[searchName],
+			// filters        : this.cache.filters[searchName],
 			sortTypes      : this.SORT_TYPES,
 			defaultSortType: this.defaultSortType
 		});

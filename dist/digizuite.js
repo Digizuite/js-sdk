@@ -73,7 +73,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 83);
+/******/ 	return __webpack_require__(__webpack_require__.s = 84);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -2446,16 +2446,16 @@ class AssetVersion {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_model_ticket_uploadTicket__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_model_ticket_replaceTicket__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_model_ticket_restoreTicket__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_request_metadataService_copyMetadata__ = __webpack_require__(93);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_request_uploadService_createUpload__ = __webpack_require__(105);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_request_uploadService_itemIdUpload__ = __webpack_require__(106);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_request_uploadService_setFileName__ = __webpack_require__(109);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_request_uploadService_setTransferMode__ = __webpack_require__(111);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_request_uploadService_setAssetId__ = __webpack_require__(108);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_request_uploadService_setMetaSource__ = __webpack_require__(110);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_request_uploadService_setArchiveReplace__ = __webpack_require__(107);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_request_uploadService_submitUpload__ = __webpack_require__(112);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_request_uploadService_uploadFileChunk__ = __webpack_require__(113);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_request_metadataService_copyMetadata__ = __webpack_require__(96);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_request_uploadService_createUpload__ = __webpack_require__(108);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_request_uploadService_itemIdUpload__ = __webpack_require__(109);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_request_uploadService_setFileName__ = __webpack_require__(112);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_request_uploadService_setTransferMode__ = __webpack_require__(114);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_request_uploadService_setAssetId__ = __webpack_require__(111);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_request_uploadService_setMetaSource__ = __webpack_require__(113);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_request_uploadService_setArchiveReplace__ = __webpack_require__(110);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_request_uploadService_submitUpload__ = __webpack_require__(115);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_request_uploadService_uploadFileChunk__ = __webpack_require__(116);
 
 
 
@@ -2627,10 +2627,12 @@ class DigiUploader {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_endpoint_config__ = __webpack_require__(77);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_endpoint_content__ = __webpack_require__(78);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_endpoint_download__ = __webpack_require__(79);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_endpoint_upload__ = __webpack_require__(81);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_endpoint_version__ = __webpack_require__(82);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_endpoint_metadata__ = __webpack_require__(80);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_utilities_helpers_url__ = __webpack_require__(116);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_endpoint_upload__ = __webpack_require__(82);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_endpoint_version__ = __webpack_require__(83);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_endpoint_metadata__ = __webpack_require__(81);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_endpoint_member__ = __webpack_require__(80);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_utilities_helpers_url__ = __webpack_require__(119);
+
 
 
 
@@ -2655,6 +2657,21 @@ class Connector {
 		}
 		
 		return this._authEndpoint;
+	}
+	
+	/**
+	 * Getter for the member endpoint
+	 * @returns {Member}
+	 */
+	get member() {
+		
+		if( !this._memberEndpoint ) {
+			this._memberEndpoint = new __WEBPACK_IMPORTED_MODULE_7_endpoint_member__["a" /* Member */]( {
+				apiUrl : this.apiUrl
+			} );
+		}
+		
+		return this._memberEndpoint;
 	}
 	
 	/**
@@ -2683,7 +2700,7 @@ class Connector {
 				apiUrl          : this.apiUrl,
 				metafieldLabelId: this.state.config.PortalMenu.metafieldLabelId,
 				sLayoutFolderId : this.state.config.MainSearchFolderId,
-				labels          : this.state.labels,
+				labelsPromise   : this.config.getAppLabels(),
 				sortTypes       : this.state.config.SortTypes,
 				defaultSortType : this.state.config.SortType
 			});
@@ -2774,13 +2791,14 @@ class Connector {
 			throw new Error( 'apiUrl is a required parameter' );
 		}
 		
-		this.apiUrl = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7_utilities_helpers_url__["a" /* ensureTrailingSeparator */])(args.apiUrl);
+		this.apiUrl = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_8_utilities_helpers_url__["a" /* ensureTrailingSeparator */])(args.apiUrl);
 		this.keepAliveInterval = args.keepAliveInterval || 60000;
 		
 		this.state = {
 			user : {},
 			config : {}
 		};
+		
 	}
 	
 	/**
@@ -2818,7 +2836,7 @@ class Connector {
 			return Promise.reject( new Error( 'password is a required parameter' ) );
 		}
 		
-		return this.auth.login({
+		const bootstrapPromise = this.auth.login({
 			username : args.username,
 			password : args.password
 		}).then((loginResponse)=>{
@@ -2828,16 +2846,18 @@ class Connector {
 				password : args.password
 			});
 		}).then(()=>{
-			return Promise.all([
-				this.config.getAppConfiguration(),
-				this.config.getAppLabels()
-			]);
-		}).then(([configResponse, labelsResponse])=> {
+			return this.config.getAppConfiguration();
+		}).then((configResponse)=> {
 			this.state.config = configResponse;
-			this.state.labels = labelsResponse;
 			return this;
 		});
 		
+		// We don't need this immediately, but we preload it for future use
+		bootstrapPromise.then(()=>{
+			this.config.getAppLabels();
+		});
+	
+		return bootstrapPromise;
 	}
 	
 	/**
@@ -2880,7 +2900,7 @@ class Connector {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__dateFilter__ = __webpack_require__(85);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__dateFilter__ = __webpack_require__(86);
 
 
 class AssetCreatedFilter extends __WEBPACK_IMPORTED_MODULE_0__dateFilter__["a" /* DateFilter */] {
@@ -2906,7 +2926,7 @@ class AssetCreatedFilter extends __WEBPACK_IMPORTED_MODULE_0__dateFilter__["a" /
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__stringFilter__ = __webpack_require__(86);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__stringFilter__ = __webpack_require__(87);
 
 
 class AssetNameFilter extends __WEBPACK_IMPORTED_MODULE_0__stringFilter__["a" /* StringFilter */] {
@@ -2931,7 +2951,7 @@ class AssetNameFilter extends __WEBPACK_IMPORTED_MODULE_0__stringFilter__["a" /*
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__arrayFilter__ = __webpack_require__(84);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__arrayFilter__ = __webpack_require__(85);
 
 
 class AssetTypeFilter extends __WEBPACK_IMPORTED_MODULE_0__arrayFilter__["a" /* ArrayFilter */] {
@@ -4147,8 +4167,8 @@ module.exports = g;
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_common_endpoint__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_request_connectService_login__ = __webpack_require__(90);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_request_connectService_keepAlive__ = __webpack_require__(89);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_request_connectService_login__ = __webpack_require__(92);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_request_connectService_keepAlive__ = __webpack_require__(91);
 
 
 
@@ -4207,8 +4227,8 @@ class Auth extends __WEBPACK_IMPORTED_MODULE_0_common_endpoint__["a" /* Endpoint
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_common_endpoint__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_request_searchService_appConfiguration__ = __webpack_require__(98);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_request_configService_appLabels__ = __webpack_require__(88);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_request_searchService_appConfiguration__ = __webpack_require__(101);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_request_configService_appLabels__ = __webpack_require__(90);
 
 
 
@@ -4222,6 +4242,8 @@ class Config extends __WEBPACK_IMPORTED_MODULE_0_common_endpoint__["a" /* Endpoi
 	 */
 	constructor( args = {}  ) {
 		super(args);
+		
+		this._cache = {};
 	}
 	
 	/**
@@ -4242,11 +4264,17 @@ class Config extends __WEBPACK_IMPORTED_MODULE_0_common_endpoint__["a" /* Endpoi
 	 * @returns {Promise}
 	 */
 	getAppLabels() {
-		const appConfigRequest = new __WEBPACK_IMPORTED_MODULE_2_request_configService_appLabels__["a" /* AppLabels */]({
-			apiUrl : this.apiUrl
-		});
 		
-		return appConfigRequest.execute();
+		if( !this._cache.labelsPromise ) {
+			
+			const appConfigRequest = new __WEBPACK_IMPORTED_MODULE_2_request_configService_appLabels__["a" /* AppLabels */]({
+				apiUrl : this.apiUrl
+			});
+			
+			this._cache.labelsPromise = appConfigRequest.execute();
+		}
+		
+		return this._cache.labelsPromise;
 	}
 	
 }
@@ -4259,9 +4287,9 @@ class Config extends __WEBPACK_IMPORTED_MODULE_0_common_endpoint__["a" /* Endpoi
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_common_endpoint__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_request_searchService_folders__ = __webpack_require__(104);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_request_searchService_filters__ = __webpack_require__(103);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_request_searchService_assets__ = __webpack_require__(100);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_request_searchService_folders__ = __webpack_require__(107);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_request_searchService_filters__ = __webpack_require__(106);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_request_searchService_assets__ = __webpack_require__(103);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_lodash_upperFirst__ = __webpack_require__(74);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_lodash_upperFirst___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_lodash_upperFirst__);
 
@@ -4300,9 +4328,14 @@ class Content extends __WEBPACK_IMPORTED_MODULE_0_common_endpoint__["a" /* Endpo
 		
 		this.metafieldLabelId = args.metafieldLabelId;
 		this.sLayoutFolderId = args.sLayoutFolderId;
-		this.labels = args.labels;
+		this.labelsPromise = args.labelsPromise;
+		this.labels = {};
 		this.rawSortTypes = args.sortTypes;
 		this.defaultSortType = __WEBPACK_IMPORTED_MODULE_4_lodash_upperFirst___default()(args.defaultSortType);
+		
+		this.labelsPromise.then((labels)=>{
+			this.labels = labels;
+		});
 		
 		this.cache  = {
 			total : {},
@@ -4351,17 +4384,22 @@ class Content extends __WEBPACK_IMPORTED_MODULE_0_common_endpoint__["a" /* Endpo
 			return Promise.resolve(this.cache.filters[searchName]);
 		}
 		
-		const filtersRequest = new __WEBPACK_IMPORTED_MODULE_2_request_searchService_filters__["a" /* Filters */]({
-			apiUrl : this.apiUrl,
-			labels : this.labels
-		});
-		
-		return filtersRequest.execute({
-			searchName
-		}).then( (response) => {
-			this.cache.filters[searchName] = response;
-			return response;
-		});
+		return this.labelsPromise
+			.then(()=>{
+				
+				const filtersRequest = new __WEBPACK_IMPORTED_MODULE_2_request_searchService_filters__["a" /* Filters */]({
+					apiUrl : this.apiUrl,
+					labels : this.labels
+				});
+
+				return filtersRequest.execute({
+					searchName
+				});
+				
+			}).then( (response) => {
+				this.cache.filters[searchName] = response;
+				return response;
+			});
 		
 	}
 	
@@ -4378,7 +4416,7 @@ class Content extends __WEBPACK_IMPORTED_MODULE_0_common_endpoint__["a" /* Endpo
 		const assetsRequest = new __WEBPACK_IMPORTED_MODULE_3_request_searchService_assets__["a" /* Assets */]({
 			apiUrl         : this.apiUrl,
 			sLayoutFolderId: this.sLayoutFolderId,
-			filters        : this.cache.filters[searchName],
+			// filters        : this.cache.filters[searchName],
 			sortTypes      : this.SORT_TYPES,
 			defaultSortType: this.defaultSortType
 		});
@@ -4427,7 +4465,7 @@ class Content extends __WEBPACK_IMPORTED_MODULE_0_common_endpoint__["a" /* Endpo
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_common_endpoint__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_request_memberService_downloadQualities__ = __webpack_require__(91);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_request_memberService_downloadQualities__ = __webpack_require__(93);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_const__ = __webpack_require__(13);
 
 
@@ -4593,12 +4631,62 @@ class Download extends __WEBPACK_IMPORTED_MODULE_0_common_endpoint__["a" /* Endp
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_common_endpoint__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_request_metadataService_metadataGroups__ = __webpack_require__(95);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_request_metadataService_metadataItems__ = __webpack_require__(96);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_request_metadataService_comboOptions__ = __webpack_require__(92);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_request_metadataService_treeOptions__ = __webpack_require__(97);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_request_metadataService_isUniqueVersion__ = __webpack_require__(94);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_request_batchUpdateService_batchUpdate__ = __webpack_require__(87);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_request_memberService_membersInformation__ = __webpack_require__(94);
+
+
+
+class Member extends __WEBPACK_IMPORTED_MODULE_0_common_endpoint__["a" /* Endpoint */] {
+	
+	/**
+	 * C-tor
+	 * @param {Object} args
+	 * @param {String} args.apiUrl - Full URL to the api end-point.
+	 */
+	constructor( args = {}  ) {
+		super(args);
+		
+		this._cache = {
+			member : {}
+		};
+	}
+	
+	/**
+	 *
+	 * @param {Object} args
+	 * @param {String|Number} args.memberId
+	 * @returns {Promise.<Member>}
+	 */
+	getMember( args ) {
+	
+		if( !this._cache.member[args.memberId] ) {
+			const membersInformationRequest = new __WEBPACK_IMPORTED_MODULE_1_request_memberService_membersInformation__["a" /* MembersInformation */]({
+				apiUrl: this.apiUrl
+			});
+			
+			this._cache.member[args.memberId] = membersInformationRequest.execute({
+				memberId: [args.memberId]
+			}).then(([member]) => member);
+		}
+		
+		return this._cache.member[args.memberId];
+	}
+	
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = Member;
+
+
+/***/ }),
+/* 81 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_common_endpoint__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_request_metadataService_metadataGroups__ = __webpack_require__(98);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_request_metadataService_metadataItems__ = __webpack_require__(99);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_request_metadataService_comboOptions__ = __webpack_require__(95);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_request_metadataService_treeOptions__ = __webpack_require__(100);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_request_metadataService_isUniqueVersion__ = __webpack_require__(97);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_request_batchUpdateService_batchUpdate__ = __webpack_require__(89);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_model_metadata_languageMetadataGroup__ = __webpack_require__(27);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_model_metadata_treeMetadataItem__ = __webpack_require__(17);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_model_metadata_comboValueMetadataItem__ = __webpack_require__(4);
@@ -4844,7 +4932,7 @@ class Metadata extends __WEBPACK_IMPORTED_MODULE_0_common_endpoint__["a" /* Endp
 
 
 /***/ }),
-/* 81 */
+/* 82 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4852,8 +4940,8 @@ class Metadata extends __WEBPACK_IMPORTED_MODULE_0_common_endpoint__["a" /* Endp
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_model_ticket_uploadTicket__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_model_asset__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_utilities_digizuite_digiUploader__ = __webpack_require__(43);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_request_searchService_assetsBasicInformation__ = __webpack_require__(101);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_request_searchService_assetsInformation__ = __webpack_require__(102);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_request_searchService_assetsBasicInformation__ = __webpack_require__(104);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_request_searchService_assetsInformation__ = __webpack_require__(105);
 
 
 
@@ -4896,7 +4984,7 @@ class Upload extends __WEBPACK_IMPORTED_MODULE_0_common_endpoint__["a" /* Endpoi
 		}
 		
 		return Promise.all(
-			args.files.map(thisFile => this._digiUpload.getUploadId({ file : thisFile } ))
+			args.files.map(thisFile => this._digiUpload.getUploadId({file: thisFile}))
 		).then((results) => {
 			return results.map((thisResult, index) => {
 				return new __WEBPACK_IMPORTED_MODULE_1_model_ticket_uploadTicket__["a" /* UploadTicket */]({
@@ -4906,6 +4994,7 @@ class Upload extends __WEBPACK_IMPORTED_MODULE_0_common_endpoint__["a" /* Endpoi
 				});
 			});
 		});
+		
 	}
 	
 	/**
@@ -5088,7 +5177,7 @@ class Upload extends __WEBPACK_IMPORTED_MODULE_0_common_endpoint__["a" /* Endpoi
 
 
 /***/ }),
-/* 82 */
+/* 83 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5098,7 +5187,7 @@ class Upload extends __WEBPACK_IMPORTED_MODULE_0_common_endpoint__["a" /* Endpoi
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_utilities_digizuite_digiUploader__ = __webpack_require__(43);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_model_asset__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_model_assetVersion__ = __webpack_require__(42);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_request_searchService_assetVersions__ = __webpack_require__(99);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_request_searchService_assetVersions__ = __webpack_require__(102);
 
 
 
@@ -5139,6 +5228,7 @@ class Version extends __WEBPACK_IMPORTED_MODULE_0_common_endpoint__["a" /* Endpo
 					asset   : args.asset
 				});
 			});
+			
 	}
 	
 	/**
@@ -5169,6 +5259,7 @@ class Version extends __WEBPACK_IMPORTED_MODULE_0_common_endpoint__["a" /* Endpo
 				asset   : args.asset
 			});
 		});
+		
 	}
 	
 	/**
@@ -5233,7 +5324,7 @@ class Version extends __WEBPACK_IMPORTED_MODULE_0_common_endpoint__["a" /* Endpo
 
 
 /***/ }),
-/* 83 */
+/* 84 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5325,7 +5416,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /***/ }),
-/* 84 */
+/* 85 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5364,7 +5455,7 @@ class ArrayFilter extends __WEBPACK_IMPORTED_MODULE_0__filter__["a" /* Filter */
 
 
 /***/ }),
-/* 85 */
+/* 86 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5428,7 +5519,7 @@ class DateFilter extends __WEBPACK_IMPORTED_MODULE_0__filter__["a" /* Filter */]
 
 
 /***/ }),
-/* 86 */
+/* 87 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5466,12 +5557,53 @@ class StringFilter extends __WEBPACK_IMPORTED_MODULE_0__filter__["a" /* Filter *
 
 
 /***/ }),
-/* 87 */
+/* 88 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+class Member {
+	
+	/**
+	 * C-tor
+	 * @param args
+	 */
+	constructor( args = {} ) {
+		this.id = args.id;
+		this._roles = args.roles;
+	}
+	
+	/**
+	 * Create an instance from an API response
+	 * @param args
+	 * @returns {Member}
+	 */
+	static createFromAPIResponse( args = {} ) {
+		const member = new Member();
+		member.setValueFromAPI(args);
+		return member;
+	}
+	/**
+	 * Populates an asset from with the API values
+	 * @param args
+	 */
+	setValueFromAPI( args = {} ) {
+	
+		this.id = parseInt( args.memberItemId, 10 );
+		this._roles = args.roles;
+	
+	}
+	
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = Member;
+
+
+/***/ }),
+/* 89 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_common_request__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_utilities_digizuite_updateBatch__ = __webpack_require__(114);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_utilities_digizuite_updateBatch__ = __webpack_require__(117);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_model_metadata_dateTimeMetadataItem__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_model_metadata_metadataItem__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_const__ = __webpack_require__(13);
@@ -5602,7 +5734,7 @@ class BatchUpdate extends __WEBPACK_IMPORTED_MODULE_0_common_request__["a" /* Ba
 
 
 /***/ }),
-/* 88 */
+/* 90 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5655,7 +5787,7 @@ class AppLabels extends __WEBPACK_IMPORTED_MODULE_0_common_request__["a" /* Base
 
 
 /***/ }),
-/* 89 */
+/* 91 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5690,7 +5822,7 @@ class KeepAlive extends __WEBPACK_IMPORTED_MODULE_0_common_request__["a" /* Base
 
 
 /***/ }),
-/* 90 */
+/* 92 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5764,7 +5896,7 @@ class Login extends __WEBPACK_IMPORTED_MODULE_0_common_request__["a" /* BaseRequ
 
 
 /***/ }),
-/* 91 */
+/* 93 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5808,7 +5940,69 @@ class DownloadQualities extends __WEBPACK_IMPORTED_MODULE_0_common_request__["a"
 
 
 /***/ }),
-/* 92 */
+/* 94 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_common_request__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_model_member__ = __webpack_require__(88);
+
+
+
+class MembersInformation extends __WEBPACK_IMPORTED_MODULE_0_common_request__["a" /* BaseRequest */] {
+	
+	/**
+	 * Endpoint URL
+	 * @returns {string}
+	 */
+	get endpointUrl() {
+		return `${this.apiUrl}SearchService.js`;
+	}
+	
+	
+	/**
+	 * default params
+	 * @returns {{method: string}}
+	 */
+	get defaultPayload() {
+		return {
+			// Parameters required by DigiZuite - these should never be changed
+			// when executing the request!
+			SearchName: 'DigiZuite_System_MemberSearch',
+			page      : 1,
+			limit     : 999,
+			memberid  : null
+		};
+	}
+	
+	/**
+	 * Pass-through
+	 * @param {Object} payload
+	 * @returns {Object}
+	 */
+	processRequestData(payload = {}) {
+		
+		payload.memberid = payload.memberId;
+		payload.memberId = undefined;
+		
+		return payload;
+	}
+	
+	/**
+	 * Process response
+	 * @param response
+	 */
+	processResponseData(response) {
+		// We are only interested in the items
+		return response.items.map( thisMember => __WEBPACK_IMPORTED_MODULE_1_model_member__["a" /* Member */].createFromAPIResponse(thisMember));;
+	}
+	
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = MembersInformation;
+
+
+/***/ }),
+/* 95 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5893,7 +6087,7 @@ class ComboOptions extends __WEBPACK_IMPORTED_MODULE_0_common_request__["a" /* B
 
 
 /***/ }),
-/* 93 */
+/* 96 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5942,8 +6136,8 @@ class CopyMetadata extends __WEBPACK_IMPORTED_MODULE_0_common_request__["a" /* B
 	 */
 	processRequestData(payload = {}) {
 		
-		payload.sourceItemId = payload.ticket.version.id;
-		payload.targetItemId = payload.ticket.asset.id;
+		payload.sourceItemId = payload.ticket.asset.id;
+		payload.targetItemId = payload.ticket.itemId;
 		
 		payload.ticket = undefined;
 		
@@ -5962,7 +6156,7 @@ class CopyMetadata extends __WEBPACK_IMPORTED_MODULE_0_common_request__["a" /* B
 
 
 /***/ }),
-/* 94 */
+/* 97 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6039,7 +6233,7 @@ class IsUniqueVersion extends __WEBPACK_IMPORTED_MODULE_0_common_request__["a" /
 
 
 /***/ }),
-/* 95 */
+/* 98 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6130,7 +6324,7 @@ class MetadataGroups extends __WEBPACK_IMPORTED_MODULE_0_common_request__["a" /*
 
 
 /***/ }),
-/* 96 */
+/* 99 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6295,7 +6489,7 @@ class MetadataItems extends __WEBPACK_IMPORTED_MODULE_0_common_request__["a" /* 
 
 
 /***/ }),
-/* 97 */
+/* 100 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6388,7 +6582,7 @@ class TreeOptions extends __WEBPACK_IMPORTED_MODULE_0_common_request__["a" /* Ba
 
 
 /***/ }),
-/* 98 */
+/* 101 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6452,7 +6646,7 @@ class AppConfiguration extends __WEBPACK_IMPORTED_MODULE_0_common_request__["a" 
 
 
 /***/ }),
-/* 99 */
+/* 102 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6531,7 +6725,7 @@ class AssetVersions extends __WEBPACK_IMPORTED_MODULE_0_common_request__["a" /* 
 
 
 /***/ }),
-/* 100 */
+/* 103 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6673,7 +6867,7 @@ class Assets extends __WEBPACK_IMPORTED_MODULE_0_common_request__["a" /* BaseReq
 
 
 /***/ }),
-/* 101 */
+/* 104 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6744,7 +6938,7 @@ class AssetsBasicInformation extends __WEBPACK_IMPORTED_MODULE_0_common_request_
 
 
 /***/ }),
-/* 102 */
+/* 105 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6815,7 +7009,7 @@ class AssetsInformation extends __WEBPACK_IMPORTED_MODULE_0_common_request__["a"
 
 
 /***/ }),
-/* 103 */
+/* 106 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6885,7 +7079,7 @@ class Filters extends __WEBPACK_IMPORTED_MODULE_0_common_request__["a" /* BaseRe
 
 
 /***/ }),
-/* 104 */
+/* 107 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6965,7 +7159,7 @@ class Folders extends __WEBPACK_IMPORTED_MODULE_0_common_request__["a" /* BaseRe
 
 
 /***/ }),
-/* 105 */
+/* 108 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7053,7 +7247,7 @@ class CreateUpload extends __WEBPACK_IMPORTED_MODULE_0_common_request__["a" /* B
 
 
 /***/ }),
-/* 106 */
+/* 109 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7119,7 +7313,7 @@ class ItemIdUpload extends __WEBPACK_IMPORTED_MODULE_0_common_request__["a" /* B
 
 
 /***/ }),
-/* 107 */
+/* 110 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7185,7 +7379,7 @@ class SetArchiveReplace extends __WEBPACK_IMPORTED_MODULE_0_common_request__["a"
 
 
 /***/ }),
-/* 108 */
+/* 111 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7260,7 +7454,7 @@ class SetAssetId extends __WEBPACK_IMPORTED_MODULE_0_common_request__["a" /* Bas
 
 
 /***/ }),
-/* 109 */
+/* 112 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7336,7 +7530,7 @@ class SetFileName extends __WEBPACK_IMPORTED_MODULE_0_common_request__["a" /* Ba
 
 
 /***/ }),
-/* 110 */
+/* 113 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7414,7 +7608,7 @@ class SetMetaSource extends __WEBPACK_IMPORTED_MODULE_0_common_request__["a" /* 
 
 
 /***/ }),
-/* 111 */
+/* 114 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7506,7 +7700,7 @@ class SetTransferMode extends __WEBPACK_IMPORTED_MODULE_0_common_request__["a" /
 
 
 /***/ }),
-/* 112 */
+/* 115 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7571,7 +7765,7 @@ class SubmitUpload extends __WEBPACK_IMPORTED_MODULE_0_common_request__["a" /* B
 
 
 /***/ }),
-/* 113 */
+/* 116 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7790,13 +7984,13 @@ class UploadFileChunk extends __WEBPACK_IMPORTED_MODULE_0_common_request__["a" /
 
 
 /***/ }),
-/* 114 */
+/* 117 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_uniqueId__ = __webpack_require__(73);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash_uniqueId___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash_uniqueId__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_utilities_helpers_array__ = __webpack_require__(115);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_utilities_helpers_array__ = __webpack_require__(118);
 /**
  * Dear future developer,
  *
@@ -8032,7 +8226,7 @@ class UpdateBatch {
 
 
 /***/ }),
-/* 115 */
+/* 118 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8053,7 +8247,7 @@ const toArray = ( value ) => {
 
 
 /***/ }),
-/* 116 */
+/* 119 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
