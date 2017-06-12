@@ -12,7 +12,6 @@ export class AssetVersion {
 		this.thumbnail                                      = args.thumbnail;
 		this._sourceLocation                                = args.sourceLocation;
 		this.isCurrentVersion                               = !!args.isCurrentVersion;
-		this.__assetId__DO_NOT_USE_THIS_OR_KITTENS_WILL_DIE = null;
 		
 	}
 	
@@ -46,8 +45,6 @@ export class AssetVersion {
 			this.thumbnail = args.thumb.indexOf('?mptdid=0') === -1 ? args.thumb : '';
 		}
 		
-		// for legacy reason we still need this
-		this.__assetId__DO_NOT_USE_THIS_OR_KITTENS_WILL_DIE = parseInt(args.assetId, 10);
 	}
 	
 	/**
