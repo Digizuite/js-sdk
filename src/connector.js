@@ -5,7 +5,6 @@ import {Download} from 'endpoint/download';
 import {Upload} from 'endpoint/upload';
 import {Version} from 'endpoint/version';
 import {Metadata} from 'endpoint/metadata';
-import {Member} from 'endpoint/member';
 import {ensureTrailingSeparator} from 'utilities/helpers/url';
 
 export class Connector {
@@ -23,21 +22,6 @@ export class Connector {
 		}
 		
 		return this._authEndpoint;
-	}
-	
-	/**
-	 * Getter for the member endpoint
-	 * @returns {Member}
-	 */
-	get member() {
-		
-		if( !this._memberEndpoint ) {
-			this._memberEndpoint = new Member( {
-				apiUrl : this.apiUrl
-			} );
-		}
-		
-		return this._memberEndpoint;
 	}
 	
 	/**
@@ -105,6 +89,8 @@ export class Connector {
 		if( !this._uploadEndpoint ) {
 			this._uploadEndpoint = new Upload( {
 				apiUrl : this.apiUrl,
+				//TODO: un-hard-code this when we get a dam version
+				apiVersion : '4.7.1',
 				computerName : this.state.config.UploadName
 			} );
 		}
@@ -121,6 +107,8 @@ export class Connector {
 		if( !this._versionEndpoint ) {
 			this._versionEndpoint = new Version( {
 				apiUrl : this.apiUrl,
+				//TODO: un-hard-code this when we get a dam version
+				apiVersion : '4.7.1',
 				computerName : this.state.config.UploadName
 			} );
 		}
