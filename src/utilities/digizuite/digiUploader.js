@@ -144,7 +144,7 @@ export class DigiUploader {
 			
 			// In DAM 4.8.0 or earlier, itemId was set to 0.
 			// Which required an additional request to be made
-			if( createUploadResult.itemId && false ) {
+			if( createUploadResult.itemId ) {
 				return createUploadResult;
 			} else {
 				return this._getUploadIdsFromUploadId( createUploadResult.uploadId );
