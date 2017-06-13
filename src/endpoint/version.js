@@ -29,7 +29,7 @@ export class Version extends Endpoint {
 			throw new Error('Replace expect an asset as parameter');
 		}
 		
-		return this._digiUpload.getUploadId({ file : args.file })
+		return this._digiUpload.getUploadIds({ file : args.file })
 			.then((result) => {
 				return new ReplaceTicket({
 					uploadId: result.uploadId,
@@ -58,7 +58,7 @@ export class Version extends Endpoint {
 			throw new Error('Restore expect an asset version as parameter');
 		}
 		
-		return this._digiUpload.getUploadId({
+		return this._digiUpload.getUploadIds({
 			filename: args.version.getFilename(),
 			name    : args.asset.name
 		}).then((result) => {

@@ -126,18 +126,13 @@ export class DigiUploader {
 	 * @param {File} [args.file]
 	 * @param {String} [args.filename]
 	 * @param {String} [args.name]
+	 * @returns {Promise.<Object>}
 	 */
-	getUploadId( args = {} ) {
+	getUploadIds( args = {} ) {
 		
 		const createUploadRequest = new CreateUpload({
 			apiUrl: this.apiUrl
 		});
-		
-		const itemIdUploadRequest = new ItemIdUpload({
-			apiUrl: this.apiUrl
-		});
-		
-		let uploadId;
 		
 		// Create an upload request
 		return createUploadRequest.execute({
@@ -145,15 +140,37 @@ export class DigiUploader {
 			file        : args.file,
 			filename    : args.filename,
 			name        : args.name
-		}).then(result => {
+		}).then( createUploadResult => {
 			
-			uploadId = result.uploadId;
+			// In DAM 4.8.0 or earlier, itemId was set to 0.
+			// Which required an additional request to be made
+			if( createUploadResult.itemId && false ) {
+				return createUploadResult;
+			} else {
+				return this._getUploadIdsFromUploadId( createUploadResult.uploadId );
+			}
 			
-			return itemIdUploadRequest.execute({uploadId});
-			
-		}).then(({itemId}) => {
-			return {itemId, uploadId};
 		});
+	}
+	
+	/**
+	 * Returns itemId and uploadID from an uploadId
+	 * @param uploadId
+	 * @returns {Promise.<Object>}
+	 * @private
+	 */
+	_getUploadIdsFromUploadId( uploadId ) {
+		
+		const itemIdUploadRequest = new ItemIdUpload({
+			apiUrl: this.apiUrl
+		});
+		
+		return itemIdUploadRequest.execute({
+			uploadId: uploadId
+		}).then( ({itemId}) => {
+			return { itemId,  uploadId };
+		});
+		
 	}
 	
 }
