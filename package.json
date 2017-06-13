@@ -33,7 +33,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://sf-digizuite@bitbucket.org/digizuite/js-sdk.git"
+    "url": "https://bitbucket.org/digizuite/js-sdk.git"
   },
   "author": "Digizuite A/S",
   "license": "MIT",
