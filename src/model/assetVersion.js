@@ -1,10 +1,14 @@
-export class AssetVersion {
+import {Model} from 'common/model';
+
+export class AssetVersion extends Model {
 	
 	/**
 	 * C-tor
 	 * @param args
 	 */
 	constructor(args = {}) {
+		
+		super(args);
 		
 		this.id                                             = args.id;
 		this.type                                           = args.type;
@@ -13,17 +17,6 @@ export class AssetVersion {
 		this._sourceLocation                                = args.sourceLocation;
 		this.isCurrentVersion                               = !!args.isCurrentVersion;
 		
-	}
-	
-	/**
-	 * Create an instance from an API response
-	 * @param args
-	 * @returns {AssetVersion}
-	 */
-	static createFromAPIResponse(args = {}) {
-		const asset = new AssetVersion();
-		asset.setValueFromAPI(args);
-		return asset;
 	}
 	
 	/**

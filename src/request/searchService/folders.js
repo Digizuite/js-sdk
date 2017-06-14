@@ -1,4 +1,5 @@
 import {BaseRequest} from 'common/request';
+import {Folder} from 'model/folder';
 import {getItemIdFromIdPath} from 'utilities/helpers/treePath';
 
 export class Folders extends BaseRequest {
@@ -49,7 +50,7 @@ export class Folders extends BaseRequest {
 	 */
 	processResponseData(response) {
 		// We are only interested in the items
-		return response.items.map(this._processFolderResult);
+		return response.items.map( thisFolder => Folder.createFromAPIResponse(thisFolder) );
 	}
 	
 	/**
@@ -60,10 +61,7 @@ export class Folders extends BaseRequest {
 	 */
 	_processFolderResult(thisFolder) {
 		return {
-			path       : thisFolder.idPath,
-			name       : thisFolder.text,
-			hasChildren: parseInt(thisFolder.Children, 10) > 0,
-			writable   : parseInt(thisFolder.writeaccess, 10) === 1
+		
 		};
 	}
 	
