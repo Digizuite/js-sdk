@@ -11,8 +11,14 @@ import {SetMetaSource} from 'request/uploadService/setMetaSource';
 import {SetArchiveReplace} from 'request/uploadService/setArchiveReplace';
 import {SubmitUpload} from 'request/uploadService/submitUpload';
 import {UploadFileChunk} from 'request/uploadService/uploadFileChunk';
+import {FinishUpload} from 'request/uploadService/finishUpload';
+import {greaterOrEqualThan} from 'utilities/damVersionCompare';
 
 export class DigiUploader {
+	
+	get SUPPORTS_FAST_FINISH_UPLOAD() {
+		return greaterOrEqualThan(this.apiVersion, '4.7.1');
+	}
 	
 	/**
 	 * C-tor
@@ -22,6 +28,7 @@ export class DigiUploader {
 	constructor(args = {}) {
 		this.computerName = args.computerName;
 		this.apiUrl = args.apiUrl;
+		this.apiVersion = args.apiVersion;
 	}
 	
 	/**
@@ -43,11 +50,53 @@ export class DigiUploader {
 	}
 	
 	/**
-	 * Finishes an upload
+	 * Finishes an upload.
+	 * Determines which version of finish upload to use based on DAM version
 	 * @param {UploadTicket|ReplaceTicket} ticket
 	 */
 	finishUpload(ticket) {
 		
+		return this.SUPPORTS_FAST_FINISH_UPLOAD ?
+			this._finishUploadFast(ticket) :
+			this._finishUploadSlow(ticket);
+	
+	}
+	
+	
+	/**
+	 * Finishes an upload, the fast way.
+	 * @param {UploadTicket|ReplaceTicket} ticket
+	 */
+	_finishUploadFast( ticket ) {
+		
+		let preFinishPromise;
+		
+		// When restoring an asset, we also need to restore its metadata
+		if( ticket instanceof RestoreTicket ) {
+			const copyMetadataRequest = new CopyMetadata({
+				apiUrl: this.apiUrl
+			});
+			
+			preFinishPromise = copyMetadataRequest.execute({ ticket });
+		} else {
+			preFinishPromise = Promise.resolve();
+		}
+		
+		const setFinishUploadRequest = new FinishUpload({
+			apiUrl: this.apiUrl
+		});
+		
+		// No one knows copyMetadata needs to be ran or not before submitting the upload.
+		// Historically speaking, it was used before, but again, no one knows!!
+		// Let's just play it safe...
+		return preFinishPromise.then(()=> setFinishUploadRequest.execute({ ticket }));
+	}
+	
+	/**
+	 * Finishes an upload, the slow way.
+	 * @param {UploadTicket|ReplaceTicket} ticket
+	 */
+	_finishUploadSlow(ticket) {
 		const setFileNameRequest = new SetFileName({
 			apiUrl: this.apiUrl
 		});
@@ -79,7 +128,7 @@ export class DigiUploader {
 			const setArchiveReplaceRequest = new SetArchiveReplace({
 				apiUrl: this.apiUrl
 			});
-			
+			debugger;
 			requests.push(
 				setAssetIdRequest.execute({ ticket })
 			);
