@@ -1,5 +1,4 @@
 import {BaseRequest} from 'common/request';
-import {ComboOption} from 'model/metadata/comboOption';
 
 export class IsUniqueVersion extends BaseRequest {
 	

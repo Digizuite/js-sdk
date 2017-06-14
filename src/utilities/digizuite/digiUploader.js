@@ -128,7 +128,7 @@ export class DigiUploader {
 			const setArchiveReplaceRequest = new SetArchiveReplace({
 				apiUrl: this.apiUrl
 			});
-			debugger;
+			
 			requests.push(
 				setAssetIdRequest.execute({ ticket })
 			);
