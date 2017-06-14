@@ -61,13 +61,12 @@ export class FinishUpload extends BaseRequest {
 		}
 		
 		// Asset ID
-		payload.assetId = payload.ticket.asset.__assetId__DO_NOT_USE_THIS_OR_KITTENS_WILL_DIE;
-		
-		// if( payload.ticket instanceof RestoreTicket ) {
-		// 	payload.assetId = payload.ticket.version.id;
-		// } else if( payload.ticket instanceof ReplaceTicket ) {
-		// 	payload.assetId = payload.ticket.asset.__assetId__DO_NOT_USE_THIS_OR_KITTENS_WILL_DIE;
-		// }
+		if(
+			(payload.ticket instanceof RestoreTicket) ||
+			(payload.ticket instanceof ReplaceTicket)
+		) {
+			payload.assetId = payload.ticket.asset.__assetId__DO_NOT_USE_THIS_OR_KITTENS_WILL_DIE;
+		}
 		
 		// Unset the ticket
 		payload.ticket = undefined;
