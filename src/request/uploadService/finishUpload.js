@@ -1,6 +1,8 @@
 import {BaseRequest} from 'common/request';
+import {SetTransferMode} from './setTransferMode';
 import {ReplaceTicket} from 'model/ticket/replaceTicket';
 import {RestoreTicket} from 'model/ticket/restoreTicket';
+import {CloudFile} from 'model/cloudFile';
 
 export class FinishUpload extends BaseRequest {
 	
@@ -33,6 +35,7 @@ export class FinishUpload extends BaseRequest {
 			fileName      : null,
 			progChainId   : null,
 			extraJobParams: null,
+			transferMode  : null,
 		};
 	}
 	
@@ -58,8 +61,17 @@ export class FinishUpload extends BaseRequest {
 		// File name
 		if( payload.ticket instanceof RestoreTicket) {
 			payload.fileName = payload.ticket.version.getSourceLocation();
-		} else {
+		} else if( !(payload.ticket.file instanceof CloudFile) ) {
 			payload.fileName = payload.ticket.file.name;
+		}
+		
+		// Transfer Mode
+		if( payload.ticket instanceof RestoreTicket ) {
+			payload.transferMode = SetTransferMode.TRANSFER_MODE.DIRECT_COPY;
+		} else if( payload.ticket.file instanceof CloudFile ) {
+			payload.transferMode = SetTransferMode.TRANSFER_MODE.HTTP_DOWNLOAD;
+		} else {
+			payload.transferMode = SetTransferMode.TRANSFER_MODE.UNC;
 		}
 		
 		// Asset ID

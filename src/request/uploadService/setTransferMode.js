@@ -1,5 +1,6 @@
 import {BaseRequest} from 'common/request';
 import {RestoreTicket} from 'model/ticket/restoreTicket';
+import {CloudFile} from 'model/cloudFile';
 
 export class SetTransferMode extends BaseRequest {
 	
@@ -60,6 +61,8 @@ export class SetTransferMode extends BaseRequest {
 		
 		if( payload.ticket instanceof RestoreTicket) {
 			payload.transferMode = SetTransferMode.TRANSFER_MODE.DIRECT_COPY;
+		} else if( payload.ticket.file instanceof CloudFile ) {
+			payload.transferMode = SetTransferMode.TRANSFER_MODE.HTTP_DOWNLOAD;
 		} else {
 			payload.transferMode = SetTransferMode.TRANSFER_MODE.UNC;
 		}
