@@ -25,10 +25,10 @@ export class SubmitUpload extends BaseRequest {
 	 */
 	get defaultPayload() {
 		return {
-			// Parameters required by DigiZuite - these should never be changed
-			// when executing the request!
-			method  : 'SubmitUpload',
-			UploadID: null
+			method        : null,
+			UploadID      : null,
+			progChainId   : null,
+			extraJobParams: null,
 		};
 	}
 	
@@ -39,9 +39,20 @@ export class SubmitUpload extends BaseRequest {
 	 */
 	processRequestData(payload = {}) {
 		
-		// UploadID
-		payload.UploadID = payload.uploadId;
-		payload.uploadId = undefined;
+		// Submit method
+		payload.method = payload.ticket.isExtendedJob() ? 'SubmitUploadExtendet' : 'SubmitUpload';
+		
+		// uploadID
+		payload.UploadID = payload.ticket.uploadId;
+		
+		// Extra job
+		if( payload.ticket.isExtendedJob() ) {
+			const extraParams = payload.ticket.getExtendedJobParameters();
+			Object.keys(extraParams)
+				.forEach( thisKey => payload[thisKey] = extraParams[thisKey] );
+		}
+		
+		payload.ticket = undefined;
 		
 		return payload;
 	}

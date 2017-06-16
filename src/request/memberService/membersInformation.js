@@ -11,10 +11,9 @@ export class MembersInformation extends BaseRequest {
 		return `${this.apiUrl}SearchService.js`;
 	}
 	
-	
 	/**
-	 * default params
-	 * @returns {{method: string}}
+	 *
+	 * @returns {{SearchName: string, page: number, limit: number, memberid: null}}
 	 */
 	get defaultPayload() {
 		return {
@@ -46,7 +45,7 @@ export class MembersInformation extends BaseRequest {
 	 */
 	processResponseData(response) {
 		// We are only interested in the items
-		return response.items.map( thisMember => Member.createFromAPIResponse(thisMember));;
+		return response.items.map( thisMember => Member.createFromAPIResponse(thisMember));
 	}
 	
 }

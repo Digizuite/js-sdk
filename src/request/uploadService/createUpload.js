@@ -1,4 +1,5 @@
 import {BaseRequest} from 'common/request';
+import {CloudFile} from 'model/cloudFile';
 
 export class CreateUpload extends BaseRequest {
 	
@@ -52,7 +53,8 @@ export class CreateUpload extends BaseRequest {
 			
 			
 			if( !payload.filename ) {
-				payload.filename = payload.file.name;
+				payload.filename =  payload.file instanceof CloudFile ?
+					payload.file.location : payload.file.name;
 			}
 			
 			if( !payload.name ) {

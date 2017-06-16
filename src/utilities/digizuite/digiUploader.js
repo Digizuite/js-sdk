@@ -1,6 +1,7 @@
 import {UploadTicket} from 'model/ticket/uploadTicket';
 import {ReplaceTicket} from 'model/ticket/replaceTicket';
 import {RestoreTicket} from 'model/ticket/restoreTicket';
+import {CloudFile} from 'model/cloudFile';
 import {CopyMetadata} from 'request/metadataService/copyMetadata';
 import {CreateUpload} from 'request/uploadService/createUpload';
 import {ItemIdUpload} from 'request/uploadService/itemIdUpload';
@@ -82,14 +83,14 @@ export class DigiUploader {
 			preFinishPromise = Promise.resolve();
 		}
 		
-		const setFinishUploadRequest = new FinishUpload({
+		const finishUploadRequest = new FinishUpload({
 			apiUrl: this.apiUrl
 		});
 		
 		// No one knows copyMetadata needs to be ran or not before submitting the upload.
 		// Historically speaking, it was used before, but again, no one knows!!
 		// Let's just play it safe...
-		return preFinishPromise.then(()=> setFinishUploadRequest.execute({ ticket }));
+		return preFinishPromise.then(()=> finishUploadRequest.execute({ ticket }));
 	}
 	
 	/**
@@ -97,9 +98,6 @@ export class DigiUploader {
 	 * @param {UploadTicket|ReplaceTicket} ticket
 	 */
 	_finishUploadSlow(ticket) {
-		const setFileNameRequest = new SetFileName({
-			apiUrl: this.apiUrl
-		});
 		
 		const setTransferModeRequest = new SetTransferMode({
 			apiUrl: this.apiUrl
@@ -111,9 +109,21 @@ export class DigiUploader {
 		
 		// Valid for all uploads
 		const requests = [
-			setFileNameRequest.execute({ ticket }),
 			setTransferModeRequest.execute({ ticket })
 		];
+		
+		// Set file name should be done for all except Cloud Files
+		if( !(ticket.file instanceof CloudFile) ) {
+			
+			const setFileNameRequest = new SetFileName({
+				apiUrl: this.apiUrl
+			});
+			
+			requests.push(
+				setFileNameRequest.execute({ ticket })
+			);
+			
+		}
 		
 		// Common for restore or replace
 		if(
@@ -128,7 +138,7 @@ export class DigiUploader {
 			const setArchiveReplaceRequest = new SetArchiveReplace({
 				apiUrl: this.apiUrl
 			});
-			debugger;
+			
 			requests.push(
 				setAssetIdRequest.execute({ ticket })
 			);
@@ -165,7 +175,7 @@ export class DigiUploader {
 		
 		// Submit!
 		return Promise.all(requests).then(() => {
-			return submitUploadRequest.execute({uploadId: ticket.uploadId});
+			return submitUploadRequest.execute({ ticket });
 		});
 	}
 	

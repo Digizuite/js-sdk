@@ -1,6 +1,7 @@
 import fecha from 'fecha';
+import {Model} from 'common/model';
 
-export class Asset {
+export class Asset extends Model {
 	
 	static get DATETIME_FORMAT() {
 		return 'YYYY-MM-DDTHH:mm:ss.SSS';
@@ -16,6 +17,8 @@ export class Asset {
 	 */
 	constructor( args = {} ) {
 		
+		super(args);
+		
 		this.id = args.id;
 		this.name = args.name;
 		this.type = args.type;
@@ -24,17 +27,6 @@ export class Asset {
 		this.lastEditedDate = null;
 		this.__assetId__DO_NOT_USE_THIS_OR_KITTENS_WILL_DIE = null;
 		
-	}
-	
-	/**
-	 * Create an instance from an API response
-	 * @param args
-	 * @returns {Asset}
-	 */
-	static createFromAPIResponse( args = {} ) {
-		const asset = new Asset();
-		asset.setValueFromAPI(args);
-		return asset;
 	}
 	
 	/**

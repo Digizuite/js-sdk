@@ -1,6 +1,7 @@
 import {Endpoint} from 'common/endpoint';
 import {UploadTicket} from 'model/ticket/uploadTicket';
 import {Asset} from 'model/asset';
+import {CloudFile} from 'model/cloudFile';
 import {DigiUploader} from 'utilities/digizuite/digiUploader';
 import {AssetsBasicInformation} from 'request/searchService/assetsBasicInformation';
 import {AssetsInformation} from 'request/searchService/assetsInformation';
@@ -30,7 +31,7 @@ export class Upload extends Endpoint {
 	/**
 	 * Returns a promise that resolves to an array of upload tickets
 	 * @param args
-	 * @param {File[]} args.files
+	 * @param {File|CloudFile[]} args.files
 	 * @returns {Promise.<UploadTicket[]>}
 	 */
 	requestUploadTickets(args = {}) {
@@ -40,7 +41,7 @@ export class Upload extends Endpoint {
 		}
 		
 		return Promise.all(
-			args.files.map(thisFile => this._digiUpload.getUploadIds({file: thisFile}))
+			args.files.map( thisFile => this._digiUpload.getUploadIds({ file : thisFile }) )
 		).then((results) => {
 			return results.map((thisResult, index) => {
 				return new UploadTicket({
@@ -66,17 +67,29 @@ export class Upload extends Endpoint {
 		}
 		
 		return Promise.all(
-			args.tickets.map(thisTicket => {
-				return this._digiUpload.uploadFile(thisTicket)
-					.then(() => this._digiUpload.finishUpload(thisTicket))
-					.then(() => {
-						return new Asset({
-							id  : thisTicket.itemId,
-							name: thisTicket.file.name.substr(0, thisTicket.file.name.lastIndexOf('.'))
-						});
-					});
-			})
+			args.tickets.map( thisTicket => this._uploadAssetByTicket(thisTicket) )
 		);
+	}
+	
+	/**
+	 * Uploads an asset from a ticket
+	 * @param {UploadTicket} ticket
+	 * @returns {Promise.<Asset[]>}
+	 */
+	_uploadAssetByTicket( ticket ) {
+		// CloudFile does not need to be transferred/uploaded to the server.
+		// DAM Center will download it.
+		const transferFilePromise = ticket.file instanceof CloudFile ?
+			Promise.resolve() : this._digiUpload.uploadFile(ticket);
+		
+		return transferFilePromise
+			.then(() => this._digiUpload.finishUpload(ticket))
+			.then(() => {
+				return new Asset({
+					id  : ticket.itemId,
+					name: ticket.file.name.substr(0, ticket.file.name.lastIndexOf('.'))
+				});
+			});
 	}
 	
 	/**

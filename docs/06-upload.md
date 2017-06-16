@@ -4,6 +4,8 @@
 
 First step in uploading an asset is requesting an upload ticket.
 
+### Requesting an upload ticket for a local file
+
 ```js
  document.querySelector('#fileUpload').addEventListener('change', (event)=>{
     instance.upload.requestUploadTickets({
@@ -13,6 +15,24 @@ First step in uploading an asset is requesting an upload ticket.
     });
 });
 ```
+
+### Requesting an upload ticket for a remote file
+
+```js
+const file = new Digizuite.CloudFile({
+    name : 'SAMPLE_DB.mp4',
+    location : 'https://dl.dropboxusercontent.com/1/view/rhl0cqjxiwilosf/SAMPLE_DB.mp4',
+    size : 1055736
+});
+
+instance.upload.requestUploadTickets({
+     files : [ file ]
+}).then((tickets) => {
+    console.log( "Got upload tickets", tickets );    
+});
+```
+The parameter ```name``` is optional. If not provided, it will default to the name of the file from the provided location.
+
 
 ## Upload the asset
 
@@ -101,4 +121,29 @@ document.querySelector('#fileUpload').addEventListener('change', (event)=>{
 
     });
 });
+```
+
+## Upload assets from cloud (advanced)
+
+When uploading an asset from cloud, you will need to provide an array of CloudFile
+when  requesting the upload ticket.
+
+```js
+instance.upload.requestUploadTickets({
+     files : Array.from(event.target.files)
+}).then((tickets) => {
+    console.log( "Got upload tickets", tickets );    
+});
+```
+
+
+## Extending a job (advanced)
+
+It is possible to extend an upload job.
+
+```js
+ticket.extendJob(
+    'DigiImageMagicJobs.JobConvertImage' ,
+    { 'CommandLine' : '%infile% -strip -rotate 90   -gravity NorthWest -crop 313x313+232+155 %outfile%' }
+);
 ```
