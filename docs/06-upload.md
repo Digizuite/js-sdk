@@ -102,3 +102,14 @@ document.querySelector('#fileUpload').addEventListener('change', (event)=>{
     });
 });
 ```
+
+## Extending a job (advanced)
+
+It is possible to extend an upload job.
+
+```js
+ticket.extendJob(
+    'DigiImageMagicJobs.JobConvertImage' ,
+    { 'CommandLine' : '%infile% -strip -rotate 90   -gravity NorthWest -crop 313x313+232+155 %outfile%' }
+);
+```

@@ -27,10 +27,12 @@ export class FinishUpload extends BaseRequest {
 	 */
 	get defaultPayload() {
 		return {
-			// Parameters required by DigiZuite - these should never be changed
-			// when executing the request!
-			method  : null,
-			UploadID: null
+			method        : null,
+			UploadID      : null,
+			assetId       : null,
+			fileName      : null,
+			progChainId   : null,
+			extraJobParams: null,
 		};
 	}
 	
@@ -66,6 +68,13 @@ export class FinishUpload extends BaseRequest {
 			(payload.ticket instanceof ReplaceTicket)
 		) {
 			payload.assetId = payload.ticket.asset.__assetId__DO_NOT_USE_THIS_OR_KITTENS_WILL_DIE;
+		}
+		
+		// Extra job
+		if( payload.ticket.isExtendedJob() ) {
+			const extraParams = payload.ticket.getExtendedJobParameters();
+			Object.keys(extraParams)
+				.forEach( thisKey => payload[thisKey] = extraParams[thisKey] );
 		}
 		
 		// Unset the ticket

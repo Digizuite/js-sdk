@@ -82,14 +82,14 @@ export class DigiUploader {
 			preFinishPromise = Promise.resolve();
 		}
 		
-		const setFinishUploadRequest = new FinishUpload({
+		const finishUploadRequest = new FinishUpload({
 			apiUrl: this.apiUrl
 		});
 		
 		// No one knows copyMetadata needs to be ran or not before submitting the upload.
 		// Historically speaking, it was used before, but again, no one knows!!
 		// Let's just play it safe...
-		return preFinishPromise.then(()=> setFinishUploadRequest.execute({ ticket }));
+		return preFinishPromise.then(()=> finishUploadRequest.execute({ ticket }));
 	}
 	
 	/**
@@ -165,7 +165,7 @@ export class DigiUploader {
 		
 		// Submit!
 		return Promise.all(requests).then(() => {
-			return submitUploadRequest.execute({uploadId: ticket.uploadId});
+			return submitUploadRequest.execute({ ticket });
 		});
 	}
 	
