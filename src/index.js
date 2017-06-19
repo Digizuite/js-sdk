@@ -4,7 +4,7 @@ export {Constants} from 'const';
 
 // filters
 export {AssetTypeFilter} from 'model/filter/assetTypeFilter';
-export {AssetNameFilter} from 'model/filter/assetNameFilter';
+export {AssetFreeTextFilter} from 'model/filter/assetFreeTextFilter';
 export {AssetCreatedFilter} from 'model/filter/assetCreatedFilter';
 
 // metadata groups
