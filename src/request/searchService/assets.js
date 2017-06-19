@@ -109,7 +109,9 @@ export class Assets extends BaseRequest {
 		
 		// Path
 		if( payload.hasOwnProperty('path')  ) {
-			payload.sMenu = getItemIdFromIdPath(payload.path);
+			// sMenu needs to be bigger than 0
+			const sMenu = getItemIdFromIdPath(payload.path);
+			payload.sMenu = sMenu ? sMenu : undefined;
 			payload.path  = undefined;
 		}
 		
