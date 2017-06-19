@@ -12,7 +12,7 @@ import {EditComboValueMetadataItem} from'model/metadata/editComboValueMetadataIt
 import {MultiComboValueMetadataItem} from'model/metadata/multiComboValueMetadataItem';
 import {EditMultiComboValueMetadataItem} from'model/metadata/editMultiComboValueMetadataItem';
 import {DateTimeMetadataItem} from 'model/metadata/dateTimeMetadataItem';
-import {UpdateBatch} from 'utilities/digizuite/updateBatch';
+import {UpdateBatch} from 'utilities/updateBatch';
 import {MetadataItem} from 'model/metadata/metadataItem';
 import {Constants} from 'const';
 

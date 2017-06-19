@@ -34,7 +34,7 @@ export {TreeOption} from 'model/metadata/treeOption';
 export {UniqueOption} from 'model/metadata/uniqueOption';
 
 // Batch
-export {UpdateBatch} from 'utilities/digizuite/updateBatch';
+export {UpdateBatch} from 'utilities/updateBatch';
 export {BatchUpdate} from 'request/batchUpdateService/batchUpdate';
 
 // models
