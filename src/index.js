@@ -1,5 +1,5 @@
 // main
-export {Connector} from 'connector';
+export {Connector, getConnectorInstance} from 'connector';
 export {Constants} from 'const';
 
 // filters
