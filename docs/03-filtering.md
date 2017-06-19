@@ -2,14 +2,14 @@
 
 ## Basic filtering
 
-### Filter by name
-Filter for an asset with a given name:
+### Filter by freetext
+Filter for an asset with a given name, description or keywords:
 ```js
-const  assetNameFilter = new Digizuite.AssetNameFilter({
-    name : 'takeoff'
+const assetFreeTextFilter = new Digizuite.AssetFreeTextFilter({
+    text : 'takeoff'
 });
 instance.content.getAssets({
-    filters : [ assetNameFilter ]
+    filters : [ assetFreeTextFilter ]
 }).then(({assets})=>{
     console.log("Got assets filtered!", assets);
 });

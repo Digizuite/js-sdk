@@ -3,6 +3,7 @@ const webpackConfigFn = require('./webpack.config.js');
 const webpackConfig = webpackConfigFn('dev')[0];
 webpackConfig.resolve.modules.push('test');
 webpackConfig.module.rules.shift();
+webpackConfig.devtool = 'inline-source-map';
 
 module.exports = function (config) {
 	config.set({

@@ -118,6 +118,7 @@ export class Connector {
 	
 	/**
 	 * Getter for the upload endpoint
+	 * @typeof {Metadata}
 	 * @returns {Metadata}
 	 */
 	get metadata() {

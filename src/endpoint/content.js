@@ -62,7 +62,7 @@ export class Content extends Endpoint {
 	 * Get a list of folders
 	 * @param args
 	 * @param {String} [args.path] - Path under which to search for folders
-	 * @returns {Promise}
+	 * @returns {Promise.<{folders}>}
 	 */
 	getFolders( args = {} ) {
 		
@@ -73,6 +73,8 @@ export class Content extends Endpoint {
 		return foldersRequest.execute({
 			sfMetafieldLabelId : this.metafieldLabelId,
 			path : args.path || '/'
+		}).then(folders => {
+			return {folders};
 		});
 	}
 	
@@ -113,7 +115,10 @@ export class Content extends Endpoint {
 	 * Get a list of assets
 	 * @param args
 	 * @param {String} [args.path] - The path holding the assets
-	 * @returns {Promise}
+	 * @param {object} [args.sorting] - The sorting to apply
+	 * @param {string} [args.sorting.by] - The value to sort by
+	 * @param {string} [args.sorting.direction] - The sorting direction
+	 * @returns {Promise.<{assets, navigation}>}
 	 */
 	getAssets( args = {} ) {
 		

@@ -16,11 +16,10 @@ which can be used to as a parameter to obtain a list of sub-folders.
 
 Obtain a list of assets: 
 ```js
-instance.content.getAssets({
-    path : '/'
-}).then(( {assets} )=>{
-    console.log("Got assets!", response);
-});
+instance.content.getAssets()
+    .then(( {assets} )=>{
+        console.log("Got assets!", assets);
+    });
 ```
 
 If the ```path``` parameter path is not provided, it will default to ```/```.

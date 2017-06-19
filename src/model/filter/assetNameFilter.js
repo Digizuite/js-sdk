@@ -1,6 +1,6 @@
 import {StringFilter} from './stringFilter';
 
-export class AssetNameFilter extends StringFilter {
+export class AssetFreeTextFilter extends StringFilter {
 	
 	/**
 	 * C-tor
@@ -9,7 +9,7 @@ export class AssetNameFilter extends StringFilter {
 	constructor(args = {}) {
 		super({
 			id : 'freetext',
-			value : args.name
+			value : args.text
 		});
 	}
 
