@@ -33,4 +33,9 @@ export {ComboOption} from 'model/metadata/comboOption';
 export {TreeOption} from 'model/metadata/treeOption';
 export {UniqueOption} from 'model/metadata/uniqueOption';
 
+// Batch
+export {UpdateBatch} from 'utilities/digizuite/updateBatch';
+export {BatchUpdate} from 'request/batchUpdateService/batchUpdate';
+
+// models
 export {CloudFile} from 'model/cloudFile';

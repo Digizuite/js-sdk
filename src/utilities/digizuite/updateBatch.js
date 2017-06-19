@@ -84,7 +84,18 @@ export class UpdateBatch {
 		this.fieldName     = args.fieldName || 'asset';
 		this.containerType = args.type;
 		this.itemIds       = toArray(args.itemIds);
-		this.rowId         = args.hasOwnProperty('rowId') ? parseInt(args.rowId, 10) || UpdateBatch.ROW_ID.NonIncremental : UpdateBatch.ROW_ID.NonIncremental;
+		
+		// rowId
+		let rowId = UpdateBatch.ROW_ID.NonIncremental;
+		
+		if( args.hasOwnProperty('rowId') ) {
+			let parsedRowId = parseInt(args.rowId, 10);
+			if( !Number.isNaN(parsedRowId) ) {
+				rowId = parsedRowId;
+			}
+		}
+		
+		this.rowId = rowId;
 		
 		this.values = [];
 		this.xml    = (new DOMParser()).parseFromString('<r></r>', 'text/xml');
