@@ -43,7 +43,6 @@ export class Asset extends Model {
 		if( args.hasOwnProperty('thumb') ) {
 			this.thumbnail = args.thumb.indexOf('?mptdid=0') === -1 ? args.thumb : '';
 		}
-		
 		this._transcodes = args.hasOwnProperty('transcodeFilename') ? args.transcodeFilename : [];
 		
 		if( args.firstPublished ) {
@@ -52,6 +51,10 @@ export class Asset extends Model {
 		
 		if( args.edited ) {
 			this.lastEditedDate = fecha.parse(args.edited, Asset.DATETIMETZ_FORMAT);
+		}
+
+		if( args.date ) {
+			this.date = fecha.parse(args.date, Asset.DATETIME_FORMAT);
 		}
 		
 		// for legacy reason we still need this
