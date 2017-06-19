@@ -2,7 +2,8 @@
   "name": "digizuite",
   "description": "JS SDK for Digizuite API",
   "version": "0.0.11",
-  "main": "src/index.js",
+  "main": "dist/digizuite.js",
+  "module": "src/index.js",
   "scripts": {
     "build": ".\\node_modules\\.bin\\webpack --progress --env=dev",
     "watch": ".\\node_modules\\.bin\\webpack --progress --env=dev --watch",

@@ -246,3 +246,5 @@ export class Connector {
 	}
 	
 }
+
+export const getConnectorInstance = Connector.getConnectorInstance;
