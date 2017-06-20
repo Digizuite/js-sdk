@@ -1,3 +1,4 @@
+import {attachEndpoint} from 'connector';
 import {Endpoint} from 'common/endpoint';
 import {AppConfiguration} from 'request/searchService/appConfiguration';
 import {AppLabels} from 'request/configService/appLabels';
@@ -47,3 +48,13 @@ export class Config extends Endpoint {
 	}
 	
 }
+
+// Attach endpoint
+const name = 'config';
+const getter = function (instance){
+	return new Config({
+		apiUrl: instance.apiUrl
+	});
+};
+
+attachEndpoint({ name, getter });

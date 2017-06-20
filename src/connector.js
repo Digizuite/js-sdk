@@ -1,139 +1,7 @@
-import {Auth} from 'endpoint/auth';
-import {Config} from 'endpoint/config';
-import {Content} from 'endpoint/content';
-import {Download} from 'endpoint/download';
-import {Upload} from 'endpoint/upload';
-import {Version} from 'endpoint/version';
-import {Metadata} from 'endpoint/metadata';
 import {ensureTrailingSeparator} from 'utilities/helpers/url';
 
 export class Connector {
 	
-	/**
-	 * Getter for the auth endpoint
-	 * @returns {Auth}
-	 */
-	get auth() {
-		
-		if( !this._authEndpoint ) {
-			this._authEndpoint = new Auth( {
-				apiUrl : this.apiUrl
-			} );
-		}
-		
-		return this._authEndpoint;
-	}
-	
-	/**
-	 * Getter for the config endpoint
-	 * @returns {Config}
-	 */
-	get config() {
-		
-		if( !this._configEndpoint ) {
-			this._configEndpoint = new Config( {
-				apiUrl : this.apiUrl
-			} );
-		}
-		
-		return this._configEndpoint;
-	}
-	
-	/**
-	 * Getter for the content endpoint
-	 * @returns {Content}
-	 */
-	get content() {
-		
-		if (!this._contentEndpoint) {
-			this._contentEndpoint = new Content({
-				apiUrl          : this.apiUrl,
-				metafieldLabelId: this.state.config.PortalMenu.metafieldLabelId,
-				sLayoutFolderId : this.state.config.MainSearchFolderId,
-				labelsPromise   : this.config.getAppLabels(),
-				sortTypes       : this.state.config.SortTypes,
-				defaultSortType : this.state.config.SortType
-			});
-		}
-		
-		return this._contentEndpoint;
-	}
-	
-	/**
-	 * Getter for the download endpoint
-	 * @returns {Download}
-	 */
-	get download() {
-		
-		if( !this._downloadEndpoint ) {
-			this._downloadEndpoint = new Download( {
-				apiUrl : this.apiUrl,
-				memberId : this.state.user.memberId,
-				accessKey : this.state.user.accessKey,
-				//TODO: un-hard-code this when we get a product
-				lowResMediaFormatIds : [50038,50036],
-				highResMediaFormatIds : [50040, 50033],
-				mediaUrl : 'https://mm-dam.dev.digizuite.com/'
-			} );
-		}
-		
-		return this._downloadEndpoint;
-	}
-	
-	/**
-	 * Getter for the upload endpoint
-	 * @returns {Upload}
-	 */
-	get upload() {
-		
-		if( !this._uploadEndpoint ) {
-			this._uploadEndpoint = new Upload( {
-				apiUrl : this.apiUrl,
-				//TODO: un-hard-code this when we get a dam version
-				apiVersion : '4.7.1',
-				computerName : this.state.config.UploadName
-			} );
-		}
-		
-		return this._uploadEndpoint;
-	}
-	
-	/**
-	 * Getter for the upload endpoint
-	 * @returns {Version}
-	 */
-	get version() {
-		
-		if( !this._versionEndpoint ) {
-			this._versionEndpoint = new Version( {
-				apiUrl : this.apiUrl,
-				//TODO: un-hard-code this when we get a dam version
-				apiVersion : '4.7.1',
-				computerName : this.state.config.UploadName
-			} );
-		}
-		
-		return this._versionEndpoint;
-	}
-	
-	/**
-	 * Getter for the upload endpoint
-	 * @typeof {Metadata}
-	 * @returns {Metadata}
-	 */
-	get metadata() {
-		if( !this._metadataEndpoint ) {
-			this._metadataEndpoint = new Metadata( {
-				apiUrl : this.apiUrl,
-				language : this.state.user.languageId,
-				languages : this.state.config.languages
-			} );
-		}
-		
-		return this._metadataEndpoint;
-	}
-	
-	//noinspection JSUnusedGlobalSymbols
 	/**
 	 * C-tor
 	 * @param {Object} args
@@ -207,7 +75,7 @@ export class Connector {
 			return this;
 		});
 		
-		// We don't need this immediately, but we preload it for future use
+		//We don't need this immediately, but we preload it for future use
 		bootstrapPromise.then(()=>{
 			this.config.getAppLabels();
 		});
@@ -249,3 +117,27 @@ export class Connector {
 }
 
 export const getConnectorInstance = Connector.getConnectorInstance;
+
+/**
+ * Attach
+ * @param {String} name
+ * @param {Function} getter
+ */
+export const attachEndpoint = ( {name, getter} ) => {
+
+	Object.defineProperty(
+		Connector.prototype,
+		name,
+		{
+			get : function() {
+				
+				if( !this[`_${name}Endpoint`] ) {
+					this[`_${name}Endpoint`] = getter(this);
+				}
+				
+				return this[`_${name}Endpoint`];
+			}
+		}
+	);
+
+};

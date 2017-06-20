@@ -1,3 +1,4 @@
+import {attachEndpoint} from 'connector';
 import {Endpoint} from 'common/endpoint';
 import {MetadataGroups} from 'request/metadataService/metadataGroups';
 import {MetadataItems} from 'request/metadataService/metadataItems';
@@ -289,3 +290,15 @@ export class Metadata extends Endpoint {
 	}
 	
 }
+
+// Attach endpoint
+const name   = 'metadata';
+const getter = function (instance) {
+	return new Metadata({
+		apiUrl   : instance.apiUrl,
+		language : instance.state.user.languageId,
+		languages: instance.state.config.languages
+	});
+};
+
+attachEndpoint({ name, getter });

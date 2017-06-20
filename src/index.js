@@ -2,6 +2,15 @@
 export {Connector, getConnectorInstance} from 'connector';
 export {Constants} from 'const';
 
+// endpoints
+import 'endpoint/auth';
+import 'endpoint/config';
+import 'endpoint/content';
+import 'endpoint/download';
+import 'endpoint/metadata';
+import 'endpoint/upload';
+import 'endpoint/version';
+
 // filters
 export {AssetTypeFilter} from 'model/filter/assetTypeFilter';
 export {AssetFreeTextFilter} from 'model/filter/assetFreeTextFilter';

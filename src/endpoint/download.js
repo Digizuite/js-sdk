@@ -1,3 +1,4 @@
+import {attachEndpoint} from 'connector';
 import {Endpoint} from 'common/endpoint';
 import {DownloadQualities} from 'request/memberService/downloadQualities';
 import {Constants} from 'const';
@@ -153,3 +154,19 @@ export class Download extends Endpoint {
 	}
 	
 }
+
+// Attach endpoint
+const name = 'download';
+const getter = function (instance) {
+	return new Download({
+		apiUrl               : instance.apiUrl,
+		memberId             : instance.state.user.memberId,
+		accessKey            : instance.state.user.accessKey,
+		//TODO: un-hard-code this when we get a product
+		lowResMediaFormatIds : [50038, 50036],
+		highResMediaFormatIds: [50040, 50033],
+		mediaUrl             : 'https://mm-dam.dev.digizuite.com/'
+	});
+};
+
+attachEndpoint({ name, getter });
