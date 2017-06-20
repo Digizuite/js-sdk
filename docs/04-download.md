@@ -3,9 +3,11 @@
 ## Getting the download URL for an asset for a specific quality
 
 ```js
+import {Constants} from 'digizuite';
+
 instance.download.getDownloadURL({
     asset : asset,
-    quality : Digizuite.Constants.DOWNLOAD_QUALITY.ORIGINAL
+    quality : Constants.DOWNLOAD_QUALITY.ORIGINAL
 }).then((url) => {
     console.log("Got it from here!", url);
 });
@@ -14,7 +16,7 @@ instance.download.getDownloadURL({
 The ```asset```parameter needs to be an instance of the ```Asset``` class. 
 
 If the ```quality``` is omitted, the download URL will be provided for the original format. 
-Check ```Digizuite.Constants.DOWNLOAD_QUALITY``` for a list of the available qualities.
+Check ```DOWNLOAD_QUALITY``` for a list of the available qualities.
 
 ## Getting all the download URLs for an asset
 
@@ -26,4 +28,9 @@ instance.download.getAllDownloadURL({
 }).then((qualities) => {
     console.log("Got all the download qualities for the asset!", qualities);
 });
+```
+
+## Lighter imports
+```js
+import {CONSTANTS} from 'digizuite/src/const';
 ```

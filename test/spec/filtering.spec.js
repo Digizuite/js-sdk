@@ -58,7 +58,5 @@ describe('Filtering', () => {
     it('should get a list of filters', async () => {
         let filters = await instance.content.getFilters();
         expect(filters).not.toBeNull();
-        console.log(filters);
-
     })
 });
