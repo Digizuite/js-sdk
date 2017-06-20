@@ -50,3 +50,4 @@ browser_test/
 dist/
 coverage/
 TODO
+yarn.lock
