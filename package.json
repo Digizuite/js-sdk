@@ -5,9 +5,9 @@
   "main": "dist/digizuite.js",
   "module": "src/index.js",
   "scripts": {
-    "build": ".\\node_modules\\.bin\\webpack --progress --env=dev --display-optimization-bailout",
-    "watch": ".\\node_modules\\.bin\\webpack --progress --env=dev --watch --display-optimization-bailout",
-    "dist": ".\\node_modules\\.bin\\webpack --progress --env=prod",
+    "build": ".\\node_modules\\.bin\\webpack --progress --env=dev",
+    "watch": ".\\node_modules\\.bin\\webpack --progress --env=dev --watch",
+    "dist": ".\\node_modules\\.bin\\webpack --progress --env=prod --display-optimization-bailout",
     "test": "node node_modules/karma/bin/karma start ./karma.conf.js --single-run",
     "version": "npm run dist",
     "postversion": "git push && git push --tags"

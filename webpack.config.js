@@ -13,9 +13,7 @@ const ENV_DEVELOPMENT = 'dev';
  */
 function getWebpackConfig(env) {
 	
-	const plugins = [
-		new webpack.optimize.ModuleConcatenationPlugin()
-	];
+	const plugins = [];
 	
 	if( env === ENV_PRODUCTION ) {
 		plugins.push( new BabiliPlugin({
@@ -23,6 +21,10 @@ function getWebpackConfig(env) {
 			keepFnName   : true,
 			keepClassName: true
 		}) );
+		
+		plugins.push(
+			new webpack.optimize.ModuleConcatenationPlugin()
+		);
 	}
 	
 	return 	{
