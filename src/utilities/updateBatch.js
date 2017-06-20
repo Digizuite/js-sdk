@@ -109,13 +109,13 @@ export class UpdateBatch {
 		
 		const fieldId = args.fieldId || (`${this.id}Field${this.values.length + 1}`);
 		
-		this.addToValues({
+		this._addToValues({
 			FieldId: fieldId,
 			Type   : args.valueType,
 			Values : toArray(args.value)
 		});
 		
-		this.addToXML({
+		this._addToXML({
 			fieldId   : fieldId,
 			fieldName : args.fieldName,
 			properties: args.fieldProperties
@@ -127,25 +127,14 @@ export class UpdateBatch {
 	 *
 	 * @param xmlSet
 	 */
-	addToXML( xmlSet = {} ) {
+	_addToXML(xmlSet = {} ) {
 		
-		const containers = this.selectByXPath(this.xml, `//${this.fieldName}[@fieldId="${this.id}"]`);
-		let container;
+		let container = this.xml.documentElement.querySelector(`[fieldId="${this.id}"]`);
 		
-		// Create container if it doesn't exist yet
-		if (containers.length === 0) {
+		if( !container ) {
 			container = this.xml.createElement(this.fieldName);
 			container.setAttribute('fieldId', this.id);
 			this.xml.firstChild.appendChild(container);
-			
-			// Otherwise select matched container
-		} else if (containers.length === 1) {
-			container = containers[0];
-			
-			// If more than one matching element was found, an error has
-			// occurred...
-		} else {
-			throw new Error('BatchUpdateXMLInvalid', `More than one batch was found with id "${this.id}".`);
 		}
 		
 		const field = this.xml.createElement(xmlSet.fieldName);
@@ -162,7 +151,7 @@ export class UpdateBatch {
 	 * Add to value set
 	 * @param valueSet
 	 */
-	addToValues(valueSet = {}) {
+	_addToValues(valueSet = {}) {
 		
 		// Search if the value already exists
 		const valueIndex = this.values.findIndex((thisValue)=>{
@@ -179,32 +168,11 @@ export class UpdateBatch {
 	}
 	
 	/**
-	 * Select by XPath
-	 * @param xml
-	 * @param xPath
-	 * @returns {Array}
-	 */
-	selectByXPath(xml, xPath) {
-		
-		// Evaluate XPath
-		const xpe = new XPathEvaluator();
-		const nsResolver = xpe.createNSResolver(xml.ownerDocument === null ? xml.documentElement : xml.ownerDocument.documentElement);
-		const result = xpe.evaluate(xPath, xml, nsResolver, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
-		
-		const a = [];
-		for (let i = 0; i < result.snapshotLength; i++) {
-			a[i] = result.snapshotItem(i);
-		}
-		
-		return a;
-	}
-	
-	/**
 	 * Stringify XML
 	 * @param xmlDoc
 	 * @returns {string}
 	 */
-	stringifyXML(xmlDoc) {
+	_stringifyXML(xmlDoc) {
 		
 		let result = '';
 		const serializer = new XMLSerializer();
@@ -221,7 +189,7 @@ export class UpdateBatch {
 	 * @returns {string}
 	 */
 	getBatchXML() {
-		return this.stringifyXML(this.xml);
+		return this._stringifyXML(this.xml);
 	}
 	
 	/**
