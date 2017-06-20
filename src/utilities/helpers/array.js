@@ -9,5 +9,5 @@ export const toArray = ( value ) => {
 		return value;
 	}
 	
-	return value ? [value] : [];
+	return (value || value === 0) ? [value] : [];
 };
