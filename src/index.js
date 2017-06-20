@@ -1,6 +1,6 @@
 // main
 export {Connector, getConnectorInstance} from 'connector';
-export {Constants} from 'const';
+export {Constants, SORT_DIRECTION, SORT_BY, ASSET_TYPE, DOWNLOAD_QUALITY, FILTER_TYPE, GUID} from 'const';
 
 // filters
 export {AssetTypeFilter} from 'model/filter/assetTypeFilter';
