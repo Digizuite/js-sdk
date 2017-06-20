@@ -1,11 +1,11 @@
-import {attachEndpoint} from 'connector';
-import {Endpoint} from 'common/endpoint';
-import {ReplaceTicket} from 'model/ticket/replaceTicket';
-import {RestoreTicket} from 'model/ticket/restoreTicket';
-import {DigiUploader} from 'utilities/digiUploader';
-import {Asset} from 'model/asset';
-import {AssetVersion} from 'model/assetVersion';
-import {AssetVersions} from 'request/searchService/assetVersions';
+import {attachEndpoint} from '../connector';
+import {Endpoint} from '../common/endpoint';
+import {ReplaceTicket} from '../model/ticket/replaceTicket';
+import {RestoreTicket} from '../model/ticket/restoreTicket';
+import {DigiUploader} from '../utilities/digiUploader';
+import {Asset} from '../model/asset';
+import {AssetVersion} from '../model/assetVersion';
+import {AssetVersions} from '../request/searchService/assetVersions';
 
 export class Version extends Endpoint {
 

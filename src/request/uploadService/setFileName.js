@@ -1,5 +1,5 @@
-import {BaseRequest} from 'common/request';
-import {RestoreTicket} from 'model/ticket/restoreTicket';
+import {BaseRequest} from '../../common/request';
+import {RestoreTicket} from '../../model/ticket/restoreTicket';
 
 export class SetFileName extends BaseRequest {
 	

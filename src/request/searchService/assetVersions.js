@@ -1,5 +1,5 @@
-import {BaseRequest} from 'common/request';
-import {AssetVersion} from 'model/assetVersion';
+import {BaseRequest} from '../../common/request';
+import {AssetVersion} from '../../model/assetVersion';
 
 export class AssetVersions extends BaseRequest {
 	

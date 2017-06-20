@@ -1,7 +1,7 @@
-import {attachEndpoint} from 'connector';
-import {Endpoint} from 'common/endpoint';
-import {UpdateBatch} from 'utilities/updateBatch';
-import {BatchUpdate} from 'request/batchUpdateService/batchUpdate';
+import {attachEndpoint} from '../connector';
+import {Endpoint} from '../common/endpoint';
+import {UpdateBatch} from '../utilities/updateBatch';
+import {BatchUpdate} from '../request/batchUpdateService/batchUpdate';
 
 export class Batch extends Endpoint {
 	

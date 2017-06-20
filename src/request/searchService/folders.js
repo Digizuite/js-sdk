@@ -1,6 +1,6 @@
-import {BaseRequest} from 'common/request';
-import {Folder} from 'model/folder';
-import {getItemIdFromIdPath} from 'utilities/helpers/treePath';
+import {BaseRequest} from '../../common/request';
+import {Folder} from '../../model/folder';
+import {getItemIdFromIdPath} from '../../utilities/helpers/treePath';
 
 export class Folders extends BaseRequest {
 	

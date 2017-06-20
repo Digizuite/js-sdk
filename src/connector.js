@@ -1,4 +1,4 @@
-import {ensureTrailingSeparator} from 'utilities/helpers/url';
+import {ensureTrailingSeparator} from './utilities/helpers/url';
 
 export class Connector {
 	

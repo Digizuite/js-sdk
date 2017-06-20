@@ -1,11 +1,11 @@
-import {attachEndpoint} from 'connector';
-import {Endpoint} from 'common/endpoint';
-import {UploadTicket} from 'model/ticket/uploadTicket';
-import {Asset} from 'model/asset';
-import {CloudFile} from 'model/cloudFile';
-import {DigiUploader} from 'utilities/digiUploader';
-import {AssetsBasicInformation} from 'request/searchService/assetsBasicInformation';
-import {AssetsInformation} from 'request/searchService/assetsInformation';
+import {attachEndpoint} from '../connector';
+import {Endpoint} from '../common/endpoint';
+import {UploadTicket} from '../model/ticket/uploadTicket';
+import {Asset} from '../model/asset';
+import {CloudFile} from '../model/cloudFile';
+import {DigiUploader} from '../utilities/digiUploader';
+import {AssetsBasicInformation} from '../request/searchService/assetsBasicInformation';
+import {AssetsInformation} from '../request/searchService/assetsInformation';
 
 export class Upload extends Endpoint {
 	

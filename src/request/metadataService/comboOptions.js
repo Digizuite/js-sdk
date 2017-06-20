@@ -1,5 +1,5 @@
-import {BaseRequest} from 'common/request';
-import {ComboOption} from 'model/metadata/comboOption';
+import {BaseRequest} from '../../common/request';
+import {ComboOption} from '../../model/metadata/comboOption';
 
 export class ComboOptions extends BaseRequest {
 	

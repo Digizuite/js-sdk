@@ -1,6 +1,6 @@
-import {BaseRequest} from 'common/request';
-import {getItemIdFromIdPath} from 'utilities/helpers/treePath';
-import {Asset} from 'model/asset';
+import {BaseRequest} from '../../common/request';
+import {getItemIdFromIdPath} from '../../utilities/helpers/treePath';
+import {Asset} from '../../model/asset';
 
 export class Assets extends BaseRequest {
 	

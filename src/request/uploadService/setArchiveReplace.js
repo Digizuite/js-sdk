@@ -1,4 +1,4 @@
-import {BaseRequest} from 'common/request';
+import {BaseRequest} from '../../common/request';
 
 export class SetArchiveReplace extends BaseRequest {
 	

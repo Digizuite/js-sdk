@@ -1,4 +1,4 @@
-import {RequestError} from 'common/requestError';
+import {RequestError} from './requestError';
 
 export class BaseRequest {
 	

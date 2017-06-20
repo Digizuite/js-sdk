@@ -1,6 +1,6 @@
-import {BaseRequest} from 'common/request';
-import {RestoreTicket} from 'model/ticket/restoreTicket';
-import {CloudFile} from 'model/cloudFile';
+import {BaseRequest} from '../../common/request';
+import {RestoreTicket} from '../../model/ticket/restoreTicket';
+import {CloudFile} from '../../model/cloudFile';
 
 export class SetTransferMode extends BaseRequest {
 	

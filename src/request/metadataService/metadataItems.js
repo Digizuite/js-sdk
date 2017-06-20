@@ -1,19 +1,19 @@
-import {BaseRequest} from 'common/request';
-import {StringMetadataItem} from 'model/metadata/stringMetadataItem';
-import {NoteMetadataItem} from 'model/metadata/noteMetadataItem';
-import {EditMultiComboValueMetadataItem} from 'model/metadata/editMultiComboValueMetadataItem';
-import {TreeMetadataItem} from 'model/metadata/treeMetadataItem';
-import {LinkMetadataItem} from 'model/metadata/linkMetadataItem';
-import {BitMetadataItem} from 'model/metadata/bitMetadataItem';
-import {ComboValueMetadataItem} from 'model/metadata/comboValueMetadataItem';
-import {DateTimeMetadataItem} from 'model/metadata/dateTimeMetadataItem';
-import {FloatMetadataItem} from 'model/metadata/floatMetadataItem';
-import {IntMetadataItem} from 'model/metadata/intMetadataItem';
-import {MoneyMetadataItem} from 'model/metadata/moneyMetadataItem';
-import {MultiComboValueMetadataItem} from 'model/metadata/multiComboValueMetadataItem';
-import {UniqueVersionMetadataItem} from 'model/metadata/uniqueVersionMetadataItem';
-import {EditComboValueMetadataItem} from 'model/metadata/editComboValueMetadataItem';
-import {LogWarn} from 'utilities/logger';
+import {BaseRequest} from '../../common/request';
+import {StringMetadataItem} from '../../model/metadata/stringMetadataItem';
+import {NoteMetadataItem} from '../../model/metadata/noteMetadataItem';
+import {EditMultiComboValueMetadataItem} from '../../model/metadata/editMultiComboValueMetadataItem';
+import {TreeMetadataItem} from '../../model/metadata/treeMetadataItem';
+import {LinkMetadataItem} from '../../model/metadata/linkMetadataItem';
+import {BitMetadataItem} from '../../model/metadata/bitMetadataItem';
+import {ComboValueMetadataItem} from '../../model/metadata/comboValueMetadataItem';
+import {DateTimeMetadataItem} from '../../model/metadata/dateTimeMetadataItem';
+import {FloatMetadataItem} from '../../model/metadata/floatMetadataItem';
+import {IntMetadataItem} from '../../model/metadata/intMetadataItem';
+import {MoneyMetadataItem} from '../../model/metadata/moneyMetadataItem';
+import {MultiComboValueMetadataItem} from '../../model/metadata/multiComboValueMetadataItem';
+import {UniqueVersionMetadataItem} from '../../model/metadata/uniqueVersionMetadataItem';
+import {EditComboValueMetadataItem} from '../../model/metadata/editComboValueMetadataItem';
+import {LogWarn} from '../../utilities/logger';
 
 export class MetadataItems extends BaseRequest {
 	

@@ -1,6 +1,6 @@
-import {BaseRequest} from 'common/request';
-import {TreeOption} from 'model/metadata/treeOption';
-import {getItemIdFromIdPath} from 'utilities/helpers/treePath';
+import {BaseRequest} from '../../common/request';
+import {TreeOption} from '../../model/metadata/treeOption';
+import {getItemIdFromIdPath} from '../../utilities/helpers/treePath';
 
 export class TreeOptions extends BaseRequest {
 	
