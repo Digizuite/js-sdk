@@ -5,6 +5,7 @@ export {Constants, SORT_DIRECTION, SORT_BY, ASSET_TYPE, DOWNLOAD_QUALITY, FILTER
 // endpoints
 import 'endpoint/auth';
 import 'endpoint/config';
+import 'endpoint/batch';
 import 'endpoint/content';
 import 'endpoint/download';
 import 'endpoint/metadata';
