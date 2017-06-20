@@ -1,5 +1,5 @@
-import {BaseRequest} from 'common/request';
-import {ReplaceTicket} from 'model/ticket/replaceTicket';
+import {BaseRequest} from '../../common/request';
+import {ReplaceTicket} from '../../model/ticket/replaceTicket';
 
 export class SetAssetId extends BaseRequest {
 	

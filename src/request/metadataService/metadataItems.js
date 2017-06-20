@@ -1,18 +1,19 @@
-import {BaseRequest} from 'common/request';
-import {StringMetadataItem} from 'model/metadata/stringMetadataItem';
-import {NoteMetadataItem} from 'model/metadata/noteMetadataItem';
-import {EditMultiComboValueMetadataItem} from 'model/metadata/editMultiComboValueMetadataItem';
-import {TreeMetadataItem} from 'model/metadata/treeMetadataItem';
-import {LinkMetadataItem} from 'model/metadata/linkMetadataItem';
-import {BitMetadataItem} from 'model/metadata/bitMetadataItem';
-import {ComboValueMetadataItem} from 'model/metadata/comboValueMetadataItem';
-import {DateTimeMetadataItem} from 'model/metadata/dateTimeMetadataItem';
-import {FloatMetadataItem} from 'model/metadata/floatMetadataItem';
-import {IntMetadataItem} from 'model/metadata/intMetadataItem';
-import {MoneyMetadataItem} from 'model/metadata/moneyMetadataItem';
-import {MultiComboValueMetadataItem} from 'model/metadata/multiComboValueMetadataItem';
-import {UniqueVersionMetadataItem} from 'model/metadata/uniqueVersionMetadataItem';
-import {EditComboValueMetadataItem} from 'model/metadata/editComboValueMetadataItem';
+import {BaseRequest} from '../../common/request';
+import {StringMetadataItem} from '../../model/metadata/stringMetadataItem';
+import {NoteMetadataItem} from '../../model/metadata/noteMetadataItem';
+import {EditMultiComboValueMetadataItem} from '../../model/metadata/editMultiComboValueMetadataItem';
+import {TreeMetadataItem} from '../../model/metadata/treeMetadataItem';
+import {LinkMetadataItem} from '../../model/metadata/linkMetadataItem';
+import {BitMetadataItem} from '../../model/metadata/bitMetadataItem';
+import {ComboValueMetadataItem} from '../../model/metadata/comboValueMetadataItem';
+import {DateTimeMetadataItem} from '../../model/metadata/dateTimeMetadataItem';
+import {FloatMetadataItem} from '../../model/metadata/floatMetadataItem';
+import {IntMetadataItem} from '../../model/metadata/intMetadataItem';
+import {MoneyMetadataItem} from '../../model/metadata/moneyMetadataItem';
+import {MultiComboValueMetadataItem} from '../../model/metadata/multiComboValueMetadataItem';
+import {UniqueVersionMetadataItem} from '../../model/metadata/uniqueVersionMetadataItem';
+import {EditComboValueMetadataItem} from '../../model/metadata/editComboValueMetadataItem';
+import {LogWarn} from '../../utilities/logger';
 
 export class MetadataItems extends BaseRequest {
 	
@@ -81,62 +82,73 @@ export class MetadataItems extends BaseRequest {
 	 */
 	processResponseData(response) {
 		
-		return response.items.map((thisItem) => {
-			
-			let result;
-			
-			// Yeahhh... no...
-			switch (parseInt(thisItem.metafieldid.item_datatypeid, 10)) {
-				case BitMetadataItem.TYPE:
-					result = BitMetadataItem.createFromAPIResponse(thisItem);
-					break;
-				case StringMetadataItem.TYPE:
-					result = StringMetadataItem.createFromAPIResponse(thisItem);
-					break;
-				case NoteMetadataItem.TYPE:
-					result = NoteMetadataItem.createFromAPIResponse(thisItem);
-					break;
-				case ComboValueMetadataItem.TYPE:
-					result = ComboValueMetadataItem.createFromAPIResponse(thisItem);
-					break;
-				case EditMultiComboValueMetadataItem.TYPE:
-					result = EditMultiComboValueMetadataItem.createFromAPIResponse(thisItem);
-					break;
-				case TreeMetadataItem.TYPE:
-					result = TreeMetadataItem.createFromAPIResponse(thisItem);
-					break;
-				case LinkMetadataItem.TYPE:
-					result = LinkMetadataItem.createFromAPIResponse(thisItem);
-					break;
-				case DateTimeMetadataItem.TYPE:
-					result = DateTimeMetadataItem.createFromAPIResponse(thisItem);
-					break;
-				case FloatMetadataItem.TYPE:
-					result = FloatMetadataItem.createFromAPIResponse(thisItem);
-					break;
-				case IntMetadataItem.TYPE:
-					result = IntMetadataItem.createFromAPIResponse(thisItem);
-					break;
-				case MoneyMetadataItem.TYPE:
-					result = MoneyMetadataItem.createFromAPIResponse(thisItem);
-					break;
-				case UniqueVersionMetadataItem.TYPE:
-					result = UniqueVersionMetadataItem.createFromAPIResponse(thisItem);
-					break;
-				case EditComboValueMetadataItem.TYPE:
-					result = EditComboValueMetadataItem.createFromAPIResponse(thisItem);
-					break;
-				case MultiComboValueMetadataItem.TYPE:
-					result = MultiComboValueMetadataItem.createFromAPIResponse(thisItem);
-					break;
-				default:
-					// Lol
-					break;
-			}
-			
-			return result;
-		});
+		return response.items
+			.map( this._createMetadataItem )
+			.filter( thisItem => thisItem );
 		
+	}
+	
+	/**
+	 * Transforms the API response in an instance of a metadata type
+	 * @param thisItem
+	 * @returns {*}
+	 * @private
+	 */
+	_createMetadataItem(thisItem) {
+		
+		let result;
+		
+		// Yeahhh... no...
+		switch (parseInt(thisItem.metafieldid.item_datatypeid, 10)) {
+			case BitMetadataItem.TYPE:
+				result = BitMetadataItem.createFromAPIResponse(thisItem);
+				break;
+			case StringMetadataItem.TYPE:
+				result = StringMetadataItem.createFromAPIResponse(thisItem);
+				break;
+			case NoteMetadataItem.TYPE:
+				result = NoteMetadataItem.createFromAPIResponse(thisItem);
+				break;
+			case ComboValueMetadataItem.TYPE:
+				result = ComboValueMetadataItem.createFromAPIResponse(thisItem);
+				break;
+			case EditMultiComboValueMetadataItem.TYPE:
+				result = EditMultiComboValueMetadataItem.createFromAPIResponse(thisItem);
+				break;
+			case TreeMetadataItem.TYPE:
+				result = TreeMetadataItem.createFromAPIResponse(thisItem);
+				break;
+			case LinkMetadataItem.TYPE:
+				result = LinkMetadataItem.createFromAPIResponse(thisItem);
+				break;
+			case DateTimeMetadataItem.TYPE:
+				result = DateTimeMetadataItem.createFromAPIResponse(thisItem);
+				break;
+			case FloatMetadataItem.TYPE:
+				result = FloatMetadataItem.createFromAPIResponse(thisItem);
+				break;
+			case IntMetadataItem.TYPE:
+				result = IntMetadataItem.createFromAPIResponse(thisItem);
+				break;
+			case MoneyMetadataItem.TYPE:
+				result = MoneyMetadataItem.createFromAPIResponse(thisItem);
+				break;
+			case UniqueVersionMetadataItem.TYPE:
+				result = UniqueVersionMetadataItem.createFromAPIResponse(thisItem);
+				break;
+			case EditComboValueMetadataItem.TYPE:
+				result = EditComboValueMetadataItem.createFromAPIResponse(thisItem);
+				break;
+			case MultiComboValueMetadataItem.TYPE:
+				result = MultiComboValueMetadataItem.createFromAPIResponse(thisItem);
+				break;
+			default:
+				// Lol
+				LogWarn('Unknown metadata type', thisItem);
+				break;
+		}
+		
+		return result;
 	}
 	
 }

@@ -1,5 +1,5 @@
-import {BaseRequest} from 'common/request';
-import {Asset} from 'model/asset';
+import {BaseRequest} from '../../common/request';
+import {Asset} from '../../model/asset';
 
 export class AssetsInformation extends BaseRequest {
 	

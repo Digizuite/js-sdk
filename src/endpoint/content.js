@@ -1,8 +1,8 @@
-import {attachEndpoint} from 'connector';
-import {Endpoint} from 'common/endpoint';
-import {Folders} from 'request/searchService/folders';
-import {Filters} from 'request/searchService/filters';
-import {Assets} from 'request/searchService/assets';
+import {attachEndpoint} from '../connector';
+import {Endpoint} from '../common/endpoint';
+import {Folders} from '../request/searchService/folders';
+import {Filters} from '../request/searchService/filters';
+import {Assets} from '../request/searchService/assets';
 import upperFirst from 'lodash/upperFirst';
 
 export class Content extends Endpoint {

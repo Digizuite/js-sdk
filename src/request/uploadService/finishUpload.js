@@ -1,8 +1,8 @@
-import {BaseRequest} from 'common/request';
+import {BaseRequest} from '../../common/request';
 import {SetTransferMode} from './setTransferMode';
-import {ReplaceTicket} from 'model/ticket/replaceTicket';
-import {RestoreTicket} from 'model/ticket/restoreTicket';
-import {CloudFile} from 'model/cloudFile';
+import {ReplaceTicket} from '../../model/ticket/replaceTicket';
+import {RestoreTicket} from '../../model/ticket/restoreTicket';
+import {CloudFile} from '../../model/cloudFile';
 
 export class FinishUpload extends BaseRequest {
 	

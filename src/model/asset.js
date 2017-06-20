@@ -1,5 +1,5 @@
 import fecha from 'fecha';
-import {Model} from 'common/model';
+import {Model} from '../common/model';
 
 export class Asset extends Model {
 	

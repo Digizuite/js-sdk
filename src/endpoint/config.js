@@ -1,7 +1,7 @@
-import {attachEndpoint} from 'connector';
-import {Endpoint} from 'common/endpoint';
-import {AppConfiguration} from 'request/searchService/appConfiguration';
-import {AppLabels} from 'request/configService/appLabels';
+import {attachEndpoint} from '../connector';
+import {Endpoint} from '../common/endpoint';
+import {AppConfiguration} from '../request/searchService/appConfiguration';
+import {AppLabels} from '../request/configService/appLabels';
 
 export class Config extends Endpoint {
 	

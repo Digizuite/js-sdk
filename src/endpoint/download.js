@@ -1,7 +1,7 @@
-import {attachEndpoint} from 'connector';
-import {Endpoint} from 'common/endpoint';
-import {DownloadQualities} from 'request/memberService/downloadQualities';
-import {Constants} from 'const';
+import {attachEndpoint} from '../connector';
+import {Endpoint} from '../common/endpoint';
+import {DownloadQualities} from '../request/memberService/downloadQualities';
+import {Constants} from '../const';
 
 export class Download extends Endpoint {
 	

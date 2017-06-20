@@ -1,5 +1,5 @@
 import {MetadataItem} from './metadataItem';
-import {TreeOption} from 'model/metadata/treeOption';
+import {TreeOption} from './treeOption';
 
 export class TreeMetadataItem extends MetadataItem {
 	

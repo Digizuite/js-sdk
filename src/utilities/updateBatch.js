@@ -11,7 +11,7 @@
  * /Stefan
  */
 import uniqueId from 'lodash/uniqueId';
-import {toArray} from 'utilities/helpers/array';
+import {toArray} from './helpers/array';
 
 export class UpdateBatch {
 	

@@ -1,13 +1,13 @@
 {
   "name": "digizuite",
   "description": "JS SDK for Digizuite API",
-  "version": "0.0.19",
+  "version": "0.0.22",
   "main": "dist/digizuite.js",
   "module": "src/index.js",
   "scripts": {
     "build": ".\\node_modules\\.bin\\webpack --progress --env=dev",
     "watch": ".\\node_modules\\.bin\\webpack --progress --env=dev --watch",
-    "dist": ".\\node_modules\\.bin\\webpack --progress --env=prod",
+    "dist": ".\\node_modules\\.bin\\webpack --progress --env=prod --display-optimization-bailout",
     "test": "node node_modules/karma/bin/karma start ./karma.conf.js --single-run",
     "version": "npm run dist",
     "postversion": "git push && git push --tags"
@@ -31,7 +31,7 @@
     "karma-sourcemap-loader": "^0.3.7",
     "karma-teamcity-reporter": "^1.0.0",
     "karma-webpack": "^2.0.3",
-    "webpack": "^2.5.1"
+    "webpack": "3.0.0"
   },
   "repository": {
     "type": "git",

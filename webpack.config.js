@@ -1,5 +1,6 @@
 /* global __dirname, require, module  */
-const path    = require('path');
+const webpack      = require('webpack');
+const path         = require('path');
 const BabiliPlugin = require('babili-webpack-plugin');
 
 const ENV_PRODUCTION = 'prod';
@@ -20,6 +21,10 @@ function getWebpackConfig(env) {
 			keepFnName   : true,
 			keepClassName: true
 		}) );
+		
+		plugins.push(
+			new webpack.optimize.ModuleConcatenationPlugin()
+		);
 	}
 	
 	return 	{
@@ -30,6 +35,15 @@ function getWebpackConfig(env) {
 			library       : 'Digizuite',
 			libraryTarget : 'umd',
 			umdNamedDefine: true
+		},
+		
+		externals: {
+			'lodash': {
+				commonjs : 'lodash',
+				commonjs2: 'lodash',
+				amd      : 'lodash',
+				root     : '_'
+			}
 		},
 		
 		resolve: {

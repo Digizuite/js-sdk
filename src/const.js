@@ -1,6 +1,7 @@
 export const GUID = {
     LAST_MODIFIED: 'BF26CA13-BE60-4B34-8087-C7F8345158F7'
 };
+
 // Filter types
 export const FILTER_TYPE = {
     STRING: 'string',
@@ -10,7 +11,8 @@ export const FILTER_TYPE = {
     ASSET_TYPE: 'assettype',
     DATE_INTERVAL: 'datebetween',
     TREE: 'tree',
-}
+};
+
 // Sort criteria
 export const SORT_BY = {
     DATE: 'Date',
@@ -20,13 +22,15 @@ export const SORT_BY = {
 export const SORT_DIRECTION = {
     DESCENDING: 'Desc',
     ASCENDING: 'Asc',
-}
+};
+
 // ASSET TYPE
 export const DOWNLOAD_QUALITY = {
     ORIGINAL: 1,
     HIGH_RES: 2,
     LOW_RES: 3
-}
+};
+
 export const ASSET_TYPE = {
     VIDEO: 1,
     AUDIO: 2,
@@ -56,7 +60,7 @@ export const ASSET_TYPE = {
     OTT: 101,
     PHOTOSHOP: 16,
     ILLUSTRATOR: 17
-}
+};
 
 export const Constants = {
     GUID,

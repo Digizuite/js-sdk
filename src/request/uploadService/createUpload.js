@@ -1,5 +1,5 @@
-import {BaseRequest} from 'common/request';
-import {CloudFile} from 'model/cloudFile';
+import {BaseRequest} from '../../common/request';
+import {CloudFile} from '../../model/cloudFile';
 
 export class CreateUpload extends BaseRequest {
 	

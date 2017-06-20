@@ -1,7 +1,7 @@
-import {attachEndpoint} from 'connector';
-import {Endpoint} from 'common/endpoint';
-import {Login} from 'request/connectService/login';
-import {KeepAlive} from 'request/connectService/keepAlive';
+import {attachEndpoint} from '../connector';
+import {Endpoint} from '../common/endpoint';
+import {Login} from '../request/connectService/login';
+import {KeepAlive} from '../request/connectService/keepAlive';
 
 export class Auth extends Endpoint {
 	

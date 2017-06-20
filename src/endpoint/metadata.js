@@ -1,21 +1,21 @@
-import {attachEndpoint} from 'connector';
-import {Endpoint} from 'common/endpoint';
-import {MetadataGroups} from 'request/metadataService/metadataGroups';
-import {MetadataItems} from 'request/metadataService/metadataItems';
-import {ComboOptions} from 'request/metadataService/comboOptions';
-import {TreeOptions} from 'request/metadataService/treeOptions';
-import {IsUniqueVersion} from 'request/metadataService/isUniqueVersion';
-import {BatchUpdate} from 'request/batchUpdateService/batchUpdate';
-import {LanguageMetadataGroup} from 'model/metadata/languageMetadataGroup';
-import {TreeMetadataItem} from'model/metadata/treeMetadataItem';
-import {ComboValueMetadataItem} from'model/metadata/comboValueMetadataItem';
-import {EditComboValueMetadataItem} from'model/metadata/editComboValueMetadataItem';
-import {MultiComboValueMetadataItem} from'model/metadata/multiComboValueMetadataItem';
-import {EditMultiComboValueMetadataItem} from'model/metadata/editMultiComboValueMetadataItem';
-import {DateTimeMetadataItem} from 'model/metadata/dateTimeMetadataItem';
-import {UpdateBatch} from 'utilities/updateBatch';
-import {MetadataItem} from 'model/metadata/metadataItem';
-import {Constants} from 'const';
+import {attachEndpoint} from '../connector';
+import {Endpoint} from '../common/endpoint';
+import {MetadataGroups} from '../request/metadataService/metadataGroups';
+import {MetadataItems} from '../request/metadataService/metadataItems';
+import {ComboOptions} from '../request/metadataService/comboOptions';
+import {TreeOptions} from '../request/metadataService/treeOptions';
+import {IsUniqueVersion} from '../request/metadataService/isUniqueVersion';
+import {BatchUpdate} from '../request/batchUpdateService/batchUpdate';
+import {LanguageMetadataGroup} from '../model/metadata/languageMetadataGroup';
+import {TreeMetadataItem} from '../model/metadata/treeMetadataItem';
+import {ComboValueMetadataItem} from '../model/metadata/comboValueMetadataItem';
+import {EditComboValueMetadataItem} from '../model/metadata/editComboValueMetadataItem';
+import {MultiComboValueMetadataItem} from '../model/metadata/multiComboValueMetadataItem';
+import {EditMultiComboValueMetadataItem} from '../model/metadata/editMultiComboValueMetadataItem';
+import {DateTimeMetadataItem} from '../model/metadata/dateTimeMetadataItem';
+import {UpdateBatch} from '../utilities/updateBatch';
+import {MetadataItem} from '../model/metadata/metadataItem';
+import {Constants} from '../const';
 
 export class Metadata extends Endpoint {
 	
