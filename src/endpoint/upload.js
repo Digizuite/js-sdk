@@ -1,3 +1,4 @@
+import {attachEndpoint} from 'connector';
 import {Endpoint} from 'common/endpoint';
 import {UploadTicket} from 'model/ticket/uploadTicket';
 import {Asset} from 'model/asset';
@@ -242,3 +243,16 @@ export class Upload extends Endpoint {
 	}
 	
 }
+
+// Attach endpoint
+const name = 'upload';
+const getter = function (instance) {
+	return new Upload( {
+		apiUrl : instance.apiUrl,
+		//TODO: un-hard-code this when we get a dam version
+		apiVersion : '4.7.1',
+		computerName : instance.state.config.UploadName
+	} );
+};
+
+attachEndpoint({ name, getter });

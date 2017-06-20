@@ -1,3 +1,4 @@
+import {attachEndpoint} from 'connector';
 import {Endpoint} from 'common/endpoint';
 import {Folders} from 'request/searchService/folders';
 import {Filters} from 'request/searchService/filters';
@@ -167,3 +168,18 @@ export class Content extends Endpoint {
 		});
 	}
 }
+
+// Attach endpoint
+const name = 'content';
+const getter = function (instance) {
+	return new Content({
+		apiUrl          : instance.apiUrl,
+		metafieldLabelId: instance.state.config.PortalMenu.metafieldLabelId,
+		sLayoutFolderId : instance.state.config.MainSearchFolderId,
+		labelsPromise   : instance.config.getAppLabels(),
+		sortTypes       : instance.state.config.SortTypes,
+		defaultSortType : instance.state.config.SortType
+	});
+};
+
+attachEndpoint({ name, getter });

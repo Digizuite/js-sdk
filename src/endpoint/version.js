@@ -1,3 +1,4 @@
+import {attachEndpoint} from 'connector';
 import {Endpoint} from 'common/endpoint';
 import {ReplaceTicket} from 'model/ticket/replaceTicket';
 import {RestoreTicket} from 'model/ticket/restoreTicket';
@@ -130,3 +131,16 @@ export class Version extends Endpoint {
 	}
 	
 }
+
+// Attach endpoint
+const name   = 'version';
+const getter = function (instance) {
+	return new Version({
+		apiUrl      : instance.apiUrl,
+		//TODO: un-hard-code this when we get a dam version
+		apiVersion  : '4.7.1',
+		computerName: instance.state.config.UploadName
+	});
+};
+
+attachEndpoint({name, getter});
