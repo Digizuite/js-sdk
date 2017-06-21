@@ -49,7 +49,7 @@ export class DateTimeMetadataItem extends MetadataItem {
 	 * Returns the value of the item
 	 * @returns {string|null}
 	 */
-	getBatchValue() {
+	getUpdateValue() {
 		const format = 'YYYY-MM-DDTHH:mm:ss.SSS';
 		return this.value ? fecha.format(this.value, format): null;
 	}

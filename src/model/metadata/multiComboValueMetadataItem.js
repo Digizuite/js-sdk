@@ -87,7 +87,7 @@ export class MultiComboValueMetadataItem extends ComboValueMetadataItem {
 		this.value = [];
 	}
 	
-	getBatchValue() {
+	getUpdateValue() {
 		return this.value.map( thisComboValue => thisComboValue.id );
 	}
 	

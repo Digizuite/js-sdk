@@ -12,7 +12,7 @@ export class EditComboValueMetadataItem extends ComboValueMetadataItem {
 		super(args);
 	}
 	
-	getBatchValue() {
+	getUpdateValue() {
 		return this.value ? this.value.value : null;
 	}
 	

@@ -40,7 +40,7 @@ export class ComboValueMetadataItem extends MetadataItem {
 		super.setValue(comboOption);
 	}
 	
-	getBatchValue() {
+	getUpdateValue() {
 		return this.value ? this.value.id : null;
 	}
 	

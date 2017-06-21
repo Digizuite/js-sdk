@@ -62,7 +62,7 @@ export class MetadataItem {
 	 * Returns the batch value of the item
 	 * @returns {*}
 	 */
-	getBatchValue() {
+	getUpdateValue() {
 		return this.getValue();
 	}
 	

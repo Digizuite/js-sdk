@@ -1,4 +1,5 @@
 import {BaseRequest} from '../../common/request';
+import {UpdateContainer} from '../../utilities/updateContainer';
 
 export class BatchUpdate extends BaseRequest {
 	
@@ -29,8 +30,33 @@ export class BatchUpdate extends BaseRequest {
 			// when executing the request!
 			useMetadataVersionedAccess: 0,
 			updateXML                 : '',
-			values                    : null,
+			values                    : [],
 		};
+	}
+	
+	/**
+	 * Execute the request
+	 * @param {Object} payload
+	 * @returns {Promise}
+	 */
+	execute( payload = {} ) {
+		
+		// Ensure that we have containers in the format we want
+		if(
+			!payload.hasOwnProperty('containers') ||
+			!Array.isArray(payload.containers) ||
+			payload.containers.length === 0
+		) {
+			throw new Error('BatchUpdate expects an array of containers as parameter.');
+		}
+		
+		payload.containers.forEach((thisContainer) => {
+			if( !(thisContainer instanceof UpdateContainer)) {
+				throw new Error('BatchUpdate expects containers to be of type UpdateContainer.');
+			}
+		});
+		
+		return super.execute(payload);
 	}
 	
 	/**
@@ -39,13 +65,22 @@ export class BatchUpdate extends BaseRequest {
 	 * @returns {Object}
 	 */
 	processRequestData(payload = {}) {
+
+		let xml = '';
+		const values = [];
 		
-		// add batch to payload
-		payload.updateXML = `<r>${payload.batch.getBatchXML()}</r>`;
-		payload.values = JSON.stringify([payload.batch.getBatchJSON()]);
+		// Merge XML and JSON from all containers
+		payload.containers.forEach((thisContainer) => {
+			xml += thisContainer.getContainerXML();
+			values.push( thisContainer.getContainerJSON() );
+		});
 		
-		// remove batch object
-		payload.batch = undefined;
+		// Batch values
+		payload.updateXML = `<r>${xml}</r>`;
+		payload.values = JSON.stringify(values);
+		
+		// remove containers
+		payload.containers = undefined;
 		
 		return payload;
 	}

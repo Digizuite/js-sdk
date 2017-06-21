@@ -111,7 +111,7 @@ export class TreeMetadataItem extends MetadataItem {
 	 * Get batch value
 	 * @returns {Array}
 	 */
-	getBatchValue() {
+	getUpdateValue() {
 		return this.value.map( thisTreeOption => thisTreeOption.id );
 	}
 	

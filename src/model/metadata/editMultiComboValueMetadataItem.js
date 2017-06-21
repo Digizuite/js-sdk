@@ -12,7 +12,7 @@ export class EditMultiComboValueMetadataItem extends MultiComboValueMetadataItem
 		super(args);
 	}
 	
-	getBatchValue() {
+	getUpdateValue() {
 		return this.value.map( thisComboValue => thisComboValue.value );
 	}
 	

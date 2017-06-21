@@ -39,7 +39,7 @@ export class UniqueVersionMetadataItem extends MetadataItem {
 	 * Returns the batch value of the item
 	 * @returns {*}
 	 */
-	getBatchValue() {
+	getUpdateValue() {
 		return this.value ? [ this.value.unique, this.value.version ] : [];
 	}
 }

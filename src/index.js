@@ -44,7 +44,7 @@ export {TreeOption} from './model/metadata/treeOption';
 export {UniqueOption} from './model/metadata/uniqueOption';
 
 // Batch
-export {UpdateBatch} from './utilities/updateBatch';
+export {UpdateContainer} from './utilities/updateContainer';
 export {BatchUpdate} from './request/batchUpdateService/batchUpdate';
 
 // models
