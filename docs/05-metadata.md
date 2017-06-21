@@ -196,13 +196,13 @@ instance.metadata.verifyUniqueVersion({
 After modifying one or more metadata items, they can be save as follows:
 ```js
 instance.metadata.updateMetadataItems({
-    asset,
+    assets : [asset],
     metadataItems : [ changedMetadataItem ]
 }).then(()=>{
     console.log("Metadata updated!");
 });
 ```
 
-It is recommended to save the update in batch( multiple metadata items at  once).
+It is recommended to save the update in batch( multiple metadata items or multiple assets at once) when possible.
 
 It is recommended to send as parameter only metadata items that have been modified.

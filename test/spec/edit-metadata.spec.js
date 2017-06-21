@@ -50,7 +50,7 @@ describe('Edit metadata', () => {
     // Helpers function to save a field
     async function saveMetadataItem(item) {
         return await instance.metadata.updateMetadataItems({
-            asset: assetsCache[0],
+            assets: [ assetsCache[0] ],
             metadataItems : [ item ]
         });
     }

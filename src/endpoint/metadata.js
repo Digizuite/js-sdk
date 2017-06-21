@@ -110,17 +110,25 @@ export class Metadata extends Endpoint {
 	/**
 	 *
 	 * @param args
-	 * @param {Asset} args.asset
+	 * @param {Asset[]} args.assets
 	 * @param {Array} args.metadataItems
 	 * @returns {Promise.<T>}
 	 */
 	updateMetadataItems( args = {} ) {
 		
-		if (!args.asset) {
-			throw new Error('updateMetadataItems expected an asset as parameter!');
+		if (
+			!args.hasOwnProperty('assets') ||
+			!Array.isArray(args.assets) ||
+			!args.assets.length
+		) {
+			throw new Error('updateMetadataItems expected an array of assets as parameter!');
 		}
 		
-		if (!args.metadataItems) {
+		if (
+			!args.hasOwnProperty('metadataItems') ||
+			!Array.isArray(args.metadataItems) ||
+			!args.metadataItems.length
+		) {
 			throw new Error('updateMetadataItems expected an metadataItems as parameter!');
 		}
 		
@@ -130,7 +138,7 @@ export class Metadata extends Endpoint {
 		// Create an update batch
 		const updateContainer = new UpdateContainer({
 			type   : UpdateContainer.CONTAINER_TYPE.ItemIdsValuesRowid,
-			itemIds: [args.asset.id],
+			itemIds: args.assets.map( thisAsset => thisAsset.id ),
 			rowId  : UpdateContainer.ROW_ID.NonIncremental
 		});
 		
