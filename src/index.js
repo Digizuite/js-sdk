@@ -11,6 +11,7 @@ import './endpoint/download';
 import './endpoint/metadata';
 import './endpoint/upload';
 import './endpoint/version';
+import './endpoint/member';
 
 // filters
 export {AssetTypeFilter} from './model/filter/assetTypeFilter';
