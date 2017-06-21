@@ -3,7 +3,12 @@
 ## Requirements
 * NodeJS v6 or greater
 
-## Build
+## Install the SDK
+```
+npm install digizuite
+```
+
+## For development
 ```
 npm install
 npm run dist
