@@ -44,7 +44,7 @@ describe('Edit metadata', () => {
                 group: groups.filter(group => group.id === 50029)[0]
             });
         }
-        return itemsCache.filter(item => item && item.TYPE === type)[0];
+        return itemsCache.filter(item => item.TYPE === type)[0];
     }
 
     // Helpers function to save a field
