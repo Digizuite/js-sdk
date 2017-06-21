@@ -104,10 +104,19 @@ export class BaseRequest {
 	/**
 	 * Returns the error message from the response
 	 * @param response
-	 * @returns {boolean}
+	 * @returns {string}
 	 */
 	static getErrorMessage( response ) {
-		return response.error;
+		
+		if( response.hasOwnProperty('error') ) {
+			return response.error;
+		}
+		
+		if( response.hasOwnProperty('errors') ) {
+			return response.errors[0].Description;
+		}
+		
+		return '¯\\_(ツ)_/¯';
 	}
 	
 	/**
@@ -116,8 +125,13 @@ export class BaseRequest {
 	 * @returns {Number}
 	 */
 	static getErrorCode( response ) {
+		
 		if( response.hasOwnProperty('warnings') ) {
 			return parseInt(response.warnings[0].Code, 10);
+		}
+		
+		if( response.hasOwnProperty('errors') ) {
+			return parseInt(response.errors[0].ErrorCode, 10);
 		}
 		
 		return 0;
