@@ -76,7 +76,22 @@ export class BaseRequest {
 			}
 		);
 		
-		return fetch(request, {credentials: 'include'})
+		// Settle in boys, papa is going to tell you a story about fetch and promise
+		// See kids, when 2 or more browser vendors love each other very much,
+		// they get together and make something special - a spec for a new feature!
+		// And 9 months later, the spec is born by reaching stage 3.
+		// However, developers are so exited, that they start using the feature,
+		// even when it is in stage 0.
+		// This is what happens here: Even if Promise.prototype.finally is currently in stage 2,
+		// it is still being used by a lot of developers, by using poly libraries like Bluebird
+		// (which work by replacing the native Promise with the one provided by Bluebird, in the window scope).
+		// Furthermore, if you have a native method(like fetch) that returns a promise, that promise
+		// will still be a native one, even if you are using Bluebird.
+		// We can help those poor developers by chaining the fetch promise to a resolved promise.
+		// This way, the result of this method will be a Promise create from the execution context,
+		// instead of always a native one.
+		return Promise.resolve()
+			.then( () => fetch(request, {credentials: 'include'}) )
 			.then(rawResponse => rawResponse.json())
 			.then((response) => {
 				
