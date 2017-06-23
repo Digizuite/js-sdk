@@ -29,18 +29,18 @@ describe('Edit metadata', () => {
     let assetsCache;
 
     // Helpers method for getting metadata items for tests
-    async function getMetadataItem(type) {
+    async function getMetadataItem(type, assetIndex = 0) {
         if(!itemsCache) {
             if(!assetsCache) {
                 let {assets} = await instance.content.getAssets();
                 assetsCache = assets;
             }
             let groups = await instance.metadata.getMetadataGroups({
-                asset: assetsCache[0]
+                asset: assetsCache[assetIndex]
             });
 
             itemsCache = await instance.metadata.getMetadataItems({
-                asset: assetsCache[0],
+                asset: assetsCache[assetIndex],
                 group: groups.filter(group => group.id === 50029)[0]
             });
         }
@@ -280,5 +280,18 @@ describe('Edit metadata', () => {
             isUnique = false;
         }
         expect(isUnique).toBe(true)
+    });
+
+    it('should edit metadata on multiple assets', async () => {
+        let item1 = await getMetadataItem(StringMetadataItem.TYPE, 0);
+        let item2 = await getMetadataItem(StringMetadataItem.TYPE, 1);
+
+        item1.setValue('bla');
+        item2.setValue('doo');
+
+        await instance.metadata.updateMetadataItems({
+            assets: [ assetsCache[0], assetsCache[1] ],
+            metadataItems : [ item1, item2 ]
+        });
     });
 });

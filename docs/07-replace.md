@@ -17,7 +17,7 @@ First step in replacing an asset is requesting a replace ticket.
 
 ## Replace the asset
 
-After the replace tickets are obtain, the upload process for the replacement file can begin.
+After the replace tickets are obtained, the upload process for the replacement file can begin.
 
 ```js
 instance.version.replaceAssetByTicket({
