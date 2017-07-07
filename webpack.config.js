@@ -28,7 +28,7 @@ function getWebpackConfig(env) {
 	}
 	
 	return 	{
-		entry : 'index.js',
+		entry : './src/index.ts',
 		output: {
 			path          : path.resolve(__dirname, 'dist'),
 			filename      : `digizuite${ env === ENV_PRODUCTION ? '.min' : ''}.js`,
@@ -50,7 +50,7 @@ function getWebpackConfig(env) {
 			modules   : [
 				'src', 'node_modules', 'test'
 			],
-			extensions: ['.js']
+			extensions: ['.js', '.ts']
 		},
 		
 		resolveLoader: {
@@ -60,7 +60,14 @@ function getWebpackConfig(env) {
 		},
 		
 		module: {
-			rules: [],
+			rules: [
+				{
+					test: /\.ts$/,
+					use: {
+						loader: 'awesome-typescript-loader'
+					}
+				}
+			],
 		},
 		
 		plugins,
