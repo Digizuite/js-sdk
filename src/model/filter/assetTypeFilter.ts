@@ -6,7 +6,7 @@ export class AssetTypeFilter extends ArrayFilter {
 	 * C-tor
 	 * @param args
 	 */
-	constructor(args = {}) {
+	constructor(args: {types: number[]}) {
 		super({
 			id  : 'sAssetType',
 			values : args.types

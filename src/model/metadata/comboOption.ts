@@ -1,12 +1,21 @@
+export interface IComboOptionArgs {
+	item_combo_valueid: string;
+	combooptionvalue?: string;
+	optionvalue?: string;
+}
+
 export class ComboOption {
+	private id?: number;
+	private value?: string;
+	private _optionvalue?: string;
 	
 	/**
 	 * C-tor
 	 * @param args
 	 */
-	constructor(args = {}) {
+	constructor(args: {id?: number, value?: string, optionvalue?: string} = {}) {
 		
-		this.id    = args.id;
+		this.id = args.id;
 		this.value = args.value;
 		this._optionvalue = args.optionvalue;
 		
@@ -27,9 +36,9 @@ export class ComboOption {
 	 * Sets values from the API response to itself
 	 * @param args
 	 */
-	setValueFromAPI(args = {}) {
+	setValueFromAPI(args: IComboOptionArgs) {
 		
-		this.id    = parseInt(args.item_combo_valueid, 10);
+		this.id = parseInt(args.item_combo_valueid, 10);
 		
 		// Yes, this can be in multiple proprieties.
 		if( args.hasOwnProperty('combooptionvalue') ) {

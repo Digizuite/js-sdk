@@ -1,10 +1,34 @@
-export class MetadataItem {
+export interface IMetadataItemArgs<T> {
+	guid: string,
+	name: string,
+	labelId: string,
+	required: string|number|boolean,
+	value: T
+}
+
+export interface ISetValueFromApiArgs {
+	metafieldid: {
+		metafieldItemGuid: string;
+		metafieldName: string;
+		metafieldIsRequired: string;
+	};
+	metafieldLabelId: string;
+	item_metafield_valueid?: any[];
+}
+
+export class MetadataItem<T> {
+
+	private guid: string;
+	private name: string;
+	private labelId: number;
+	private required: boolean;
+	protected value: T;
 
 	/**
 	 *
 	 * @param args
 	 */
-	constructor( args = {} ) {
+	constructor( args: IMetadataItemArgs<T>) {
 		this.guid = args.guid;
 		this.name = args.name;
 		this.labelId = args.labelId;
@@ -18,7 +42,7 @@ export class MetadataItem {
 	 * @returns {*}
 	 */
 	static createFromAPIResponse( args = {} ) {
-		const item = new this();
+		const item = new this(args);
 		item.setValueFromAPI(args);
 		return item;
 	}
@@ -27,7 +51,7 @@ export class MetadataItem {
 	 *
 	 * @param args
 	 */
-	setValueFromAPI( args = {}) {
+	setValueFromAPI( args: ISetValueFromApiArgs) {
 		this.guid  = args.metafieldid.metafieldItemGuid;
 		this.name = args.metafieldid.metafieldName;
 		this.labelId = parseInt(args.metafieldLabelId, 10);

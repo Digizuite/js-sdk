@@ -1,7 +1,9 @@
 import {RequestError} from './requestError';
 
-export class BaseRequest {
-	
+export class BaseRequest<T> {
+
+	protected apiUrl: string;
+
 	/**
 	 * To be overwritten
 	 * @returns {string}
@@ -23,7 +25,7 @@ export class BaseRequest {
 	 * @param {Object} args
 	 * @param {String} args.apiUrl - Full URL to the api end-point.
 	 */
-	constructor( args = {} ) {
+	constructor( args: {apiUrl: string} ) {
 		
 		if( typeof args.apiUrl !== 'string' || args.apiUrl.length === 0 ) {
 			throw new Error( 'apiUrl is a required parameter' );
@@ -38,7 +40,7 @@ export class BaseRequest {
 	 * @param {Object} payload
 	 * @returns {Object}
 	 */
-	processRequestData( payload = {} ) {
+	protected processRequestData<K>( payload: K ): K {
 		return payload;
 	}
 	
@@ -47,7 +49,7 @@ export class BaseRequest {
 	 * @param {Object} response
 	 * @returns {Object}
 	 */
-	processResponseData( response = {} ) {
+	protected processResponseData<K>( response: K ): K {
 		return response;
 	}
 	
@@ -56,11 +58,14 @@ export class BaseRequest {
 	 * @param payload
 	 * @returns {Promise}
 	 */
-	execute( payload = {} ) {
+	execute( payload = {} ): Promise<T> {
 	
 		// Merge the payload with the default one and pass it though the pre-process
 		const requestData = this.processRequestData(
-			Object.assign({}, this.defaultPayload, payload)
+			{
+				...this.defaultPayload,
+				...payload
+			}
 		);
 		
 		const request = new Request(
@@ -112,7 +117,7 @@ export class BaseRequest {
 	 * @param response
 	 * @returns {boolean}
 	 */
-	static containsError( response ) {
+	static containsError( response: {success: boolean|string} ): boolean {
 		return (response.success === 'false' || response.success === false);
 	}
 	
@@ -121,7 +126,7 @@ export class BaseRequest {
 	 * @param response
 	 * @returns {string}
 	 */
-	static getErrorMessage( response ) {
+	static getErrorMessage( response: {error: string, errors: {Description: string}[]} ): string {
 		
 		if( response.hasOwnProperty('error') ) {
 			return response.error;
@@ -139,7 +144,7 @@ export class BaseRequest {
 	 * @param response
 	 * @returns {Number}
 	 */
-	static getErrorCode( response ) {
+	static getErrorCode( response: {warnings: {Code: string}[], errors: {ErrorCode: string}[]} ): number {
 		
 		if( response.hasOwnProperty('warnings') ) {
 			return parseInt(response.warnings[0].Code, 10);
@@ -157,14 +162,17 @@ export class BaseRequest {
 	 * @param paramsObject
 	 * @returns {string}
 	 */
-	toQueryString( paramsObject = {} ) {
+	toQueryString( paramsObject: {[key: string]: string|Array<string>} = {} ) {
 		return Object
 			.keys(paramsObject)
 			.filter( key => paramsObject[key] !== undefined && paramsObject[key] !== null )
 			.map(key => {
-				return Array.isArray( paramsObject[key] ) ?
-					this.toTraditionalArray(key, paramsObject[key]) :
-					`${encodeURIComponent(key)}=${encodeURIComponent(paramsObject[key])}`;
+				const value = paramsObject[key];
+				if (Array.isArray(value)) {
+					return this.toTraditionalArray(key, value);
+				} else {
+					return `${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
+				}
 			})
 			.join('&');
 	}
@@ -175,7 +183,7 @@ export class BaseRequest {
 	 * @param array
 	 * @returns {string}
 	 */
-	toTraditionalArray( key, array ) {
+	toTraditionalArray( key:string, array:Array<string> ) {
 		return array.map((thisVal)=>{
 			return `${encodeURIComponent(key)}=${encodeURIComponent(thisVal)}`;
 		}).join('&');

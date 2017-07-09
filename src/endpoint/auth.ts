@@ -1,9 +1,10 @@
-import {attachEndpoint} from '../connector';
+import {attachEndpoint, Connector} from '../connector';
 import {Endpoint} from '../common/endpoint';
 import {Login} from '../request/connectService/login';
 import {KeepAlive} from '../request/connectService/keepAlive';
 
 export class Auth extends Endpoint {
+	private keepAliveInterval: number;
 	
 	/**
 	 * C-tor
@@ -11,7 +12,7 @@ export class Auth extends Endpoint {
 	 * @param {String} args.apiUrl - Full URL to the api end-point.
 	 * @param {Number} [args.keepAliveInterval] - Timeout for making a keep alive request
 	 */
-	constructor( args = {}  ) {
+	constructor( args: {apiUrl: string, keepAliveInterval?: number}  ) {
 		super(args);
 		this.keepAliveInterval = args.keepAliveInterval || 60000;
 	}
@@ -22,8 +23,8 @@ export class Auth extends Endpoint {
 	 * @param {String} password - password of said user
 	 * @returns {Promise}
 	 */
-	login( { username = '', password = '' } ) {
-		
+	public login( { username = '', password = '' } ) {
+
 		const loginRequest = new Login({
 			apiUrl : this.apiUrl
 		});
@@ -51,10 +52,16 @@ export class Auth extends Endpoint {
 
 // Attach endpoint
 const name = 'auth';
-const getter = function (instance) {
+const getter = function (instance: Connector) {
 	return new Auth({
 		apiUrl: instance.apiUrl
 	});
 };
 
 attachEndpoint({ name, getter });
+
+declare module '../connector' {
+	interface Connector {
+		auth: typeof Auth
+	}
+}

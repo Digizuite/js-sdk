@@ -1,4 +1,4 @@
-import {attachEndpoint} from '../connector';
+import {attachEndpoint, Connector} from '../connector';
 import {Endpoint} from '../common/endpoint';
 import {UpdateContainer} from '../utilities/updateContainer';
 import {BatchUpdate} from '../request/batchUpdateService/batchUpdate';
@@ -10,7 +10,7 @@ export class Batch extends Endpoint {
 	 * @param {Object} args
 	 * @param {String} args.apiUrl - Full URL to the api end-point.
 	 */
-	constructor( args = {}  ) {
+	constructor( args: {apiUrl: string}  ) {
 		super(args);
 	}
 	
@@ -20,7 +20,7 @@ export class Batch extends Endpoint {
 	 * @param {UpdateContainer[]} args.containers
 	 * @return {Promise}
 	 */
-	update( args ) {
+	update( args: {containers: UpdateContainer[]} ) {
 		
 		// Ensure that we have containers in the format we want
 		if(
@@ -51,10 +51,16 @@ export class Batch extends Endpoint {
 
 // Attach endpoint
 const name = 'batch';
-const getter = function (instance) {
+const getter = function (instance: Connector) {
 	return new Batch({
 		apiUrl: instance.apiUrl
 	});
 };
 
 attachEndpoint({ name, getter });
+
+declare module '../connector' {
+	interface Connector {
+		batch: typeof Batch
+	}
+}

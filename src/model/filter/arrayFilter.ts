@@ -1,12 +1,14 @@
 import {Filter} from './filter';
 
 export class ArrayFilter extends Filter {
-	
+
+	private values: any[];
+
 	/**
 	 * C-tor
 	 * @param args
 	 */
-	constructor(args = {}) {
+	constructor(args: {values: any[], id: string}) {
 		super(args);
 		
 		if( !args.values ) {
@@ -18,11 +20,10 @@ export class ArrayFilter extends Filter {
 	
 	/**
 	 * Export for search payload
-	 * @returns {{freetext: *}}
 	 */
-	getAsSearchPayload() {
+	getAsSearchPayload(): {[key: string]: any} {
 		return {
-			[this.id]                   : this.values.join(','),
+			[this.id] : this.values.join(','),
 			[`${this.id}_type_multiids`]: 1
 		};
 	}

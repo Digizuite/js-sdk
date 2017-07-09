@@ -1,19 +1,28 @@
 import {ensureTrailingSeparator} from './utilities/helpers/url';
+import {Endpoint} from "./common/endpoint";
+
+import './endpoint/auth';
+import './endpoint/config'
 
 export class Connector {
-	
+
+	apiUrl: string;
+	private keepAliveInterval: number;
+	private state: { user: {}; config: {} };
+	endpoints: {[key: string]: Endpoint};
+
 	/**
 	 * C-tor
 	 * @param {Object} args
 	 * @param {String} args.apiUrl - Full URL to the api end-point.
 	 * @param {Number} [args.keepAliveInterval] - Timeout for making a keep alive request
 	 */
-	constructor( args = {} ) {
+	constructor( args: {apiUrl: string, keepAliveInterval: number} ) {
 		
 		if( typeof args.apiUrl !== 'string' || args.apiUrl.length === 0 ) {
 			throw new Error( 'apiUrl is a required parameter' );
 		}
-		
+
 		this.apiUrl = ensureTrailingSeparator(args.apiUrl);
 		this.keepAliveInterval = args.keepAliveInterval || 60000;
 		
@@ -21,6 +30,8 @@ export class Connector {
 			user : {},
 			config : {}
 		};
+
+		this.endpoints = {};
 		
 	}
 	
@@ -32,7 +43,7 @@ export class Connector {
 	 * @param {String} args.password - password.
 	 * @returns {Promise}.<Connector> - a promise that will be resolved once the
 	 */
-	static getConnectorInstance( args = {} ) {
+	static getConnectorInstance( args: {apiUrl: string, username: string, password: string} ) {
 		
 		const digizuiteInstance = new Connector( args );
 		return digizuiteInstance.initializeConnector( {
@@ -49,7 +60,7 @@ export class Connector {
 	 * @param {String} args.password - password.
 	 * @returns {Promise.<Connector>}
 	 */
-	initializeConnector( args = {} ) {
+	initializeConnector( args: {username: string, password: string} ) {
 		
 		if( typeof args.username !== 'string' || args.username.length === 0 ) {
 			return Promise.reject( new Error( 'username is a required parameter' ) );
@@ -118,26 +129,26 @@ export class Connector {
 
 export const getConnectorInstance = Connector.getConnectorInstance;
 
-/**
- * Attach
- * @param {String} name
- * @param {Function} getter
- */
-export const attachEndpoint = ( {name, getter} ) => {
+export interface IAttachEndpoint<T extends Endpoint> {
+	name: string;
+	getter: (connector: Connector) => T;
+}
 
-	Object.defineProperty(
-		Connector.prototype,
-		name,
+/**
+ * Attach a new endpoint to the connector
+ */
+export function attachEndpoint<T extends Endpoint>( {name, getter}: IAttachEndpoint<T> ) {
+
+	Object.defineProperty(Connector.prototype, name,
 		{
-			get : function() {
-				
-				if( !this[`_${name}Endpoint`] ) {
-					this[`_${name}Endpoint`] = getter(this);
+			get : function(this: Connector) {
+
+				if( !this.endpoints[name] ) {
+					this.endpoints[name] = getter(this);
 				}
 				
-				return this[`_${name}Endpoint`];
+				return this.endpoints[name];
 			}
 		}
 	);
-
-};
+}

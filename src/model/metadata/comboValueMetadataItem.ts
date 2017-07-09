@@ -1,7 +1,7 @@
 import {MetadataItem} from './metadataItem';
 import {ComboOption} from './comboOption';
 
-export class ComboValueMetadataItem extends MetadataItem {
+export class ComboValueMetadataItem extends MetadataItem<ComboOption> {
 	
 	static get TYPE() { return 68; }
 	static get VALUE_TYPE() { return 3; }

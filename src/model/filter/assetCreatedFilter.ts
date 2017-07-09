@@ -4,13 +4,11 @@ export class AssetCreatedFilter extends DateFilter {
 	
 	/**
 	 * C-tor
-	 * @param args
 	 */
-	constructor(args = {}) {
+	constructor({from = 0, to = Math.floor(Date.now() / 1000) }) {
 		super({
 			id  : 'sDateBetween',
-			from: args.from ? args.from : 0,
-			to  : args.to ? args.to : Math.floor( Date.now() / 1000)
+			from, to
 		});
 	}
 

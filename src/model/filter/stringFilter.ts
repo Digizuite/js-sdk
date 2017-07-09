@@ -1,12 +1,14 @@
 import {Filter} from './filter';
 
 export class StringFilter extends Filter {
-	
+
+	private value: string;
+
 	/**
 	 * C-tor
 	 * @param args
 	 */
-	constructor(args = {}) {
+	constructor(args: {id: string, value: string}) {
 		super(args);
 		
 		if( !args.value ) {
@@ -18,9 +20,8 @@ export class StringFilter extends Filter {
 	
 	/**
 	 * Export for search payload
-	 * @returns {{freetext: *}}
 	 */
-	getAsSearchPayload() {
+	getAsSearchPayload(): {[key: string]: any} {
 		return {
 			[this.id] : this.value
 		};
