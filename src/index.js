@@ -1,3 +1,5 @@
+import 'core-js';
+
 // main
 export {Connector, getConnectorInstance} from './connector';
 export {Constants, SORT_DIRECTION, SORT_BY, ASSET_TYPE, DOWNLOAD_QUALITY, FILTER_TYPE, GUID} from './const';

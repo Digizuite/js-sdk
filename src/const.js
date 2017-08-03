@@ -24,13 +24,13 @@ export const SORT_DIRECTION = {
     ASCENDING: 'Asc',
 };
 
-// ASSET TYPE
 export const DOWNLOAD_QUALITY = {
     ORIGINAL: 1,
     HIGH_RES: 2,
     LOW_RES: 3
 };
 
+// ASSET TYPE
 export const ASSET_TYPE = {
     VIDEO: 1,
     AUDIO: 2,
