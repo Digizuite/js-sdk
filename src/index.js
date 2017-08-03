@@ -1,4 +1,5 @@
 import 'core-js';
+import 'whatwg-fetch';
 
 // main
 export {Connector, getConnectorInstance} from './connector';

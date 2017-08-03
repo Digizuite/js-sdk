@@ -67,7 +67,8 @@ function getWebpackConfig(env) {
                     use: {
                         loader: 'babel-loader',
                         options: {
-                            presets: ['env']
+                        	plugins: ['transform-runtime'],
+                            presets: ['env', 'es2017', 'es2015']
                         }
                     }
                 }
