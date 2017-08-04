@@ -4,6 +4,8 @@ import {Folders} from '../request/searchService/folders';
 import {Filters} from '../request/searchService/filters';
 import {Assets} from '../request/searchService/assets';
 import upperFirst from 'lodash/upperFirst';
+import {Asset} from '../model/asset';
+import {AssetsInformation} from '../request/searchService/assetsInformation';
 
 export class Content extends Endpoint {
 	
@@ -138,6 +140,27 @@ export class Content extends Endpoint {
 				this.cache.facetResult[ searchName ] = facetResult;
 				return {assets, navigation };
 			});
+	}
+	
+	/**
+	 *
+	 * @param {Number[]} assetIds - a list of assets ids
+	 * @returns {Promise.<Asset[]>}
+	 */
+	getAssetsById( assetIds ) {
+		
+		if( !Array.isArray(assetIds)  ) {
+			throw new Error('Expecting as array of assets ids as parameter');
+		}
+		
+		const assetRequest = new AssetsInformation({
+			apiUrl: this.apiUrl
+		});
+		
+		return assetRequest.execute({
+			assets: assetIds.map( thisAssetId => new Asset({ id : thisAssetId }) )
+		});
+		
 	}
 	
 	/**
