@@ -3,7 +3,7 @@ import 'whatwg-fetch';
 
 // main
 export {Connector, getConnectorInstance} from './connector';
-export {Constants, SORT_DIRECTION, SORT_BY, ASSET_TYPE, DOWNLOAD_QUALITY, FILTER_TYPE, GUID} from './const';
+export {Constants, SORT_DIRECTION, SORT_BY, ASSET_TYPE, DOWNLOAD_QUALITY, FILTER_TYPE, GUID, ASSET_TYPE_REVERSE} from './const';
 
 // endpoints
 import './endpoint/auth';

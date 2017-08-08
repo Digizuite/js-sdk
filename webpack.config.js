@@ -67,7 +67,7 @@ function getWebpackConfig(env) {
                     use: {
                         loader: 'babel-loader',
                         options: {
-                        	plugins: ['transform-runtime'],
+                        	plugins: ['transform-runtime', 'transform-object-rest-spread'],
                             presets: ['env', 'es2017', 'es2015']
                         }
                     }
@@ -77,7 +77,7 @@ function getWebpackConfig(env) {
 		
 		plugins,
 		
-		devtool: 'cheap-source-map',
+		devtool: 'source-map',
 	};
 }
 
