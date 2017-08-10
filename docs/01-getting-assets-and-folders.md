@@ -77,3 +77,45 @@ and `Digizuite.Constants.ASSET_TYPE`. Both of these are dictionaries.
 |OTT | 101|
 |PHOTOSHOP | 16|
 |ILLUSTRATOR | 17|
+
+## Pagination and es5
+An example of how to use the above code to do pagination. 
+
+```js
+ var ASSETS_PER_PAGE = 12;
+
+// Get the firts page
+instance.content.getAssets({
+    navigation: {
+        page: 1,
+        limit: ASSETS_PER_PAGE
+    }
+}).then(function (response) {
+    // Get the assets from the response
+    var assets = response.assets;
+    // Get the navigation information
+    var navigation = response.navigation;
+
+    console.log('got ' + assets.length + ' assets');
+    console.log('total amount of assets available is ' + navigation.total);
+
+    var totalPages = Math.ceil(navigation.total / ASSETS_PER_PAGE);
+
+    console.log('total number of pages available: ' + totalPages);
+
+    // Get page 2
+    instance.content.getAssets({
+        navigation: {
+            page: 2,
+            limit: ASSETS_PER_PAGE
+        }
+    }).then(function(response) {
+        var secondPageAssets = response.assets;
+        console.log('get ' + secondPageAssets.length + ' assets');
+    })
+
+}).catch(function (error) {
+    console.error('something went horribly wrong', error);
+});
+
+```
