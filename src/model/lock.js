@@ -1,4 +1,5 @@
 import {Model} from '../common/model';
+import {Member} from './member';
 
 export class Lock extends Model {
 	
@@ -22,7 +23,10 @@ export class Lock extends Model {
 	setValueFromAPI( args = {} ) {
 		
 		this.isLocked = !!args.isLocked;
-		this.owner = null;
+		this.owner = new Member({
+			id : args.lockedByItemId,
+			username : args.lockedByUsername
+		});
 	}
 	
 }
