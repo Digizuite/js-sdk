@@ -46,10 +46,15 @@ export class LoggerUtility {
 		};
 		
 		if( window.console ) {
+// eslint-disable-next-line no-console
 			console.groupCollapsed(`%c ${fullMessage}`, `background-color: ${backgroundColor[this.LogLevelInverse[level]]}`);
+// eslint-disable-next-line no-console
 			console.log(fullMessage);
+// eslint-disable-next-line no-console
 			console.log(context);
+// eslint-disable-next-line no-console
 			console.trace('Stack Trace');
+// eslint-disable-next-line no-console
 			console.groupEnd(fullMessage);
 		}
 		

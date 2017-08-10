@@ -8,9 +8,9 @@ export class AssetFreeTextFilter extends StringFilter {
 	 */
 	constructor(args = {}) {
 		super({
-			id : 'freetext',
-			value : args.text
+			id   : 'freetext',
+			value: args.text
 		});
 	}
-
+	
 }

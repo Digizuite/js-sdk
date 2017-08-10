@@ -1,10 +1,9 @@
 export class Model {
 	
 	/**
-	 *
-	 * @param {Object} args
+	 * C-tor
 	 */
-	constructor( args = {} ) { }
+	constructor() { }
 	
 	/**
 	 *
@@ -18,9 +17,8 @@ export class Model {
 	}
 	
 	/**
-	 *
-	 * @param {Object} args
+	 * Set values from API
 	 */
-	setValueFromAPI( args = {}) { }
+	setValueFromAPI() { }
 	
 }
