@@ -1,5 +1,6 @@
 import fecha from 'fecha';
 import {Model} from '../common/model';
+import {getExtension} from "utilities/helpers/url";
 
 export class Asset extends Model {
 	
@@ -25,8 +26,9 @@ export class Asset extends Model {
 		this.thumbnail =  args.thumbnail;
 		this.publishedDate = null;
 		this.lastEditedDate = null;
+		this._sourceLocation = null;
 		this.__assetId__DO_NOT_USE_THIS_OR_KITTENS_WILL_DIE = null;
-		
+		this._fileExtension = null;
 	}
 	
 	/**
@@ -57,6 +59,11 @@ export class Asset extends Model {
 			this.date = fecha.parse(args.date, Asset.DATETIME_FORMAT);
 		}
 		
+		this._sourceLocation = '';
+		if( args.sourceLocation ){
+			this._sourceLocation = args.sourceLocation;
+		}
+		
 		// for legacy reason we still need this
 		this.__assetId__DO_NOT_USE_THIS_OR_KITTENS_WILL_DIE = parseInt(args.assetId, 10);
 	}
@@ -68,6 +75,19 @@ export class Asset extends Model {
 	 */
 	getTranscodeForMediaFormat( mediaFormatId ) {
 		return this._transcodes.find( (transcode)=> parseInt(transcode.mediaFormatId,10) === mediaFormatId );
+	}
+	
+	/**
+	 * Returns the extension of the source location of the asset
+	 * @returns {string}
+	 */
+	getFileExtension() {
+		
+		if(!this._fileExtension) {
+			this._fileExtension = getExtension(this._sourceLocation).toLowerCase();
+		}
+		
+		return this._fileExtension;
 	}
 	
 }
