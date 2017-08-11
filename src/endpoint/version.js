@@ -6,6 +6,8 @@ import {DigiUploader} from '../utilities/digiUploader';
 import {Asset} from '../model/asset';
 import {AssetVersion} from '../model/assetVersion';
 import {AssetVersions} from '../request/searchService/assetVersions';
+import {getLockInformation} from "utilities/lockInformation";
+import {RequestError} from "common/requestError";
 
 export class Version extends Endpoint {
 
@@ -85,10 +87,19 @@ export class Version extends Endpoint {
 			throw new Error('Replace expect a replace ticket as parameter');
 		}
 		
-		return this._digiUpload.uploadFile(args.ticket)
-			.then(() => this._digiUpload.finishUpload(args.ticket))
-			.then(() => { return {}; });
-		
+		return getLockInformation({
+			asset : args.ticket.asset,
+			apiUrl : this.apiUrl
+		}).then((lockInfo)=>{
+			
+			if( lockInfo.isLocked ) {
+				throw new RequestError('Asset is being locked', 6660);
+			}
+			
+			return this._digiUpload.uploadFile(args.ticket)
+				.then(() => this._digiUpload.finishUpload(args.ticket))
+				.then(() => { return {}; });
+		});
 	}
 	
 	
@@ -104,8 +115,20 @@ export class Version extends Endpoint {
 			throw new Error('Restore expect a replace ticket as parameter');
 		}
 		
-		return this._digiUpload.finishUpload(args.ticket)
-			.then(()=> { return {}; });
+		return getLockInformation({
+			asset : args.ticket.asset,
+			apiUrl : this.apiUrl
+		}).then((lockInfo)=> {
+			
+			if (lockInfo.isLocked) {
+				throw new RequestError('Asset is being locked', 6660);
+			}
+			
+			return this._digiUpload.finishUpload(args.ticket)
+				.then(() => {
+					return {};
+				});
+		});
 		
 	}
 	

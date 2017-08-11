@@ -1,8 +1,8 @@
 import {attachEndpoint} from '../connector';
 import {Endpoint} from '../common/endpoint';
-import {LockInformation} from '../request/itemControlService/lockInformation';
 import {CheckIn} from '../request/itemControlService/checkIn';
 import {CheckOut} from '../request/itemControlService/checkOut';
+import {getLockInformation} from '../utilities/lockInformation';
 
 export class Lock extends Endpoint {
 	
@@ -72,16 +72,11 @@ export class Lock extends Endpoint {
 			throw new Error('getLockInformation expected an asset as parameter!');
 		}
 		
-		const lockInformationRequest = new LockInformation({
-			apiUrl: this.apiUrl,
-		});
-		
-		return lockInformationRequest.execute({
-			asset: args.asset
+		return getLockInformation({
+			asset : args.asset,
+			apiUrl : this.apiUrl
 		});
 	}
-	
-	
 	
 }
 
