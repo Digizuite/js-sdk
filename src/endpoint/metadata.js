@@ -16,6 +16,8 @@ import {DateTimeMetadataItem} from '../model/metadata/dateTimeMetadataItem';
 import {UpdateContainer} from '../utilities/updateContainer';
 import {MetadataItem} from '../model/metadata/metadataItem';
 import {Constants} from '../const';
+import {getLockInformation} from "utilities/lockInformation";
+import {RequestError} from "common/requestError";
 
 export class Metadata extends Endpoint {
 	
@@ -151,9 +153,22 @@ export class Metadata extends Endpoint {
 			apiUrl : this.apiUrl,
 		});
 		
-		return batchUpdateRequest.execute({
-			containers : [ updateContainer ]
+		return Promise.all(
+			args.assets.map( (thisAsset) => getLockInformation({ asset : thisAsset, apiUrl: this.apiUrl }) )
+		).then((lockInfo) => {
+			
+			const isLocked = lockInfo.reduce( (acc, thisLock) => acc || thisLock.isLocked, false);
+			
+			if( isLocked ) {
+				throw new RequestError('One or more assets is being locked', 6660);
+			}
+			
+			return batchUpdateRequest.execute({
+				containers : [ updateContainer ]
+			});
 		});
+		
+		
 	}
 	
 	/**
