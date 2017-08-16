@@ -2,6 +2,8 @@ import {attachEndpoint} from '../connector';
 import {Endpoint} from '../common/endpoint';
 import {UpdateContainer} from '../utilities/updateContainer';
 import {BatchUpdate} from '../request/batchUpdateService/batchUpdate';
+import { Member as MemberRequest } from '../request/searchService/member';
+import { Member as MemberModel } from '../model/member';
 
 export class Member extends Endpoint {
 	
@@ -12,6 +14,38 @@ export class Member extends Endpoint {
 	 */
 	constructor( args = {}  ) {
 		super(args);
+		
+		this.loggedInMemberId = args.loggedInMemberId;
+	}
+	
+	/**
+	 * Returns a promise that resolves to a member model
+	 * @param args
+	 * @returns {Promise.<MemberModel>}
+	 */
+	getMemberById( args = {} ) {
+		
+		if( !args.hasOwnProperty('id') ) {
+			throw new Error('getMemberById expects a id as parameter');
+		}
+		
+		const memberRequest = new MemberRequest({
+			apiUrl: this.apiUrl
+		});
+		
+		return memberRequest.execute({
+			id : args.id
+		});
+	}
+	
+	/**
+	 * Returns a promise that resolves to the member model of the currently logged in member
+	 * @returns {Promise.<MemberModel>}
+	 */
+	getMemberLoggedIn() {
+		return this.getMemberById({
+			id : this.loggedInMemberId
+		});
 	}
 	
 	/**
@@ -60,7 +94,8 @@ export class Member extends Endpoint {
 const name   = 'member';
 const getter = function (instance) {
 	return new Member({
-		apiUrl   : instance.apiUrl,
+		apiUrl          : instance.apiUrl,
+		loggedInMemberId: instance.state.user.memberId
 	});
 };
 
