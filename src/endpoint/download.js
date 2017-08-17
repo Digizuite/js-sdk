@@ -162,10 +162,9 @@ const getter = function (instance) {
 		apiUrl               : instance.apiUrl,
 		memberId             : instance.state.user.memberId,
 		accessKey            : instance.state.user.accessKey,
-		//TODO: un-hard-code this when we get a product
-		lowResMediaFormatIds : [50038, 50036],
-		highResMediaFormatIds: [50040, 50033],
-		mediaUrl             : 'https://mm-dam.dev.digizuite.com/'
+		lowResMediaFormatIds : instance.state.config.LowResMediaFormatIds,
+		highResMediaFormatIds: instance.state.config.HighResMediaFormatIds,
+		mediaUrl             : instance.state.config.MediaUrl
 	});
 };
 

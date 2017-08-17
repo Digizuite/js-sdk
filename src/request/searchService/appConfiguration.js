@@ -38,11 +38,15 @@ export class AppConfiguration extends BaseRequest {
 		
 		const config = response.items[0];
 		
+		// Enforce data types
 		config.DefaultLanguage = parseInt(config.DefaultLanguage, 10);
 		config.languages = config.languages.map((thisLanguage)=>{
 			thisLanguage.languageId = parseInt(thisLanguage.languageId, 10);
 			return thisLanguage;
 		});
+		
+		config.HighResMediaFormatIds = config.HighResMediaFormatIds.map((thisId)=> parseInt(thisId, 10));
+		config.LowResMediaFormatIds = config.LowResMediaFormatIds.map((thisId)=> parseInt(thisId, 10));
 		
 		// We are only interested in the user data
 		return config;
