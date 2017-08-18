@@ -15,8 +15,17 @@ instance.download.getDownloadURL({
 
 The ```asset```parameter needs to be an instance of the ```Asset``` class. 
 
-If the ```quality``` is omitted, the download URL will be provided for the original format. 
-Check ```DOWNLOAD_QUALITY``` for a list of the available qualities.
+If the ```quality``` is omitted, the download URL will be provided for the original format.
+
+Below is a list of available download qualities enums that can be used:
+
+| Quality |Constant name | Notes |
+|---------------|--------------------|-------|
+| Original | DOWNLOAD_QUALITY.ORIGINAL | |
+| High Resolution | DOWNLOAD_QUALITY.HIGH_RES | |
+| Low Resolution | DOWNLOAD_QUALITY.LOW_RES | |
+
+If the requested quality is not available for the asset, an error will be thrown.
 
 ## Getting all the download URLs for an asset
 

@@ -138,13 +138,13 @@ export class Download extends Endpoint {
 	 */
 	_getAllDownloadQualities() {
 		
-		const downloadQualitiesRequest = new DownloadQualities({
-			apiUrl: this.apiUrl
-		});
-		
 		if (this.cache.qualities) {
 			return Promise.resolve(this.cache.qualities);
 		}
+		
+		const downloadQualitiesRequest = new DownloadQualities({
+			apiUrl: this.apiUrl
+		});
 		
 		return downloadQualitiesRequest.execute().then((downloadQualities)=>{
 			this.cache.qualities = downloadQualities;
