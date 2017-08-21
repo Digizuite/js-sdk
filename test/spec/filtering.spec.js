@@ -19,7 +19,7 @@ describe('Filtering', () => {
     it('Should filter for asset text', async () => {
 
         const assetFreeTextFilter = new AssetFreeTextFilter({
-            text: 'takeoff'
+            text: 'moon'
         });
         let {assets} = await instance.content.getAssets({
             filters: [assetFreeTextFilter]
@@ -45,7 +45,7 @@ describe('Filtering', () => {
 
         const assetCreatedFilter = new AssetCreatedFilter({
             from: 1494720000,
-            to: 1495459813
+            to: Math.floor(Date.now() / 1000)
         });
         let {assets} = await instance.content.getAssets({
             filters: [assetCreatedFilter]

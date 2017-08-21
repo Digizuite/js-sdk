@@ -11,7 +11,7 @@ install();
  */
 export function getInstance() {
     return getConnectorInstance({
-        apiUrl: 'https://mm.dev.digizuite.com/dmm3bwsv3/',
+        apiUrl: 'https://cc.dev.digizuite.com/dmm3bwsv3/',
         username: 'admin',
         password: 'admin'
     }).catch(err => {
