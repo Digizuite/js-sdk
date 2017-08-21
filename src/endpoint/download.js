@@ -48,10 +48,10 @@ export class Download extends Endpoint {
 				if(!assetQualities) {
 					throw new Error('Requested quality not found for the asset!');
 				}
-				
+
 				let searchArray = quality === Constants.DOWNLOAD_QUALITY.HIGH_RES ?
 					this.highResMediaFormatIds : this.lowResMediaFormatIds;
-				
+
 				// Make voodoo and intersect these array to find the format id
 				searchArray.forEach( (thisMediaFormatId)=> {
 					const format = assetQualities.formats.find((thisFormat) => thisFormat.mediaformatId === thisMediaFormatId);
@@ -62,8 +62,58 @@ export class Download extends Endpoint {
 
 			}
 			
-			return this._getDownloadURLForFormat({asset: args.asset, mediaFormatId});
+			return this._getDownloadURLForFormat({
+				asset: args.asset,
+				mediaFormatId,
+				forceDownload : true
+			});
 		});
+		
+	}
+	
+	/**
+	 * Returns a URL for a required quality
+	 * @param args
+	 */
+	getUrlForQuality( args = {} ) {
+		
+		if (!args.asset) {
+			throw new Error('getUrlForQuality expected an asset as parameter!');
+		}
+		
+		if (!args.quality) {
+			throw new Error('getUrlForQuality expected a quality as parameter!');
+		}
+		
+		if( args.quality !== Constants.DOWNLOAD_QUALITY.HIGH_RES && args.quality !== Constants.DOWNLOAD_QUALITY.LOW_RES ) {
+			throw new Error('getUrlForQuality expected a valid quality as parameter!');
+			
+		}
+		
+		let mediaFormatId = -1;
+		
+		let searchArray = args.quality === Constants.DOWNLOAD_QUALITY.HIGH_RES ?
+			this.highResMediaFormatIds : this.lowResMediaFormatIds;
+		
+		// Make voodoo and intersect these array to find the format id
+		searchArray.forEach( (thisMediaFormatId)=> {
+			const format = args.asset._transcodes.find((thisFormat) => parseInt(thisFormat.mediaFormatId,10) === thisMediaFormatId);
+			if(format) {
+				mediaFormatId = thisMediaFormatId;
+			}
+		});
+		
+		if( mediaFormatId === -1 ) {
+			throw new Error('Could not found requested quality');
+		}
+		
+		return Promise.resolve(
+			this._getDownloadURLForFormat({
+				asset: args.asset,
+				mediaFormatId,
+				forceDownload : false
+			})
+		);
 		
 	}
 	
@@ -77,9 +127,10 @@ export class Download extends Endpoint {
 	_getDownloadURLForFormat(args = {}) {
 		
 		const transcode = args.asset.getTranscodeForMediaFormat(args.mediaFormatId);
+		const forceDownload = args.download ? 'true' : 'false';
 		
 		// Build download URL as defined by House og Co.
-		let downloadUrl = `${this.mediaUrl}dmm3bwsv3/AssetStream.aspx?assetid=i${args.asset.id}&download=true&accesskey=${this.accessKey}&cachebust=${Date.now()}`;
+		let downloadUrl = `${this.mediaUrl}dmm3bwsv3/AssetStream.aspx?assetid=i${args.asset.id}&download=${forceDownload}&accesskey=${this.accessKey}&cachebust=${Date.now()}`;
 
 		// since source copies are not stored as a different transcode
 		// we don't need to set a format ID or destination ID
