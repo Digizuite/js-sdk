@@ -46,7 +46,7 @@ import {Constants} from 'digizuite';
 
 instance.download.getUrlForQuality({
     asset : asset,
-    quality : Constants.DOWNLOAD_QUALITY.ORIGINAL
+    quality : Constants.DOWNLOAD_QUALITY.HIGH_RES
 }).then((url) => {
     console.log("Got it from here!", url);
 });
