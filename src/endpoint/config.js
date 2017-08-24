@@ -2,6 +2,7 @@ import {attachEndpoint} from '../connector';
 import {Endpoint} from '../common/endpoint';
 import {AppConfiguration} from '../request/searchService/appConfiguration';
 import {AppLabels} from '../request/configService/appLabels';
+import {SystemVersion} from '../request/searchService/systemVersion';
 
 export class Config extends Endpoint {
 	
@@ -27,6 +28,19 @@ export class Config extends Endpoint {
 		});
 		
 		return appConfigRequest.execute();
+	}
+	
+	/**
+	 * Get system version
+	 * @returns {Promise}
+	 */
+	getSystemVersion() {
+		
+		const systemVersionRequest = new SystemVersion({
+			apiUrl : this.apiUrl
+		});
+		
+		return systemVersionRequest.execute();
 	}
 	
 	/**

@@ -17,6 +17,8 @@ export class Connector {
 		this.apiUrl = ensureTrailingSeparator(args.apiUrl);
 		this.keepAliveInterval = args.keepAliveInterval || 60000;
 		
+		this.apiVersion = null;
+		
 		this.state = {
 			user : {},
 			config : {}
@@ -69,9 +71,15 @@ export class Connector {
 				password : args.password
 			});
 		}).then(()=>{
-			return this.config.getAppConfiguration();
-		}).then((configResponse)=> {
+			
+			return Promise.all([
+				this.config.getAppConfiguration(),
+				this.config.getSystemVersion(),
+			]);
+			
+		}).then(([configResponse, versionResponse])=> {
 			this.state.config = configResponse;
+			this.apiVersion = versionResponse.Version;
 			return this;
 		});
 		

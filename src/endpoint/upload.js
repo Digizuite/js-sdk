@@ -249,8 +249,7 @@ const name = 'upload';
 const getter = function (instance) {
 	return new Upload( {
 		apiUrl : instance.apiUrl,
-		//TODO: un-hard-code this when we get a dam version
-		apiVersion : '4.7.1',
+		apiVersion : instance.apiVersion,
 		computerName : instance.state.config.UploadName
 	} );
 };
