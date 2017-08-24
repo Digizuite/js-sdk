@@ -144,12 +144,13 @@ export class Content extends Endpoint {
 	
 	/**
 	 *
-	 * @param {Number[]} assetIds - a list of assets ids
+	 * @param args
+	 * @param {Number[]} [args.assetIds] -  a list of assets ids
 	 * @returns {Promise.<Asset[]>}
 	 */
-	getAssetsById( assetIds ) {
+	getAssetsById( args = {} ) {
 		
-		if( !Array.isArray(assetIds)  ) {
+		if( !Array.isArray(args.assetIds)  ) {
 			throw new Error('Expecting as array of assets ids as parameter');
 		}
 		
@@ -158,7 +159,7 @@ export class Content extends Endpoint {
 		});
 		
 		return assetRequest.execute({
-			assets: assetIds.map( thisAssetId => new Asset({ id : thisAssetId }) )
+			assets: args.assetIds.map( thisAssetId => new Asset({ id : thisAssetId }) )
 		});
 		
 	}

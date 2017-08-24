@@ -18,6 +18,7 @@ import {MetadataItem} from '../model/metadata/metadataItem';
 import {Constants} from '../const';
 import {getLockInformation} from "utilities/lockInformation";
 import {RequestError} from "common/requestError";
+import {CopyMetadata} from "request/metadataService/copyMetadata";
 
 export class Metadata extends Endpoint {
 	
@@ -271,6 +272,33 @@ export class Metadata extends Endpoint {
 		return isUniqueVersionRequest.execute({
 			metadataItem: args.metadataItem,
 			asset: args.asset
+		});
+	}
+	
+	/**
+	 *
+	 * @param args
+	 * @param {Asset} args.sourceAsset
+	 * @param {Asset} args.targetAsset
+	 * @returns {Promise}
+	 */
+	copyMetadata( args = {} ) {
+		
+		if (!args.sourceAsset) {
+			throw new Error('copyMetadata expected a sourceAsset as parameter!');
+		}
+		
+		if (!args.targetAsset) {
+			throw new Error('copyMetadata expected a targetAsset as parameter!');
+		}
+		
+		const copyMetadataRequest = new CopyMetadata({
+			apiUrl : this.apiUrl,
+		});
+		
+		return copyMetadataRequest.execute({
+			sourceAsset: args.sourceAsset,
+			targetAsset: args.targetAsset
 		});
 	}
 	

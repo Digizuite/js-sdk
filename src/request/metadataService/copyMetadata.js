@@ -42,10 +42,22 @@ export class CopyMetadata extends BaseRequest {
 	 */
 	processRequestData(payload = {}) {
 		
-		payload.sourceItemId = payload.ticket.asset.id;
-		payload.targetItemId = payload.ticket.itemId;
-		
-		payload.ticket = undefined;
+		if( payload.hasOwnProperty('ticket') ) {
+			
+			payload.sourceItemId = payload.ticket.asset.id;
+			payload.targetItemId = payload.ticket.itemId;
+			
+			payload.ticket = undefined;
+			
+		} else if( payload.hasOwnProperty('sourceAsset')  && payload.hasOwnProperty('targetAsset')  ) {
+			
+			payload.sourceItemId = payload.sourceAsset.id;
+			payload.targetItemId = payload.targetAsset.id;
+			
+			payload.sourceAsset = undefined;
+			payload.targetAsset = undefined;
+			
+		}
 		
 		return payload;
 	}
