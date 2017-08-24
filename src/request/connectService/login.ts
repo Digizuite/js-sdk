@@ -54,7 +54,7 @@ export class Login extends BaseRequest<IUserData> {
 	 * Process response
 	 * @param response
 	 */
-    processResponseData<IUserData>(response: any) {
+    processResponseData(response: any) {
 		
 		const user = response.items[0];
 		
@@ -63,7 +63,7 @@ export class Login extends BaseRequest<IUserData> {
 		user.itemid = parseInt(user.itemid, 10);
 		
 		// We are only interested in the user data
-        return <IUserData>user;
+        return user;
 	}
 
 }

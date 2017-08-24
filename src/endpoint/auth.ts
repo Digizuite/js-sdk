@@ -28,7 +28,7 @@ export class Auth extends Endpoint {
 	 * @param {String} password - password of said user
 	 * @returns {Promise}
 	 */
-	public login( { username = '', password = '' } ) {
+    public login({username = '', password = ''}): Promise<any> {
 
 		const loginRequest = new Login({
 			apiUrl : this.apiUrl

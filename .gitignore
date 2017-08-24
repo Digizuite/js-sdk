@@ -51,3 +51,8 @@ dist/
 coverage/
 TODO
 yarn.lock
+
+src/**/*.d.ts
+src/**/*.js
+src/**/*.js.map
+!src/@types/*
