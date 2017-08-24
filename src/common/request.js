@@ -141,7 +141,7 @@ export class BaseRequest {
 	 */
 	static getErrorCode( response ) {
 		
-		if( response.hasOwnProperty('warnings') ) {
+		if( response.hasOwnProperty('warnings') && response.warnings ) {
 			return parseInt(response.warnings[0].Code, 10);
 		}
 		
