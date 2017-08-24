@@ -1,42 +1,41 @@
 import {BaseRequest} from '../../common/request';
-import {Member as MemberModel} from '../../model/member';
 
-export class Member extends BaseRequest<any> {
+export class CheckOut extends BaseRequest<any> {
 	
 	/**
 	 * Endpoint URL
 	 * @returns {string}
 	 */
 	get endpointUrl() {
-		return `${this.apiUrl}SearchService.js`;
+		return `${this.apiUrl}ItemControlService.js`;
 	}
 	
 	/**
-	 * default params
-	 * @returns {Object}
+	 * default parameters for the call
+	 * @returns {{method: string, itemId: null, note: null}}
 	 */
 	get defaultPayload() {
 		return {
+			
 			// Parameters required by DigiZuite - these should never be changed
 			// when executing the request!
-			searchName: 'DigiZuite_System_MemberSearch',
-			page : 1,
-			limit: 1,
+			method : 'CheckOut',
 			
-			memberid : null
+			// These parameters should be specified manually
+			itemId: null,
+			note : null
 		};
 	}
 	
 	/**
-	 * Pass-through
+	 * Process login request
 	 * @param {Object} payload
 	 * @returns {Object}
 	 */
     processRequestData(payload: any) {
 		
-		// id to memberid
-		payload.memberid = payload.id;
-		payload.id = undefined;
+		payload.itemId = payload.asset.id;
+		payload.asset  = undefined;
 		
 		return payload;
 	}
@@ -46,8 +45,7 @@ export class Member extends BaseRequest<any> {
 	 * @param response
 	 */
     processResponseData(response: any) {
-        const member = new MemberModel(response);
-        member.setValueFromAPI(response);
-        return member;
+		return response.result;
 	}
+
 }

@@ -1,18 +1,23 @@
 import {attachEndpoint, Connector} from '../connector';
-import {Endpoint} from '../common/endpoint';
+import {Endpoint, IEndpointArgs} from '../common/endpoint';
 import {UpdateContainer} from '../utilities/updateContainer';
 import {BatchUpdate} from '../request/batchUpdateService/batchUpdate';
-import { Member as MemberRequest } from '../request/searchService/member';
-import { Member as MemberModel } from '../model/member';
+import {Member as MemberRequest} from '../request/searchService/member';
+import {Member as MemberModel} from '../model/member';
+
+export interface IMemberEndpointArgs extends IEndpointArgs {
+    loggedInMemberId: number;
+}
 
 export class Member extends Endpoint {
-	
-	/**
+    loggedInMemberId: number;
+
+    /**
 	 * C-tor
 	 * @param {Object} args
 	 * @param {String} args.apiUrl - Full URL to the api end-point.
 	 */
-	constructor( args = {}  ) {
+    constructor(args: IMemberEndpointArgs) {
 		super(args);
 
 		this.loggedInMemberId = args.loggedInMemberId;
@@ -23,7 +28,7 @@ export class Member extends Endpoint {
 	 * @param args
 	 * @returns {Promise.<MemberModel>}
 	 */
-	getMemberById( args = {} ) {
+    getMemberById(args: { id: number }): Promise<MemberModel> {
 
 		if( !args.hasOwnProperty('id') ) {
 			throw new Error('getMemberById expects a id as parameter');
@@ -42,7 +47,7 @@ export class Member extends Endpoint {
 	 * Returns a promise that resolves to the member model of the currently logged in member
 	 * @returns {Promise.<MemberModel>}
 	 */
-	getMemberLoggedIn() {
+    getMemberLoggedIn(): Promise<MemberModel> {
 		return this.getMemberById({
 			id : this.loggedInMemberId
 		});

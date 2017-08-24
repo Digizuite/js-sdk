@@ -18,9 +18,9 @@ import {MetadataItem} from '../model/metadata/metadataItem';
 import {Constants} from '../const';
 import {Asset} from "../model/asset";
 import {UniqueVersionMetadataItem} from "../model/metadata/uniqueVersionMetadataItem";
-import {getLockInformation} from "utilities/lockInformation";
-import {RequestError} from "common/requestError";
-import {CopyMetadata} from "request/metadataService/copyMetadata";
+import {getLockInformation} from "../utilities/lockInformation";
+import {RequestError} from "../common/requestError";
+import {CopyMetadata} from "../request/metadataService/copyMetadata";
 
 export interface ILanguage {
 
@@ -293,7 +293,7 @@ export class Metadata extends Endpoint {
 	 * @param {Asset} args.targetAsset
 	 * @returns {Promise}
 	 */
-	copyMetadata( args = {} ) {
+    copyMetadata(args: { sourceAsset: Asset, targetAsset: Asset }) {
 
 		if (!args.sourceAsset) {
 			throw new Error('copyMetadata expected a sourceAsset as parameter!');

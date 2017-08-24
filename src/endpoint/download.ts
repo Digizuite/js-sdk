@@ -80,7 +80,7 @@ export class Download extends Endpoint {
 			return this._getDownloadURLForFormat({
 				asset: args.asset,
 				mediaFormatId,
-				forceDownload : true
+                download: true
 			});
 		});
 
@@ -90,7 +90,7 @@ export class Download extends Endpoint {
 	 * Returns a URL for a required quality
 	 * @param args
 	 */
-	getUrlForQuality( args = {} ) {
+    getUrlForQuality(args: { asset: Asset, quality: number }) {
 
 		if (!args.asset) {
 			throw new Error('getUrlForQuality expected an asset as parameter!');
@@ -126,7 +126,7 @@ export class Download extends Endpoint {
 			this._getDownloadURLForFormat({
 				asset: args.asset,
 				mediaFormatId,
-				forceDownload : false
+                download: false
 			})
 		);
 
@@ -139,7 +139,7 @@ export class Download extends Endpoint {
 	 * @param {Number} args.mediaFormatId
 	 * @returns {String}
 	 */
-    _getDownloadURLForFormat(args: { asset: Asset, mediaFormatId: number }) {
+    _getDownloadURLForFormat(args: { asset: Asset, mediaFormatId: number, download?: boolean }) {
 		
 		const transcode = args.asset.getTranscodeForMediaFormat(args.mediaFormatId);
 		const forceDownload = args.download ? 'true' : 'false';

@@ -21,6 +21,7 @@ export function CreateAssetFromApiResponse(thisAsset: any) {
 }
 
 export class Asset extends Model {
+    _sourceLocation: null | string;
     id: number | undefined;
     thumbnail: string | undefined;
     type: number | undefined;
@@ -29,8 +30,9 @@ export class Asset extends Model {
     date: Date;
     publishedDate: Date | null;
     lastEditedDate: Date | null;
-    private _transcodes: ITranscode[];
+    _transcodes: ITranscode[];
     private __assetId__DO_NOT_USE_THIS_OR_KITTENS_WILL_DIE: number | null;
+    private _fileExtension: string | null;
 
 	static get DATETIME_FORMAT() {
 		return 'YYYY-MM-DDTHH:mm:ss.SSS';
@@ -108,7 +110,7 @@ export class Asset extends Model {
 	getFileExtension() {
 
 		if(!this._fileExtension) {
-			this._fileExtension = getExtension(this._sourceLocation).toLowerCase();
+            this._fileExtension = getExtension(this._sourceLocation!).toLowerCase();
 		}
 
 		return this._fileExtension;

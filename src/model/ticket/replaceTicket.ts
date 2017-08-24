@@ -6,7 +6,7 @@ export interface IReplaceTicketArgs extends IUploadTicketArgs {
 }
 
 export class ReplaceTicket extends UploadTicket {
-    private asset: Asset;
+    asset: Asset;
 	
 	/**
 	 * C-tor

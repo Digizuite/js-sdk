@@ -44,9 +44,9 @@ export class AppConfiguration extends BaseRequest<any> {
 			thisLanguage.languageId = parseInt(thisLanguage.languageId, 10);
 			return thisLanguage;
 		});
-		
-		config.HighResMediaFormatIds = config.HighResMediaFormatIds.map((thisId)=> parseInt(thisId, 10));
-		config.LowResMediaFormatIds = config.LowResMediaFormatIds.map((thisId)=> parseInt(thisId, 10));
+
+        config.HighResMediaFormatIds = config.HighResMediaFormatIds.map((thisId: any) => parseInt(thisId, 10));
+        config.LowResMediaFormatIds = config.LowResMediaFormatIds.map((thisId: any) => parseInt(thisId, 10));
 
 		// We are only interested in the user data
 		return config;

@@ -129,9 +129,8 @@ export class Version extends Endpoint {
 			}
 
 			return this._digiUpload.finishUpload(args.ticket)
-				.then(() => {
-					return {};
-				});
+                .then(() => {
+                });
 		});
 		
 	}

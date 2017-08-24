@@ -5,8 +5,9 @@ import './endpoint/auth';
 import './endpoint/config'
 
 export class Connector {
+    apiVersion: string;
 
-	apiUrl: string;
+    apiUrl: string;
 	private keepAliveInterval: number;
     state: { user: any; config: any, keepAliveInterval: number };
 	endpoints: {[key: string]: Endpoint};
@@ -25,8 +26,8 @@ export class Connector {
 
 		this.apiUrl = ensureTrailingSeparator(args.apiUrl);
 		this.keepAliveInterval = args.keepAliveInterval || 60000;
-		
-		this.apiVersion = null;
+
+        this.apiVersion = '';
 
 		this.state = {
 			user : {},
