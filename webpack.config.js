@@ -61,6 +61,17 @@ function getWebpackConfig(env) {
 		
 		module: {
 			rules: [
+                {
+                    test: /\.js$/,
+                    exclude: /(node_modules|bower_components)/,
+                    use: {
+                        loader: 'babel-loader',
+                        options: {
+                        	plugins: ['transform-runtime', 'transform-object-rest-spread'],
+                            presets: ['env', 'es2017', 'es2015']
+                        }
+                    }
+                },
 				{
 					test: /\.ts$/,
 					use: {
@@ -72,7 +83,7 @@ function getWebpackConfig(env) {
 		
 		plugins,
 		
-		devtool: 'cheap-source-map',
+		devtool: 'source-map',
 	};
 }
 

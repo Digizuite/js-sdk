@@ -206,3 +206,14 @@ instance.metadata.updateMetadataItems({
 It is recommended to save the update in batch( multiple metadata items or multiple assets at once) when possible.
 
 It is recommended to send as parameter only metadata items that have been modified.
+
+## Copy Metadata from a different asset
+
+```js
+instance.metadata.copyMetadata({
+    sourceAsset : sourceAsset,
+    targetAsset : targetAsset
+}).then(()=>{
+    console.debug("Metadata copied!");
+});
+```

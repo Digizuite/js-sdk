@@ -24,13 +24,13 @@ export const SORT_DIRECTION = {
     ASCENDING: 'Asc',
 };
 
-// ASSET TYPE
 export const DOWNLOAD_QUALITY = {
     ORIGINAL: 1,
     HIGH_RES: 2,
     LOW_RES: 3
 };
 
+// ASSET TYPE
 export const ASSET_TYPE = {
     VIDEO: 1,
     AUDIO: 2,
@@ -62,11 +62,25 @@ export const ASSET_TYPE = {
     ILLUSTRATOR: 17
 };
 
+// export const ASSET_TYPE_REVERSE = [];
+export const ASSET_TYPE_REVERSE = Object.keys(ASSET_TYPE)
+    .map(type => [type, ASSET_TYPE[type]])
+    .reduce((sum, [type, assetType]) => ({...sum, [assetType]: type}), {});
+
+(function () {
+    for (let type in ASSET_TYPE) {
+        if (ASSET_TYPE.hasOwnProperty(type)) {
+            ASSET_TYPE_REVERSE[ASSET_TYPE[type]] = type;
+        }
+    }
+})();
+
 export const Constants = {
     GUID,
     FILTER_TYPE,
     SORT_BY,
     SORT_DIRECTION,
     DOWNLOAD_QUALITY,
-    ASSET_TYPE
+    ASSET_TYPE,
+    ASSET_TYPE_REVERSE
 };

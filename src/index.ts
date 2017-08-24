@@ -1,6 +1,9 @@
+import 'core-js';
+import 'whatwg-fetch';
+
 // main
 export {Connector, getConnectorInstance} from './connector';
-export {Constants, SORT_DIRECTION, SORT_BY, ASSET_TYPE, DOWNLOAD_QUALITY, FILTER_TYPE, GUID} from './const';
+export {Constants, SORT_DIRECTION, SORT_BY, ASSET_TYPE, DOWNLOAD_QUALITY, FILTER_TYPE, GUID, ASSET_TYPE_REVERSE} from './const';
 
 // endpoints
 import './endpoint/auth';
@@ -12,6 +15,7 @@ import './endpoint/metadata';
 import './endpoint/upload';
 import './endpoint/version';
 import './endpoint/member';
+import './endpoint/lock';
 
 // filters
 export {AssetTypeFilter} from './model/filter/assetTypeFilter';

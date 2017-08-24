@@ -7,6 +7,7 @@ import upperFirst from 'lodash/upperFirst';
 import {Folder} from "../model/folder";
 import {Filter} from "../model/filter/filter";
 import {Asset} from "../model/asset";
+import {AssetsInformation} from "../request/searchService/assetsInformation";
 
 export interface IContentEndpointArgs extends IEndpointArgs {
     labels?: { [key: string]: string };
@@ -172,6 +173,27 @@ export class Content extends Endpoint {
             });
     }
 
+    /**
+     *
+     * @param args
+     * @param {Number[]} [args.assetIds] -  a list of assets ids
+     * @returns {Promise.<Asset[]>}
+     */
+    getAssetsById( args: {assetIds: number[]} ) {
+
+        if( !Array.isArray(args.assetIds)  ) {
+            throw new Error('Expecting as array of assets ids as parameter');
+        }
+
+        const assetRequest = new AssetsInformation({
+            apiUrl: this.apiUrl
+        });
+
+        return assetRequest.execute({
+            assets: args.assetIds.map( thisAssetId => new Asset({ id : thisAssetId }) )
+        });
+
+    }
     /**
      * Get a list of facet results
      * @param args

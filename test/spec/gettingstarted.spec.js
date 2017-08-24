@@ -4,7 +4,7 @@ describe('Getting Started', () => {
 
     it('Should login and give instance', (done)=>{
         getConnectorInstance({
-            apiUrl: 'https://mm.dev.digizuite.com/dmm3bwsv3/',
+            apiUrl: 'https://cc.dev.digizuite.com/dmm3bwsv3/',
             username: 'admin',
             password: 'admin'
         }).then(instance => {
@@ -18,7 +18,7 @@ describe('Getting Started', () => {
 
     it('should not login', done => {
         getConnectorInstance({
-            apiUrl: 'https://mm.dev.digizuite.com/dmm3bwsv3/',
+            apiUrl: 'https://cc.dev.digizuite.com/dmm3bwsv3/',
             username: 'admin',
             password: 'wrongpassword'
         }).then(() => {

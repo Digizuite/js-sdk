@@ -18,7 +18,7 @@ export class Upload extends Endpoint {
     private _assetPublishedQueue: Array<any>;
     private _assetPublishedRequest?: AssetsInformation;
     private _assetBasicInformationRequest?: AssetsBasicInformation;
-	
+
 	static get ASSET_EDITABLE_TIMEOUT() {
 		return 10000;
 	} // 10 seconds
@@ -259,8 +259,7 @@ const name = 'upload';
 const getter = function (instance: Connector) {
 	return new Upload( {
 		apiUrl : instance.apiUrl,
-		//TODO: un-hard-code this when we get a dam version
-		apiVersion : '4.7.1',
+		apiVersion : instance.apiVersion,
 		computerName : instance.state.config.UploadName
 	} );
 };

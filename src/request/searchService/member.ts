@@ -1,4 +1,5 @@
 import {BaseRequest} from '../../common/request';
+import { Member as MemberModel } from '../../model/member';
 
 export class Member extends BaseRequest<any> {
 	
@@ -45,7 +46,6 @@ export class Member extends BaseRequest<any> {
 	 * @param response
 	 */
     processResponseData(response: any) {
-		// We are only interested in the items
-		return response.items[0];
+		return MemberModel.createFromAPIResponse(response.items[0])
 	}
 }

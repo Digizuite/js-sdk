@@ -8,6 +8,17 @@ describe('Downloading', () => {
     beforeAll(async () => {
         instance = await getInstance();
     });
+	
+	it('should give a quality url', async () => {
+		
+		let {assets} = await instance.content.getAssets();
+		
+		let url = await instance.download.getUrlForQuality({
+			asset : assets[0],
+			quality : DOWNLOAD_QUALITY.LOW_RES
+		});
+		expect(!!url).toBe(true);
+	});
 
     it('should give a download url', async () => {
 

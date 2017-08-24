@@ -19,7 +19,7 @@ export class Download extends Endpoint {
     private highResMediaFormatIds: number[];
     private mediaUrl: string;
     private cache: { qualities: any };
-	
+
 	/**
 	 * C-tor
 	 * @param {Object} args
@@ -63,10 +63,10 @@ export class Download extends Endpoint {
 				if(!assetQualities) {
 					throw new Error('Requested quality not found for the asset!');
 				}
-				
+
 				let searchArray = quality === Constants.DOWNLOAD_QUALITY.HIGH_RES ?
 					this.highResMediaFormatIds : this.lowResMediaFormatIds;
-				
+
 				// Make voodoo and intersect these array to find the format id
 				searchArray.forEach( (thisMediaFormatId)=> {
                     const format = assetQualities.formats.find((thisFormat: any) => thisFormat.mediaformatId === thisMediaFormatId);
@@ -77,9 +77,59 @@ export class Download extends Endpoint {
 
 			}
 			
-			return this._getDownloadURLForFormat({asset: args.asset, mediaFormatId});
+			return this._getDownloadURLForFormat({
+				asset: args.asset,
+				mediaFormatId,
+				forceDownload : true
+			});
 		});
-		
+
+	}
+
+	/**
+	 * Returns a URL for a required quality
+	 * @param args
+	 */
+	getUrlForQuality( args = {} ) {
+
+		if (!args.asset) {
+			throw new Error('getUrlForQuality expected an asset as parameter!');
+		}
+
+		if (!args.quality) {
+			throw new Error('getUrlForQuality expected a quality as parameter!');
+		}
+
+		if( args.quality !== Constants.DOWNLOAD_QUALITY.HIGH_RES && args.quality !== Constants.DOWNLOAD_QUALITY.LOW_RES ) {
+			throw new Error('getUrlForQuality expected a valid quality as parameter!');
+
+		}
+
+		let mediaFormatId = -1;
+
+		let searchArray = args.quality === Constants.DOWNLOAD_QUALITY.HIGH_RES ?
+			this.highResMediaFormatIds : this.lowResMediaFormatIds;
+
+		// Make voodoo and intersect these array to find the format id
+		searchArray.forEach( (thisMediaFormatId)=> {
+			const format = args.asset._transcodes.find((thisFormat) => parseInt(thisFormat.mediaFormatId,10) === thisMediaFormatId);
+			if(format) {
+				mediaFormatId = thisMediaFormatId;
+			}
+		});
+
+		if( mediaFormatId === -1 ) {
+			throw new Error('Could not found requested quality');
+		}
+
+		return Promise.resolve(
+			this._getDownloadURLForFormat({
+				asset: args.asset,
+				mediaFormatId,
+				forceDownload : false
+			})
+		);
+
 	}
 	
 	/**
@@ -92,9 +142,10 @@ export class Download extends Endpoint {
     _getDownloadURLForFormat(args: { asset: Asset, mediaFormatId: number }) {
 		
 		const transcode = args.asset.getTranscodeForMediaFormat(args.mediaFormatId);
-		
+		const forceDownload = args.download ? 'true' : 'false';
+
 		// Build download URL as defined by House og Co.
-		let downloadUrl = `${this.mediaUrl}dmm3bwsv3/AssetStream.aspx?assetid=i${args.asset.id}&download=true&accesskey=${this.accessKey}&cachebust=${Date.now()}`;
+		let downloadUrl = `${this.mediaUrl}dmm3bwsv3/AssetStream.aspx?assetid=i${args.asset.id}&download=${forceDownload}&accesskey=${this.accessKey}&cachebust=${Date.now()}`;
 
 		// since source copies are not stored as a different transcode
 		// we don't need to set a format ID or destination ID
@@ -152,15 +203,15 @@ export class Download extends Endpoint {
 	 * @private
 	 */
 	_getAllDownloadQualities() {
-		
-		const downloadQualitiesRequest = new DownloadQualities({
-			apiUrl: this.apiUrl
-		});
-		
+
 		if (this.cache.qualities) {
 			return Promise.resolve(this.cache.qualities);
 		}
 		
+		const downloadQualitiesRequest = new DownloadQualities({
+			apiUrl: this.apiUrl
+		});
+
 		return downloadQualitiesRequest.execute().then((downloadQualities)=>{
 			this.cache.qualities = downloadQualities;
 			return downloadQualities;
@@ -177,10 +228,9 @@ const getter = function (instance: Connector) {
 		apiUrl               : instance.apiUrl,
 		memberId             : instance.state.user.memberId,
 		accessKey            : instance.state.user.accessKey,
-		//TODO: un-hard-code this when we get a product
-		lowResMediaFormatIds : [50038, 50036],
-		highResMediaFormatIds: [50040, 50033],
-		mediaUrl             : 'https://mm-dam.dev.digizuite.com/'
+		lowResMediaFormatIds : instance.state.config.LowResMediaFormatIds,
+		highResMediaFormatIds: instance.state.config.HighResMediaFormatIds,
+		mediaUrl             : instance.state.config.MediaUrl
 	});
 };
 

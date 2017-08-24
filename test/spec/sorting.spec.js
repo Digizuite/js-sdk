@@ -24,7 +24,8 @@ describe('Sorting', () => {
             let asset2 = assets[i].date;
             asset1.setMilliseconds(0);
             asset2.setMilliseconds(0);
-            expect(asset1.getTime() > asset2.getTime()).toBe(true, "Assets was not sorted correctly");
+            
+            expect(asset1.getTime() >= asset2.getTime()).toBe(true, "Assets was not sorted correctly");
         }
     });
 

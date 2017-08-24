@@ -18,6 +18,9 @@ import {MetadataItem} from '../model/metadata/metadataItem';
 import {Constants} from '../const';
 import {Asset} from "../model/asset";
 import {UniqueVersionMetadataItem} from "../model/metadata/uniqueVersionMetadataItem";
+import {getLockInformation} from "utilities/lockInformation";
+import {RequestError} from "common/requestError";
+import {CopyMetadata} from "request/metadataService/copyMetadata";
 
 export interface ILanguage {
 
@@ -29,7 +32,6 @@ export interface IMetadataArgs extends IEndpointArgs {
     language: ILanguage;
     languages: ILanguage[];
 }
-
 export class Metadata extends Endpoint {
     private language: ILanguage;
     private languages: ILanguage[];
@@ -165,10 +167,20 @@ export class Metadata extends Endpoint {
         const batchUpdateRequest = new BatchUpdate({
 			apiUrl : this.apiUrl,
 		});
+		return Promise.all(
+			args.assets.map( (thisAsset) => getLockInformation({ asset : thisAsset, apiUrl: this.apiUrl }) )
+		).then((lockInfo) => {
 
-        return batchUpdateRequest.execute({
-			containers : [ updateContainer ]
+			const isLocked = lockInfo.reduce( (acc, thisLock) => acc || thisLock.isLocked, false);
+
+			if( isLocked ) {
+				throw new RequestError('One or more assets is being locked', 6660);
+			}
+		return batchUpdateRequest.execute({
+			containers : [ updateContainer ]});
 		});
+
+
 	}
 
     /**
@@ -275,6 +287,33 @@ export class Metadata extends Endpoint {
 	}
 
     /**
+	 *
+	 * @param args
+	 * @param {Asset} args.sourceAsset
+	 * @param {Asset} args.targetAsset
+	 * @returns {Promise}
+	 */
+	copyMetadata( args = {} ) {
+
+		if (!args.sourceAsset) {
+			throw new Error('copyMetadata expected a sourceAsset as parameter!');
+		}
+
+		if (!args.targetAsset) {
+			throw new Error('copyMetadata expected a targetAsset as parameter!');
+		}
+
+		const copyMetadataRequest = new CopyMetadata({
+			apiUrl : this.apiUrl,
+		});
+
+		return copyMetadataRequest.execute({
+			sourceAsset: args.sourceAsset,
+			targetAsset: args.targetAsset
+		});
+	}
+
+	/**
 	 * Creates a last modified metadata items
 	 * @returns {DateTimeMetadataItem}
 	 */

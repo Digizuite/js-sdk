@@ -1,5 +1,6 @@
 import * as fecha from 'fecha';
 import {Model} from '../common/model';
+import {getExtension} from 'utilities/helpers/url';
 
 export interface IAssetArgs {
     id?: number;
@@ -52,10 +53,11 @@ export class Asset extends Model {
 		this.thumbnail =  args.thumbnail;
 		this.publishedDate = null;
 		this.lastEditedDate = null;
+		this._sourceLocation = null;
 		this.__assetId__DO_NOT_USE_THIS_OR_KITTENS_WILL_DIE = null;
-
-    }
-
+		this._fileExtension = null;
+	}
+	
 	/**
 	 * Populates an asset from with the API values
 	 * @param args
@@ -83,8 +85,11 @@ export class Asset extends Model {
 		if( args.date ) {
 			this.date = fecha.parse(args.date, Asset.DATETIME_FORMAT);
 		}
-
-        // for legacy reason we still need this
+		this._sourceLocation = '';
+		if( args.sourceLocation ){
+			this._sourceLocation = args.sourceLocation;
+		}
+		// for legacy reason we still need this
 		this.__assetId__DO_NOT_USE_THIS_OR_KITTENS_WILL_DIE = parseInt(args.assetId, 10);
 	}
 
@@ -93,8 +98,19 @@ export class Asset extends Model {
 	 * @param mediaFormatId
 	 * @returns {*|T}
 	 */
-    getTranscodeForMediaFormat(mediaFormatId: number): ITranscode | undefined {
-        return this._transcodes.find((transcode: ITranscode) => parseInt(transcode.mediaFormatId, 10) === mediaFormatId);
-    }
+	getTranscodeForMediaFormat( mediaFormatId : number): ITranscode | undefined {
+		return this._transcodes.find( (transcode: ITranscode)=> parseInt(transcode.mediaFormatId,10) === mediaFormatId );
+	}
+	/**
+	 * Returns the extension of the source location of the asset
+	 * @returns {string}
+	 */
+	getFileExtension() {
 
+		if(!this._fileExtension) {
+			this._fileExtension = getExtension(this._sourceLocation).toLowerCase();
+		}
+
+		return this._fileExtension;
+	}
 }
