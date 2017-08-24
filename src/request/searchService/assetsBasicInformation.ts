@@ -1,16 +1,7 @@
 import {BaseRequest} from '../../common/request';
-import {Asset} from '../../model/asset';
+import {CreateAssetFromApiResponse} from '../../model/asset';
 
-export class AssetsBasicInformation extends BaseRequest {
-	
-	/**
-	 * C-tor
-	 * @param {Object} args
-	 * @param {String} args.apiUrl - Full URL to the api end-point.
-	 */
-	constructor( args = {}  ) {
-		super(args);
-	}
+export class AssetsBasicInformation extends BaseRequest<any> {
 	
 	/**
 	 * Endpoint URL
@@ -42,9 +33,9 @@ export class AssetsBasicInformation extends BaseRequest {
 	 * @param {Object} payload
 	 * @returns {Object}
 	 */
-	processRequestData(payload = {}) {
+    processRequestData(payload: any) {
 
-		payload.sItemId = payload.assets.map( thisAsset => thisAsset.id ).join(',');
+        payload.sItemId = payload.assets.map((thisAsset: any) => thisAsset.id).join(',');
 		payload.assets= undefined;
 		
 		return payload;
@@ -54,8 +45,8 @@ export class AssetsBasicInformation extends BaseRequest {
 	 * Process response
 	 * @param response
 	 */
-	processResponseData(response) {
-		return response.items.map( thisAsset => Asset.createFromAPIResponse(thisAsset));
+    processResponseData(response: any) {
+        return response.items.map(CreateAssetFromApiResponse);
 	}
 	
 }

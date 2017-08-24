@@ -1,7 +1,5 @@
 import {Filter} from './filter';
 
-import '../../polyfills/string';
-
 export class DateFilter extends Filter {
 	private from: number;
 	private to: number;

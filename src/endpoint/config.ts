@@ -65,7 +65,7 @@ attachEndpoint({ name, getter });
 
 declare module '../connector' {
 	interface Connector {
-		config: typeof Config
+        config: Config
 	}
 }
 

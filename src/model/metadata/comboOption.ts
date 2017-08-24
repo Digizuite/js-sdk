@@ -1,12 +1,14 @@
 export interface IComboOptionArgs {
-	item_combo_valueid: string;
+    combovalue: string;
+    metaValue: string;
+    item_combo_valueid: string;
 	combooptionvalue?: string;
 	optionvalue?: string;
 }
 
 export class ComboOption {
-	private id?: number;
-	private value?: string;
+    public id?: number;
+    public value?: string;
 	private _optionvalue?: string;
 	
 	/**
@@ -26,7 +28,7 @@ export class ComboOption {
 	 * @param args
 	 * @returns {ComboOption}
 	 */
-	static createFromAPIResponse(args = {}) {
+    static createFromAPIResponse(args: IComboOptionArgs) {
 		const item = new ComboOption();
 		item.setValueFromAPI(args);
 		return item;

@@ -6,10 +6,6 @@ export class LinkMetadataItem extends StringMetadataItem {
 	
 	get TYPE() { return LinkMetadataItem.TYPE; }
 	
-	constructor( args = {} ) {
-		super(args);
-	}
-	
 	/**
 	 *
 	 * @param value

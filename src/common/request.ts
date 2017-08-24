@@ -1,5 +1,9 @@
 import {RequestError} from './requestError';
 
+export interface IBaseRequestArgs {
+    apiUrl: string;
+}
+
 export class BaseRequest<T> {
 
 	protected apiUrl: string;
@@ -25,7 +29,7 @@ export class BaseRequest<T> {
 	 * @param {Object} args
 	 * @param {String} args.apiUrl - Full URL to the api end-point.
 	 */
-	constructor( args: {apiUrl: string} ) {
+    constructor(args: IBaseRequestArgs) {
 		
 		if( typeof args.apiUrl !== 'string' || args.apiUrl.length === 0 ) {
 			throw new Error( 'apiUrl is a required parameter' );
@@ -40,7 +44,7 @@ export class BaseRequest<T> {
 	 * @param {Object} payload
 	 * @returns {Object}
 	 */
-	protected processRequestData<K>( payload: K ): K {
+    protected processRequestData(payload: any): any {
 		return payload;
 	}
 	
@@ -49,7 +53,7 @@ export class BaseRequest<T> {
 	 * @param {Object} response
 	 * @returns {Object}
 	 */
-	protected processResponseData<K>( response: K ): K {
+    protected processResponseData(response: any): any {
 		return response;
 	}
 	

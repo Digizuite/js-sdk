@@ -1,4 +1,5 @@
 export class PermissionError extends Error {
+    private code: number;
 	
 	/**
 	 * Error c-tor

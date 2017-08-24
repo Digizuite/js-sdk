@@ -1,17 +1,9 @@
 import {BaseRequest} from '../../common/request';
 import {AssetVersion} from '../../model/assetVersion';
+import {CreateAssetFromApiResponse} from "../../model/asset";
 
-export class AssetVersions extends BaseRequest {
-	
-	/**
-	 * C-tor
-	 * @param {Object} args
-	 * @param {String} args.apiUrl - Full URL to the api end-point.
-	 */
-	constructor( args = {}  ) {
-		super(args);
-	}
-	
+export class AssetVersions extends BaseRequest<any> {
+
 	/**
 	 * Endpoint URL
 	 * @returns {string}
@@ -42,7 +34,7 @@ export class AssetVersions extends BaseRequest {
 	 * @param {Object} payload
 	 * @returns {Object}
 	 */
-	processRequestData(payload = {}) {
+    processRequestData(payload: any) {
 
 		payload.assetItemId = payload.asset.id;
 		payload.asset = undefined;
@@ -55,9 +47,9 @@ export class AssetVersions extends BaseRequest {
 	 * @param response
 	 * @returns {AssetVersion[]}
 	 */
-	processResponseData(response) {
-		
-		const items = response.items.map( thisAsset => AssetVersion.createFromAPIResponse(thisAsset));
+    processResponseData(response: any) {
+
+        const items = response.items.map(CreateAssetFromApiResponse);
 		
 		if( items.length > 0 ) {
 			items[0].isCurrentVersion = true;

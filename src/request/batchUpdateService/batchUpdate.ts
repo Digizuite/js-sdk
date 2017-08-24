@@ -1,17 +1,8 @@
 import {BaseRequest} from '../../common/request';
-import {UpdateContainer} from '../../utilities/updateContainer';
+import {IUpdateContainerJson, UpdateContainer} from '../../utilities/updateContainer';
 
-export class BatchUpdate extends BaseRequest {
-	
-	/**
-	 * C-tor
-	 * @param {Object} args
-	 * @param {String} args.apiUrl - Full URL to the api end-point.
-	 */
-	constructor(args = {}) {
-		super(args);
-	}
-	
+export class BatchUpdate extends BaseRequest<any> {
+
 	/**
 	 * Endpoint URL
 	 * @returns {string}
@@ -39,7 +30,7 @@ export class BatchUpdate extends BaseRequest {
 	 * @param {Object} payload
 	 * @returns {Promise}
 	 */
-	execute( payload = {} ) {
+    execute(payload: { containers: UpdateContainer[] }) {
 		
 		// Ensure that we have containers in the format we want
 		if(
@@ -64,13 +55,13 @@ export class BatchUpdate extends BaseRequest {
 	 * @param {Object} payload
 	 * @returns {Object}
 	 */
-	processRequestData(payload = {}) {
+    processRequestData(payload: { containers?: UpdateContainer[], updateXML?: string, values?: string }) {
 
 		let xml = '';
-		const values = [];
+        const values: IUpdateContainerJson[] = [];
 		
 		// Merge XML and JSON from all containers
-		payload.containers.forEach((thisContainer) => {
+        payload.containers!.forEach((thisContainer) => {
 			xml += thisContainer.getContainerXML();
 			values.push( thisContainer.getContainerJSON() );
 		});
@@ -89,7 +80,7 @@ export class BatchUpdate extends BaseRequest {
 	 * Process response
 	 * @param response
 	 */
-	processResponseData(response) {
+    processResponseData(response: any) {
 		return response.items;
 	}
 	

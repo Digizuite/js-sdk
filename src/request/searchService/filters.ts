@@ -1,6 +1,11 @@
-import {BaseRequest} from '../../common/request';
+import {BaseRequest, IBaseRequestArgs} from '../../common/request';
 
-export class Filters extends BaseRequest {
+export interface IFiltersRequestArgs extends IBaseRequestArgs {
+    labels: any;
+}
+
+export class Filters extends BaseRequest<any> {
+    private labels: any;
 	
 	/**
 	 * C-tor
@@ -8,7 +13,7 @@ export class Filters extends BaseRequest {
 	 * @param {String} args.apiUrl - Full URL to the api end-point.
 	 * @param {Object} args.labels - An object of labels
 	 */
-	constructor( args = {}  ) {
+    constructor(args: IFiltersRequestArgs) {
 		super(args);
 		
 		this.labels = args.labels;
@@ -39,7 +44,7 @@ export class Filters extends BaseRequest {
 	 * Process response
 	 * @param response
 	 */
-	processResponseData(response) {
+    processResponseData(response: any) {
 		// We are only interested in the items
 		return response.searchFields.map( this._processFilterResult.bind(this) );
 	}
@@ -50,7 +55,7 @@ export class Filters extends BaseRequest {
 	 * @returns {{id: string, name: string, type: string}}
 	 * @private
 	 */
-	_processFilterResult(thisFilter) {
+    _processFilterResult(thisFilter: any) {
 		return {
 			id  : thisFilter.parameterName,
 			name: this.labels[thisFilter.parameterName],

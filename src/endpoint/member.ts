@@ -1,18 +1,9 @@
-import {attachEndpoint} from '../connector';
+import {attachEndpoint, Connector} from '../connector';
 import {Endpoint} from '../common/endpoint';
 import {UpdateContainer} from '../utilities/updateContainer';
 import {BatchUpdate} from '../request/batchUpdateService/batchUpdate';
 
 export class Member extends Endpoint {
-	
-	/**
-	 * C-tor
-	 * @param {Object} args
-	 * @param {String} args.apiUrl - Full URL to the api end-point.
-	 */
-	constructor( args = {}  ) {
-		super(args);
-	}
 	
 	/**
 	 *
@@ -21,7 +12,7 @@ export class Member extends Endpoint {
 	 * @param {Number} args.languageId
 	 * @returns {Promise}
 	 */
-	changeLanguage( args = {} ) {
+    changeLanguage(args: { member: any, languageId: number }) {
 		
 		if( !args.hasOwnProperty('member') ) {
 			throw new Error('changeLanguage expects a member as parameter');
@@ -58,10 +49,17 @@ export class Member extends Endpoint {
 
 // Attach endpoint
 const name   = 'member';
-const getter = function (instance) {
+const getter = function (instance: Connector) {
 	return new Member({
 		apiUrl   : instance.apiUrl,
 	});
 };
 
 attachEndpoint({ name, getter });
+
+
+declare module '../connector' {
+    interface Connector {
+        member: Member
+    }
+}

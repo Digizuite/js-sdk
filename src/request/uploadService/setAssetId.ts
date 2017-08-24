@@ -1,17 +1,8 @@
 import {BaseRequest} from '../../common/request';
 import {ReplaceTicket} from '../../model/ticket/replaceTicket';
 
-export class SetAssetId extends BaseRequest {
-	
-	/**
-	 * C-tor
-	 * @param {Object} args
-	 */
-	constructor( args = {}  ) {
-		super(args);
-		
-	}
-	
+export class SetAssetId extends BaseRequest<any> {
+
 	/**
 	 * Endpoint URL
 	 * @returns {string}
@@ -39,7 +30,7 @@ export class SetAssetId extends BaseRequest {
 	 * @param {Object} payload
 	 * @returns {Object}
 	 */
-	processRequestData(payload = {}) {
+    processRequestData(payload: any): any {
 		
 		// UploadID
 		payload.UploadID = payload.ticket.uploadId;

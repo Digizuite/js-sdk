@@ -1,17 +1,8 @@
 import {BaseRequest} from '../../common/request';
 import {RestoreTicket} from '../../model/ticket/restoreTicket';
 
-export class SetFileName extends BaseRequest {
-	
-	/**
-	 * C-tor
-	 * @param {Object} args
-	 */
-	constructor( args = {}  ) {
-		super(args);
-		
-	}
-	
+export class SetFileName extends BaseRequest<any> {
+
 	/**
 	 * Endpoint URL
 	 * @returns {string}
@@ -39,7 +30,7 @@ export class SetFileName extends BaseRequest {
 	 * @param {Object} payload
 	 * @returns {Object}
 	 */
-	processRequestData(payload = {}) {
+    processRequestData(payload: any): any {
 		
 		// File name
 		if( payload.ticket instanceof RestoreTicket) {

@@ -73,8 +73,8 @@ export const getParentItemIdFromIdPath = ( idPath = '') => {
  * @param idPath
  */
 export const getParentIdPath = ( idPath = '') => {
-	
-	const array_id = initial( getItemIdArrayFromIdPath( idPath ), 1 );
+
+    const array_id = initial(getItemIdArrayFromIdPath(idPath));
 	
 	if( array_id.length === 0 ) {
 		return '';
@@ -89,7 +89,7 @@ export const getParentIdPath = ( idPath = '') => {
  * @param idPath
  * @returns {number|null}
  */
-export const getParentParentItemId = (idPath) => {
+export const getParentParentItemId = (idPath: string) => {
 	
 	if (idPath.length === 0) {
 		return null;

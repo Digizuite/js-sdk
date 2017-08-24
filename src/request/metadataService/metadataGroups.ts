@@ -2,16 +2,7 @@ import {BaseRequest} from '../../common/request';
 import {MetadataGroup} from '../../model/metadata/metadataGroup';
 import {IterativeMetadataGroup} from '../../model/metadata/iterativeMetadataGroup';
 
-export class MetadataGroups extends BaseRequest {
-	
-	/**
-	 * C-tor
-	 * @param {Object} args
-	 * @param {String} args.apiUrl - Full URL to the api end-point.
-	 */
-	constructor(args = {}) {
-		super(args);
-	}
+export class MetadataGroups extends BaseRequest<any> {
 	
 	/**
 	 * Endpoint URL
@@ -42,7 +33,7 @@ export class MetadataGroups extends BaseRequest {
 	 * @param {Object} payload
 	 * @returns {Object}
 	 */
-	processRequestData(payload = {}) {
+    processRequestData(payload: any) {
 		
 		payload.itemid = payload.assetId;
 		
@@ -53,9 +44,9 @@ export class MetadataGroups extends BaseRequest {
 	 * Process response
 	 * @param response
 	 */
-	processResponseData(response) {
-		
-		const groups = response.items[0].metafieldid.map((thisGroup) => {
+    processResponseData(response: any) {
+
+        const groups = response.items[0].metafieldid.map((thisGroup: any) => {
 			
 			const payload = {
 				id       : parseInt(thisGroup.metafieldSubGroup, 10),

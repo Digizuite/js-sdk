@@ -1,5 +1,5 @@
-import {attachEndpoint} from '../connector';
-import {Endpoint} from '../common/endpoint';
+import {attachEndpoint, Connector} from '../connector';
+import {Endpoint, IEndpointArgs} from '../common/endpoint';
 import {UploadTicket} from '../model/ticket/uploadTicket';
 import {Asset} from '../model/asset';
 import {CloudFile} from '../model/cloudFile';
@@ -7,7 +7,17 @@ import {DigiUploader} from '../utilities/digiUploader';
 import {AssetsBasicInformation} from '../request/searchService/assetsBasicInformation';
 import {AssetsInformation} from '../request/searchService/assetsInformation';
 
+export interface IUploadEndpointArgs extends IEndpointArgs {
+    computerName: string;
+    apiVersion: string;
+}
+
 export class Upload extends Endpoint {
+    private _digiUpload: DigiUploader;
+    private _assetEditableQueue: Array<any>;
+    private _assetPublishedQueue: Array<any>;
+    private _assetPublishedRequest?: AssetsInformation;
+    private _assetBasicInformationRequest?: AssetsBasicInformation;
 	
 	static get ASSET_EDITABLE_TIMEOUT() {
 		return 10000;
@@ -21,7 +31,7 @@ export class Upload extends Endpoint {
 	 * @param {Object} args
 	 * @param {string} args.computerName
 	 */
-	constructor(args = {}) {
+    constructor(args: IUploadEndpointArgs) {
 		super(args);
 		this._digiUpload = new DigiUploader(args);
 		
@@ -35,14 +45,14 @@ export class Upload extends Endpoint {
 	 * @param {File|CloudFile[]} args.files
 	 * @returns {Promise.<UploadTicket[]>}
 	 */
-	requestUploadTickets(args = {}) {
+    requestUploadTickets(args: { files: Array<File | CloudFile> }): Promise<UploadTicket[]> {
 		
 		if (!Array.isArray(args.files)) {
 			throw new Error('Upload expect array of files as parameter');
 		}
 		
 		return Promise.all(
-			args.files.map( thisFile => this._digiUpload.getUploadIds({ file : thisFile }) )
+            args.files.map((thisFile: File | CloudFile) => this._digiUpload.getUploadIds({file: thisFile}))
 		).then((results) => {
 			return results.map((thisResult, index) => {
 				return new UploadTicket({
@@ -61,7 +71,7 @@ export class Upload extends Endpoint {
 	 * @param {UploadTicket[]} args.tickets
 	 * @returns {Promise.<Asset[]>}
 	 */
-	uploadAssetsByTicket(args = {}) {
+    uploadAssetsByTicket(args: { tickets: UploadTicket[] }) {
 		
 		if (!Array.isArray(args.tickets)) {
 			throw new Error('Upload expect array of tickets as parameter');
@@ -77,10 +87,10 @@ export class Upload extends Endpoint {
 	 * @param {UploadTicket} ticket
 	 * @returns {Promise.<Asset[]>}
 	 */
-	_uploadAssetByTicket( ticket ) {
+    _uploadAssetByTicket(ticket: UploadTicket) {
 		// CloudFile does not need to be transferred/uploaded to the server.
 		// DAM Center will download it.
-		const transferFilePromise = ticket.file instanceof CloudFile ?
+        const transferFilePromise: Promise<void> = ticket.file instanceof CloudFile ?
 			Promise.resolve() : this._digiUpload.uploadFile(ticket);
 		
 		return transferFilePromise
@@ -88,7 +98,7 @@ export class Upload extends Endpoint {
 			.then(() => {
 				return new Asset({
 					id  : ticket.itemId,
-					name: ticket.file.name.substr(0, ticket.file.name.lastIndexOf('.'))
+                    name: ticket.file!.name.substr(0, ticket.file!.name.lastIndexOf('.'))
 				});
 			});
 	}
@@ -98,7 +108,7 @@ export class Upload extends Endpoint {
 	 * @param asset
 	 * @returns {Promise}
 	 */
-	awaitAssetEditable(asset) {
+    awaitAssetEditable(asset: Asset) {
 		
 		if (!(asset instanceof Asset)) {
 			throw new Error('awaitAssetEditable expects an asset as parameter');
@@ -114,7 +124,7 @@ export class Upload extends Endpoint {
 	 * @param asset
 	 * @returns {Promise}
 	 */
-	awaitAssetPublished(asset) {
+    awaitAssetPublished(asset: Asset) {
 		
 		if (!(asset instanceof Asset)) {
 			throw new Error('awaitAssetPublished expects an asset as parameter');
@@ -171,7 +181,7 @@ export class Upload extends Endpoint {
 		
 		this._assetPublishedRequest.execute({
 			assets: this._assetPublishedQueue.map(thisQueueItem => thisQueueItem.asset)
-		}).then((assets) => {
+        }).then((assets: Asset[]) => {
 			
 			// Resolve the promise for the found assets
 			assets
@@ -214,7 +224,7 @@ export class Upload extends Endpoint {
 		
 		this._assetBasicInformationRequest.execute({
 			assets: this._assetEditableQueue.map(thisQueueItem => thisQueueItem.asset)
-		}).then((basicAssets) => {
+        }).then((basicAssets: Asset[]) => {
 			
 			// Resolve the promise for the found assets
 			basicAssets.forEach((thisBasicAsset) => {
@@ -246,7 +256,7 @@ export class Upload extends Endpoint {
 
 // Attach endpoint
 const name = 'upload';
-const getter = function (instance) {
+const getter = function (instance: Connector) {
 	return new Upload( {
 		apiUrl : instance.apiUrl,
 		//TODO: un-hard-code this when we get a dam version
@@ -256,3 +266,9 @@ const getter = function (instance) {
 };
 
 attachEndpoint({ name, getter });
+
+declare module '../connector' {
+    interface Connector {
+        upload: Upload
+    }
+}

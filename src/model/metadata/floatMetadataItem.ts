@@ -1,20 +1,20 @@
-import {MetadataItem} from './metadataItem';
+import {IMetadataItemArgs, MetadataItem} from './metadataItem';
 
-export class FloatMetadataItem extends MetadataItem {
+export class FloatMetadataItem extends MetadataItem<number | null> {
 	
 	static get TYPE() { return 82; }
 	static get VALUE_TYPE() { return 5; }
 	
 	get TYPE() { return FloatMetadataItem.TYPE; }
 	get VALUE_TYPE() { return FloatMetadataItem.VALUE_TYPE; }
-	
-	constructor( args = {} ) {
+
+    constructor(args: IMetadataItemArgs<number>) {
 		super(args);
 	}
-	
-	setValueFromAPI( args = {}) {
+
+    setValueFromAPI(args: any) {
 		super.setValueFromAPI(args);
-		this.value = this.value ? parseFloat(this.value) : null;
+        this.value = this.value ? parseFloat(<string><any>this.value) : null;
 	}
 	
 	/**
@@ -28,7 +28,7 @@ export class FloatMetadataItem extends MetadataItem {
 	 * Sets a value
 	 * @param value
 	 */
-	setValue(value) {
+    setValue(value: number) {
 		
 		if( typeof value !== 'number' || Number.isNaN(value)) {
 			throw new Error('Parameter value needs to be of type number');

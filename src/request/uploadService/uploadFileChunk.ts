@@ -1,7 +1,7 @@
 import {BaseRequest} from '../../common/request';
 import {UploadTicket} from '../../model/ticket/uploadTicket';
 
-export class UploadFileChunk extends BaseRequest {
+export class UploadFileChunk extends BaseRequest<any> {
 	
 	static get CHUNK_SIZE() {
 		return 524288;
@@ -10,16 +10,7 @@ export class UploadFileChunk extends BaseRequest {
 	static get MAX_UPLOAD_CHUNK_RETRIES() {
 		return 10;
 	}
-	
-	/**
-	 * C-tor
-	 * @param {Object} args
-	 */
-	constructor( args = {}  ) {
-		super(args);
-		
-	}
-	
+
 	/**
 	 * Endpoint URL
 	 * @returns {string}
@@ -46,7 +37,7 @@ export class UploadFileChunk extends BaseRequest {
 	 * Upload a file
 	 * @param {UploadTicket} ticket
 	 */
-	uploadFile( ticket ) {
+    uploadFile(ticket: UploadTicket): Promise<void> {
 		
 		if( !(ticket instanceof UploadTicket) )  {
 			throw new Error('Upload expect an upload ticket as parameter');
@@ -59,7 +50,7 @@ export class UploadFileChunk extends BaseRequest {
 				uploadId   : ticket.uploadId,
 				chunkIndex : 0,
 				retry      : 0,
-				totalChunks: ticket.file.size / UploadFileChunk.CHUNK_SIZE,
+                totalChunks: ticket.file!.size / UploadFileChunk.CHUNK_SIZE,
 				onProgress : ticket.onProgress,
 				resolve,
 				reject
@@ -74,7 +65,7 @@ export class UploadFileChunk extends BaseRequest {
 	 * @param e
 	 * @private
 	 */
-	_onUploadProgress( args, e ) {
+    _onUploadProgress(args: any, e: any) {
 		
 		if (!(typeof args.onProgress === 'function') || !e.lengthComputable) {
 			return;
@@ -95,7 +86,7 @@ export class UploadFileChunk extends BaseRequest {
 	 * @param args
 	 * @private
 	 */
-	_uploadChunk( args = {} ) {
+    _uploadChunk(args: any) {
 		
 		const startByte = args.chunkIndex * UploadFileChunk.CHUNK_SIZE;
 		const endByte = (args.chunkIndex + 1) * UploadFileChunk.CHUNK_SIZE;
@@ -155,7 +146,7 @@ export class UploadFileChunk extends BaseRequest {
 	 * @param {Function} onProgress
 	 * @returns {Promise}
 	 */
-	execute( payload = {}, blob , onProgress ) {
+    execute(payload = {}, blob?: any, onProgress?: any) {
 		
 		// Merge the payload with the default one and pass it though the pre-process
 		const requestData = this.processRequestData(
@@ -187,7 +178,7 @@ export class UploadFileChunk extends BaseRequest {
 	 * @param {Object} payload
 	 * @returns {Object}
 	 */
-	processRequestData(payload = {}) {
+    processRequestData(payload: any) {
 		
 		// UploadID
 		payload.uploadid = payload.uploadId;

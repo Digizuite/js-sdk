@@ -1,15 +1,30 @@
-import {attachEndpoint} from '../connector';
-import {Endpoint} from '../common/endpoint';
+import {attachEndpoint, Connector} from '../connector';
+import {Endpoint, IEndpointArgs} from '../common/endpoint';
 import {DownloadQualities} from '../request/memberService/downloadQualities';
 import {Constants} from '../const';
+import {Asset} from "../model/asset";
+
+export interface IDownloadArgs extends IEndpointArgs {
+    memberId: string;
+    accessKey: string;
+    lowResMediaFormatIds: number[];
+    highResMediaFormatIds: number[];
+    mediaUrl: string;
+}
 
 export class Download extends Endpoint {
+    private memberId: string;
+    private accessKey: string;
+    private lowResMediaFormatIds: number[];
+    private highResMediaFormatIds: number[];
+    private mediaUrl: string;
+    private cache: { qualities: any };
 	
 	/**
 	 * C-tor
 	 * @param {Object} args
 	 */
-	constructor(args = {}) {
+    constructor(args: IDownloadArgs) {
 		super(args);
 		
 		this.memberId              = args.memberId;
@@ -30,7 +45,7 @@ export class Download extends Endpoint {
 	 * @param {Number} args.quality
 	 * @returns {Promise.<string>}
 	 */
-	getDownloadURL(args = {}) {
+    getDownloadURL(args: { asset: Asset, quality: number }): Promise<string> {
 		
 		if (!args.asset) {
 			throw new Error('getDownloadURL expected an asset as parameter!');
@@ -39,7 +54,7 @@ export class Download extends Endpoint {
 		return this._getAllDownloadQualities().then((qualities) => {
 			
 			// get only the qualities for the current asset type
-			const assetQualities = qualities.find((thisQualityGroup)=> thisQualityGroup.assetType === args.asset.type);
+            const assetQualities = qualities.find((thisQualityGroup: any) => thisQualityGroup.assetType === args.asset.type);
 			const quality = args.quality || Constants.DOWNLOAD_QUALITY.ORIGINAL;
 			let mediaFormatId = -1;
 			
@@ -54,7 +69,7 @@ export class Download extends Endpoint {
 				
 				// Make voodoo and intersect these array to find the format id
 				searchArray.forEach( (thisMediaFormatId)=> {
-					const format = assetQualities.formats.find((thisFormat) => thisFormat.mediaformatId === thisMediaFormatId);
+                    const format = assetQualities.formats.find((thisFormat: any) => thisFormat.mediaformatId === thisMediaFormatId);
 					if(format) {
 						mediaFormatId = thisMediaFormatId;
 					}
@@ -74,7 +89,7 @@ export class Download extends Endpoint {
 	 * @param {Number} args.mediaFormatId
 	 * @returns {String}
 	 */
-	_getDownloadURLForFormat(args = {}) {
+    _getDownloadURLForFormat(args: { asset: Asset, mediaFormatId: number }) {
 		
 		const transcode = args.asset.getTranscodeForMediaFormat(args.mediaFormatId);
 		
@@ -86,7 +101,7 @@ export class Download extends Endpoint {
 		if (args.mediaFormatId === -1) {
 			downloadUrl += '&AssetOutputIdent=Download';
 		} else {
-			downloadUrl += `&downloadName=&mediaformatid=${transcode.mediaFormatId}&destinationid=${transcode.mediaTranscodeDestinationId}`;
+            downloadUrl += `&downloadName=&mediaformatid=${transcode!.mediaFormatId}&destinationid=${transcode!.mediaTranscodeDestinationId}`;
 		}
 
 		return downloadUrl;
@@ -97,19 +112,19 @@ export class Download extends Endpoint {
 	 * @param args
 	 * @returns {Promise}
 	 */
-	getAllDownloadURL( args = {} ) {
+    getAllDownloadURL(args: { asset: Asset }): Promise<{ quality: string, url: string }[]> {
 		
 		if (!args.asset) {
 			throw new Error('getDownloadURL expected an asset as parameter!');
 		}
 		
 		return this._getAllDownloadQualities().then((qualities) => {
-			
-			let result = [];
-			
-			const assetQualities = qualities.find((thisQualityGroup)=> thisQualityGroup.assetType === args.asset.type);
-			
-			assetQualities.formats.forEach((thisFormat) => {
+
+            let result: { quality: string, url: string }[] = [];
+
+            const assetQualities = qualities.find((thisQualityGroup: any) => thisQualityGroup.assetType === args.asset.type);
+
+            assetQualities.formats.forEach((thisFormat: any) => {
 				const thisTranscode = args.asset.getTranscodeForMediaFormat( thisFormat.mediaformatId );
 				if( thisTranscode ) {
 					result.push({
@@ -118,8 +133,8 @@ export class Download extends Endpoint {
 					});
 				}
 			});
-			
-			const allAssetTypeQualities = qualities.find((thisQualityGroup)=> thisQualityGroup.assetType === 0);
+
+            const allAssetTypeQualities = qualities.find((thisQualityGroup: any) => thisQualityGroup.assetType === 0);
 			if( allAssetTypeQualities ) {
 				result.push({
 					quality : 'Original',
@@ -157,7 +172,7 @@ export class Download extends Endpoint {
 
 // Attach endpoint
 const name = 'download';
-const getter = function (instance) {
+const getter = function (instance: Connector) {
 	return new Download({
 		apiUrl               : instance.apiUrl,
 		memberId             : instance.state.user.memberId,
@@ -170,3 +185,9 @@ const getter = function (instance) {
 };
 
 attachEndpoint({ name, getter });
+
+declare module '../connector' {
+    interface Connector {
+        download: Download
+    }
+}

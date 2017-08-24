@@ -2,7 +2,7 @@ import {BaseRequest} from '../../common/request';
 import {RequestError} from '../../common/requestError';
 import isObject from 'lodash/isObject';
 
-export class AppConfiguration extends BaseRequest {
+export class AppConfiguration extends BaseRequest<any> {
 	
 	/**
 	 * Endpoint URL
@@ -30,7 +30,7 @@ export class AppConfiguration extends BaseRequest {
 	 * Process response
 	 * @param response
 	 */
-	processResponseData( response ) {
+    processResponseData(response: any) {
 		
 		if(!Array.isArray(response.items) || !isObject(response.items[0])) {
 			throw new RequestError('Malformed response in DigiZuite_System_Configs.');
@@ -39,7 +39,7 @@ export class AppConfiguration extends BaseRequest {
 		const config = response.items[0];
 		
 		config.DefaultLanguage = parseInt(config.DefaultLanguage, 10);
-		config.languages = config.languages.map((thisLanguage)=>{
+        config.languages = config.languages.map((thisLanguage: any) => {
 			thisLanguage.languageId = parseInt(thisLanguage.languageId, 10);
 			return thisLanguage;
 		});

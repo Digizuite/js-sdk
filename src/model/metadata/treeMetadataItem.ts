@@ -1,23 +1,19 @@
-import {MetadataItem} from './metadataItem';
+import {ISetValueFromApiArgs, MetadataItem} from './metadataItem';
 import {TreeOption} from './treeOption';
 
-export class TreeMetadataItem extends MetadataItem {
+export class TreeMetadataItem extends MetadataItem<TreeOption[]> {
 	
 	static get TYPE() { return 300; }
 	static get VALUE_TYPE() { return 6; }
 	
 	get TYPE() { return TreeMetadataItem.TYPE; }
 	get VALUE_TYPE() { return TreeMetadataItem.VALUE_TYPE; }
-	
-	constructor( args = {} ) {
-		super(args);
-	}
-	
+
 	/**
 	 * Set values from the API
 	 * @param args
 	 */
-	setValueFromAPI( args = {}) {
+    setValueFromAPI(args: ISetValueFromApiArgs) {
 		super.setValueFromAPI(args);
 		
 		const value = Array.isArray(args.item_metafield_valueid) ? args.item_metafield_valueid : [];
@@ -28,7 +24,7 @@ export class TreeMetadataItem extends MetadataItem {
 	 * Append a value to the tree
 	 * @param treeOption
 	 */
-	appendOption( treeOption ) {
+    appendOption(treeOption: TreeOption) {
 		this.appendOptions([treeOption]);
 	}
 	
@@ -36,9 +32,9 @@ export class TreeMetadataItem extends MetadataItem {
 	 * Appends a series of values to the tree
 	 * @param treeOptions
 	 */
-	appendOptions( treeOptions = [] ) {
-		
-		const newValues = [];
+    appendOptions(treeOptions: TreeOption[]) {
+
+        const newValues: TreeOption[] = [];
 
 		// Verify that the option is not already in the value
 		treeOptions.forEach( (thisOption) => {
@@ -59,7 +55,7 @@ export class TreeMetadataItem extends MetadataItem {
 	 * Set Values
 	 * @param treeOptions
 	 */
-	setValue( treeOptions = [] ) {
+    setValue(treeOptions: TreeOption[]) {
 		
 		if( !Array.isArray(treeOptions) ) {
 			throw new Error('setValue expect treeOptions to be an array!');
@@ -78,7 +74,7 @@ export class TreeMetadataItem extends MetadataItem {
 	 * Remove a combo option
 	 * @param treeOption
 	 */
-	removeOption( treeOption ) {
+    removeOption(treeOption: TreeOption) {
 		
 		if( !(treeOption instanceof TreeOption) ) {
 			throw new Error('removeOption requires that values of treeOption be instances of TreeOption');
@@ -91,7 +87,7 @@ export class TreeMetadataItem extends MetadataItem {
 	 * Remove a combo option
 	 * @param treeOptions
 	 */
-	removeOptions( treeOptions ) {
+    removeOptions(treeOptions: TreeOption) {
 		
 		if( !Array.isArray(treeOptions) ) {
 			throw new Error('removeOptions expect treeOptions to be an array!');

@@ -1,8 +1,21 @@
-import {BaseRequest} from '../../common/request';
+import {BaseRequest, IBaseRequestArgs} from '../../common/request';
 import {getItemIdFromIdPath} from '../../utilities/helpers/treePath';
-import {Asset} from '../../model/asset';
+import {CreateAssetFromApiResponse} from '../../model/asset';
+import {ISortType} from "../../endpoint/content";
 
-export class Assets extends BaseRequest {
+
+export interface IAssetRequestArgs extends IBaseRequestArgs {
+    sLayoutFolderId: string;
+    filters?: object;
+    sortTypes: Array<any>;
+    defaultSortType: string;
+}
+
+export class Assets extends BaseRequest<any> {
+    private sLayoutFolderId: string;
+    private filters?: object;
+    private sortTypes: ISortType[];
+    private defaultSortType: string;
 	
 	/**
 	 * C-tor
@@ -10,10 +23,10 @@ export class Assets extends BaseRequest {
 	 * @param {String} args.apiUrl - Full URL to the api end-point.
 	 * @param {String} args.sLayoutFolderId - An object of labels
 	 * @param {Object} args.filters - An object of labels
-	 * @param {Object} args.sortTypes - An object of labels
+     * @param {Array} args.sortTypes - An object of labels
 	 * @param {String} args.defaultSortType - An object of labels
 	 */
-	constructor( args = {}  ) {
+    constructor(args: IAssetRequestArgs) {
 		super(args);
 		this.sLayoutFolderId = args.sLayoutFolderId;
 		this.filters = args.filters;
@@ -61,7 +74,7 @@ export class Assets extends BaseRequest {
 	 * @param {Object} payload
 	 * @returns {Object}
 	 */
-	processRequestData(payload = {}) {
+    processRequestData(payload: any) {
 
 		// Weird shit
 		payload.sLayoutFolderId = this.sLayoutFolderId;
@@ -94,8 +107,8 @@ export class Assets extends BaseRequest {
 		
 		// No sort direction provided, fallback to default one
 		if( !sortDirection ) {
-			const selectedSortType = this.sortTypes.find((thisSortType) => thisSortType.by === sortBy );
-			sortDirection = selectedSortType.defaultDirection;
+            const selectedSortType = this.sortTypes.find((thisSortType: any) => thisSortType.by === sortBy);
+            sortDirection = selectedSortType!.defaultDirection;
 		}
 		
 		payload.sort = `sort${sortBy}${sortDirection}`;
@@ -103,7 +116,7 @@ export class Assets extends BaseRequest {
 		
 		// Filters
 		if( payload.hasOwnProperty('filters')  ) {
-			payload.filters.forEach((thisFilter) => Object.assign(payload, thisFilter.getAsSearchPayload() ));
+            payload.filters.forEach((thisFilter: any) => Object.assign(payload, thisFilter.getAsSearchPayload()));
 			payload.filters = undefined;
 		}
 		
@@ -120,10 +133,10 @@ export class Assets extends BaseRequest {
 	 * Process response
 	 * @param response
 	 */
-	processResponseData(response) {
+    processResponseData(response: any) {
 		return {
 			navigation : {total: parseInt(response.total, 10)},
-			assets     : response.items.map( thisAsset => Asset.createFromAPIResponse(thisAsset)),
+            assets: response.items.map(CreateAssetFromApiResponse),
 			facetResult: Array.isArray(response.extra) && response.extra.length > 1 ? response.extra[1].facet_counts.facet_fields : null
 		};
 	}

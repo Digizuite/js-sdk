@@ -3,6 +3,11 @@ import {Endpoint} from '../common/endpoint';
 import {Login} from '../request/connectService/login';
 import {KeepAlive} from '../request/connectService/keepAlive';
 
+export interface IAuthEndpointArgs {
+    apiUrl: string,
+    keepAliveInterval?: number
+}
+
 export class Auth extends Endpoint {
 	private keepAliveInterval: number;
 	
@@ -12,7 +17,7 @@ export class Auth extends Endpoint {
 	 * @param {String} args.apiUrl - Full URL to the api end-point.
 	 * @param {Number} [args.keepAliveInterval] - Timeout for making a keep alive request
 	 */
-	constructor( args: {apiUrl: string, keepAliveInterval?: number}  ) {
+    constructor(args: IAuthEndpointArgs) {
 		super(args);
 		this.keepAliveInterval = args.keepAliveInterval || 60000;
 	}
@@ -62,6 +67,6 @@ attachEndpoint({ name, getter });
 
 declare module '../connector' {
 	interface Connector {
-		auth: typeof Auth
+        auth: Auth
 	}
 }

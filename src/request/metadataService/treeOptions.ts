@@ -2,16 +2,7 @@ import {BaseRequest} from '../../common/request';
 import {TreeOption} from '../../model/metadata/treeOption';
 import {getItemIdFromIdPath} from '../../utilities/helpers/treePath';
 
-export class TreeOptions extends BaseRequest {
-	
-	/**
-	 * C-tor
-	 * @param {Object} args
-	 * @param {String} args.apiUrl - Full URL to the api end-point.
-	 */
-	constructor(args = {}) {
-		super(args);
-	}
+export class TreeOptions extends BaseRequest<any> {
 	
 	/**
 	 * Endpoint URL
@@ -42,7 +33,7 @@ export class TreeOptions extends BaseRequest {
 	 * @param {Object} payload
 	 * @returns {Object}
 	 */
-	processRequestData(payload = {}) {
+    processRequestData(payload: any) {
 		
 		payload.sfMetafieldLabelId = payload.metadataItem.labelId;
 		payload.metadataItem = undefined;
@@ -72,10 +63,10 @@ export class TreeOptions extends BaseRequest {
 	 * Process response
 	 * @param response
 	 */
-	processResponseData(response) {
+    processResponseData(response: any) {
 		return {
 			navigation : {total: parseInt(response.total, 10)},
-			options     : response.items.map( thisOption => TreeOption.createFromAPIResponse(thisOption)),
+            options: response.items.map((thisOption: any) => TreeOption.createFromAPIResponse(thisOption)),
 		};
 	}
 	

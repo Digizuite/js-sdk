@@ -1,6 +1,6 @@
 import {BaseRequest} from '../../common/request';
 
-export class SetMetaSource extends BaseRequest {
+export class SetMetaSource extends BaseRequest<any> {
 	
 	/**
 	 *
@@ -13,16 +13,7 @@ export class SetMetaSource extends BaseRequest {
 			FROM_ASSET : 1,
 		};
 	}
-	
-	/**
-	 * C-tor
-	 * @param {Object} args
-	 */
-	constructor( args = {}  ) {
-		super(args);
-		
-	}
-	
+
 	/**
 	 * Endpoint URL
 	 * @returns {string}
@@ -50,7 +41,7 @@ export class SetMetaSource extends BaseRequest {
 	 * @param {Object} payload
 	 * @returns {Object}
 	 */
-	processRequestData(payload = {}) {
+    processRequestData(payload: any): any {
 		
 		// UploadID
 		payload.UploadID = payload.uploadId;

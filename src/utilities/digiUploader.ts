@@ -15,7 +15,19 @@ import {UploadFileChunk} from '../request/uploadService/uploadFileChunk';
 import {FinishUpload} from '../request/uploadService/finishUpload';
 import {greaterOrEqualThan} from './damVersionCompare';
 
+export type DigiUploadFile = File | CloudFile;
+
+export interface IDigiUploaderArgs {
+    computerName: string;
+    apiUrl: string;
+    apiVersion: string;
+}
+
 export class DigiUploader {
+    private computerName: string;
+    private apiUrl: string;
+    private apiVersion: string;
+    private fileChunkUploader: UploadFileChunk;
 	
 	get SUPPORTS_FAST_FINISH_UPLOAD() {
 		return greaterOrEqualThan(this.apiVersion, '4.7.1');
@@ -26,7 +38,7 @@ export class DigiUploader {
 	 * @param {Object} args
 	 * @param {string} args.computerName
 	 */
-	constructor(args = {}) {
+    constructor(args: IDigiUploaderArgs) {
 		this.computerName = args.computerName;
 		this.apiUrl = args.apiUrl;
 		this.apiVersion = args.apiVersion;
@@ -36,7 +48,7 @@ export class DigiUploader {
 	 * Upload a file
 	 * @param {UploadTicket} ticket
 	 */
-	uploadFile(ticket) {
+    uploadFile(ticket: UploadTicket): Promise<void> {
 		
 		if (!(ticket instanceof UploadTicket)) {
 			throw new Error('Upload expect an upload ticket as parameter');
@@ -55,7 +67,7 @@ export class DigiUploader {
 	 * Determines which version of finish upload to use based on DAM version
 	 * @param {UploadTicket|ReplaceTicket} ticket
 	 */
-	finishUpload(ticket) {
+    finishUpload(ticket: UploadTicket) {
 		
 		return this.SUPPORTS_FAST_FINISH_UPLOAD ?
 			this._finishUploadFast(ticket) :
@@ -68,7 +80,7 @@ export class DigiUploader {
 	 * Finishes an upload, the fast way.
 	 * @param {UploadTicket|ReplaceTicket} ticket
 	 */
-	_finishUploadFast( ticket ) {
+    _finishUploadFast(ticket: UploadTicket | RestoreTicket) {
 		
 		let preFinishPromise;
 		
@@ -97,7 +109,7 @@ export class DigiUploader {
 	 * Finishes an upload, the slow way.
 	 * @param {UploadTicket|ReplaceTicket} ticket
 	 */
-	_finishUploadSlow(ticket) {
+    _finishUploadSlow(ticket: UploadTicket) {
 		
 		const setTransferModeRequest = new SetTransferMode({
 			apiUrl: this.apiUrl
@@ -130,20 +142,20 @@ export class DigiUploader {
 			(ticket instanceof ReplaceTicket) ||
 			(ticket instanceof RestoreTicket)
 		) {
-			
+
 			const setAssetIdRequest = new SetAssetId({
 				apiUrl: this.apiUrl
 			});
-			
+
 			const setArchiveReplaceRequest = new SetArchiveReplace({
 				apiUrl: this.apiUrl
 			});
-			
+
 			requests.push(
 				setAssetIdRequest.execute({ ticket })
 			);
-			
-			requests.push(
+
+            requests.push(
 				setArchiveReplaceRequest.execute({ uploadId: ticket.uploadId })
 			);
 		}
@@ -187,7 +199,7 @@ export class DigiUploader {
 	 * @param {String} [args.name]
 	 * @returns {Promise.<Object>}
 	 */
-	getUploadIds( args = {} ) {
+    getUploadIds(args: { file?: File | CloudFile, filename?: string, name?: string }): Promise<{ itemId: number, uploadId: number }> {
 		
 		const createUploadRequest = new CreateUpload({
 			apiUrl: this.apiUrl
@@ -199,7 +211,7 @@ export class DigiUploader {
 			file        : args.file,
 			filename    : args.filename,
 			name        : args.name
-		}).then( createUploadResult => {
+        }).then((createUploadResult: { itemId: number, uploadId: number }) => {
 			
 			// In DAM 4.8.0 or earlier, itemId was set to 0.
 			// Which required an additional request to be made
@@ -218,7 +230,7 @@ export class DigiUploader {
 	 * @returns {Promise.<Object>}
 	 * @private
 	 */
-	_getUploadIdsFromUploadId( uploadId ) {
+    _getUploadIdsFromUploadId(uploadId: number): Promise<{ itemId: number, uploadId: number }> {
 		
 		const itemIdUploadRequest = new ItemIdUpload({
 			apiUrl: this.apiUrl

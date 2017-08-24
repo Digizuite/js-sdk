@@ -1,15 +1,6 @@
 import {BaseRequest} from '../../common/request';
 
-export class CopyMetadata extends BaseRequest {
-	
-	/**
-	 * C-tor
-	 * @param {Object} args
-	 * @param {String} args.apiUrl - Full URL to the api end-point.
-	 */
-	constructor(args = {}) {
-		super(args);
-	}
+export class CopyMetadata extends BaseRequest<any> {
 	
 	/**
 	 * Endpoint URL
@@ -40,7 +31,7 @@ export class CopyMetadata extends BaseRequest {
 	 * @param {Object} payload
 	 * @returns {Object}
 	 */
-	processRequestData(payload = {}) {
+    processRequestData(payload: any): any {
 		
 		payload.sourceItemId = payload.ticket.asset.id;
 		payload.targetItemId = payload.ticket.itemId;

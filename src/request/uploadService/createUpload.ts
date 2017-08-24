@@ -1,16 +1,9 @@
 import {BaseRequest} from '../../common/request';
 import {CloudFile} from '../../model/cloudFile';
 
-export class CreateUpload extends BaseRequest {
-	
-	/**
-	 * C-tor
-	 * @param {Object} args
-	 */
-	constructor( args = {}  ) {
-		super(args);
-		
-	}
+export class CreateUpload extends BaseRequest<any> {
+    private computerName: string;
+
 	
 	/**
 	 * Endpoint URL
@@ -42,7 +35,7 @@ export class CreateUpload extends BaseRequest {
 	 * @param {Object} payload
 	 * @returns {Object}
 	 */
-	processRequestData(payload = {}) {
+    processRequestData(payload: any): any {
 		
 		// ComputerName
 		payload.computername = payload.computerName;
@@ -74,7 +67,7 @@ export class CreateUpload extends BaseRequest {
 	 * Process response
 	 * @param response
 	 */
-	processResponseData(response) {
+    processResponseData(response: any) {
 		return response.items[0];
 	}
 	

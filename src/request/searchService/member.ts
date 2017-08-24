@@ -1,6 +1,6 @@
 import {BaseRequest} from '../../common/request';
 
-export class Member extends BaseRequest {
+export class Member extends BaseRequest<any> {
 	
 	/**
 	 * Endpoint URL
@@ -31,7 +31,7 @@ export class Member extends BaseRequest {
 	 * @param {Object} payload
 	 * @returns {Object}
 	 */
-	processRequestData(payload = {}) {
+    processRequestData(payload: any) {
 		
 		// id to memberid
 		payload.memberid = payload.id;
@@ -44,7 +44,7 @@ export class Member extends BaseRequest {
 	 * Process response
 	 * @param response
 	 */
-	processResponseData(response) {
+    processResponseData(response: any) {
 		// We are only interested in the items
 		return response.items[0];
 	}

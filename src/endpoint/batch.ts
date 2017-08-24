@@ -4,16 +4,7 @@ import {UpdateContainer} from '../utilities/updateContainer';
 import {BatchUpdate} from '../request/batchUpdateService/batchUpdate';
 
 export class Batch extends Endpoint {
-	
-	/**
-	 * C-tor
-	 * @param {Object} args
-	 * @param {String} args.apiUrl - Full URL to the api end-point.
-	 */
-	constructor( args: {apiUrl: string}  ) {
-		super(args);
-	}
-	
+
 	/**
 	 * Make a batch update
 	 * @param {Object} args
@@ -61,6 +52,6 @@ attachEndpoint({ name, getter });
 
 declare module '../connector' {
 	interface Connector {
-		batch: typeof Batch
+        batch: Batch
 	}
 }

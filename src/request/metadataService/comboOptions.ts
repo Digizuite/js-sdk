@@ -1,17 +1,8 @@
 import {BaseRequest} from '../../common/request';
 import {ComboOption} from '../../model/metadata/comboOption';
 
-export class ComboOptions extends BaseRequest {
-	
-	/**
-	 * C-tor
-	 * @param {Object} args
-	 * @param {String} args.apiUrl - Full URL to the api end-point.
-	 */
-	constructor(args = {}) {
-		super(args);
-	}
-	
+export class ComboOptions extends BaseRequest<any> {
+
 	/**
 	 * Endpoint URL
 	 * @returns {string}
@@ -40,7 +31,7 @@ export class ComboOptions extends BaseRequest {
 	 * @param {Object} payload
 	 * @returns {Object}
 	 */
-	processRequestData(payload = {}) {
+    processRequestData(payload: any) {
 		
 		payload.sfMetafieldLabelId = payload.metadataItem.labelId;
 		payload.metadataItem = undefined;
@@ -65,10 +56,10 @@ export class ComboOptions extends BaseRequest {
 	 * Process response
 	 * @param response
 	 */
-	processResponseData(response) {
+    processResponseData(response: any) {
 		return {
 			navigation : {total: parseInt(response.total, 10)},
-			options     : response.items.map( thisOption => ComboOption.createFromAPIResponse(thisOption)),
+            options: response.items.map((thisOption: any) => ComboOption.createFromAPIResponse(thisOption)),
 		};
 	}
 	

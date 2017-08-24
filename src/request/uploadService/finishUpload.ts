@@ -4,16 +4,7 @@ import {ReplaceTicket} from '../../model/ticket/replaceTicket';
 import {RestoreTicket} from '../../model/ticket/restoreTicket';
 import {CloudFile} from '../../model/cloudFile';
 
-export class FinishUpload extends BaseRequest {
-	
-	/**
-	 * C-tor
-	 * @param {Object} args
-	 */
-	constructor( args = {}  ) {
-		super(args);
-		
-	}
+export class FinishUpload extends BaseRequest<any> {
 	
 	/**
 	 * Endpoint URL
@@ -44,7 +35,7 @@ export class FinishUpload extends BaseRequest {
 	 * @param {Object} payload
 	 * @returns {Object}
 	 */
-	processRequestData(payload = {}) {
+    processRequestData(payload: any): any {
 		
 		// UploadID
 		payload.UploadID = payload.ticket.uploadId;
@@ -98,7 +89,7 @@ export class FinishUpload extends BaseRequest {
 	/**
 	 * Process response
 	 */
-	processResponseData() {
+    processResponseData(): any {
 		return {};
 	}
 	

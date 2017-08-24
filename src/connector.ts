@@ -8,7 +8,7 @@ export class Connector {
 
 	apiUrl: string;
 	private keepAliveInterval: number;
-	private state: { user: {}; config: {} };
+    state: { user: any; config: any, keepAliveInterval: number };
 	endpoints: {[key: string]: Endpoint};
 
 	/**
@@ -17,7 +17,7 @@ export class Connector {
 	 * @param {String} args.apiUrl - Full URL to the api end-point.
 	 * @param {Number} [args.keepAliveInterval] - Timeout for making a keep alive request
 	 */
-	constructor( args: {apiUrl: string, keepAliveInterval: number} ) {
+    constructor(args: { apiUrl: string, keepAliveInterval?: number }) {
 		
 		if( typeof args.apiUrl !== 'string' || args.apiUrl.length === 0 ) {
 			throw new Error( 'apiUrl is a required parameter' );
@@ -28,7 +28,8 @@ export class Connector {
 		
 		this.state = {
 			user : {},
-			config : {}
+            config: {},
+            keepAliveInterval: 0
 		};
 
 		this.endpoints = {};
@@ -101,7 +102,7 @@ export class Connector {
 	 * @param {String} args.password - password.
 	 * @private
 	 */
-	_initKeepAlive( args = {} ) {
+    _initKeepAlive(args: { username: string, password: string }) {
 		
 		this.state.keepAliveInterval = setInterval(()=>{
 			

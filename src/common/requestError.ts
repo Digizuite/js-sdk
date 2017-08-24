@@ -1,4 +1,5 @@
 export class RequestError extends Error {
+    private code: number;
 	
 	/**
 	 * Error c-tor

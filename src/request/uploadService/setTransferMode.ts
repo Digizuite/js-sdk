@@ -2,7 +2,7 @@ import {BaseRequest} from '../../common/request';
 import {RestoreTicket} from '../../model/ticket/restoreTicket';
 import {CloudFile} from '../../model/cloudFile';
 
-export class SetTransferMode extends BaseRequest {
+export class SetTransferMode extends BaseRequest<any> {
 	
 	/**
 	 * Transfer mode
@@ -20,16 +20,7 @@ export class SetTransferMode extends BaseRequest {
 			DIRECT_COPY  : 6,
 		};
 	}
-	
-	/**
-	 * C-tor
-	 * @param {Object} args
-	 */
-	constructor( args = {}  ) {
-		super(args);
-		
-	}
-	
+
 	/**
 	 * Endpoint URL
 	 * @returns {string}
@@ -57,7 +48,7 @@ export class SetTransferMode extends BaseRequest {
 	 * @param {Object} payload
 	 * @returns {Object}
 	 */
-	processRequestData(payload = {}) {
+    processRequestData(payload: any): any {
 		
 		if( payload.ticket instanceof RestoreTicket) {
 			payload.transferMode = SetTransferMode.TRANSFER_MODE.DIRECT_COPY;

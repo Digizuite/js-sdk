@@ -1,16 +1,7 @@
 import {BaseRequest} from '../../common/request';
 
-export class SubmitUpload extends BaseRequest {
-	
-	/**
-	 * C-tor
-	 * @param {Object} args
-	 */
-	constructor( args = {}  ) {
-		super(args);
-		
-	}
-	
+export class SubmitUpload extends BaseRequest<any> {
+
 	/**
 	 * Endpoint URL
 	 * @returns {string}
@@ -37,7 +28,7 @@ export class SubmitUpload extends BaseRequest {
 	 * @param {Object} payload
 	 * @returns {Object}
 	 */
-	processRequestData(payload = {}) {
+    processRequestData(payload: any): any {
 		
 		// Submit method
 		payload.method = payload.ticket.isExtendedJob() ? 'SubmitUploadExtendet' : 'SubmitUpload';

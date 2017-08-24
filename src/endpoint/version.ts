@@ -1,20 +1,26 @@
-import {attachEndpoint} from '../connector';
-import {Endpoint} from '../common/endpoint';
+import {attachEndpoint, Connector} from '../connector';
+import {Endpoint, IEndpointArgs} from '../common/endpoint';
 import {ReplaceTicket} from '../model/ticket/replaceTicket';
 import {RestoreTicket} from '../model/ticket/restoreTicket';
-import {DigiUploader} from '../utilities/digiUploader';
+import {DigiUploader, DigiUploadFile} from '../utilities/digiUploader';
 import {Asset} from '../model/asset';
 import {AssetVersion} from '../model/assetVersion';
 import {AssetVersions} from '../request/searchService/assetVersions';
 
+export interface IVersionEndpointArgs extends IEndpointArgs {
+    computerName: string;
+    apiVersion: string;
+}
+
 export class Version extends Endpoint {
+    private _digiUpload: DigiUploader;
 
 	/**
 	 * C-tor
 	 * @param {Object} args
 	 * @param {string} args.computerName
 	 */
-	constructor(args = {}) {
+    constructor(args: IVersionEndpointArgs) {
 		super(args);
 		this._digiUpload = new DigiUploader(args);
 	}
@@ -24,7 +30,7 @@ export class Version extends Endpoint {
 	 * @param args
 	 * @returns {Promise.<ReplaceTicket>}
 	 */
-	requestReplaceTicket(args = {}) {
+    requestReplaceTicket(args: { asset: Asset, file: DigiUploadFile }): Promise<ReplaceTicket> {
 		
 		if( !(args.asset instanceof Asset) ) {
 			throw new Error('Replace expect an asset as parameter');
@@ -49,7 +55,7 @@ export class Version extends Endpoint {
 	 * @param {AssetVersion} args.version
 	 * @returns {Promise.<RestoreTicket>}
 	 */
-	requestRestoreTicket( args = {} ) {
+    requestRestoreTicket(args: { asset: Asset, version: AssetVersion }): Promise<RestoreTicket> {
 		
 		if( !(args.asset instanceof Asset) ) {
 			throw new Error('Restore expect an asset as parameter');
@@ -79,7 +85,7 @@ export class Version extends Endpoint {
 	 * @param {ReplaceTicket} args.ticket
 	 * @returns {Promise.<>}
 	 */
-	replaceAssetByTicket( args = {} ) {
+    replaceAssetByTicket(args: { ticket: ReplaceTicket }): Promise<void> {
 		
 		if ( !(args.ticket instanceof ReplaceTicket)) {
 			throw new Error('Replace expect a replace ticket as parameter');
@@ -87,7 +93,8 @@ export class Version extends Endpoint {
 		
 		return this._digiUpload.uploadFile(args.ticket)
 			.then(() => this._digiUpload.finishUpload(args.ticket))
-			.then(() => { return {}; });
+            .then(() => {
+            });
 		
 	}
 	
@@ -98,14 +105,15 @@ export class Version extends Endpoint {
 	 * @param {ReplaceTicket} args.ticket
 	 * @returns {Promise.<>}
 	 */
-	restoreAssetByTicket( args = {} ) {
+    restoreAssetByTicket(args: { ticket: ReplaceTicket }): Promise<void> {
 		
 		if ( !(args.ticket instanceof RestoreTicket)) {
 			throw new Error('Restore expect a replace ticket as parameter');
 		}
 		
 		return this._digiUpload.finishUpload(args.ticket)
-			.then(()=> { return {}; });
+            .then(() => {
+            });
 		
 	}
 	
@@ -115,7 +123,7 @@ export class Version extends Endpoint {
 	 * @param {Asset} args.asset
 	 * @returns {Promise.<AssetVersion[]>}
 	 */
-	getAssetVersions( args = {} ) {
+    getAssetVersions(args: { asset: Asset }): Promise<AssetVersion[]> {
 		
 		if( !(args.asset instanceof Asset) ) {
 			throw new Error('getAssetVersions expect an asset as parameter');
@@ -134,7 +142,7 @@ export class Version extends Endpoint {
 
 // Attach endpoint
 const name   = 'version';
-const getter = function (instance) {
+const getter = function (instance: Connector) {
 	return new Version({
 		apiUrl      : instance.apiUrl,
 		//TODO: un-hard-code this when we get a dam version
@@ -144,3 +152,10 @@ const getter = function (instance) {
 };
 
 attachEndpoint({name, getter});
+
+
+declare module '../connector' {
+    interface Connector {
+        version: Version
+    }
+}

@@ -1,16 +1,7 @@
 import {BaseRequest} from '../../common/request';
 
-export class ItemIdUpload extends BaseRequest {
-	
-	/**
-	 * C-tor
-	 * @param {Object} args
-	 */
-	constructor( args = {}  ) {
-		super(args);
-		
-	}
-	
+export class ItemIdUpload extends BaseRequest<any> {
+
 	/**
 	 * Endpoint URL
 	 * @returns {string}
@@ -37,7 +28,7 @@ export class ItemIdUpload extends BaseRequest {
 	 * @param {Object} payload
 	 * @returns {Object}
 	 */
-	processRequestData(payload = {}) {
+    processRequestData(payload: any) {
 		
 		// ComputerName
 		payload.UploadID = payload.uploadId;
@@ -50,7 +41,7 @@ export class ItemIdUpload extends BaseRequest {
 	 * Process response
 	 * @param response
 	 */
-	processResponseData(response) {
+    processResponseData(response: any) {
 		return response.items[0];
 	}
 	

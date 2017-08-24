@@ -1,6 +1,6 @@
 import {BaseRequest} from '../../common/request';
 
-export class DownloadQualities extends BaseRequest {
+export class DownloadQualities extends BaseRequest<any> {
 	
 	/**
 	 * Endpoint URL
@@ -27,7 +27,7 @@ export class DownloadQualities extends BaseRequest {
 	 * Process response
 	 * @param response
 	 */
-	processResponseData(response) {
+    processResponseData(response: any) {
 		// We are only interested in the items
 		return response.downloadQualities;
 	}

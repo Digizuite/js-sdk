@@ -1,23 +1,26 @@
 import {MetadataItem} from './metadataItem';
-import fecha from 'fecha';
+import * as fecha from 'fecha';
 
-export class DateTimeMetadataItem extends MetadataItem {
-	
-	static get TYPE() { return 64; }
+export class DateTimeMetadataItem extends MetadataItem<Date | null> {
+
+
+    constructor(args: any) {
+        super(args);
+    }
 	static get VALUE_TYPE() { return 4; }
 	
 	get TYPE() { return DateTimeMetadataItem.TYPE; }
 	get VALUE_TYPE() { return DateTimeMetadataItem.VALUE_TYPE; }
-	
-	constructor( args = {} ) {
-		super(args);
-	}
+
+    static get TYPE() {
+        return 64;
+    }
 	
 	/**
 	 * Set the value
 	 * @param value
 	 */
-	setValue( value ) {
+    setValue(value: Date) {
 		
 		if( !(value instanceof Date) ) {
 			throw new Error('Parameter value needs to be of type Date');
@@ -39,18 +42,22 @@ export class DateTimeMetadataItem extends MetadataItem {
 		
 		this.setValue( fecha.parse(value, format) );
 	}
-	
-	setValueFromAPI( args = {}) {
+
+    setValueFromAPI(args: any) {
 		super.setValueFromAPI(args);
-		this.value = this.value ? fecha.parse(this.value, 'DD-MM-YYYY HH:mm:ss') : null;
+        this.value = this.value ? fecha.parse(<string><any>this.value, 'DD-MM-YYYY HH:mm:ss') : null;
 	}
 	
 	/**
-	 * Returns the value of the item
+     * Returns the batch value of the item
 	 * @returns {string|null}
 	 */
-	getUpdateValue() {
+    getUpdateValue(): string | null {
 		const format = 'YYYY-MM-DDTHH:mm:ss.SSS';
 		return this.value ? fecha.format(this.value, format): null;
 	}
+
+    clearValue(): void {
+        this.value = null;
+    }
 }

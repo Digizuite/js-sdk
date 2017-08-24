@@ -1,7 +1,7 @@
 export interface IMetadataItemArgs<T> {
 	guid: string,
 	name: string,
-	labelId: string,
+    labelId: number,
 	required: string|number|boolean,
 	value: T
 }
@@ -16,7 +16,7 @@ export interface ISetValueFromApiArgs {
 	item_metafield_valueid?: any[];
 }
 
-export class MetadataItem<T> {
+export abstract class MetadataItem<T> {
 
 	private guid: string;
 	private name: string;
@@ -39,17 +39,6 @@ export class MetadataItem<T> {
 	/**
 	 *
 	 * @param args
-	 * @returns {*}
-	 */
-	static createFromAPIResponse( args = {} ) {
-		const item = new this(args);
-		item.setValueFromAPI(args);
-		return item;
-	}
-	
-	/**
-	 *
-	 * @param args
 	 */
 	setValueFromAPI( args: ISetValueFromApiArgs) {
 		this.guid  = args.metafieldid.metafieldItemGuid;
@@ -62,15 +51,13 @@ export class MetadataItem<T> {
 	/**
 	 * Clears a value
 	 */
-	clearValue() {
-		this.value = null;
-	}
+    abstract clearValue(): void;
 	
 	/**
 	 * Sets a value
 	 * @param value
 	 */
-	setValue(value) {
+    setValue(value: T) {
 		this.value = value;
 	}
 	
@@ -78,7 +65,7 @@ export class MetadataItem<T> {
 	 * Returns the value of the item
 	 * @returns {*}
 	 */
-	getValue() {
+    getValue(): T {
 		return this.value;
 	}
 	
@@ -86,7 +73,7 @@ export class MetadataItem<T> {
 	 * Returns the batch value of the item
 	 * @returns {*}
 	 */
-	getUpdateValue() {
+    getUpdateValue(): any {
 		return this.getValue();
 	}
 	

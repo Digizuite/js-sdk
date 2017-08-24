@@ -13,7 +13,7 @@ export class EditMultiComboValueMetadataItem extends MultiComboValueMetadataItem
 	}
 	
 	getUpdateValue() {
-		return this.value.map( thisComboValue => thisComboValue.value );
+        return this.value!.map(thisComboValue => thisComboValue.value);
 	}
 	
 }

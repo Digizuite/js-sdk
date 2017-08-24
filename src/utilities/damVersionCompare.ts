@@ -11,7 +11,7 @@
  * @param {String} right
  * @returns {Number}
  */
-function compare(left, right) {
+function compare(left: string, right: string): number {
 	
 	// Sanity check the input
 	if (typeof left !== 'string' || typeof right !== 'string') {
@@ -66,7 +66,7 @@ function normalizeDAMVersion(damVersion = '') {
  * @param {String} againstVersion
  * @returns {boolean}
  */
-export const greaterThan = (damVersion, againstVersion) => {
+export const greaterThan = (damVersion: string, againstVersion: string) => {
 	return compare(normalizeDAMVersion(damVersion), againstVersion) > 0;
 };
 
@@ -76,7 +76,7 @@ export const greaterThan = (damVersion, againstVersion) => {
  * @param {String} againstVersion
  * @returns {boolean}
  */
-export const greaterOrEqualThan = (damVersion, againstVersion) => {
+export const greaterOrEqualThan = (damVersion: string, againstVersion: string) => {
 	return compare(normalizeDAMVersion(damVersion), againstVersion) >= 0;
 };
 
@@ -86,7 +86,7 @@ export const greaterOrEqualThan = (damVersion, againstVersion) => {
  * @param {String} againstVersion
  * @returns {boolean}
  */
-export const lowerThan = (damVersion, againstVersion) => {
+export const lowerThan = (damVersion: string, againstVersion: string) => {
 	return compare(normalizeDAMVersion(damVersion), againstVersion) < 0;
 };
 
@@ -96,6 +96,6 @@ export const lowerThan = (damVersion, againstVersion) => {
  * @param {String} againstVersion
  * @returns {boolean}
  */
-export const lowerOrEqualThan = (damVersion, againstVersion) => {
+export const lowerOrEqualThan = (damVersion: string, againstVersion: string) => {
 	return compare(normalizeDAMVersion(damVersion), againstVersion) <= 0;
 };

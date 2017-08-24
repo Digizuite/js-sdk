@@ -1,15 +1,7 @@
 import {BaseRequest} from '../../common/request';
 
-export class IsUniqueVersion extends BaseRequest {
-	
-	/**
-	 * C-tor
-	 * @param {Object} args
-	 * @param {String} args.apiUrl - Full URL to the api end-point.
-	 */
-	constructor(args = {}) {
-		super(args);
-	}
+export class IsUniqueVersion extends BaseRequest<any> {
+
 	
 	/**
 	 * Endpoint URL
@@ -41,7 +33,7 @@ export class IsUniqueVersion extends BaseRequest {
 	 * @param {Object} payload
 	 * @returns {Object}
 	 */
-	processRequestData(payload = {}) {
+    processRequestData(payload: any) {
 		
 		payload.itemId = payload.asset.id;
 		payload.asset = undefined;

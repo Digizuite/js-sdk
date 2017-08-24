@@ -1,15 +1,15 @@
-import {MetadataItem} from './metadataItem';
+import {IMetadataItemArgs, ISetValueFromApiArgs, MetadataItem} from './metadataItem';
 import {ComboOption} from './comboOption';
 
-export class ComboValueMetadataItem extends MetadataItem<ComboOption> {
-	
+export class ComboValueMetadataItem extends MetadataItem<ComboOption | null> {
+
 	static get TYPE() { return 68; }
 	static get VALUE_TYPE() { return 3; }
 	
 	get TYPE() { return ComboValueMetadataItem.TYPE; }
 	get VALUE_TYPE() { return ComboValueMetadataItem.VALUE_TYPE; }
-	
-	constructor(args = {}) {
+
+    constructor(args: IMetadataItemArgs<ComboOption>) {
 		super(args);
 	}
 	
@@ -17,7 +17,7 @@ export class ComboValueMetadataItem extends MetadataItem<ComboOption> {
 	 * Sets value from API
 	 * @param args
 	 */
-	setValueFromAPI(args = {}) {
+    setValueFromAPI(args: ISetValueFromApiArgs) {
 		
 		super.setValueFromAPI(args);
 		
@@ -26,12 +26,16 @@ export class ComboValueMetadataItem extends MetadataItem<ComboOption> {
 			null;
 		
 	}
-	
-	/**
+
+    clearValue(): void {
+        this.value = null;
+    }
+
+    /**
 	 * Sets a value
 	 * @param {ComboOption} comboOption
 	 */
-	setValue(comboOption) {
+    setValue(comboOption: ComboOption) {
 		
 		if( !(comboOption instanceof ComboOption) ) {
 			throw new Error('setValue expects comboOption to be instance of ComboOption.');
@@ -39,8 +43,8 @@ export class ComboValueMetadataItem extends MetadataItem<ComboOption> {
 		
 		super.setValue(comboOption);
 	}
-	
-	getUpdateValue() {
+
+    getUpdateValue(): any {
 		return this.value ? this.value.id : null;
 	}
 	

@@ -8,8 +8,4 @@ export class MoneyMetadataItem extends StringMetadataItem {
 	get TYPE() { return MoneyMetadataItem.TYPE; }
 	get VALUE_TYPE() { return MoneyMetadataItem.VALUE_TYPE; }
 	
-	constructor( args = {} ) {
-		super(args);
-	}
-	
 }

@@ -1,6 +1,6 @@
 import {BaseRequest} from '../../common/request';
 
-export class AppLabels extends BaseRequest {
+export class AppLabels extends BaseRequest<any> {
 	
 	/**
 	 * Endpoint URL
@@ -29,11 +29,11 @@ export class AppLabels extends BaseRequest {
 	 * Process response
 	 * @param response
 	 */
-	processResponseData(response) {
-		
-		const cleanResponse = {};
-		
-		response.items.forEach((thisLabel)=>{
+    processResponseData(response: any) {
+
+        const cleanResponse: any = {};
+
+        response.items.forEach((thisLabel: any) => {
 			cleanResponse[ thisLabel.labelConstant ] = thisLabel.label;
 		});
 		

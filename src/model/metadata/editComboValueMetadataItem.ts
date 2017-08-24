@@ -8,10 +8,6 @@ export class EditComboValueMetadataItem extends ComboValueMetadataItem {
 	get TYPE() { return EditComboValueMetadataItem.TYPE; }
 	get VALUE_TYPE() { return EditComboValueMetadataItem.VALUE_TYPE; }
 	
-	constructor( args = {} ) {
-		super(args);
-	}
-	
 	getUpdateValue() {
 		return this.value ? this.value.value : null;
 	}

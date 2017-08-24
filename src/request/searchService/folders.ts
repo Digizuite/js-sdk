@@ -1,8 +1,8 @@
 import {BaseRequest} from '../../common/request';
-import {Folder} from '../../model/folder';
+import {CreateFolderFromApiResponse, Folder} from '../../model/folder';
 import {getItemIdFromIdPath} from '../../utilities/helpers/treePath';
 
-export class Folders extends BaseRequest {
+export class Folders extends BaseRequest<Folder[]> {
 	
 	/**
 	 * Endpoint URL
@@ -33,7 +33,7 @@ export class Folders extends BaseRequest {
 	 * @param {Object} payload
 	 * @returns {Object}
 	 */
-	processRequestData(payload = {}) {
+    processRequestData(payload: any) {
 		
 		// path -> node
 		payload.node = getItemIdFromIdPath(payload.path);
@@ -48,9 +48,9 @@ export class Folders extends BaseRequest {
 	 * Process response
 	 * @param response
 	 */
-	processResponseData(response) {
+    processResponseData(response: any) {
 		// We are only interested in the items
-		return response.items.map( thisFolder => Folder.createFromAPIResponse(thisFolder) );
+        return response.items.map(CreateFolderFromApiResponse);
 	}
 	
 	/**
@@ -59,7 +59,7 @@ export class Folders extends BaseRequest {
 	 * @returns {{path: string, name: (string), hasChildren: boolean, writable: boolean}}
 	 * @private
 	 */
-	_processFolderResult(thisFolder) {
+    _processFolderResult(thisFolder: any) {
 		return {
 		
 		};

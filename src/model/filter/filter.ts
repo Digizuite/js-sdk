@@ -17,7 +17,7 @@ export abstract class Filter {
 	
 	/**
 	 * Generic method. Shall be overwritten
-	 * @returns {any}
+     * @returns {*}
 	 */
 	protected abstract getAsSearchPayload(): {[key: string]: any};
 }
