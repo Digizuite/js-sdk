@@ -150,12 +150,12 @@ describe('Edit metadata', () => {
 
     it('should edit floatMetadataItem field', async () => {
         let item = await getMetadataItem(FloatMetadataItem.TYPE);
-
-        item.setValue(5.6);
+        
+	    item.setValue(4);
+	    expect(item.getValue()).toBe(4);
+	
+	    item.setValue(5.6);
         expect(item.getValue()).toBe(5.6);
-
-        item.setValue(4);
-        expect(item.getValue()).toBe(4);
 
         await saveMetadataItem(item);
     });
