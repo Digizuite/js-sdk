@@ -1,5 +1,5 @@
-import {getInstance} from 'test-helpers';
-import {DOWNLOAD_QUALITY} from 'index';
+import {getInstance} from "../test-helpers";
+import {DOWNLOAD_QUALITY} from "../../src/const";
 
 describe('Downloading', () => {
 

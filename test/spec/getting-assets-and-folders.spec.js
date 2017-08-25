@@ -1,6 +1,6 @@
-import {getInstance} from 'test-helpers';
-import {Folder} from "model/folder";
-import {Asset} from 'model/asset'
+import {getInstance} from "../test-helpers";
+import {Folder} from "../../src/model/folder";
+import {Asset} from "../../src/model/asset";
 
 describe('Getting assets and folders', () => {
     /**

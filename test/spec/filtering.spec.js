@@ -1,10 +1,8 @@
-import {getInstance} from 'test-helpers';
-import {
-    AssetFreeTextFilter,
-    AssetTypeFilter,
-    Constants,
-    AssetCreatedFilter
-} from 'index';
+import {getInstance} from '../test-helpers';
+import {AssetFreeTextFilter} from "../../src/model/filter/AssetFreeTextFilter";
+import {AssetTypeFilter} from "../../src/model/filter/assetTypeFilter";
+import {Constants} from "../../src/const";
+import {AssetCreatedFilter} from "../../src/model/filter/assetCreatedFilter";
 
 describe('Filtering', () => {
     /**

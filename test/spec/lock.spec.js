@@ -1,4 +1,4 @@
-import {getInstance} from 'test-helpers';
+import {getInstance} from "../test-helpers";
 
 describe('Lock', () => {
 

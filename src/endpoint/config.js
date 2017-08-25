@@ -32,6 +32,7 @@ export class Config extends Endpoint {
 	
 	/**
 	 * Get system version
+	 *
 	 * @returns {Promise}
 	 */
 	getSystemVersion() {

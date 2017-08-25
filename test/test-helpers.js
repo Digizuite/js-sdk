@@ -1,5 +1,4 @@
-import {getConnectorInstance} from 'index';
-import {Connector} from 'index';
+import {getConnectorInstance} from '../src/connector';
 // Make sure we can use async await in tests
 import {install} from 'jasmine-co';
 install();
@@ -10,11 +9,11 @@ install();
  * @returns {Promise.<Connector>}
  */
 export function getInstance() {
-    return getConnectorInstance({
-        apiUrl: 'https://cc.dev.digizuite.com/dmm3bwsv3/',
-        username: 'admin',
-        password: 'admin'
-    }).catch(err => {
-        fail(err);
-    });
+	return getConnectorInstance({
+		apiUrl: 'https://cc.dev.digizuite.com/dmm3bwsv3/',
+		username: 'admin',
+		password: 'admin'
+	}).catch(err => {
+		fail(err);
+	});
 }
