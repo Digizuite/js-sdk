@@ -40,7 +40,20 @@ instance.content.getAssets({
 });
 ```
 
-### Getting asset type
+## Getting assets by their IDs
+
+You can get an array of specific assets using their IDs.
+
+```js
+instance.content.getAssetsById({
+    assetsIds : [ 1337, 666 ]
+}).then((assets)=>{
+    console.log("Got assets by ID!", assets);
+});
+```
+
+
+## Getting asset type
 To get the type of an asset compare it with the `Digizuite.Constants.ASSET_TYPE_REVERSE` 
 and `Digizuite.Constants.ASSET_TYPE`. Both of these are dictionaries. 
 
