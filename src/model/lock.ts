@@ -6,9 +6,9 @@ export interface ILockArgs {
 }
 
 export class Lock extends Model {
-    private isLocked: boolean;
-    private owner: Member | null;
-	
+	public isLocked: boolean;
+	public owner: Member | null;
+
 	/**
 	 * C-tor
 	 * @param args

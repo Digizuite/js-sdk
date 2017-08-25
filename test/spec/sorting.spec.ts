@@ -1,11 +1,10 @@
-import {getInstance} from 'test-helpers';
-import {SORT_BY, SORT_DIRECTION} from 'const';
+import {getInstance} from '../test-helpers';
+import {SORT_BY, SORT_DIRECTION} from '../../src/const';
+import {Connector} from "../../src/connector";
 
 describe('Sorting', () => {
-    /**
-     * @typeof {Connector}
-     */
-    let instance;
+
+	let instance: Connector;
 
     beforeAll(async () => {
         instance = await getInstance();

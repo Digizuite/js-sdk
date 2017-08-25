@@ -1,6 +1,6 @@
 import {BaseRequest} from '../../common/request';
 import {RequestError} from '../../common/requestError';
-import isObject from 'lodash/isObject';
+import isObject from "lodash-es/isObject";
 
 export class AppConfiguration extends BaseRequest<any> {
 	

@@ -1,35 +1,40 @@
-import {getInstance} from 'test-helpers';
-import {BitMetadataItem,
-    StringMetadataItem,
-    NoteMetadataItem,
-    EditMultiComboValueMetadataItem,
-    TreeMetadataItem,
-    LinkMetadataItem,
-    ComboValueMetadataItem,
-    DateTimeMetadataItem,
-    FloatMetadataItem,
-    IntMetadataItem,
-    MoneyMetadataItem,
-    MultiComboValueMetadataItem,
-    UniqueVersionMetadataItem,
-    EditComboValueMetadataItem,
-    ComboOption,
-    UniqueOption} from 'index';
+import {getInstance} from '../test-helpers';
+import {
+	BitMetadataItem,
+	ComboOption,
+	ComboValueMetadataItem,
+	DateTimeMetadataItem,
+	EditComboValueMetadataItem,
+	EditMultiComboValueMetadataItem,
+	FloatMetadataItem,
+	IntMetadataItem,
+	LinkMetadataItem,
+	MoneyMetadataItem,
+	MultiComboValueMetadataItem,
+	NoteMetadataItem,
+	StringMetadataItem,
+	TreeMetadataItem,
+	UniqueOption,
+	UniqueVersionMetadataItem
+} from '../../src/index';
+import {Connector} from "../../src/connector";
+import {Asset} from "../../src/model/asset";
+import {MetadataItem} from "../../src/model/metadata/metadataItem";
 
 describe('Edit metadata', () => {
 
-    let instance;
+	let instance: Connector;
 
     beforeAll(async () => {
         instance = await getInstance();
     });
 
-    let itemsCache;
+	let itemsCache: MetadataItem<any>[];
 
-    let assetsCache;
+	let assetsCache: Asset[];
 
     // Helpers method for getting metadata items for tests
-    async function getMetadataItem(type, assetIndex = 0) {
+	async function getMetadataItem(type: any, assetIndex = 0) {
         if(!itemsCache) {
             if(!assetsCache) {
                 let {assets} = await instance.content.getAssets();
@@ -44,11 +49,11 @@ describe('Edit metadata', () => {
                 group: groups.filter(group => group.id === 50029)[0]
             });
         }
-        return itemsCache.filter(item => item && item.TYPE === type)[0];
+		return itemsCache.filter((item: any) => item && item.TYPE === type)[0];
     }
 
     // Helpers function to save a field
-    async function saveMetadataItem(item) {
+	async function saveMetadataItem(item: any) {
         return await instance.metadata.updateMetadataItems({
             assets: [ assetsCache[0] ],
             metadataItems : [ item ]
@@ -106,7 +111,7 @@ describe('Edit metadata', () => {
     });
 
     it('should edit dataTimeMetadataItem field', async () => {
-        let item = await getMetadataItem(DateTimeMetadataItem.TYPE);
+		let item = <DateTimeMetadataItem> await getMetadataItem(DateTimeMetadataItem.TYPE);
 
         const now = new Date();
         item.setValue(now);
@@ -116,7 +121,7 @@ describe('Edit metadata', () => {
         const s = `20-06-2017 11:05:00`;
 
         item.setValueFromString(s);
-        let set = item.getValue();
+		let set = item.getValue()!;
         set.setMilliseconds(0);
         expect(set.getTime()).toBe(at.getTime());
 
@@ -259,7 +264,7 @@ describe('Edit metadata', () => {
     });
 
     it('should edit uniqueVersionMetadataItem field', async () => {
-        let item = await getMetadataItem(UniqueVersionMetadataItem.TYPE);
+		let item = <UniqueVersionMetadataItem> await getMetadataItem(UniqueVersionMetadataItem.TYPE);
 
         let option = new UniqueOption({
             unique : `${new Date().getTime()}`,

@@ -1,15 +1,12 @@
 import {ensureTrailingSeparator} from './utilities/helpers/url';
 import {Endpoint} from "./common/endpoint";
 
-import './endpoint/auth';
-import './endpoint/config'
-
 export class Connector {
     apiVersion: string;
 
     apiUrl: string;
 	private keepAliveInterval: number;
-    state: { user: any; config: any, keepAliveInterval: number };
+	state: { user: any; config: any, keepAliveInterval?: number };
 	endpoints: {[key: string]: Endpoint};
 
 	/**
@@ -31,8 +28,7 @@ export class Connector {
 
 		this.state = {
 			user : {},
-            config: {},
-            keepAliveInterval: 0
+			config: {}
 		};
 
 		this.endpoints = {};
@@ -112,8 +108,8 @@ export class Connector {
 	 * @private
 	 */
     _initKeepAlive(args: { username: string, password: string }) {
-		
-		this.state.keepAliveInterval = setInterval(()=>{
+
+		this.state.keepAliveInterval = <number><any>setInterval(() => {
 			
 			this.auth.keepAlive()
 				.then((response)=>{
@@ -156,7 +152,7 @@ export function attachEndpoint<T extends Endpoint>( {name, getter}: IAttachEndpo
 				if( !this.endpoints[name] ) {
 					this.endpoints[name] = getter(this);
 				}
-				
+
 				return this.endpoints[name];
 			}
 		}

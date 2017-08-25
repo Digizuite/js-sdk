@@ -1,4 +1,4 @@
-import {UpdateContainer} from 'utilities/updateContainer';
+import {UpdateContainer} from '../../../src/utilities/updateContainer';
 
 /**
  * Helper method

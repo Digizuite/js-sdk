@@ -1,6 +1,6 @@
-import trim from 'lodash/trim';
-import last from 'lodash/last';
-import initial from 'lodash/initial';
+import trim from 'lodash-es/trim';
+import last from 'lodash-es/last';
+import initial from 'lodash-es/initial';
 
 /**
  * Transforms a slug to idPath

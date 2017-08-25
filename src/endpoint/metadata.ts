@@ -21,6 +21,7 @@ import {UniqueVersionMetadataItem} from "../model/metadata/uniqueVersionMetadata
 import {getLockInformation} from "../utilities/lockInformation";
 import {RequestError} from "../common/requestError";
 import {CopyMetadata} from "../request/metadataService/copyMetadata";
+import {MetadataGroup} from "../model/metadata/metadataGroup";
 
 export interface ILanguage {
 
@@ -104,7 +105,7 @@ export class Metadata extends Endpoint {
 	 * @param {MetadataGroup} args.group
 	 * @returns {Promise.<T>}
 	 */
-    getMetadataItems(args: { asset: { id: number }, group: { id: number } }) {
+	getMetadataItems(args: { asset: Asset, group: MetadataGroup }) {
 		if (!args.asset) {
 			throw new Error('getMetadataItems expected an asset as parameter!');
 		}
@@ -187,7 +188,7 @@ export class Metadata extends Endpoint {
 	 * Get metadata options
 	 * @param args
 	 */
-    getMetadataItemOptions(args: { metadataItem: MetadataItem<any>, path?: string }) {
+	getMetadataItemOptions(args: { metadataItem: MetadataItem<any>, path?: string, navigation?: { page: number, limit: number } }) {
 
 		if( args.metadataItem instanceof TreeMetadataItem ) {
 

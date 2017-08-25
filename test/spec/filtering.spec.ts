@@ -1,16 +1,12 @@
-import {getInstance} from 'test-helpers';
-import {
-    AssetFreeTextFilter,
-    AssetTypeFilter,
-    Constants,
-    AssetCreatedFilter
-} from 'index';
+import {getInstance} from '../test-helpers';
+import {AssetCreatedFilter, AssetFreeTextFilter, AssetTypeFilter, Constants} from '../../src/index';
+import {Connector} from "../../src/connector";
 
 describe('Filtering', () => {
     /**
      * @typeof {Connector}
      */
-    let instance;
+	let instance: Connector;
 
     beforeAll(async () => {
         instance = await getInstance();

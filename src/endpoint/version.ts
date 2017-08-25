@@ -6,8 +6,8 @@ import {DigiUploader, DigiUploadFile} from '../utilities/digiUploader';
 import {Asset} from '../model/asset';
 import {AssetVersion} from '../model/assetVersion';
 import {AssetVersions} from '../request/searchService/assetVersions';
-import {getLockInformation} from "utilities/lockInformation";
-import {RequestError} from "common/requestError";
+import {getLockInformation} from "../utilities/lockInformation";
+import {RequestError} from "../common/requestError";
 
 export interface IVersionEndpointArgs extends IEndpointArgs {
     computerName: string;

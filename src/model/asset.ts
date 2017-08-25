@@ -1,6 +1,6 @@
 import * as fecha from 'fecha';
 import {Model} from '../common/model';
-import {getExtension} from 'utilities/helpers/url';
+import {getExtension} from '../utilities/helpers/url';
 
 export interface IAssetArgs {
     id?: number;

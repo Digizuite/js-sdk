@@ -1,5 +1,7 @@
 import {RequestError} from './requestError';
 
+import 'whatwg-fetch';
+
 export interface IBaseRequestArgs {
     apiUrl: string;
 }

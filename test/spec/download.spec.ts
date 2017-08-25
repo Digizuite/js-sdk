@@ -1,9 +1,10 @@
-import {getInstance} from 'test-helpers';
-import {DOWNLOAD_QUALITY} from 'index';
+import {getInstance} from '../test-helpers';
+import {DOWNLOAD_QUALITY} from '../../src/index';
+import {Connector} from "../../src/connector";
 
 describe('Downloading', () => {
 
-    let instance;
+	let instance: Connector;
 
     beforeAll(async () => {
         instance = await getInstance();

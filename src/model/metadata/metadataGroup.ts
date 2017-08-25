@@ -5,7 +5,7 @@ export interface IMetadataGroupArgs {
 }
 
 export class MetadataGroup {
-    private id: number;
+	id: number;
     private name: string;
     private sortIndex: number;
 

@@ -1,12 +1,11 @@
-import {getInstance} from 'test-helpers';
-import {Folder} from "model/folder";
-import {Asset} from 'model/asset'
+import {getInstance} from '../test-helpers';
+import {Folder} from "../../src/model/folder";
+import {Asset} from '../../src/model/asset'
+import {Connector} from "../../src/connector";
 
 describe('Getting assets and folders', () => {
-    /**
-     * @typeof {Connector}
-     */
-    let instance;
+
+	let instance: Connector;
 
     beforeAll(async () => {
         instance = await getInstance();

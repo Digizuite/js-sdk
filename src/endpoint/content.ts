@@ -3,7 +3,7 @@ import {Endpoint, IEndpointArgs} from '../common/endpoint';
 import {Folders} from '../request/searchService/folders';
 import {Filters} from '../request/searchService/filters';
 import {Assets} from '../request/searchService/assets';
-import upperFirst from 'lodash/upperFirst';
+import upperFirst from 'lodash-es/upperFirst';
 import {Folder} from "../model/folder";
 import {Filter} from "../model/filter/filter";
 import {Asset} from "../model/asset";
@@ -28,6 +28,14 @@ export interface ISortType {
     by: string;
     name: string;
     defaultDirection: string;
+}
+
+export interface IGetAssetArgs {
+	path?: string;
+	sorting?: { by: string, direction: string };
+	searchName?: string;
+	navigation?: { page?: number, limit: number };
+	filters?: Filter[];
 }
 
 export class Content extends Endpoint {
@@ -118,9 +126,9 @@ export class Content extends Endpoint {
      * @param {String} [args.searchName] - The search for which to obtain the filters
      * @returns {Promise}
      */
-    getFilters(args: { searchName: string }): Promise<Filter[]> {
+	getFilters(args?: { searchName?: string }): Promise<Filter[]> {
 
-        const searchName = args.searchName || this.DEFAULT_SEARCH;
+		const searchName = args!.searchName || this.DEFAULT_SEARCH;
 
         if (this.cache.filters.hasOwnProperty(searchName)) {
             return Promise.resolve(this.cache.filters[searchName]);
@@ -154,9 +162,9 @@ export class Content extends Endpoint {
      * @param {string} [args.sorting.direction] - The sorting direction
      * @returns {Promise.<{assets, navigation}>}
      */
-    getAssets(args: { path?: string, sorting?: { by: string, direction: string }, searchName: string }): Promise<{ assets: Asset[], navigation: { total: number } }> {
+	getAssets(args?: IGetAssetArgs): Promise<{ assets: Asset[], navigation: { total: number } }> {
 
-        const searchName = args.searchName || this.DEFAULT_SEARCH;
+		const searchName = args && args.searchName || this.DEFAULT_SEARCH;
 
         const assetsRequest = new Assets({
             apiUrl: this.apiUrl,
@@ -179,9 +187,9 @@ export class Content extends Endpoint {
      * @param {Number[]} [args.assetIds] -  a list of assets ids
      * @returns {Promise.<Asset[]>}
      */
-    getAssetsById( args: {assetIds: number[]} ) {
+	getAssetsById(args: { assetIds: number[] }) {
 
-        if( !Array.isArray(args.assetIds)  ) {
+		if (!Array.isArray(args.assetIds)) {
             throw new Error('Expecting as array of assets ids as parameter');
         }
 
@@ -190,11 +198,12 @@ export class Content extends Endpoint {
         });
 
         return assetRequest.execute({
-            assets: args.assetIds.map( thisAssetId => new Asset({ id : thisAssetId }) )
+			assets: args.assetIds.map(thisAssetId => new Asset({id: thisAssetId}))
         });
 
     }
-    /**
+
+	/**
      * Get a list of facet results
      * @param args
      * @param {String} [args.searchName] - The path holding the assets

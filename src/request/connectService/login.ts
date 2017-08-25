@@ -1,5 +1,5 @@
 import {BaseRequest} from '../../common/request';
-import md5 from 'blueimp-md5';
+import {md5} from "../../utilities/helpers/md5";
 
 export interface IUserData {
     memberId: number;
@@ -43,7 +43,9 @@ export class Login extends BaseRequest<IUserData> {
 	 * @returns {Object}
 	 */
     processRequestData(payload: any) {
-		
+
+
+
 		// MD5 the password
 		payload.password = md5(payload.password);
 		

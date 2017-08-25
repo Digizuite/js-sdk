@@ -11,7 +11,7 @@ const ENV_DEVELOPMENT = 'dev';
  * @param env
  * @returns {*}
  */
-function getWebpackConfig(env) {
+function getWebpackConfig(env: string) {
 
 	const plugins = [];
 
@@ -38,7 +38,7 @@ function getWebpackConfig(env) {
 		},
 
 		externals: {
-			'lodash': {
+			'lodash-es': {
 				commonjs: 'lodash',
 				commonjs2: 'lodash',
 				amd: 'lodash',
@@ -65,13 +65,13 @@ function getWebpackConfig(env) {
 					test: /\.ts$/,
 					exclude: /(node_modules|bower_components)/,
 					use: [
-						{
-							loader: 'babel-loader',
-							options: {
-								plugins: ['transform-runtime', 'transform-object-rest-spread'],
-								presets: ['env', 'es2017', 'es2015']
-							}
-						},
+						// {
+						// 	loader: 'babel-loader',
+						// 	options: {
+						// 		plugins: ['transform-runtime', 'transform-object-rest-spread'],
+						// 		presets: ['env', 'es2017', 'es2015']
+						// 	}
+						// },
 						{
 							loader: 'awesome-typescript-loader'
 						}
@@ -91,7 +91,7 @@ function getWebpackConfig(env) {
  * @param env
  * @returns {[*]}
  */
-module.exports = function (env) {
+module.exports = function (env: string) {
 
 	const configs = [getWebpackConfig(ENV_DEVELOPMENT)];
 

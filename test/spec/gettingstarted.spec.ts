@@ -1,4 +1,4 @@
-import {getConnectorInstance} from 'index';
+import {getConnectorInstance} from '../../src/index';
 
 describe('Getting Started', () => {
 

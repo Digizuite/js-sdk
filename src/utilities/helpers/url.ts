@@ -1,4 +1,4 @@
-import endsWith from 'lodash/endsWith';
+import endsWith from "lodash-es/endsWith";
 
 /**
  *

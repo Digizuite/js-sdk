@@ -1,13 +1,13 @@
 // Karma configuration
-const webpackConfigFn = require('./webpack.config.js');
-const webpackConfig = webpackConfigFn('dev')[0];
-webpackConfig.resolve.modules.push('test');
-// webpackConfig.module.rules;
-webpackConfig.devtool = 'inline-source-map';
+// const webpackConfigFn = require('./webpack.config.ts');
+// const webpackConfig = webpackConfigFn('dev')[0];
+// webpackConfig.resolve.modules.push('test');
+// // webpackConfig.module.rules;
+// webpackConfig.devtool = 'inline-source-map';
+//
+// console.log(webpackConfig);
 
-console.log(webpackConfig);
-
-module.exports = function (config) {
+module.exports = function (config: any) {
 	config.set({
 
 		// base path that will be used to resolve all patterns (eg. files, exclude)
@@ -16,20 +16,48 @@ module.exports = function (config) {
 
 		// frameworks to use
 		// available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-		frameworks: ['jasmine'],
+		frameworks: ['jasmine', 'karma-typescript'],
 
+		exclude: [
+			'./**/*.d.ts'
+		],
 
 		// list of files / patterns to load in the browser
 		files: [
-			'./test/setup.js'
+			'./node_modules/bluebird/js/browser/bluebird.min.js',
+			'./test/test-helpers.ts',
+			{pattern: './src/**/*.ts'},
+			{pattern: './test/**/*.spec.ts'}
 		],
 
-		preprocessors: { './test/setup.js': ['coverage', 'webpack', 'sourcemap'] },
+		preprocessors: {'**/*.ts': ['karma-typescript']},
+
+		karmaTypescriptConfig: {
+			compilerOptions: {
+				module: 'commonjs',
+				target: 'es5',
+				moduleResolution: 'node',
+				sourceMap: true,
+				lib: [
+					'es2015',
+					'es2016',
+					'es2017',
+					'dom',
+				]
+			},
+			tsconfig: './tsconfig.json',
+			bundlerOptions: {
+				entrypoints: /\.spec\.ts$/,
+				transforms: [
+					require("karma-typescript-es6-transform")()
+				]
+			}
+		},
 
 		// test results reporter to use
 		// possible values: 'dots', 'progress'
 		// available reporters: https://npmjs.org/browse/keyword/karma-reporter
-		reporters: ['teamcity'],
+		reporters: ['teamcity', 'karma-typescript'],
 
 		// web server port
 		port: 9876,
@@ -48,7 +76,7 @@ module.exports = function (config) {
 		// available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
 		browsers: ['Chrome'],
 
-		webpack: webpackConfig,
+		// webpack: webpackConfig,
 
 		// Continuous Integration mode
 		// if true, Karma captures browsers, runs the tests and exits

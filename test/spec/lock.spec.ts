@@ -1,8 +1,9 @@
-import {getInstance} from 'test-helpers';
+import {getInstance} from '../test-helpers';
+import {Connector} from "../../src/connector";
 
 describe('Lock', () => {
 
-    let instance;
+	let instance: Connector;
 
     beforeAll(async () => {
         instance = await getInstance();

@@ -1,4 +1,4 @@
-import {Constants, ASSET_TYPE, ASSET_TYPE_REVERSE} from 'const';
+import {ASSET_TYPE, ASSET_TYPE_REVERSE, Constants} from '../../src/const';
 
 describe('Sanity', () => {
 
@@ -13,7 +13,7 @@ describe('Constants', () => {
         for (let key in ASSET_TYPE_REVERSE) {
             if (ASSET_TYPE_REVERSE.hasOwnProperty(key)) {
                 const value = ASSET_TYPE_REVERSE[key];
-                expect(ASSET_TYPE[value] == key).toEqual(true);
+				expect(ASSET_TYPE[value] == parseInt(key)).toEqual(true);
             }
         }
     });

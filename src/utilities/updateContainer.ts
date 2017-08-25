@@ -10,7 +10,7 @@
  *
  * /Stefan
  */
-import uniqueId from 'lodash/uniqueId';
+import uniqueId from 'lodash-es/uniqueId';
 import {toArray} from './helpers/array';
 import 'core-js/fn/object/values'
 import 'core-js/fn/array/includes'
@@ -42,11 +42,11 @@ export class UpdateContainer {
      * @param {String} [args.fieldName]
      * @param {Number} [args.rowId]
      */
-    constructor(args: { type: number, itemIds: number[], id?: string, fieldName: string, rowId?: number | string }) {
+	constructor(args: { type?: number, itemIds?: number[], id?: string, fieldName?: string, rowId?: number | string }) {
 
         if (
             !args.hasOwnProperty('type') ||
-            !Object.values(UpdateContainer.CONTAINER_TYPE).includes(args.type)
+			!Object.values(UpdateContainer.CONTAINER_TYPE).includes(args.type!)
         ) {
             throw new Error('UpdateContainer expects a known type parameter!');
         }
@@ -139,11 +139,11 @@ export class UpdateContainer {
      * @param {String} [args.fieldId]
      * @param {Object} [args.fieldProperties]
      */
-    addItem(args: { fieldName: string, valueType: number, value: any, fieldId?: string, fieldProperties?: object }) {
+	addItem(args: { fieldName?: string, valueType?: number, value?: any, fieldId?: string, fieldProperties?: object }) {
 
         if (
             !args.hasOwnProperty('valueType') ||
-            !Object.values(UpdateContainer.VALUE_TYPE).includes(args.valueType)
+			!Object.values(UpdateContainer.VALUE_TYPE).includes(args.valueType!)
         ) {
             throw new Error('appendValue expects a known value type parameter!');
         }

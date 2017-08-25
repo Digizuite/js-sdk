@@ -10,7 +10,7 @@ export interface IAuthEndpointArgs {
 
 export class Auth extends Endpoint {
 	private keepAliveInterval: number;
-	
+
 	/**
 	 * C-tor
 	 * @param {Object} args
@@ -21,7 +21,7 @@ export class Auth extends Endpoint {
 		super(args);
 		this.keepAliveInterval = args.keepAliveInterval || 60000;
 	}
-	
+
 	/**
 	 * Logs in a user
 	 * @param {String} username - username to log in with
@@ -31,28 +31,28 @@ export class Auth extends Endpoint {
     public login({username = '', password = ''}): Promise<any> {
 
 		const loginRequest = new Login({
-			apiUrl : this.apiUrl
+			apiUrl: this.apiUrl
 		});
-		
+
 		return loginRequest.execute({
 			username, password
 		});
 
 	}
-	
+
 	/**
 	 * Ahh, Ahh, Ahh, Ahh, Staying alive, staying alive
 	 * @returns {Promise}
 	 */
 	keepAlive() {
-		
+
 		const keepAliveRequest = new KeepAlive({
-			apiUrl : this.apiUrl
+			apiUrl: this.apiUrl
 		});
-		
+
 		return keepAliveRequest.execute();
 	}
-	
+
 }
 
 // Attach endpoint

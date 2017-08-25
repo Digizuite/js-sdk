@@ -4,6 +4,7 @@ import {CheckIn} from '../request/itemControlService/checkIn';
 import {CheckOut} from '../request/itemControlService/checkOut';
 import {getLockInformation} from '../utilities/lockInformation';
 import {Asset} from "../model/asset";
+import {Lock as LockModel} from "../model/lock";
 
 export class Lock extends Endpoint {
 
@@ -61,7 +62,7 @@ export class Lock extends Endpoint {
 	 * @param {Asset} args.asset - Asset for which to get the lock information
 	 * @returns {Promise.<Lock>}
 	 */
-    getLockInformation(args: { asset: Asset }): Promise<Lock> {
+	getLockInformation(args: { asset: Asset }): Promise<LockModel> {
 		
 		if (!args.asset) {
 			throw new Error('getLockInformation expected an asset as parameter!');

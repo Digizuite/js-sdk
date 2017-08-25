@@ -33,7 +33,7 @@ export const DOWNLOAD_QUALITY = {
 };
 
 // ASSET TYPE
-export const ASSET_TYPE = {
+export const ASSET_TYPE: { [key: string]: number } = {
     VIDEO: 1,
     AUDIO: 2,
     IMAGE: 4,
@@ -65,7 +65,7 @@ export const ASSET_TYPE = {
 };
 
 // export const ASSET_TYPE_REVERSE = [];
-export const ASSET_TYPE_REVERSE = Object.entries(ASSET_TYPE)
+export const ASSET_TYPE_REVERSE: { [key: number]: string } = Object.entries(ASSET_TYPE)
     .reduce((sum, [type, assetType]) => ({...sum, [assetType]: type}), {});
 
 export const Constants = {
