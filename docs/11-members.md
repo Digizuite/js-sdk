@@ -34,4 +34,4 @@ instance.member.getMemberById({
 
 ## Lighter imports
 
-The lock endpoint can be imported from ```digizuite/src/endpoint/member```;
+The member endpoint can be imported from ```digizuite/src/endpoint/member```;

@@ -8,7 +8,7 @@ require('jasmine-co').install();
  * @returns {Promise.<Connector>}
  */
 export async function getInstance() {
-	return await getConnectorInstance({
+    return await getConnectorInstance({
         apiUrl: 'https://cc.dev.digizuite.com/dmm3bwsv3/',
         username: 'admin',
         password: 'admin'
