@@ -54,3 +54,6 @@ export {BatchUpdate} from './request/batchUpdateService/batchUpdate';
 
 // models
 export {CloudFile} from './model/cloudFile';
+
+// errors
+export {PermissionError} from './common/permissionError';

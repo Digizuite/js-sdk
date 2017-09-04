@@ -1,6 +1,6 @@
 import {BaseRequest} from '../../common/request';
 import {RequestError} from '../../common/requestError';
-import isObject from 'lodash/isObject';
+import {PermissionError} from '../../common/permissionError';
 
 export class AppConfiguration extends BaseRequest {
 	
@@ -32,8 +32,12 @@ export class AppConfiguration extends BaseRequest {
 	 */
 	processResponseData( response ) {
 		
-		if(!Array.isArray(response.items) || !isObject(response.items[0])) {
+		if(!Array.isArray(response.items)) {
 			throw new RequestError('Malformed response in DigiZuite_System_Configs.');
+		}
+		
+		if(response.items.length === 0) {
+			throw new PermissionError('User does not have access to this product.', 403);
 		}
 		
 		const config = response.items[0];
