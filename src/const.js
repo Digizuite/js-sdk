@@ -2,6 +2,10 @@ export const GUID = {
     LAST_MODIFIED: 'BF26CA13-BE60-4B34-8087-C7F8345158F7'
 };
 
+export const ERROR_CODE = {
+  USER_NOT_ALLOWED_PRODUCT_ACCESS : 403
+};
+
 // Filter types
 export const FILTER_TYPE = {
     STRING: 'string',
@@ -77,6 +81,7 @@ export const ASSET_TYPE_REVERSE = Object.keys(ASSET_TYPE)
 
 export const Constants = {
     GUID,
+    ERROR_CODE,
     FILTER_TYPE,
     SORT_BY,
     SORT_DIRECTION,

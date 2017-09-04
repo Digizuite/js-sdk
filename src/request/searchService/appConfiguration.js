@@ -1,6 +1,7 @@
 import {BaseRequest} from '../../common/request';
 import {RequestError} from '../../common/requestError';
 import {PermissionError} from '../../common/permissionError';
+import {ERROR_CODE} from '../../const';
 
 export class AppConfiguration extends BaseRequest {
 	
@@ -37,7 +38,7 @@ export class AppConfiguration extends BaseRequest {
 		}
 		
 		if(response.items.length === 0) {
-			throw new PermissionError('User does not have access to this product.', 403);
+			throw new PermissionError('User does not have access to this product.', ERROR_CODE.USER_NOT_ALLOWED_PRODUCT_ACCESS);
 		}
 		
 		const config = response.items[0];
