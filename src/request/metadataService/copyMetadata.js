@@ -29,7 +29,7 @@ export class CopyMetadata extends BaseRequest {
 			// when executing the request!
 			method           : 'CopyMetadata',
 			copyDeps         : 1,
-			copyUniqueVersion: 1,
+			copyUniqueVersions: 1,
 			sourceItemId     : null,
 			targetItemId     : null
 		};
