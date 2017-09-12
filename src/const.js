@@ -69,7 +69,7 @@ export const ASSET_TYPE = {
 // export const ASSET_TYPE_REVERSE = [];
 export const ASSET_TYPE_REVERSE = Object.keys(ASSET_TYPE)
     .map(type => [type, ASSET_TYPE[type]])
-    .reduce((sum, [type, assetType]) => ({...sum, [assetType]: type}), {});
+    .reduce((sum, [type, assetType]) => Object.assign({}, sum, {[assetType]: type}), {});
 
 (function () {
     for (let type in ASSET_TYPE) {

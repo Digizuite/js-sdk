@@ -294,4 +294,12 @@ describe('Edit metadata', () => {
             metadataItems : [ item1, item2 ]
         });
     });
+
+    it('should copy metadata to multiple assets', async () => {
+        const {assets} = await instance.content.getAssets();
+        await instance.metadata.copyMetadata({
+            sourceAsset : assets[0],
+            targetAsset : assets[1]
+        });
+    });
 });

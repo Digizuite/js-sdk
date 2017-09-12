@@ -4,6 +4,7 @@ const webpackConfig = webpackConfigFn('dev')[0];
 webpackConfig.resolve.modules.push('test');
 // webpackConfig.module.rules;
 webpackConfig.devtool = 'inline-source-map';
+webpackConfig.module.rules.pop(); // Remove babel transpilation
 
 console.log(webpackConfig);
 
