@@ -121,7 +121,11 @@ export class Upload extends Endpoint {
 		}
 		
 		return new Promise((resolve) => {
-			this._addToAssetPublishedQueue({asset, resolve});
+			this._addToAssetPublishedQueue({
+				asset,
+				resolve,
+				lastPublishedTimestamp : asset.getLastPublishedTimestamp()
+			});
 		});
 	}
 	
@@ -175,7 +179,7 @@ export class Upload extends Endpoint {
 			
 			// Resolve the promise for the found assets
 			assets
-				.filter((thisAsset) => (thisAsset.publishedDate instanceof Date))
+				.filter((thisAsset) => (thisAsset.lastPublishedDate instanceof Date))
 				.forEach((thisAsset) => {
 					
 					const queueIndex = this._assetPublishedQueue.findIndex(
@@ -183,10 +187,17 @@ export class Upload extends Endpoint {
 					);
 					const queueItem  = this._assetPublishedQueue[queueIndex];
 					
+					// If the last published date has not changed
+					if( queueItem.lastPublishedTimestamp === thisAsset.getLastPublishedTimestamp() ) {
+						return;
+					}
+					
 					// remove it from the queue
 					this._assetPublishedQueue.splice(queueIndex, 1);
-					
+
+					// resolve the promise
 					queueItem.resolve(thisAsset);
+				
 				});
 			
 			if (this._assetPublishedQueue.length > 0) {

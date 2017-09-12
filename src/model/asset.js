@@ -25,6 +25,7 @@ export class Asset extends Model {
 		this.type = args.type;
 		this.thumbnail =  args.thumbnail;
 		this.publishedDate = null;
+		this.lastPublishedDate = null;
 		this.lastEditedDate = null;
 		this._sourceLocation = null;
 		this.__assetId__DO_NOT_USE_THIS_OR_KITTENS_WILL_DIE = null;
@@ -51,6 +52,10 @@ export class Asset extends Model {
 			this.publishedDate = fecha.parse(args.firstPublished, Asset.DATETIME_FORMAT);
 		}
 		
+		if( args.lastPublished ) {
+			this.lastPublishedDate = fecha.parse(args.lastPublished, Asset.DATETIME_FORMAT);
+		}
+		
 		if( args.edited ) {
 			this.lastEditedDate = fecha.parse(args.edited, Asset.DATETIMETZ_FORMAT);
 		}
@@ -66,6 +71,14 @@ export class Asset extends Model {
 		
 		// for legacy reason we still need this
 		this.__assetId__DO_NOT_USE_THIS_OR_KITTENS_WILL_DIE = parseInt(args.assetId, 10);
+	}
+	
+	/**
+	 * Returns the unix timestamp of the last published date
+	 * @returns {number}
+	 */
+	getLastPublishedTimestamp() {
+		return (this.lastPublishedDate instanceof Date) ? Math.floor(this.lastPublishedDate.getTime() / 1000) : 0;
 	}
 	
 	/**

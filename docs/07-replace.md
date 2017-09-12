@@ -38,9 +38,16 @@ uploadTicket.onProgress = (progress) => {
 };
 ```
 
-## Awaiting
+### Await for the asset to be published
 
-Unlike during upload, there is no way to await for the replacement asset to published at the moment.
+```js
+instance.upload.awaitAssetPublished(asset)
+    .then((replacedAsset)=>{
+        console.debug("Asset replace finished. Asset is now published.", replacedAsset)
+    });
+```
+
+The ```replacedAsset``` instance obtain at this point contains all the updated proprieties for the replaced asset.
 
 ## Putting everything together 
 
