@@ -67,4 +67,9 @@ describe('Getting assets and folders', () => {
         });
         expect(assets.length).toBe(15);
     });
+
+    it('should give a file extension', async () => {
+        let {assets} = await instance.content.getAssets();
+        expect(assets[0].getFileExtension()).not.toBe("");
+    });
 });
