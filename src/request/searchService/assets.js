@@ -80,8 +80,8 @@ export class Assets extends BaseRequest {
 		}
 		
 		// Sorting
-		let sortBy = this.defaultSortType;
-		let sortDirection = '';
+		let sortBy = this.defaultSortType.by;
+		let sortDirection = this.defaultSortType.direction;
 		
 		if( payload.hasOwnProperty('sorting') ) {
 			if( payload.sorting.hasOwnProperty('by') ) {

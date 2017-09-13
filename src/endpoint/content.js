@@ -13,6 +13,7 @@ export class Content extends Endpoint {
 		if(!this._sortTypes) {
 			this._sortTypes = this._parseSortTypes(this.rawSortTypes);
 		}
+		
 		return this._sortTypes;
 	}
 	
@@ -128,11 +129,11 @@ export class Content extends Endpoint {
 		const searchName = args.searchName || this.DEFAULT_SEARCH;
 		
 		const assetsRequest = new Assets({
-			apiUrl         : this.apiUrl,
-			sLayoutFolderId: this.sLayoutFolderId,
+			apiUrl              : this.apiUrl,
+			sLayoutFolderId     : this.sLayoutFolderId,
 			// filters        : this.cache.filters[searchName],
-			sortTypes      : this.SORT_TYPES,
-			defaultSortType: this.defaultSortType
+			sortTypes           : this.SORT_TYPES,
+			defaultSortType     : this._parseSortType(this.defaultSortType)
 		});
 		
 		return assetsRequest.execute(args)
@@ -182,14 +183,21 @@ export class Content extends Endpoint {
 	 * @private
 	 */
 	_parseSortTypes( sortTypes= [] ) {
-		return sortTypes.map((thisSortType) => {
-			const sortParts = thisSortType.split(',');
-			return {
-				by              : upperFirst(sortParts[0]),
-				name            : this.labels[`LBL_CCC_SORT_TYPE_${sortParts[0].toUpperCase()}`],
-				defaultDirection: upperFirst(sortParts[1])
-			};
-		});
+		return sortTypes.map((thisSortType) => this._parseSortType(thisSortType));
+	}
+	
+	/**
+	 * Parse a sort type
+	 * @param sortType
+	 * @private
+	 */
+	_parseSortType( sortType = '' ) {
+		const sortParts = sortType.split(',');
+		return {
+			by              : upperFirst(sortParts[0]),
+			name            : this.labels[`LBL_CCC_SORT_TYPE_${sortParts[0].toUpperCase()}`],
+			defaultDirection: upperFirst(sortParts[1])
+		};
 	}
 }
 
