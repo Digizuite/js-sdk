@@ -6,6 +6,9 @@ import {CloudFile} from '../model/cloudFile';
 import {DigiUploader} from '../utilities/digiUploader';
 import {AssetsBasicInformation} from '../request/searchService/assetsBasicInformation';
 import {AssetsInformation} from '../request/searchService/assetsInformation';
+import {BitMetadataItem} from '../model/metadata/bitMetadataItem';
+import {GUID} from '../const';
+import {PublishStatus} from "request/searchService/publishStatus";
 
 export class Upload extends Endpoint {
 	
@@ -23,6 +26,9 @@ export class Upload extends Endpoint {
 	 */
 	constructor(args = {}) {
 		super(args);
+		
+		this._instance = args.instance; // i feel sick only reading this
+		
 		this._digiUpload = new DigiUploader(args);
 		
 		this._assetEditableQueue = [];
@@ -84,6 +90,7 @@ export class Upload extends Endpoint {
 			Promise.resolve() : this._digiUpload.uploadFile(ticket);
 		
 		return transferFilePromise
+			.then(() => this._markPublishingInProgress(ticket))
 			.then(() => this._digiUpload.finishUpload(ticket))
 			.then(() => {
 				return new Asset({
@@ -91,6 +98,25 @@ export class Upload extends Endpoint {
 					name: ticket.file.name.substr(0, ticket.file.name.lastIndexOf('.'))
 				});
 			});
+	}
+	
+	
+	/**
+	 * Marks an asset as being in publish
+	 * @param ticket
+	 */
+	_markPublishingInProgress( ticket ) {
+		
+		const publishInProgressItem = new BitMetadataItem({
+			guid : GUID.PUBLISH_IN_PROGRESS,
+			value : true
+		});
+		
+		return this._instance.metadata.updateMetadataItems({
+			assets: [new Asset({ id  : ticket.itemId })],
+			metadataItems : [ publishInProgressItem ]
+		});
+		
 	}
 	
 	/**
@@ -124,7 +150,6 @@ export class Upload extends Endpoint {
 			this._addToAssetPublishedQueue({
 				asset,
 				resolve,
-				lastPublishedTimestamp : asset.getLastPublishedTimestamp()
 			});
 		});
 	}
@@ -168,37 +193,37 @@ export class Upload extends Endpoint {
 	_checkAssetsPublished() {
 		
 		if (!this._assetPublishedRequest) {
-			this._assetPublishedRequest = new AssetsInformation({
+			this._assetPublishedRequest = new PublishStatus({
 				apiUrl: this.apiUrl
 			});
 		}
 		
 		this._assetPublishedRequest.execute({
 			assets: this._assetPublishedQueue.map(thisQueueItem => thisQueueItem.asset)
-		}).then((assets) => {
+		}).then((publishStatuses)=>{
 			
-			// Resolve the promise for the found assets
-			assets
-				.filter((thisAsset) => (thisAsset.lastPublishedDate instanceof Date))
-				.forEach((thisAsset) => {
-					
+			const resolveSet = {};
+			
+			publishStatuses
+				.filter((thisStatus) => thisStatus.published)
+				.forEach((thisPublishedStatus)=>{
+				
 					const queueIndex = this._assetPublishedQueue.findIndex(
-						(thisQueueItem) => thisQueueItem.asset.id === thisAsset.id
+						(thisQueueItem) => thisQueueItem.asset.id === thisPublishedStatus.id
 					);
 					const queueItem  = this._assetPublishedQueue[queueIndex];
-					
-					// If the last published date has not changed
-					if( queueItem.lastPublishedTimestamp === thisAsset.getLastPublishedTimestamp() ) {
-						return;
-					}
-					
+
 					// remove it from the queue
 					this._assetPublishedQueue.splice(queueIndex, 1);
 
-					// resolve the promise
-					queueItem.resolve(thisAsset);
-				
+					// add the item to a resolving set
+					resolveSet[ queueItem.asset.id ] = queueItem.resolve;
+					
 				});
+			
+			if( Object.keys(resolveSet).length ) {
+				this._resolvePublishedAssets(resolveSet);
+			}
 			
 			if (this._assetPublishedQueue.length > 0) {
 				setTimeout(
@@ -206,6 +231,29 @@ export class Upload extends Endpoint {
 					Upload.ASSET_PUBLISHED_TIMEOUT
 				);
 			}
+			
+		});
+		
+	}
+	
+	/**
+	 * Fulfills the promises from the queue
+	 * @param resolveSet
+	 * @private
+	 */
+	_resolvePublishedAssets( resolveSet ) {
+	
+		const assetsInformationRequest = new AssetsInformation({
+			apiUrl: this.apiUrl
+		});
+	
+		assetsInformationRequest.execute({
+			assets : Object.keys(resolveSet).map( thisId => { return { id : thisId}; } )
+		}).then((assets)=>{
+			
+			assets.forEach((thisAsset)=>{
+				resolveSet[thisAsset.id](thisAsset);
+			});
 			
 		});
 		
@@ -259,6 +307,7 @@ export class Upload extends Endpoint {
 const name = 'upload';
 const getter = function (instance) {
 	return new Upload( {
+		instance,
 		apiUrl : instance.apiUrl,
 		apiVersion : instance.apiVersion,
 		computerName : instance.state.config.UploadName

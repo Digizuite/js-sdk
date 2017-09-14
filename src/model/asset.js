@@ -74,14 +74,6 @@ export class Asset extends Model {
 	}
 	
 	/**
-	 * Returns the unix timestamp of the last published date
-	 * @returns {number}
-	 */
-	getLastPublishedTimestamp() {
-		return (this.lastPublishedDate instanceof Date) ? Math.floor(this.lastPublishedDate.getTime() / 1000) : 0;
-	}
-	
-	/**
 	 *
 	 * @param mediaFormatId
 	 * @returns {*|T}

@@ -6,8 +6,10 @@ import {DigiUploader} from '../utilities/digiUploader';
 import {Asset} from '../model/asset';
 import {AssetVersion} from '../model/assetVersion';
 import {AssetVersions} from '../request/searchService/assetVersions';
-import {getLockInformation} from "utilities/lockInformation";
-import {RequestError} from "common/requestError";
+import {getLockInformation} from 'utilities/lockInformation';
+import {RequestError} from '../common/requestError';
+import {GUID} from '../const';
+import {BitMetadataItem} from '../model/metadata/bitMetadataItem';
 
 export class Version extends Endpoint {
 
@@ -19,6 +21,7 @@ export class Version extends Endpoint {
 	constructor(args = {}) {
 		super(args);
 		this._digiUpload = new DigiUploader(args);
+		this._instance = args.instance;
 	}
 	
 	/**
@@ -97,6 +100,7 @@ export class Version extends Endpoint {
 			}
 			
 			return this._digiUpload.uploadFile(args.ticket)
+				.then(() => this._markPublishingInProgress(args.ticket))
 				.then(() => this._digiUpload.finishUpload(args.ticket))
 				.then(() => { return {}; });
 		});
@@ -153,6 +157,24 @@ export class Version extends Endpoint {
 		});
 	}
 	
+	/**
+	 * Marks an asset as being in publish
+	 * @param ticket
+	 */
+	_markPublishingInProgress( ticket ) {
+		
+		const publishInProgressItem = new BitMetadataItem({
+			guid : GUID.PUBLISH_IN_PROGRESS,
+			value : true
+		});
+		
+		return this._instance.metadata.updateMetadataItems({
+			assets: [ ticket.asset ],
+			metadataItems : [ publishInProgressItem ]
+		});
+		
+	}
+	
 }
 
 // Attach endpoint
@@ -162,7 +184,8 @@ const getter = function (instance) {
 		apiUrl      : instance.apiUrl,
 		//TODO: un-hard-code this when we get a dam version
 		apiVersion  : '4.7.1',
-		computerName: instance.state.config.UploadName
+		computerName: instance.state.config.UploadName,
+		instance
 	});
 };
 
