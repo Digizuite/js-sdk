@@ -31,7 +31,7 @@ export class PublishStatus extends BaseRequest {
 			SearchName: 'Digizuite_Publishing_Status',
 			page: 1,
 			limit: 99999,
-			// sItemId_type_multiids : 1,
+			assetItemid_type_multiids : 1,
 			
 			assetItemid : null,
 		};
@@ -44,9 +44,7 @@ export class PublishStatus extends BaseRequest {
 	 */
 	processRequestData(payload = {}) {
 		
-		payload.assetItemid = payload.assets[0].id;
-		
-		// payload.sItemId = payload.assets.map( thisAsset => thisAsset.id ).join(',');
+		payload.assetItemid = payload.assets.map( thisAsset => thisAsset.id ).join(',');
 		payload.assets= undefined;
 		
 		return payload;

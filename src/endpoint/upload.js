@@ -8,7 +8,7 @@ import {AssetsBasicInformation} from '../request/searchService/assetsBasicInform
 import {AssetsInformation} from '../request/searchService/assetsInformation';
 import {BitMetadataItem} from '../model/metadata/bitMetadataItem';
 import {GUID} from '../const';
-import {PublishStatus} from "request/searchService/publishStatus";
+import {PublishStatus} from '../request/searchService/publishStatus';
 
 export class Upload extends Endpoint {
 	
