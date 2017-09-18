@@ -14,7 +14,7 @@ describe('Filtering', () => {
         instance = await getInstance();
     });
 
-    xit('Should filter for asset text', async () => {
+    it('Should filter for asset text', async () => {
 
         const assetFreeTextFilter = new AssetFreeTextFilter({
             text: 'moon'
