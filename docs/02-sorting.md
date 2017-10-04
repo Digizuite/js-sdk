@@ -11,6 +11,12 @@ The constants for the default sorting criteria are listen in the table below:
 | Ascending | Digizuite.Constants.SORT_DIRECTION.ASCENDING |
 | Descending | Digizuite.Constants.SORT_DIRECTION.DESCENDING |
 
+
+| Sort Criteria | Constant |
+|---------------|--------------------|
+| Upload Date | Digizuite.Constants.SORT_BY.DATE |
+| Alphabetically | Digizuite.Constants.SORT_BY.NAME |
+
 Sort the results:
 ```js
 instance.content.getAssets({
