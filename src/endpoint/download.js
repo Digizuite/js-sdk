@@ -160,15 +160,20 @@ export class Download extends Endpoint {
 			
 			const assetQualities = qualities.find((thisQualityGroup)=> thisQualityGroup.assetType === args.asset.type);
 			
-			assetQualities.formats.forEach((thisFormat) => {
-				const thisTranscode = args.asset.getTranscodeForMediaFormat( thisFormat.mediaformatId );
-				if( thisTranscode ) {
-					result.push({
-						quality : thisFormat.label,
-						url : this._getDownloadURLForFormat({ asset : args.asset, mediaFormatId : thisFormat.mediaformatId })
-					});
-				}
-			});
+			if(assetQualities) {
+				assetQualities.formats.forEach((thisFormat) => {
+					const thisTranscode = args.asset.getTranscodeForMediaFormat(thisFormat.mediaformatId);
+					if (thisTranscode) {
+						result.push({
+							quality: thisFormat.label,
+							url: this._getDownloadURLForFormat({
+								asset: args.asset,
+								mediaFormatId: thisFormat.mediaformatId
+							})
+						});
+					}
+				});
+			}
 			
 			const allAssetTypeQualities = qualities.find((thisQualityGroup)=> thisQualityGroup.assetType === 0);
 			if( allAssetTypeQualities ) {

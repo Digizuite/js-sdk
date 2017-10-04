@@ -5,7 +5,7 @@ import {Asset} from '../model/asset';
 import {CloudFile} from '../model/cloudFile';
 import {DigiUploader} from '../utilities/digiUploader';
 import {AssetsBasicInformation} from '../request/searchService/assetsBasicInformation';
-import {AssetsInformation} from '../request/searchService/assetsInformation';
+import {Assets} from '../request/searchService/assets';
 import {BitMetadataItem} from '../model/metadata/bitMetadataItem';
 import {GUID} from '../const';
 import {PublishStatus} from '../request/searchService/publishStatus';
@@ -243,7 +243,7 @@ export class Upload extends Endpoint {
 	 */
 	_resolvePublishedAssets( resolveSet ) {
 	
-		const assetsInformationRequest = new AssetsInformation({
+		const assetsInformationRequest = new Assets({
 			apiUrl: this.apiUrl
 		});
 	

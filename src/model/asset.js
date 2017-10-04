@@ -61,7 +61,14 @@ export class Asset extends Model {
 		}
 
 		if( args.date ) {
+			
 			this.date = fecha.parse(args.date, Asset.DATETIME_FORMAT);
+			
+			// If the parse failed, try the alternative datetime format
+			if(!this.date) {
+				this.date = fecha.parse(args.date, Asset.DATETIMETZ_FORMAT);
+			}
+			
 		}
 		
 		this._sourceLocation = '';

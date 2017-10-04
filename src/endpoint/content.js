@@ -2,10 +2,10 @@ import {attachEndpoint} from '../connector';
 import {Endpoint} from '../common/endpoint';
 import {Folders} from '../request/searchService/folders';
 import {Filters} from '../request/searchService/filters';
-import {Assets} from '../request/searchService/assets';
+import {FrameworkSearch} from '../request/searchService/frameworkSearch';
 import upperFirst from 'lodash/upperFirst';
 import {Asset} from '../model/asset';
-import {AssetsInformation} from '../request/searchService/assetsInformation';
+import {Assets} from '../request/searchService/assets';
 
 export class Content extends Endpoint {
 	
@@ -128,7 +128,7 @@ export class Content extends Endpoint {
 		
 		const searchName = args.searchName || this.DEFAULT_SEARCH;
 		
-		const assetsRequest = new Assets({
+		const frameworkSearchRequest = new FrameworkSearch({
 			apiUrl              : this.apiUrl,
 			sLayoutFolderId     : this.sLayoutFolderId,
 			// filters        : this.cache.filters[searchName],
@@ -136,7 +136,7 @@ export class Content extends Endpoint {
 			defaultSortType     : this._parseSortType(this.defaultSortType)
 		});
 		
-		return assetsRequest.execute(args)
+		return frameworkSearchRequest.execute(args)
 			.then(({assets, facetResult, navigation})=>{
 				this.cache.facetResult[ searchName ] = facetResult;
 				return {assets, navigation };
@@ -155,7 +155,7 @@ export class Content extends Endpoint {
 			throw new Error('Expecting as array of assets ids as parameter');
 		}
 		
-		const assetRequest = new AssetsInformation({
+		const assetRequest = new Assets({
 			apiUrl: this.apiUrl
 		});
 		
@@ -163,6 +163,20 @@ export class Content extends Endpoint {
 			assets: args.assetIds.map( thisAssetId => new Asset({ id : thisAssetId }) )
 		});
 		
+	}
+	
+	getAssetInfo( args = {} ) {
+		if( !args.asset ) {
+			throw new Error('Expecting an asset as parameter');
+		}
+		
+		const assetRequest = new Assets({
+			apiUrl: this.apiUrl
+		});
+		
+		return assetRequest.execute({
+			assets: args.assetIds.map( thisAssetId => new Asset({ id : thisAssetId }) )
+		});
 	}
 	
 	/**
