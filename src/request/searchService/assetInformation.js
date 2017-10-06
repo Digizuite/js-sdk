@@ -6,6 +6,7 @@ import {ArrayInformationItem} from '../../model/information/arrayInformationItem
 import {DateTimeInformationItem} from '../../model/information/dateTimeInformationItem';
 import {IntInformationItem} from '../../model/information/intInformationItem';
 import {BoolInformationItem} from '../../model/information/boolInformationItem';
+import {AssetInformation as AssetInformationModel} from "model/information/assetInformation";
 
 export class AssetInformation extends BaseRequest {
 	
@@ -65,10 +66,11 @@ export class AssetInformation extends BaseRequest {
 					.map( this._createInformationItem )
 					.filter( thisInfoItem => thisInfoItem );
 				
-				return {
-					id : thisItem.itemId,
+				return new AssetInformationModel({
+					assetId : thisItem.itemId,
 					informationItems
-				};
+				});
+				
 			});
 		
 		return { assetInformation };
