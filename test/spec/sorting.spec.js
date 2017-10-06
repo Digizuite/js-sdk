@@ -19,12 +19,12 @@ describe('Sorting', () => {
             }
         });
 
-        for(let i = 1; i < assets.length; i++) {
+        for (let i = 1; i < assets.length; i++) {
             let asset1 = assets[i - 1].date;
             let asset2 = assets[i].date;
             asset1.setMilliseconds(0);
             asset2.setMilliseconds(0);
-            
+
             expect(asset1.getTime() >= asset2.getTime()).toBe(true, "Assets was not sorted correctly");
         }
     });
@@ -37,7 +37,7 @@ describe('Sorting', () => {
             }
         });
 
-        for(let i = 1; i < assets.length; i++) {
+        for (let i = 1; i < assets.length; i++) {
             let asset1 = assets[i - 1].date;
             let asset2 = assets[i].date;
             asset1.setMilliseconds(0);
@@ -46,12 +46,45 @@ describe('Sorting', () => {
         }
     });
 
+    it('should give assets sorted by name accending', async () => {
+        let {assets} = await instance.content.getAssets({
+            sort: {
+                by: SORT_BY.NAME,
+                direction: SORT_DIRECTION.ASCENDING
+            }
+        });
+
+        for (let i = 1; i < assets.length; i++) {
+            let asset1 = assets[i - 1];
+            let asset2 = assets[i];
+            console.log(asset1.name, asset2.name);
+            expect(asset1.name <= asset2.name).toBe(true, 'alpha sorting did not work.');
+        }
+    });
+
+    it('should give assets sorted by name descending', async () => {
+        let {assets} = await instance.content.getAssets({
+            sort: {
+                by: SORT_BY.NAME,
+                direction: SORT_DIRECTION.DESCENDING
+            }
+        });
+
+        for (let i = 1; i < assets.length; i++) {
+            let asset1 = assets[i - 1];
+            let asset2 = assets[i];
+            console.log(asset1.name, asset2.name);
+            expect(asset1.name >= asset2.name).toBe(true, 'alpha sorting did not work.');
+        }
+    });
+
+
     it('should sort advanced', async () => {
         const sortCriteriaAvailable = instance.content.getSortBy();
 
         let {assets} = await instance.content.getAssets({
-            sorting : {
-                by       : sortCriteriaAvailable[0].by,
+            sorting: {
+                by: sortCriteriaAvailable[0].by,
                 direction: SORT_DIRECTION.ASCENDING
             }
         });
