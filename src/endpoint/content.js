@@ -6,7 +6,7 @@ import {FrameworkSearch} from '../request/searchService/frameworkSearch';
 import upperFirst from 'lodash/upperFirst';
 import {Asset} from '../model/asset';
 import {Assets} from '../request/searchService/assets';
-import {AssetInformation} from "request/searchService/assetInformation";
+import {AssetInformation} from '../request/searchService/assetInformation';
 
 export class Content extends Endpoint {
 	

@@ -73,11 +73,11 @@ export const ASSET_TYPE_REVERSE = Object.keys(ASSET_TYPE)
     .reduce((sum, [type, assetType]) => Object.assign({}, sum, {[assetType]: type}), {});
 
 (function () {
-    for (let type in ASSET_TYPE) {
-        if (ASSET_TYPE.hasOwnProperty(type)) {
-            ASSET_TYPE_REVERSE[ASSET_TYPE[type]] = type;
-        }
-    }
+	for (let type in ASSET_TYPE) {
+		if (ASSET_TYPE.hasOwnProperty(type)) {
+			ASSET_TYPE_REVERSE[ASSET_TYPE[type]] = type;
+		}
+	}
 })();
 
 export const Constants = {

@@ -3,7 +3,6 @@ import {Endpoint} from '../common/endpoint';
 import {UpdateContainer} from '../utilities/updateContainer';
 import {BatchUpdate} from '../request/batchUpdateService/batchUpdate';
 import { Member as MemberRequest } from '../request/searchService/member';
-import { Member as MemberModel } from '../model/member';
 
 export class Member extends Endpoint {
 	

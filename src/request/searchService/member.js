@@ -46,6 +46,6 @@ export class Member extends BaseRequest {
 	 * @param response
 	 */
 	processResponseData(response) {
-		return MemberModel.createFromAPIResponse(response.items[0])
+		return MemberModel.createFromAPIResponse(response.items[0]);
 	}
 }

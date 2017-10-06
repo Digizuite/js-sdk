@@ -16,9 +16,9 @@ import {DateTimeMetadataItem} from '../model/metadata/dateTimeMetadataItem';
 import {UpdateContainer} from '../utilities/updateContainer';
 import {MetadataItem} from '../model/metadata/metadataItem';
 import {Constants} from '../const';
-import {getLockInformation} from "utilities/lockInformation";
-import {RequestError} from "common/requestError";
-import {CopyMetadata} from "request/metadataService/copyMetadata";
+import {getLockInformation} from '../utilities/lockInformation';
+import {RequestError} from '../common/requestError';
+import {CopyMetadata} from '../request/metadataService/copyMetadata';
 
 export class Metadata extends Endpoint {
 	
