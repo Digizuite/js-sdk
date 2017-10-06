@@ -6,6 +6,7 @@ import {FrameworkSearch} from '../request/searchService/frameworkSearch';
 import upperFirst from 'lodash/upperFirst';
 import {Asset} from '../model/asset';
 import {Assets} from '../request/searchService/assets';
+import {AssetInformation} from "request/searchService/assetInformation";
 
 export class Content extends Endpoint {
 	
@@ -165,17 +166,18 @@ export class Content extends Endpoint {
 		
 	}
 	
-	getAssetInfo( args = {} ) {
-		if( !args.asset ) {
-			throw new Error('Expecting an asset as parameter');
+	getAssetsInformation( args = {} ) {
+		
+		if( !Array.isArray(args.assets) ) {
+			throw new Error('Expecting an array of assets as parameter');
 		}
 		
-		const assetRequest = new Assets({
+		const assetInformationRequest = new AssetInformation({
 			apiUrl: this.apiUrl
 		});
 		
-		return assetRequest.execute({
-			assets: args.assetIds.map( thisAssetId => new Asset({ id : thisAssetId }) )
+		return assetInformationRequest.execute({
+			assets: args.assets
 		});
 	}
 	

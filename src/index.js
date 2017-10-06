@@ -48,6 +48,14 @@ export {ComboOption} from './model/metadata/comboOption';
 export {TreeOption} from './model/metadata/treeOption';
 export {UniqueOption} from './model/metadata/uniqueOption';
 
+// information
+export {ArrayInformationItem} from './model/information/arrayInformationItem';
+export {BoolInformationItem} from './model/information/boolInformationItem';
+export {DateTimeInformationItem} from './model/information/dateTimeInformationItem';
+export {IntInformationItem} from './model/information/intInformationItem';
+export {LongInformationItem} from './model/information/longInformationItem';
+export {StringInformationItem} from './model/information/stringInformationItem';
+
 // Batch
 export {UpdateContainer} from './utilities/updateContainer';
 export {BatchUpdate} from './request/batchUpdateService/batchUpdate';
