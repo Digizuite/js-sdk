@@ -6,7 +6,7 @@ export class InformationItem {
 	 */
 	constructor( args = {} ) {
 		this.id = args.id;
-		this.label = args.label;
+		this.name = args.label;
 		this.value = args.value;
 		this._pattern = args.pattern;
 		this._format = args.format;
@@ -37,7 +37,7 @@ export class InformationItem {
 	 */
 	setValueFromAPI( args = {}) {
 		this.id  = args.id;
-		this.label  = args.label || '';
+		this.name  = args.label || '';
 		this.value = args.value || '';
 		this._pattern = args.pattern;
 		this._format = args.format;

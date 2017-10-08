@@ -16,20 +16,13 @@ The call will return an array of ```assetInformation```, one for each asset supp
 Each ```assetInformation``` contains the asset ID and a list of information items.
 
 ### Information Items
-Each information item return can be one of the following 6 types described below. Each information type enforces 
-a certain data type as value.  
-
-| Information type | Data type enforced | Notes |
-|---------------|--------------------|-------|
-| ArrayInformationItem | array | |
-| BoolInformationItem | boolean | |
-| DateTimeInformationItem | Date | |
-| IntInformationItem | number | |
-| LongInformationItem | number | |
-| StringInformationItem | string | |
-
 Check the documentation on ```InformationItem``` model for details about the exposed proprieties and methods 
 of an information item.
+
+### Notes
+
+It is highly recommended to use the ```getFormattedValue``` method when presenting the user the value of the information item, 
+over the ```value``` propriety. 
 
 ## Putting everything together
 
@@ -43,7 +36,7 @@ instance.content.getAssetsInformation({
         console.debug( `Information for asset with ID ${thisAssetInformation.assetId}` );
 
         thisAssetInformation.informationItems.forEach((thisItem)=>{
-            console.debug(`${thisItem.label} : ${thisItem.getFormattedValue()}`);
+            console.debug(`${thisItem.name} : ${thisItem.getFormattedValue()}`);
         });
 
     });
