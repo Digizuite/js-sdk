@@ -47,10 +47,10 @@ describe('Sorting', () => {
     });
 
     // Disabled due to DAM Center being retarded. See DAM-2319
-    xdescribe('Sorting by name', ()=>{
+    describe('Sorting by name', ()=>{
         it('should give assets sorted by name accending', async () => {
             let {assets} = await instance.content.getAssets({
-                sort: {
+                sorting: {
                     by: SORT_BY.NAME,
                     direction: SORT_DIRECTION.ASCENDING
                 }
@@ -66,7 +66,7 @@ describe('Sorting', () => {
     
         it('should give assets sorted by name descending', async () => {
             let {assets} = await instance.content.getAssets({
-                sort: {
+                sorting: {
                     by: SORT_BY.NAME,
                     direction: SORT_DIRECTION.DESCENDING
                 }
