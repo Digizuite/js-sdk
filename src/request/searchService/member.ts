@@ -45,8 +45,9 @@ export class Member extends BaseRequest<any> {
 	 * @param response
 	 */
 	protected processResponseData(response: any) {
-		const member = new MemberModel(response.items[0]);
-		member.setValueFromAPI(response);
+		const result = response.items[0];
+		const member = new MemberModel(result);
+		member.setValueFromAPI(result);
 		return member;
 	}
 }
