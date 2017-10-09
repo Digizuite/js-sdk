@@ -7,9 +7,9 @@ export interface IInformationItemArgs {
 }
 
 export class InformationItem {
-	protected id: any;
-	protected name: any;
-	protected value: any;
+	public id: any;
+	public name: any;
+	public value: any;
 	protected pattern: any;
 	protected format: any;
 

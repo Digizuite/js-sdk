@@ -51,7 +51,7 @@ export class AssetInformation extends BaseRequest<any> {
 	 * @param response
 	 */
 	protected processResponseData(response: any) {
-		const assetInformation = response.items
+		return response.items
 			.map((thisItem: any) => {
 
 				const informationItems = thisItem.valueFields
@@ -64,8 +64,6 @@ export class AssetInformation extends BaseRequest<any> {
 				});
 
 			});
-
-		return {assetInformation};
 	}
 
 	/**

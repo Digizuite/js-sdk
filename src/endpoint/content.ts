@@ -4,7 +4,7 @@ import {attachEndpoint, Connector as ConnectorType} from '../connector';
 import {Asset} from "../model/asset";
 import {Filter} from "../model/filter/filter";
 import {Folder} from "../model/folder";
-import {InformationItem} from '../model/information/informationItem';
+import {AssetInformation as AssetInformationModel} from '../model/information/assetInformation';
 import {AssetInformation} from '../request/searchService/assetInformation';
 import {Assets} from '../request/searchService/assets';
 import {Filters} from '../request/searchService/filters';
@@ -205,7 +205,7 @@ export class Content extends Endpoint {
 
 	}
 
-	public getAssetsInformation(args: { assets: Asset[] }): Promise<InformationItem[]> {
+	public getAssetsInformation(args: { assets: Asset[] }): Promise<AssetInformationModel[]> {
 
 		if (!Array.isArray(args.assets)) {
 			throw new Error('Expecting an array of assets as parameter');
