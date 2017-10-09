@@ -1,5 +1,8 @@
-import * as path from 'path';
-import * as webpack from 'webpack';
+/* tslint:disable */
+const path = require('path');
+const webpack = require('webpack');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+/* tslint:enable */
 /* global __dirname, module  */
 
 const ENV_PRODUCTION = 'prod';
@@ -17,6 +20,10 @@ function getWebpackConfig(env: string) {
 	if (env === ENV_PRODUCTION) {
 		plugins.push(
 			new webpack.optimize.ModuleConcatenationPlugin(),
+		);
+
+		plugins.push(
+			new UglifyJSPlugin(),
 		);
 	}
 
@@ -58,13 +65,6 @@ function getWebpackConfig(env: string) {
 					test: /\.ts$/,
 					exclude: /(node_modules|bower_components)/,
 					use: [
-						// {
-						// 	loader: 'babel-loader',
-						// 	options: {
-						// 		plugins: ['transform-runtime', 'transform-object-rest-spread'],
-						// 		presets: ['env', 'es2017', 'es2015']
-						// 	}
-						// },
 						{
 							loader: 'awesome-typescript-loader',
 						},
