@@ -6,7 +6,7 @@ const dotNetDateRegEx = /\/Date\(([0-9]+)(\+([0-9]+))?\)\//g;
  */
 export function parseDotNetDate(str: string) {
 
-	const dateParts = dotNetDateRegEx.exec(str);
+    const dateParts = new RegExp(dotNetDateRegEx).exec(str);
 
 	// got an invalid date
 	if (!dateParts) {
