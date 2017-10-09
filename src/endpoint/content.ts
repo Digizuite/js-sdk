@@ -5,7 +5,7 @@ import {Asset} from "../model/asset";
 import {Filter} from "../model/filter/filter";
 import {Folder} from "../model/folder";
 import {AssetInformation as AssetInformationModel} from '../model/information/assetInformation';
-import {AssetInformation} from '../request/searchService/assetInformation';
+import {AssetsInformation} from '../request/searchService/assetsInformation';
 import {Assets} from '../request/searchService/assets';
 import {Filters} from '../request/searchService/filters';
 import {Folders} from '../request/searchService/folders';
@@ -211,7 +211,7 @@ export class Content extends Endpoint {
 			throw new Error('Expecting an array of assets as parameter');
 		}
 
-		const assetInformationRequest = new AssetInformation({
+		const assetInformationRequest = new AssetsInformation({
 			apiUrl: this.apiUrl,
 		});
 

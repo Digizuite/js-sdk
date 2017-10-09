@@ -39,7 +39,7 @@ export class InformationItem {
 	 */
 	public setValueFromAPI(args: IInformationItemArgs) {
 		this.id = args.id;
-		this.name = args.label || '';
+		this.name = args.label || args.id;
 		this.value = args.value || '';
 		this.pattern = args.pattern;
 		this.format = args.format;
