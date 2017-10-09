@@ -1,11 +1,11 @@
 import upperFirst from 'lodash-es/upperFirst';
-import {AssetInformation} from 'src/request/searchService/assetInformation';
 import {Endpoint, IEndpointArgs} from '../common/endpoint';
 import {attachEndpoint, Connector as ConnectorType} from '../connector';
 import {Asset} from "../model/asset";
 import {Filter} from "../model/filter/filter";
 import {Folder} from "../model/folder";
 import {InformationItem} from '../model/information/informationItem';
+import {AssetInformation} from '../request/searchService/assetInformation';
 import {Assets} from '../request/searchService/assets';
 import {Filters} from '../request/searchService/filters';
 import {Folders} from '../request/searchService/folders';
@@ -204,7 +204,6 @@ export class Content extends Endpoint {
 		});
 
 	}
-
 
 	public getAssetsInformation(args: { assets: Asset[] }): Promise<InformationItem[]> {
 
