@@ -20,4 +20,11 @@ export class BoolInformationItem extends InformationItem {
 		this.value = args.value === 'true' || args.value === true || args.value === '1' || args.value === 1;
 	}
 
+    /**
+     * Returns a value formatted to the specs
+     * @returns {*}
+     */
+    public getFormattedValue(): string {
+        return this.value ? 'yes' : 'no';
+    }
 }

@@ -7,9 +7,10 @@ import {InformationItem} from '../../model/information/informationItem';
 import {IntInformationItem} from '../../model/information/intInformationItem';
 import {LongInformationItem} from '../../model/information/longInformationItem';
 import {StringInformationItem} from '../../model/information/stringInformationItem';
+import {LinkInformationItem} from '../../model/information/linkInformationItem';
 import {LogWarn} from '../../utilities/logger';
 
-export class AssetInformation extends BaseRequest<any> {
+export class AssetsInformation extends BaseRequest<any> {
 
 	/**
 	 * Endpoint URL
@@ -80,6 +81,10 @@ export class AssetInformation extends BaseRequest<any> {
 			case StringInformationItem.TYPE:
 				result = new StringInformationItem(thisItem);
 				break;
+
+            case LinkInformationItem.TYPE:
+                result = new LinkInformationItem(thisItem);
+                break;
 
 			case BoolInformationItem.TYPE:
 				result = new BoolInformationItem(thisItem);

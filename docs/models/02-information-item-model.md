@@ -16,6 +16,7 @@ Below is a list of Model which inherit from InformationItem
 | IntInformationItem | number | |
 | LongInformationItem | number | |
 | StringInformationItem | string | |
+| LinkInformationItem | string | |
 
 ## Proprieties
 
