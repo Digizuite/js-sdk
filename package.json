@@ -15,9 +15,19 @@
   "dependencies": {
     "blueimp-md5": "^2.7.0",
     "fecha": "^2.3.1",
-    "lodash": "^4.17.4"
+    "lodash-es": "^4.17.4",
+    "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {
+    "@types/blueimp-md5": "^2.7.0",
+    "@types/core-js": "^0.9.43",
+    "@types/fecha": "^2.3.0",
+    "@types/jasmine": "^2.5.54",
+    "@types/karma": "^0.13.36",
+    "@types/lodash-es": "^4.14.6",
+    "@types/webpack": "^3.0.10",
+    "@types/webpack-env": "^1.13.0",
+    "awesome-typescript-loader": "^3.2.1",
     "babel-core": "^6.25.0",
     "babel-loader": "^7.1.1",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
@@ -27,8 +37,8 @@
     "babel-preset-es2017": "^6.24.1",
     "babel-runtime": "^6.25.0",
     "babili-webpack-plugin": "^0.1.1",
+    "bluebird": "^3.5.0",
     "core-js": "^2.4.1",
-    "eslint": "^3.19.0",
     "jasmine": "^2.6.0",
     "jasmine-co": "^1.2.2",
     "jasmine-core": "^2.6.2",
@@ -40,9 +50,15 @@
     "karma-jasmine": "^1.1.0",
     "karma-sourcemap-loader": "^0.3.7",
     "karma-teamcity-reporter": "^1.0.0",
+    "karma-typescript": "^3.0.5",
+    "karma-typescript-es6-transform": "^1.0.2",
     "karma-webpack": "^2.0.3",
-    "webpack": "^3.0.0",
-    "whatwg-fetch": "^2.0.3"
+    "ts-node": "^3.3.0",
+    "tslib": "^1.7.1",
+    "tslint": "^5.6.0",
+    "typescript": "^2.4.1",
+    "uglifyjs-webpack-plugin": "^0.4.6",
+    "webpack": "^3.0.0"
   },
   "repository": {
     "type": "git",
