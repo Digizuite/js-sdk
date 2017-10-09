@@ -8,7 +8,7 @@
     "build": ".\\node_modules\\.bin\\webpack --progress --env=dev",
     "watch": ".\\node_modules\\.bin\\webpack --progress --env=dev --watch",
     "dist": ".\\node_modules\\.bin\\webpack --progress --env=prod --display-optimization-bailout",
-    "test": "node node_modules/karma/bin/karma start ./karma.conf.js --single-run",
+    "test": "node node_modules/karma/bin/karma start ./karma.conf.ts --single-run",
     "version": "npm run dist",
     "postversion": "git push && git push --tags"
   },
