@@ -1,7 +1,7 @@
 import {BaseRequest} from '../../common/request';
 
 export class SetMetaSource extends BaseRequest<any> {
-	
+
 	/**
 	 *
 	 * @returns {{FROM_UPLOAD: number, FROM_ASSET: number}}
@@ -9,8 +9,8 @@ export class SetMetaSource extends BaseRequest<any> {
 	 */
 	static get META_SOURCE() {
 		return {
-			FROM_UPLOAD : 0,
-			FROM_ASSET : 1,
+			FROM_UPLOAD: 0,
+			FROM_ASSET: 1,
 		};
 	}
 
@@ -21,7 +21,7 @@ export class SetMetaSource extends BaseRequest<any> {
 	get endpointUrl() {
 		return `${this.apiUrl}UploadRest.js`;
 	}
-	
+
 	/**
 	 *
 	 * @returns {Object}
@@ -30,31 +30,31 @@ export class SetMetaSource extends BaseRequest<any> {
 		return {
 			// Parameters required by DigiZuite - these should never be changed
 			// when executing the request!
-			method    : 'SetMetaSource',
+			method: 'SetMetaSource',
 			metaSource: SetMetaSource.META_SOURCE.FROM_ASSET,
-			UploadID  : null,
+			UploadID: null,
 		};
 	}
-	
+
 	/**
 	 * Pass-through
 	 * @param {Object} payload
 	 * @returns {Object}
 	 */
-    processRequestData(payload: any): any {
-		
+	protected processRequestData(payload: any): any {
+
 		// UploadID
 		payload.UploadID = payload.uploadId;
 		payload.uploadId = undefined;
-		
+
 		return payload;
 	}
-	
+
 	/**
 	 * Process response
 	 */
-	processResponseData() {
+	protected processResponseData() {
 		return {};
 	}
-	
+
 }

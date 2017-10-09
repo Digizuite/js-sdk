@@ -10,7 +10,7 @@ export class BatchUpdate extends BaseRequest<any> {
 	get endpointUrl() {
 		return `${this.apiUrl}BatchUpdateService.js`;
 	}
-	
+
 	/**
 	 *
 	 * @returns {Object}
@@ -20,68 +20,68 @@ export class BatchUpdate extends BaseRequest<any> {
 			// Parameters required by DigiZuite - these should never be changed
 			// when executing the request!
 			useMetadataVersionedAccess: 0,
-			updateXML                 : '',
-			values                    : [],
+			updateXML: '',
+			values: [],
 		};
 	}
-	
+
 	/**
 	 * Execute the request
 	 * @param {Object} payload
 	 * @returns {Promise}
 	 */
-    execute(payload: { containers: UpdateContainer[] }) {
-		
+	public execute(payload: { containers: UpdateContainer[] }) {
+
 		// Ensure that we have containers in the format we want
-		if(
+		if (
 			!payload.hasOwnProperty('containers') ||
 			!Array.isArray(payload.containers) ||
 			payload.containers.length === 0
 		) {
 			throw new Error('BatchUpdate expects an array of containers as parameter.');
 		}
-		
+
 		payload.containers.forEach((thisContainer) => {
-			if( !(thisContainer instanceof UpdateContainer)) {
+			if (!(thisContainer instanceof UpdateContainer)) {
 				throw new Error('BatchUpdate expects containers to be of type UpdateContainer.');
 			}
 		});
-		
+
 		return super.execute(payload);
 	}
-	
+
 	/**
 	 * Pass-through
 	 * @param {Object} payload
 	 * @returns {Object}
 	 */
-    processRequestData(payload: { containers?: UpdateContainer[], updateXML?: string, values?: string }) {
+	protected processRequestData(payload: { containers?: UpdateContainer[], updateXML?: string, values?: string }) {
 
 		let xml = '';
-        const values: IUpdateContainerJson[] = [];
-		
+		const values: IUpdateContainerJson[] = [];
+
 		// Merge XML and JSON from all containers
-        payload.containers!.forEach((thisContainer) => {
+		payload.containers!.forEach((thisContainer) => {
 			xml += thisContainer.getContainerXML();
-			values.push( thisContainer.getContainerJSON() );
+			values.push(thisContainer.getContainerJSON());
 		});
-		
+
 		// Batch values
 		payload.updateXML = `<r>${xml}</r>`;
 		payload.values = JSON.stringify(values);
-		
+
 		// remove containers
 		payload.containers = undefined;
-		
+
 		return payload;
 	}
-	
+
 	/**
 	 * Process response
 	 * @param response
 	 */
-    processResponseData(response: any) {
+	protected processResponseData(response: any) {
 		return response.items;
 	}
-	
+
 }

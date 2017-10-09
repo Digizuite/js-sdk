@@ -11,10 +11,9 @@ export const ensureTrailingSeparator = (url = '') => {
 
 /**
  * Extracts the extension from a path
- * @param _path
+ * @param path
  * @returns {string}
  */
-export const getExtension = (_path = '') => {
-	const path = String(_path);
+export const getExtension = (path: string) => {
 	return path.substr(path.lastIndexOf('.') + 1);
 };

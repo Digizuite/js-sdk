@@ -7,13 +7,12 @@ describe('Sanity', () => {
 	});
 });
 
-
 describe('Constants', () => {
 	it('Should have all constants as reverse', () => {
-		for (let key in ASSET_TYPE_REVERSE) {
+		for (const key in ASSET_TYPE_REVERSE) {
 			if (ASSET_TYPE_REVERSE.hasOwnProperty(key)) {
 				const value = ASSET_TYPE_REVERSE[key];
-				expect(ASSET_TYPE[value] == parseInt(key)).toEqual(true);
+				expect(ASSET_TYPE[value] === parseInt(key, 10)).toEqual(true);
 			}
 		}
 	});

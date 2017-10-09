@@ -1,7 +1,6 @@
-/* global __dirname, require, module  */
-const webpack = require('webpack');
-const path = require('path');
-const BabiliPlugin = require('babili-webpack-plugin');
+import * as path from 'path';
+import * as webpack from 'webpack';
+/* global __dirname, module  */
 
 const ENV_PRODUCTION = 'prod';
 const ENV_DEVELOPMENT = 'dev';
@@ -16,14 +15,8 @@ function getWebpackConfig(env: string) {
 	const plugins = [];
 
 	if (env === ENV_PRODUCTION) {
-		plugins.push(new BabiliPlugin({
-			mangle: true,
-			keepFnName: true,
-			keepClassName: true
-		}));
-
 		plugins.push(
-			new webpack.optimize.ModuleConcatenationPlugin()
+			new webpack.optimize.ModuleConcatenationPlugin(),
 		);
 	}
 
@@ -34,7 +27,7 @@ function getWebpackConfig(env: string) {
 			filename: `digizuite${ env === ENV_PRODUCTION ? '.min' : ''}.js`,
 			library: 'Digizuite',
 			libraryTarget: 'umd',
-			umdNamedDefine: true
+			umdNamedDefine: true,
 		},
 
 		externals: {
@@ -42,21 +35,21 @@ function getWebpackConfig(env: string) {
 				commonjs: 'lodash',
 				commonjs2: 'lodash',
 				amd: 'lodash',
-				root: '_'
-			}
+				root: '_',
+			},
 		},
 
 		resolve: {
 			modules: [
-				'src', 'node_modules', 'test'
+				'src', 'node_modules', 'test',
 			],
-			extensions: ['.js', '.ts']
+			extensions: ['.js', '.ts'],
 		},
 
 		resolveLoader: {
 			modules: [
-				'node_modules'
-			]
+				'node_modules',
+			],
 		},
 
 		module: {
@@ -73,10 +66,10 @@ function getWebpackConfig(env: string) {
 						// 	}
 						// },
 						{
-							loader: 'awesome-typescript-loader'
-						}
-					]
-				}
+							loader: 'awesome-typescript-loader',
+						},
+					],
+				},
 			],
 		},
 

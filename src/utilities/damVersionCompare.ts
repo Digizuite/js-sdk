@@ -12,16 +12,16 @@
  * @returns {Number}
  */
 function compare(left: string, right: string): number {
-	
+
 	// Sanity check the input
 	if (typeof left !== 'string' || typeof right !== 'string') {
 		return 0;
 	}
-	
-	const a   = left.split('.');
-	const b   = right.split('.');
+
+	const a = left.split('.');
+	const b = right.split('.');
 	const len = Math.max(a.length, b.length);
-	
+
 	for (let i = 0; i < len; i++) {
 		if ((a[i] && !b[i] && parseInt(a[i], 10) > 0) || (parseInt(a[i], 10) > parseInt(b[i], 10))) {
 			return 1;
@@ -29,7 +29,7 @@ function compare(left: string, right: string): number {
 			return -1;
 		}
 	}
-	
+
 	return 0;
 }
 
@@ -39,11 +39,12 @@ function compare(left: string, right: string): number {
  * @returns {string}
  */
 function normalizeDAMVersion(damVersion = '') {
-	
-	let index, char;
-	
+
+	let index;
+	let char;
+
 	const damVersionLength = damVersion.length;
-	
+
 	// Navigate the char until the first character that is not . or a digit
 	for (index = 0; index < damVersionLength; index++) {
 		char = damVersion.charAt(index);
@@ -51,12 +52,12 @@ function normalizeDAMVersion(damVersion = '') {
 			break;
 		}
 	}
-	
+
 	// if last char is a dot, remove it
 	if (damVersion.charAt(index - 1) === '.') {
 		index = index - 1;
 	}
-	
+
 	return damVersion.substr(0, index);
 }
 

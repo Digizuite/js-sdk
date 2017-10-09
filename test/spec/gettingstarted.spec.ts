@@ -2,11 +2,11 @@ import {getConnectorInstance} from '../../src/index';
 
 describe('Getting Started', () => {
 
-	it('Should login and give instance', (done)=>{
+	it('Should login and give instance', (done) => {
 		getConnectorInstance({
 			apiUrl: 'https://cc.dev.digizuite.com/dmm3bwsv3/',
 			username: 'admin',
-			password: 'admin'
+			password: 'admin',
 		}).then(instance => {
 			expect(instance).not.toBeNull();
 			done();
@@ -20,7 +20,7 @@ describe('Getting Started', () => {
 		getConnectorInstance({
 			apiUrl: 'https://cc.dev.digizuite.com/dmm3bwsv3/',
 			username: 'admin',
-			password: 'wrongpassword'
+			password: 'wrongpassword',
 		}).then(() => {
 			fail('Logged in succeded');
 			done();

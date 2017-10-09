@@ -1,58 +1,58 @@
-import {getInstance} from '../test-helpers';
-import {AssetCreatedFilter, AssetFreeTextFilter, AssetTypeFilter, Constants} from '../../src/index';
 import {Connector} from "../../src/connector";
+import {AssetCreatedFilter, AssetFreeTextFilter, AssetTypeFilter, Constants} from '../../src/index';
+import {getInstance} from '../test-helpers';
 
 describe('Filtering', () => {
-    /**
-     * @typeof {Connector}
-     */
+	/**
+	 * @typeof {Connector}
+	 */
 	let instance: Connector;
 
-    beforeAll(async () => {
-        instance = await getInstance();
-    });
+	beforeAll(async () => {
+		instance = await getInstance();
+	});
 
-    it('Should filter for asset text', async () => {
+	it('Should filter for asset text', async () => {
 
-        const assetFreeTextFilter = new AssetFreeTextFilter({
-            text: 'moon'
-        });
-        let {assets} = await instance.content.getAssets({
-            filters: [assetFreeTextFilter]
-        });
-        expect(assets).not.toBeNull();
-        expect(assets.length > 0).toBe(true);
-    });
+		const assetFreeTextFilter = new AssetFreeTextFilter({
+			text: 'moon',
+		});
+		const {assets} = await instance.content.getAssets({
+			filters: [assetFreeTextFilter],
+		});
+		expect(assets).not.toBeNull();
+		expect(assets.length > 0).toBe(true);
+	});
 
-    it('should filter for asset type', async () => {
+	it('should filter for asset type', async () => {
 
-        const assetTypeFilter = new AssetTypeFilter({
-            types: [Constants.ASSET_TYPE.IMAGE]
-        });
-        let {assets} = await instance.content.getAssets({
-            filters: [assetTypeFilter]
-        });
+		const assetTypeFilter = new AssetTypeFilter({
+			types: [Constants.ASSET_TYPE.IMAGE],
+		});
+		const {assets} = await instance.content.getAssets({
+			filters: [assetTypeFilter],
+		});
 
-        expect(assets).not.toBeNull();
-        expect(assets.length > 0).toBe(true);
-    });
+		expect(assets).not.toBeNull();
+		expect(assets.length > 0).toBe(true);
+	});
 
-    it('should filter for creation date', async () => {
+	it('should filter for creation date', async () => {
 
-        const assetCreatedFilter = new AssetCreatedFilter({
-            from: 1494720000,
-            to: Math.floor(Date.now() / 1000)
-        });
-        let {assets} = await instance.content.getAssets({
-            filters: [assetCreatedFilter]
-        });
+		const assetCreatedFilter = new AssetCreatedFilter({
+			from: 1494720000,
+			to: Math.floor(Date.now() / 1000),
+		});
+		const {assets} = await instance.content.getAssets({
+			filters: [assetCreatedFilter],
+		});
 
-        expect(assets).not.toBeNull();
-        expect(assets.length > 0).toBe(true);
-    });
+		expect(assets).not.toBeNull();
+		expect(assets.length > 0).toBe(true);
+	});
 
-    it('should get a list of filters', async () => {
-        let filters = await instance.content.getFilters();
-        expect(filters).not.toBeNull();
-    })
+	it('should get a list of filters', async () => {
+		const filters = await instance.content.getFilters();
+		expect(filters).not.toBeNull();
+	});
 });

@@ -13,13 +13,12 @@ module.exports = function (config: any) {
 		// base path that will be used to resolve all patterns (eg. files, exclude)
 		basePath: '.',
 
-
 		// frameworks to use
 		// available frameworks: https://npmjs.org/browse/keyword/karma-adapter
 		frameworks: ['jasmine', 'karma-typescript'],
 
 		exclude: [
-			'./**/*.d.ts'
+			'./**/*.d.ts',
 		],
 
 		// list of files / patterns to load in the browser
@@ -27,7 +26,7 @@ module.exports = function (config: any) {
 			'./node_modules/bluebird/js/browser/bluebird.min.js',
 			'./test/test-helpers.ts',
 			{pattern: './src/**/*.ts'},
-			{pattern: './test/**/*.spec.ts'}
+			{pattern: './test/**/*.spec.ts'},
 		],
 
 		preprocessors: {'**/*.ts': ['karma-typescript']},
@@ -43,15 +42,15 @@ module.exports = function (config: any) {
 					'es2016',
 					'es2017',
 					'dom',
-				]
+				],
 			},
 			tsconfig: './tsconfig.json',
 			bundlerOptions: {
 				entrypoints: /\.spec\.ts$/,
 				transforms: [
-					require("karma-typescript-es6-transform")()
-				]
-			}
+					require("karma-typescript-es6-transform")(),
+				],
+			},
 		},
 
 		// test results reporter to use
@@ -86,7 +85,23 @@ module.exports = function (config: any) {
 		// how many browser should be started simultaneous
 		concurrency: 5,
 
-		browserNoActivityTimeout : 60000 //by default 10000
+		browserNoActivityTimeout: 60000, // by default 10000
+
+		defaultTimeoutInterval: 2500000,
+
+		customLaunchers: {
+			BetterChromeHeadless: {
+				base: 'ChromeHeadless',
+				flags: [
+					'--no-sandbox',
+					// See https://chromium.googlesource.com/chromium/src/+/lkgr/headless/README.md
+					'--headless',
+					'--disable-gpu',
+					// Without a remote debugging port, Google Chrome exits immediately.
+					' --remote-debugging-port=9222',
+				],
+			},
+		},
 
 	});
 };

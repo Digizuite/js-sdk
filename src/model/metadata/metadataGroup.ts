@@ -1,24 +1,24 @@
 export interface IMetadataGroupArgs {
-    id: number;
-    name: string;
-    sortIndex: number;
+	id: number;
+	name: string;
+	sortIndex: number;
 }
 
 export class MetadataGroup {
-	id: number;
-    private name: string;
-    private sortIndex: number;
+	public id: number;
+	public name: string;
+	public sortIndex: number;
 
-    /**
-     * C-tor
-     * @param args
-     */
-    constructor(args: IMetadataGroupArgs) {
+	/**
+	 * C-tor
+	 * @param args
+	 */
+	constructor(args: IMetadataGroupArgs) {
 
-        this.id = args.id;
-        this.name = args.name;
-        this.sortIndex = args.sortIndex;
+		this.id = args.id;
+		this.name = args.name;
+		this.sortIndex = args.sortIndex;
 
-    }
+	}
 
 }

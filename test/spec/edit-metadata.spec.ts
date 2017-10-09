@@ -1,4 +1,4 @@
-import {getInstance} from '../test-helpers';
+import {Connector} from "../../src/connector";
 import {
 	BitMetadataItem,
 	ComboOption,
@@ -15,288 +15,294 @@ import {
 	StringMetadataItem,
 	TreeMetadataItem,
 	UniqueOption,
-	UniqueVersionMetadataItem
+	UniqueVersionMetadataItem,
 } from '../../src/index';
-import {Connector} from "../../src/connector";
 import {Asset} from "../../src/model/asset";
 import {MetadataItem} from "../../src/model/metadata/metadataItem";
+import {getInstance} from '../test-helpers';
 
 describe('Edit metadata', () => {
 
 	let instance: Connector;
 
-    beforeAll(async () => {
-        instance = await getInstance();
-    });
+	beforeAll(async () => {
+		instance = await getInstance();
+	});
 
-	let itemsCache: MetadataItem<any>[];
+	let itemsCache: Array<MetadataItem<any>>;
 
 	let assetsCache: Asset[];
 
-    // Helpers method for getting metadata items for tests
+	// Helpers method for getting metadata items for tests
 	async function getMetadataItem(type: any, assetIndex = 0) {
-        if(!itemsCache) {
-            if(!assetsCache) {
-                let {assets} = await instance.content.getAssets();
-                assetsCache = assets;
-            }
-            let groups = await instance.metadata.getMetadataGroups({
-                asset: assetsCache[assetIndex]
-            });
+		if (!itemsCache) {
+			if (!assetsCache) {
+				const {assets} = await instance.content.getAssets();
+				assetsCache = assets;
+			}
+			const groups = await instance.metadata.getMetadataGroups({
+				asset: assetsCache[assetIndex],
+			});
 
-            itemsCache = await instance.metadata.getMetadataItems({
-                asset: assetsCache[assetIndex],
-                group: groups.filter(group => group.id === 50029)[0]
-            });
-        }
+			itemsCache = await instance.metadata.getMetadataItems({
+				asset: assetsCache[assetIndex],
+				group: groups.filter((group) => group.id === 50029)[0],
+			});
+		}
 		return itemsCache.filter((item: any) => item && item.TYPE === type)[0];
-    }
+	}
 
-    // Helpers function to save a field
+	// Helpers function to save a field
 	async function saveMetadataItem(item: any) {
-        return await instance.metadata.updateMetadataItems({
-            assets: [ assetsCache[0] ],
-            metadataItems : [ item ]
-        });
-    }
+		return await instance.metadata.updateMetadataItems({
+			assets: [assetsCache[0]],
+			metadataItems: [item],
+		});
+	}
 
-    it('should give metadata for an asset', async () => {
-        let {assets} = await instance.content.getAssets();
-        let groups = await instance.metadata.getMetadataGroups({
-            asset: assets[0]
-        });
+	it('should give metadata for an asset', async () => {
+		const {assets} = await instance.content.getAssets();
+		const groups = await instance.metadata.getMetadataGroups({
+			asset: assets[0],
+		});
 
-        expect(groups).not.toBeNull();
-        expect(groups.length > 0).toBe(true);
+		expect(groups).not.toBeNull();
+		expect(groups.length > 0).toBe(true);
 
-        let items = await instance.metadata.getMetadataItems({
-            asset: assets[0],
-            group: groups[0]
-        });
+		const items = await instance.metadata.getMetadataItems({
+			asset: assets[0],
+			group: groups[0],
+		});
 
-        expect(items).not.toBeNull();
-        expect(items.length > 0).toBe(true);
-    });
+		expect(items).not.toBeNull();
+		expect(items.length > 0).toBe(true);
+	});
 
-    it('should edit bitMetadataItem field', async () => {
-        let field = await getMetadataItem(BitMetadataItem.TYPE);
+	it('should edit bitMetadataItem field', async () => {
+		const field = await getMetadataItem(BitMetadataItem.TYPE);
 
-        field.setValue(true);
-        expect(field.getValue()).toBe(true);
+		field.setValue(true);
+		expect(field.getValue()).toBe(true);
 
-        field.setValue(false);
-        expect(field.getValue()).toBe(false);
+		field.setValue(false);
+		expect(field.getValue()).toBe(false);
 
-        await saveMetadataItem(field);
-    });
+		await saveMetadataItem(field);
+	});
 
-    it('should edit comboValueMetadataItem field', async () => {
-        let item = await getMetadataItem(ComboValueMetadataItem.TYPE);
+	it('should edit comboValueMetadataItem field', async () => {
+		const item = await getMetadataItem(ComboValueMetadataItem.TYPE);
 
-        let {options} = await instance.metadata.getMetadataItemOptions({
-            metadataItem : item,
-            navigation: {
-                page : 1,
-                limit: 12
-            }
-        });
+		const {options} = await instance.metadata.getMetadataItemOptions({
+			metadataItem: item,
+			navigation: {
+				page: 1,
+				limit: 12,
+			},
+		});
 
-        expect(options).not.toBeNull();
-        expect(options.length > 0).toBe(true);
+		expect(options).not.toBeNull();
+		expect(options.length > 0).toBe(true);
 
-        item.setValue(options[0]);
-        expect(item.getValue()).toBe(options[0]);
+		item.setValue(options[0]);
+		expect(item.getValue()).toBe(options[0]);
 
-        await saveMetadataItem(item);
-    });
+		await saveMetadataItem(item);
+	});
 
-    it('should edit dataTimeMetadataItem field', async () => {
-		let item = <DateTimeMetadataItem> await getMetadataItem(DateTimeMetadataItem.TYPE);
+	it('should edit dataTimeMetadataItem field', async () => {
+		const item = await getMetadataItem(DateTimeMetadataItem.TYPE) as DateTimeMetadataItem;
 
-        const now = new Date();
-        item.setValue(now);
-        expect(item.getValue()).toBe(now);
+		const now = new Date();
+		item.setValue(now);
+		expect(item.getValue()).toBe(now);
 
-        const at = new Date(2017, 5, 20, 11, 5, 0, 0);
-        const s = `20-06-2017 11:05:00`;
+		const at = new Date(2017, 5, 20, 11, 5, 0, 0);
+		const s = `20-06-2017 11:05:00`;
 
-        item.setValueFromString(s);
-		let set = item.getValue()!;
-        set.setMilliseconds(0);
-        expect(set.getTime()).toBe(at.getTime());
+		item.setValueFromString(s);
+		const set = item.getValue()!;
+		set.setMilliseconds(0);
+		expect(set.getTime()).toBe(at.getTime());
 
-        await saveMetadataItem(item);
-    });
+		await saveMetadataItem(item);
+	});
 
-    it('should edit editComboValueMetadataItem field', async () => {
-        let item = await getMetadataItem(EditComboValueMetadataItem.TYPE);
+	it('should edit editComboValueMetadataItem field', async () => {
+		const item = await getMetadataItem(EditComboValueMetadataItem.TYPE);
 
-        let value = new ComboOption({
-            value: 'combo-value-test-' + new Date().getTime()
-        });
+		const value = new ComboOption({
+			value: `combo-value-test-${new Date().getTime()}`,
+		});
 
-        item.setValue(value);
+		item.setValue(value);
 
-        await saveMetadataItem(item)
-    });
+		await saveMetadataItem(item);
+	});
 
-    it('should edit editMultiComboValueMetadataItem field', async () => {
-        let item = await getMetadataItem(EditMultiComboValueMetadataItem.TYPE);
+	it('should edit editMultiComboValueMetadataItem field', async () => {
+		const item = await getMetadataItem(EditMultiComboValueMetadataItem.TYPE);
 
+		const value = new ComboOption({
+			value: `combo-value-test-${new Date().getTime()}`,
+		});
 
-        let value = new ComboOption({
-            value: 'combo-value-test-' + new Date().getTime()
-        });
+		item.setValue([value]);
 
-        item.setValue([value]);
+		await saveMetadataItem(item);
+	});
 
-        await saveMetadataItem(item);
-    });
+	it('should edit floatMetadataItem field', async () => {
+		const item = await getMetadataItem(FloatMetadataItem.TYPE);
 
-    it('should edit floatMetadataItem field', async () => {
-        let item = await getMetadataItem(FloatMetadataItem.TYPE);
-        
-	    item.setValue(4);
-	    expect(item.getValue()).toBe(4);
-	
-	    item.setValue(5.6);
-        expect(item.getValue()).toBe(5.6);
+		item.setValue(4);
+		expect(item.getValue()).toBe(4);
 
-        await saveMetadataItem(item);
-    });
+		item.setValue(5.6);
+		expect(item.getValue()).toBe(5.6);
 
-    it('should edit intMetadataItem field', async () => {
-        let item = await getMetadataItem(IntMetadataItem.TYPE);
+		await saveMetadataItem(item);
+	});
 
-        item.setValue(4);
-        expect(item.getValue()).toBe(4);
+	it('should edit intMetadataItem field', async () => {
+		const item = await getMetadataItem(IntMetadataItem.TYPE);
 
-        item.setValue(3);
-        expect(item.getValue()).toBe(3);
+		item.setValue(4);
+		expect(item.getValue()).toBe(4);
 
-        await saveMetadataItem(item);
+		item.setValue(3);
+		expect(item.getValue()).toBe(3);
 
-        expect(() => item.setValue(5.6)).toThrowError();
-    });
+		await saveMetadataItem(item);
 
-    it('should edit linkMetadataItem field', async () => {
-        let item = await getMetadataItem(LinkMetadataItem.TYPE);
+		expect(() => item.setValue(5.6)).toThrowError();
+	});
 
-        item.setValue('http://zlepper.dk');
-        expect(item.getValue()).toBe('http://zlepper.dk');
+	it('should edit linkMetadataItem field', async () => {
+		const item = await getMetadataItem(LinkMetadataItem.TYPE);
 
-        item.setValue('http://digizuite.com');
-        expect(item.getValue()).toBe('http://digizuite.com');
+		item.setValue('http://zlepper.dk');
+		expect(item.getValue()).toBe('http://zlepper.dk');
 
-        await saveMetadataItem(item);
+		item.setValue('http://digizuite.com');
+		expect(item.getValue()).toBe('http://digizuite.com');
 
-        // expect(() => item.setValue('bla blab abl')).toThrowError();
-    });
+		await saveMetadataItem(item);
 
-    it('should edit moneyMetadataItem field', async () => {
-        let item = await getMetadataItem(MoneyMetadataItem.TYPE);
+		// expect(() => item.setValue('bla blab abl')).toThrowError();
+	});
 
-        item.setValue("500 KR");
-        expect(item.getValue()).toBe("500 KR");
+	it('should edit moneyMetadataItem field', async () => {
+		const item = await getMetadataItem(MoneyMetadataItem.TYPE);
 
-        await saveMetadataItem(item);
-    });
+		item.setValue("500 KR");
+		expect(item.getValue()).toBe("500 KR");
 
-    it('should edit multiComboValueMetadataItem field', async () => {
-        let item = await getMetadataItem(MultiComboValueMetadataItem.TYPE);
+		await saveMetadataItem(item);
+	});
 
-        let {options} = await instance.metadata.getMetadataItemOptions({
-            metadataItem : item,
-            navigation: {
-                page : 1,
-                limit: 12
-            }
-        });
+	it('should edit multiComboValueMetadataItem field', async () => {
+		const item = await getMetadataItem(MultiComboValueMetadataItem.TYPE);
 
-        item.setValue([options[0]]);
-        expect(item.getValue()[0]).toBe(options[0]);
+		const {options} = await instance.metadata.getMetadataItemOptions({
+			metadataItem: item,
+			navigation: {
+				page: 1,
+				limit: 12,
+			},
+		});
 
-        await saveMetadataItem(item);
-    });
+		item.setValue([options[0]]);
+		expect(item.getValue()[0]).toBe(options[0]);
 
-    it('should edit noteMetadataItem', async () => {
-        let item = await getMetadataItem(NoteMetadataItem.TYPE);
+		await saveMetadataItem(item);
+	});
 
-        item.setValue('Long text test. Maybe. ');
-        expect(item.getValue()).toBe('Long text test. Maybe. ');
+	it('should edit noteMetadataItem', async () => {
+		const item = await getMetadataItem(NoteMetadataItem.TYPE);
 
-        item.setValue('long text 2');
-        expect(item.getValue()).toBe('long text 2');
+		item.setValue('Long text test. Maybe. ');
+		expect(item.getValue()).toBe('Long text test. Maybe. ');
 
-        await saveMetadataItem(item);
-    });
+		item.setValue('long text 2');
+		expect(item.getValue()).toBe('long text 2');
 
-    it('should edit stringMetadataItem', async () => {
-        let item = await getMetadataItem(StringMetadataItem.TYPE);
+		await saveMetadataItem(item);
+	});
 
-        item.setValue('string text');
-        expect(item.getValue()).toBe('string text');
+	it('should edit stringMetadataItem', async () => {
+		const item = await getMetadataItem(StringMetadataItem.TYPE);
 
-        item.setValue('2');
-        expect(item.getValue()).toBe('2');
+		item.setValue('string text');
+		expect(item.getValue()).toBe('string text');
 
-        await saveMetadataItem(item);
-    });
+		item.setValue('2');
+		expect(item.getValue()).toBe('2');
 
-    it('should edit treeMetadataItem field', async () => {
-        let item = await getMetadataItem(TreeMetadataItem.TYPE);
+		await saveMetadataItem(item);
+	});
 
-        let {options} = await instance.metadata.getMetadataItemOptions({
-            metadataItem : item,
-            navigation: {
-                page : 1,
-                limit: 12
-            }
-        });
+	it('should edit treeMetadataItem field', async () => {
+		const item = await getMetadataItem(TreeMetadataItem.TYPE);
 
-        item.setValue([options[0]]);
-        expect(item.getValue()[0]).toBe(options[0]);
+		const {options} = await instance.metadata.getMetadataItemOptions({
+			metadataItem: item,
+			navigation: {
+				page: 1,
+				limit: 12,
+			},
+		});
 
-        item.setValue([]);
-        expect(item.getValue()[0]).toBeUndefined();
+		item.setValue([options[0]]);
+		expect(item.getValue()[0]).toBe(options[0]);
 
-        await saveMetadataItem(item);
-    });
+		item.setValue([]);
+		expect(item.getValue()[0]).toBeUndefined();
 
-    it('should edit uniqueVersionMetadataItem field', async () => {
-		let item = <UniqueVersionMetadataItem> await getMetadataItem(UniqueVersionMetadataItem.TYPE);
+		await saveMetadataItem(item);
+	});
 
-        let option = new UniqueOption({
-            unique : `${new Date().getTime()}`,
-            version : `${new Date().getTime()}`
-        });
+	it('should edit uniqueVersionMetadataItem field', async () => {
+		const item = await getMetadataItem(UniqueVersionMetadataItem.TYPE) as UniqueVersionMetadataItem;
 
-        item.setValue(option);
-        expect(item.getValue()).toBe(option);
+		const option = new UniqueOption({
+			unique: `${new Date().getTime()}`,
+			version: `${new Date().getTime()}`,
+		});
 
-        let isUnique = true;
-        try {
-            await instance.metadata.verifyUniqueVersion({
-                asset: assetsCache[0],
-                metadataItem: item
-            });
-        } catch(err) {
-            console.log(err);
-            isUnique = false;
-        }
-        expect(isUnique).toBe(true)
-    });
+		item.setValue(option);
+		expect(item.getValue()).toBe(option);
 
-    it('should edit metadata on multiple assets', async () => {
-        let item1 = await getMetadataItem(StringMetadataItem.TYPE, 0);
-        let item2 = await getMetadataItem(StringMetadataItem.TYPE, 1);
+		let isUnique = true;
+		try {
+			await instance.metadata.verifyUniqueVersion({
+				asset: assetsCache[0],
+				metadataItem: item,
+			});
+		} catch (err) {
+			isUnique = false;
+		}
+		expect(isUnique).toBe(true);
+	});
 
-        item1.setValue('bla');
-        item2.setValue('doo');
+	it('should edit metadata on multiple assets', async () => {
+		const item1 = await getMetadataItem(StringMetadataItem.TYPE, 0);
+		const item2 = await getMetadataItem(StringMetadataItem.TYPE, 1);
 
-        await instance.metadata.updateMetadataItems({
-            assets: [ assetsCache[0], assetsCache[1] ],
-            metadataItems : [ item1, item2 ]
-        });
-    });
+		item1.setValue('bla');
+		item2.setValue('doo');
+
+		await instance.metadata.updateMetadataItems({
+			assets: [assetsCache[0], assetsCache[1]],
+			metadataItems: [item1, item2],
+		});
+	});
+
+	it('should copy metadata to multiple assets', async () => {
+		const {assets} = await instance.content.getAssets();
+		await instance.metadata.copyMetadata({
+			sourceAsset: assets[0],
+			targetAsset: assets[1],
+		});
+	});
 });

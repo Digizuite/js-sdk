@@ -1,7 +1,7 @@
 import {BaseRequest} from '../../common/request';
 
 export class SystemVersion extends BaseRequest<any> {
-	
+
 	/**
 	 * Endpoint URL
 	 * @returns {string}
@@ -9,7 +9,7 @@ export class SystemVersion extends BaseRequest<any> {
 	get endpointUrl() {
 		return `${this.apiUrl}SearchService.js`;
 	}
-	
+
 	/**
 	 * default params
 	 * @returns {Object}
@@ -19,16 +19,17 @@ export class SystemVersion extends BaseRequest<any> {
 			// Parameters required by DigiZuite - these should never be changed
 			// when executing the request!
 			method: 'GetSystemVersion',
-			page : 1,
+			page: 1,
 			limit: 25,
-			start : 0
+			start: 0,
 		};
 	}
+
 	/**
 	 * Process response
 	 * @param response
 	 */
-    processResponseData(response: any) {
+	protected processResponseData(response: any) {
 		return response.result;
 	}
 }

@@ -1,7 +1,7 @@
 import {BaseRequest} from '../../common/request';
 
 export class KeepAlive extends BaseRequest<any> {
-	
+
 	/**
 	 * Endpoint URL
 	 * @returns {string}
@@ -9,8 +9,7 @@ export class KeepAlive extends BaseRequest<any> {
 	get endpointUrl() {
 		return `${this.apiUrl}ConnectService.js`;
 	}
-	
-	
+
 	/**
 	 * default params
 	 * @returns {{method: string}}
@@ -22,5 +21,5 @@ export class KeepAlive extends BaseRequest<any> {
 			method: 'IsLoggedIn',
 		};
 	}
-	
+
 }

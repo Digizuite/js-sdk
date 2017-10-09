@@ -2,7 +2,7 @@ import {BaseRequest} from '../../common/request';
 import {CreateAssetFromApiResponse} from '../../model/asset';
 
 export class AssetsBasicInformation extends BaseRequest<any> {
-	
+
 	/**
 	 * Endpoint URL
 	 * @returns {string}
@@ -10,7 +10,7 @@ export class AssetsBasicInformation extends BaseRequest<any> {
 	get endpointUrl() {
 		return `${this.apiUrl}SearchService.js`;
 	}
-	
+
 	/**
 	 *
 	 * @returns {Object}
@@ -22,31 +22,31 @@ export class AssetsBasicInformation extends BaseRequest<any> {
 			SearchName: 'DigiZuite_System_Video_Basic_Information',
 			page: 1,
 			limit: 99999,
-			sItemId_type_multiids : 1,
-			
-			sItemId : null,
+			sItemId_type_multiids: 1,
+
+			sItemId: null,
 		};
 	}
-	
+
 	/**
 	 * Pass-through
 	 * @param {Object} payload
 	 * @returns {Object}
 	 */
-    processRequestData(payload: any) {
+	protected processRequestData(payload: any) {
 
-        payload.sItemId = payload.assets.map((thisAsset: any) => thisAsset.id).join(',');
-		payload.assets= undefined;
-		
+		payload.sItemId = payload.assets.map((thisAsset: any) => thisAsset.id).join(',');
+		payload.assets = undefined;
+
 		return payload;
 	}
-	
+
 	/**
 	 * Process response
 	 * @param response
 	 */
-    processResponseData(response: any) {
-        return response.items.map(CreateAssetFromApiResponse);
+	protected processResponseData(response: any) {
+		return response.items.map(CreateAssetFromApiResponse);
 	}
-	
+
 }

@@ -1,11 +1,11 @@
-import {attachEndpoint, Connector} from '../connector';
 import {Endpoint} from '../common/endpoint';
-import {Login} from '../request/connectService/login';
+import {attachEndpoint, Connector as ConnectorType} from '../connector';
 import {KeepAlive} from '../request/connectService/keepAlive';
+import {Login} from '../request/connectService/login';
 
 export interface IAuthEndpointArgs {
-    apiUrl: string,
-    keepAliveInterval?: number
+	apiUrl: string;
+	keepAliveInterval?: number;
 }
 
 export class Auth extends Endpoint {
@@ -17,7 +17,7 @@ export class Auth extends Endpoint {
 	 * @param {String} args.apiUrl - Full URL to the api end-point.
 	 * @param {Number} [args.keepAliveInterval] - Timeout for making a keep alive request
 	 */
-    constructor(args: IAuthEndpointArgs) {
+	constructor(args: IAuthEndpointArgs) {
 		super(args);
 		this.keepAliveInterval = args.keepAliveInterval || 60000;
 	}
@@ -28,14 +28,14 @@ export class Auth extends Endpoint {
 	 * @param {String} password - password of said user
 	 * @returns {Promise}
 	 */
-    public login({username = '', password = ''}): Promise<any> {
+	public login({username = '', password = ''}): Promise<any> {
 
 		const loginRequest = new Login({
-			apiUrl: this.apiUrl
+			apiUrl: this.apiUrl,
 		});
 
 		return loginRequest.execute({
-			username, password
+			username, password,
 		});
 
 	}
@@ -44,10 +44,10 @@ export class Auth extends Endpoint {
 	 * Ahh, Ahh, Ahh, Ahh, Staying alive, staying alive
 	 * @returns {Promise}
 	 */
-	keepAlive() {
+	public keepAlive() {
 
 		const keepAliveRequest = new KeepAlive({
-			apiUrl: this.apiUrl
+			apiUrl: this.apiUrl,
 		});
 
 		return keepAliveRequest.execute();
@@ -57,16 +57,16 @@ export class Auth extends Endpoint {
 
 // Attach endpoint
 const name = 'auth';
-const getter = function (instance: Connector) {
+const getter = function (instance: ConnectorType) {
 	return new Auth({
-		apiUrl: instance.apiUrl
+		apiUrl: instance.apiUrl,
 	});
 };
 
-attachEndpoint({ name, getter });
+attachEndpoint({name, getter});
 
 declare module '../connector' {
 	interface Connector {
-        auth: Auth
+		auth: Auth;
 	}
 }

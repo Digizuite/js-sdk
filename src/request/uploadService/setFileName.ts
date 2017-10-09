@@ -10,7 +10,7 @@ export class SetFileName extends BaseRequest<any> {
 	get endpointUrl() {
 		return `${this.apiUrl}UploadRest.js`;
 	}
-	
+
 	/**
 	 *
 	 * @returns {Object}
@@ -19,39 +19,39 @@ export class SetFileName extends BaseRequest<any> {
 		return {
 			// Parameters required by DigiZuite - these should never be changed
 			// when executing the request!
-			method  : 'SetFileName',
+			method: 'SetFileName',
 			UploadID: null,
 			fileName: null,
 		};
 	}
-	
+
 	/**
 	 * Pass-through
 	 * @param {Object} payload
 	 * @returns {Object}
 	 */
-    processRequestData(payload: any): any {
-		
+	protected processRequestData(payload: any): any {
+
 		// File name
-		if( payload.ticket instanceof RestoreTicket) {
+		if (payload.ticket instanceof RestoreTicket) {
 			payload.fileName = payload.ticket.version.getSourceLocation();
 		} else {
 			payload.fileName = payload.ticket.file.name;
 		}
-		
+
 		// UploadID
 		payload.UploadID = payload.ticket.uploadId;
-		
+
 		payload.ticket = undefined;
-		
+
 		return payload;
 	}
-	
+
 	/**
 	 * Process response
 	 */
-	processResponseData() {
+	protected processResponseData() {
 		return {};
 	}
-	
+
 }

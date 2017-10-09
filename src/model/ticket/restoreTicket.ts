@@ -1,19 +1,19 @@
 import {IReplaceTicketArgs, ReplaceTicket} from './replaceTicket';
 
 export interface IRestoreTicketArgs extends IReplaceTicketArgs {
-    version: any;
+	version: any;
 }
 
 export class RestoreTicket extends ReplaceTicket {
-    private version: any;
-	
+	private version: any;
+
 	/**
 	 * C-tor
 	 * @param args
 	 */
-    constructor(args: IRestoreTicketArgs) {
+	constructor(args: IRestoreTicketArgs) {
 		super(args);
 		this.version = args.version;
 	}
-	
+
 }

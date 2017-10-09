@@ -23,15 +23,23 @@
     "callable-types": true,
     "encoding": true,
     "class-name": true,
-    "only-arrow-functions": true,
     "no-unnecessary-callback-wrapper": true,
     "object-literal-shorthand": true,
     "ordered-imports": true,
     "prefer-method-signature": true,
     "prefer-switch": true,
     "prefer-template": true,
-    "space-before-function-paren": true,
-    "space-within-parens": 0
+    "space-before-function-paren": false,
+    "space-within-parens": 0,
+    "max-classes-per-file": [
+      false
+    ],
+    "interface-name": false,
+    "only-arrow-functions": false,
+    "object-literal-sort-keys": false,
+    "arrow-parens": [
+      "ban-single-arg-parens"
+    ]
   },
   "rulesDirectory": []
 }

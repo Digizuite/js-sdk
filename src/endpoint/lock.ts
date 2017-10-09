@@ -1,10 +1,10 @@
-import {attachEndpoint, Connector} from '../connector';
 import {Endpoint} from '../common/endpoint';
+import {attachEndpoint, Connector as ConnectorType} from '../connector';
+import {Asset} from "../model/asset";
+import {Lock as LockModel} from "../model/lock";
 import {CheckIn} from '../request/itemControlService/checkIn';
 import {CheckOut} from '../request/itemControlService/checkOut';
 import {getLockInformation} from '../utilities/lockInformation';
-import {Asset} from "../model/asset";
-import {Lock as LockModel} from "../model/lock";
 
 export class Lock extends Endpoint {
 
@@ -15,23 +15,22 @@ export class Lock extends Endpoint {
 	 * @param {String} [args.note] - Note for locking the asset
 	 * @returns {Promise.<>}
 	 */
-    lockAsset(args: { asset: Asset, note?: string }): Promise<void> {
-		
+	public lockAsset(args: { asset: Asset, note?: string }): Promise<void> {
+
 		if (!args.asset) {
 			throw new Error('lockAsset expected an asset as parameter!');
 		}
-		
+
 		const checkOutRequest = new CheckOut({
-			apiUrl : this.apiUrl,
+			apiUrl: this.apiUrl,
 		});
-		
+
 		return checkOutRequest.execute({
 			asset: args.asset,
-			note : args.note,
-        }).then(() => {
-        });
+			note: args.note,
+		}).then(() => undefined);
 	}
-	
+
 	/**
 	 * Unlock an asset
 	 * @param {Object} args
@@ -39,57 +38,54 @@ export class Lock extends Endpoint {
 	 * @param {String} [args.note] - Note for unlocking the asset
 	 * @returns {Promise.<>}
 	 */
-    unlockAsset(args: { asset: Asset, note?: string }): Promise<void> {
-		
+	public unlockAsset(args: { asset: Asset, note?: string }): Promise<void> {
+
 		if (!args.asset) {
 			throw new Error('unlockAsset expected an asset as parameter!');
 		}
-		
+
 		const checkInRequest = new CheckIn({
-			apiUrl : this.apiUrl,
+			apiUrl: this.apiUrl,
 		});
-		
+
 		return checkInRequest.execute({
 			asset: args.asset,
-			note : args.note,
-        }).then(() => {
-        });
+			note: args.note,
+		}).then(() => undefined);
 	}
-	
+
 	/**
 	 * Returns the lock information for a given asset
 	 * @param {Object} args
 	 * @param {Asset} args.asset - Asset for which to get the lock information
 	 * @returns {Promise.<Lock>}
 	 */
-	getLockInformation(args: { asset: Asset }): Promise<LockModel> {
-		
+	public getLockInformation(args: { asset: Asset }): Promise<LockModel> {
+
 		if (!args.asset) {
 			throw new Error('getLockInformation expected an asset as parameter!');
 		}
-		
+
 		return getLockInformation({
-			asset : args.asset,
-			apiUrl : this.apiUrl
+			apiUrl: this.apiUrl,
+			asset: args.asset,
 		});
 	}
-	
+
 }
 
 // Attach endpoint
 const name = 'lock';
-const getter = function (instance: Connector) {
+const getter = function (instance: ConnectorType) {
 	return new Lock({
-		apiUrl          : instance.apiUrl
+		apiUrl: instance.apiUrl,
 	});
 };
 
-attachEndpoint({ name, getter });
-
+attachEndpoint({name, getter});
 
 declare module '../connector' {
-    interface Connector {
-        lock: Lock
-    }
+	interface Connector {
+		lock: Lock;
+	}
 }
-

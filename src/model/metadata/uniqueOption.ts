@@ -1,56 +1,58 @@
 export interface IUniqueOptionArgs {
 
-    version?: string;
-    unique?: string;
+	version?: string;
+	unique?: string;
 }
 
 export interface IUniqueVersionSetValueFromApiArgs {
-    metaValue: string,
-    extraValue: string
+	metaValue: string;
+	extraValue: string;
 }
 
 export class UniqueOption {
-    /**
-     * C-tor
-     * @param args
-     */
-    constructor(args: IUniqueOptionArgs = {}) {
+	/**
+	 * C-tor
+	 * @param args
+	 */
+	constructor(args: IUniqueOptionArgs = {}) {
 
-        this._unique = args.unique;
-        this._version = args.version;
+		this._unique = args.unique;
+		this._version = args.version;
 
-    }
+	}
 
-    private _unique?: string;
+	// tslint:disable-next-line
+	private _unique?: string;
 
-    get unique() {
-        return this._unique;
-    }
+	get unique() {
+		return this._unique;
+	}
 
-    private _version?: string;
+	// tslint:disable-next-line
+	private _version?: string;
 
-    get version() {
-        return this._version;
-    }
+	get version() {
+		return this._version;
+	}
 
-    /**
-     *
-     * @param args
-     * @returns {UniqueOption}
-     */
-    static createFromAPIResponse(args: IUniqueVersionSetValueFromApiArgs) {
-        const item = new UniqueOption();
-        item.setValueFromAPI(args);
-        return item;
-    }
+	/**
+	 *
+	 * @param args
+	 * @returns {UniqueOption}
+	 */
+	public static createFromAPIResponse(args: IUniqueVersionSetValueFromApiArgs) {
+		const item = new UniqueOption();
+		item.setValueFromAPI(args);
+		return item;
+	}
 
-    /**
-     * Set values from API
-     * @param args
-     */
-    setValueFromAPI(args: IUniqueVersionSetValueFromApiArgs) {
-        this._unique = args.metaValue;
-        this._version = args.extraValue;
+	/**
+	 * Set values from API
+	 * @param args
+	 */
+	public setValueFromAPI(args: IUniqueVersionSetValueFromApiArgs) {
+		this._unique = args.metaValue;
+		this._version = args.extraValue;
 
-    }
+	}
 }

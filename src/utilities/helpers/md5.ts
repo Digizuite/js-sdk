@@ -1,7 +1,8 @@
+/* tslint:disable */
+
 /*
 
  * Heavily modified blueimp-md5. Made to be much smaller, as we need less features
-
 
  * JavaScript MD5
  * https://github.com/blueimp/JavaScript-MD5
@@ -26,46 +27,45 @@
  * to work around bugs in some JS interpreters.
  */
 function safeAdd(x: number, y: number) {
-	var lsw = (x & 0xFFFF) + (y & 0xFFFF);
-	var msw = (x >> 16) + (y >> 16) + (lsw >> 16);
-	return (msw << 16) | (lsw & 0xFFFF)
+	const lsw = (x & 0xFFFF) + (y & 0xFFFF);
+	const msw = (x >> 16) + (y >> 16) + (lsw >> 16);
+	return (msw << 16) | (lsw & 0xFFFF);
 }
 
 /*
 * Bitwise rotate a 32-bit number to the left.
 */
 function bitRotateLeft(num: number, cnt: number) {
-	return (num << cnt) | (num >>> (32 - cnt))
+	return (num << cnt) | (num >>> (32 - cnt));
 }
 
 /*
 * These functions implement the four basic operations the algorithm uses.
 */
 function md5cmn(q: number, a: number, b: number, x: number, s: number, t: number) {
-	return safeAdd(bitRotateLeft(safeAdd(safeAdd(a, q), safeAdd(x, t)), s), b)
+	return safeAdd(bitRotateLeft(safeAdd(safeAdd(a, q), safeAdd(x, t)), s), b);
 }
 
-
 function md5ff(a: number, b: number, c: number, d: number, x: number, s: number, t: number) {
-	return md5cmn((b & c) | ((~b) & d), a, b, x, s, t)
+	return md5cmn((b & c) | ((~b) & d), a, b, x, s, t);
 }
 
 function md5gg(a: number, b: number, c: number, d: number, x: number, s: number, t: number) {
-	return md5cmn((b & d) | (c & (~d)), a, b, x, s, t)
+	return md5cmn((b & d) | (c & (~d)), a, b, x, s, t);
 }
 
 function md5hh(a: number, b: number, c: number, d: number, x: number, s: number, t: number) {
-	return md5cmn(b ^ c ^ d, a, b, x, s, t)
+	return md5cmn(b ^ c ^ d, a, b, x, s, t);
 }
 
 function md5ii(a: number, b: number, c: number, d: number, x: number, s: number, t: number) {
-	return md5cmn(c ^ (b | (~d)), a, b, x, s, t)
+	return md5cmn(c ^ (b | (~d)), a, b, x, s, t);
 }
 
 /*
 * Calculate the MD5 of an array of little-endian words, and a bit length.
 */
-function binlMD5(x: Array<number>, len: number) {
+function binlMD5(x: number[], len: number) {
 	/* append padding */
 	x[len >> 5] |= 0x80 << (len % 32);
 	x[(((len + 64) >>> 9) << 4) + 14] = len;
@@ -159,20 +159,20 @@ function binlMD5(x: Array<number>, len: number) {
 		c = c + oldc;
 		d = d + oldd;
 	}
-	return [a, b, c, d]
+	return [a, b, c, d];
 }
 
 /*
 * Convert an array of little-endian words to a string
 */
-function binl2rstr(input: Array<number>) {
+function binl2rstr(input: number[]) {
 	let i;
 	let output = '';
 	const length32 = input.length * 32;
 	for (i = 0; i < length32; i += 8) {
-		output += String.fromCharCode((input[i >> 5] >>> (i % 32)) & 0xFF)
+		output += String.fromCharCode((input[i >> 5] >>> (i % 32)) & 0xFF);
 	}
-	return output
+	return output;
 }
 
 /*
@@ -184,20 +184,20 @@ function rstr2binl(input: string): number[] {
 	const output = [];
 	output[(input.length >> 2) - 1] = 0;
 	for (i = 0; i < output.length; i += 1) {
-		output[i] = 0
+		output[i] = 0;
 	}
 	const length8 = input.length * 8;
 	for (i = 0; i < length8; i += 8) {
-		output[i >> 5]! |= (input.charCodeAt(i / 8) & 0xFF) << (i % 32)
+		output[i >> 5]! |= (input.charCodeAt(i / 8) & 0xFF) << (i % 32);
 	}
-	return output!
+	return output!;
 }
 
 /*
 * Calculate the MD5 of a raw string
 */
 function rstrMD5(s: string) {
-	return binl2rstr(binlMD5(rstr2binl(s), s.length * 8))
+	return binl2rstr(binlMD5(rstr2binl(s), s.length * 8));
 }
 
 /*
@@ -211,29 +211,29 @@ function rstr2hex(input: string) {
 	for (i = 0; i < input.length; i += 1) {
 		x = input.charCodeAt(i);
 		output += hexTab.charAt((x >>> 4) & 0x0F) +
-			hexTab.charAt(x & 0x0F)
+			hexTab.charAt(x & 0x0F);
 	}
-	return output
+	return output;
 }
 
 /*
 * Encode a string as utf-8
 */
 function str2rstrUTF8(input: string) {
-	return decodeURIComponent(encodeURIComponent(input))
+	return decodeURIComponent(encodeURIComponent(input));
 }
 
 /*
 * Take string arguments and return either raw or hex encoded strings
 */
 function rawMD5(s: string) {
-	return rstrMD5(str2rstrUTF8(s))
+	return rstrMD5(str2rstrUTF8(s));
 }
 
 function hexMD5(s: string) {
-	return rstr2hex(rawMD5(s))
+	return rstr2hex(rawMD5(s));
 }
 
 export function md5(s: string) {
-	return hexMD5(s)
+	return hexMD5(s);
 }

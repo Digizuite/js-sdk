@@ -3,11 +3,11 @@
  * @param value
  * @returns []
  */
-export function toArray<K>(value: Array<K> | K): Array<K> {
-	
-	if( Array.isArray(value) ) {
+export function toArray<K>(value: K[] | K): K[] {
+
+	if (Array.isArray(value)) {
 		return value;
 	}
 
-	return (value || <number><any>value === 0) ? [value] : [];
+	return (value || value as any as number === 0) ? [value] : [];
 }

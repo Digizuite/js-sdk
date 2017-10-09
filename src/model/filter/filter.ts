@@ -6,18 +6,18 @@ export abstract class Filter {
 	 * C-tor
 	 * @param args
 	 */
-	constructor(args: {id: string}) {
-		
-		if(!args.id) {
+	constructor(args: { id: string }) {
+
+		if (!args.id) {
 			throw new Error('Expecting Filter to have id as parameter!');
 		}
-		
+
 		this.id = args.id;
 	}
-	
+
 	/**
 	 * Generic method. Shall be overwritten
-     * @returns {*}
+	 * @returns {*}
 	 */
-	protected abstract getAsSearchPayload(): {[key: string]: any};
+	protected abstract getAsSearchPayload(): { [key: string]: any };
 }

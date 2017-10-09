@@ -1,63 +1,70 @@
-import {MetadataItem} from './metadataItem';
 import * as fecha from 'fecha';
+import {MetadataItem} from './metadataItem';
 
 export class DateTimeMetadataItem extends MetadataItem<Date | null> {
 
+	constructor(args: any) {
+		super(args);
+	}
 
-    constructor(args: any) {
-        super(args);
-    }
-	static get VALUE_TYPE() { return 4; }
-	
-	get TYPE() { return DateTimeMetadataItem.TYPE; }
-	get VALUE_TYPE() { return DateTimeMetadataItem.VALUE_TYPE; }
+	static get VALUE_TYPE() {
+		return 4;
+	}
 
-    static get TYPE() {
-        return 64;
-    }
-	
+	static get TYPE() {
+		return 64;
+	}
+
+	get TYPE() {
+		return DateTimeMetadataItem.TYPE;
+	}
+
+	get VALUE_TYPE() {
+		return DateTimeMetadataItem.VALUE_TYPE;
+	}
+
 	/**
 	 * Set the value
 	 * @param value
 	 */
-    setValue(value: Date) {
-		
-		if( !(value instanceof Date) ) {
+	public setValue(value: Date) {
+
+		if (!(value instanceof Date)) {
 			throw new Error('Parameter value needs to be of type Date');
 		}
-		
+
 		super.setValue(value);
 	}
-	
+
 	/**
 	 * Sets value from a string
 	 * @param value
 	 * @param format
 	 */
-	setValueFromString( value = '', format = 'DD-MM-YYYY HH:mm:ss' ) {
-		
-		if( typeof value !== 'string' ) {
+	public setValueFromString(value = '', format = 'DD-MM-YYYY HH:mm:ss') {
+
+		if (typeof value !== 'string') {
 			throw new Error('Parameter value needs to be of type string');
 		}
-		
-		this.setValue( fecha.parse(value, format) );
+
+		this.setValue(fecha.parse(value, format));
 	}
 
-    setValueFromAPI(args: any) {
+	public setValueFromAPI(args: any) {
 		super.setValueFromAPI(args);
-        this.value = this.value ? fecha.parse(<string><any>this.value, 'DD-MM-YYYY HH:mm:ss') : null;
+		this.value = this.value ? fecha.parse(this.value as any as string, 'DD-MM-YYYY HH:mm:ss') : null;
 	}
-	
+
 	/**
-     * Returns the batch value of the item
+	 * Returns the batch value of the item
 	 * @returns {string|null}
 	 */
-    getUpdateValue(): string | null {
+	public getUpdateValue(): string | null {
 		const format = 'YYYY-MM-DDTHH:mm:ss.SSS';
-		return this.value ? fecha.format(this.value, format): null;
+		return this.value ? fecha.format(this.value, format) : null;
 	}
 
-    clearValue(): void {
-        this.value = null;
-    }
+	public clearValue(): void {
+		this.value = null;
+	}
 }

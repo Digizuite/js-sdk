@@ -1,6 +1,8 @@
-import {Connector, getConnectorInstance} from '../src/index';
 // Make sure we can use async await in tests
-require('jasmine-co').install();
+import {install} from 'jasmine-co';
+import {Connector, getConnectorInstance} from '../src/index';
+
+install();
 
 /**
  * Quick method for getting a connector instance when testing
@@ -8,9 +10,9 @@ require('jasmine-co').install();
  * @returns {Promise.<Connector>}
  */
 export async function getInstance() {
-    return await getConnectorInstance({
-        apiUrl: 'https://cc.dev.digizuite.com/dmm3bwsv3/',
-        username: 'admin',
-        password: 'admin'
-    });
+	return await getConnectorInstance({
+		apiUrl: 'https://cc.dev.digizuite.com/dmm3bwsv3/',
+		username: 'admin',
+		password: 'admin',
+	});
 }

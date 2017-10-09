@@ -1,7 +1,7 @@
 import {BaseRequest} from '../../common/request';
 
 export class DownloadQualities extends BaseRequest<any> {
-	
+
 	/**
 	 * Endpoint URL
 	 * @returns {string}
@@ -9,8 +9,7 @@ export class DownloadQualities extends BaseRequest<any> {
 	get endpointUrl() {
 		return `${this.apiUrl}MemberService.js`;
 	}
-	
-	
+
 	/**
 	 * default params
 	 * @returns {{method: string}}
@@ -22,14 +21,14 @@ export class DownloadQualities extends BaseRequest<any> {
 			method: 'GetDownloadQualities',
 		};
 	}
-	
+
 	/**
 	 * Process response
 	 * @param response
 	 */
-    processResponseData(response: any) {
+	protected processResponseData(response: any) {
 		// We are only interested in the items
 		return response.downloadQualities;
 	}
-	
+
 }

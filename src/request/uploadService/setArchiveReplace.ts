@@ -9,7 +9,7 @@ export class SetArchiveReplace extends BaseRequest<any> {
 	get endpointUrl() {
 		return `${this.apiUrl}UploadRest.js`;
 	}
-	
+
 	/**
 	 *
 	 * @returns {Object}
@@ -18,31 +18,31 @@ export class SetArchiveReplace extends BaseRequest<any> {
 		return {
 			// Parameters required by DigiZuite - these should never be changed
 			// when executing the request!
-			method         : 'SetArchiveReplaceMode',
+			method: 'SetArchiveReplaceMode',
 			archivereplaced: 1,
-			UploadID       : null,
+			UploadID: null,
 		};
 	}
-	
+
 	/**
 	 * Pass-through
 	 * @param {Object} payload
 	 * @returns {Object}
 	 */
-    processRequestData(payload: any): any {
-		
+	protected processRequestData(payload: any): any {
+
 		// UploadID
 		payload.UploadID = payload.uploadId;
 		payload.uploadId = undefined;
-		
+
 		return payload;
 	}
-	
+
 	/**
 	 * Process response
 	 */
-	processResponseData() {
+	protected processResponseData() {
 		return {};
 	}
-	
+
 }
