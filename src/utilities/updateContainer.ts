@@ -20,7 +20,12 @@ export interface IUpdateContainerAddItemArgs {
 	valueType?: number;
 	value?: any;
 	fieldId?: string;
-	fieldProperties?: object;
+	fieldProperties?: {
+		labelId?: number;
+		standardGuid?: string;
+	};
+
+	[key: string]: any;
 }
 
 export interface IUpdateContainerJson {
@@ -37,7 +42,7 @@ export class UpdateContainer {
 	public rowId: number;
 	public containerId: any;
 	public type: any;
-	private containerItems: any[];
+	private containerItems: IUpdateContainerAddItemArgs[];
 	private itemIds: number[];
 	private containerFieldName: string;
 
@@ -176,10 +181,10 @@ export class UpdateContainer {
 	 * @returns {string}
 	 * @private
 	 */
-	public _getItemXml(thisItem: any) {
+	public _getItemXml(thisItem: IUpdateContainerAddItemArgs) {
 
 		// create an array with all the attributes the field will have
-		const fieldAttributes = Object.assign(
+		const fieldAttributes: { [key: string]: any } = Object.assign(
 			{
 				fieldId: thisItem.fieldId,
 			},

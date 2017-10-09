@@ -45,8 +45,9 @@ export class LockInformation extends BaseRequest<any> {
 	 * @param response
 	 */
 	protected processResponseData(response: any): any {
-		const lock = new Lock(response);
-		lock.setValueFromAPI(response);
+		const result = response.result;
+		const lock = new Lock(result);
+		lock.setValueFromAPI(result);
 		return lock;
 	}
 

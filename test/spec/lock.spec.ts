@@ -9,17 +9,18 @@ describe('Lock', () => {
 		instance = await getInstance();
 	});
 
-	it('should lock and unlock and asset', async () => {
+	it('should lock and unlock an asset', async () => {
 
 		const {assets} = await instance.content.getAssets({
 			navigation: {limit: 50},
 		});
 
-		const asset = assets[35];
+		const asset = assets[24];
 
 		await instance.lock.lockAsset({asset, note: 'Halloy'});
 		const lockInfo = await instance.lock.getLockInformation({asset});
 
+		console.log(lockInfo);
 		expect(lockInfo.isLocked).toBe(true);
 
 		await instance.lock.unlockAsset({asset, note: 'Halloy'});

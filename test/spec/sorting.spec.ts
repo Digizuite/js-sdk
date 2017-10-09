@@ -46,7 +46,7 @@ describe('Sorting', () => {
 	});
 
 	// Disabled due to DAM Center being retarded. See DAM-2319
-	describe('Sorting by name', () => {
+	xdescribe('Sorting by name', () => {
 		it('should give assets sorted by name accending', async () => {
 			const {assets} = await instance.content.getAssets({
 				sorting: {

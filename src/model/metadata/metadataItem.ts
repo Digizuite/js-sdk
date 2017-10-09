@@ -19,10 +19,18 @@ export interface ISetValueFromApiArgs {
 export abstract class MetadataItem<T> {
 
 	protected value?: T;
-	private guid?: string;
-	private name?: string;
-	private labelId?: number;
-	private required?: boolean;
+	public guid?: string;
+	public name?: string;
+	public labelId?: number;
+	public required?: boolean;
+
+	get TYPE() {
+		return -1;
+	}
+
+	get VALUE_TYPE() {
+		return -1;
+	}
 
 	/**
 	 *

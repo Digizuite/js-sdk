@@ -34,7 +34,7 @@ describe('Edit metadata', () => {
 	let assetsCache: Asset[];
 
 	// Helpers method for getting metadata items for tests
-	async function getMetadataItem(type: any, assetIndex = 0) {
+	async function getMetadataItem<T>(type: any, assetIndex = 0): Promise<T> {
 		if (!itemsCache) {
 			if (!assetsCache) {
 				const {assets} = await instance.content.getAssets();
@@ -49,11 +49,11 @@ describe('Edit metadata', () => {
 				group: groups.filter((group) => group.id === 50029)[0],
 			});
 		}
-		return itemsCache.filter((item: any) => item && item.TYPE === type)[0];
+		return itemsCache.filter((item: any) => item && item.TYPE === type)[0] as any as T;
 	}
 
 	// Helpers function to save a field
-	async function saveMetadataItem(item: any) {
+	async function saveMetadataItem<T extends MetadataItem<any>>(item: T) {
 		return await instance.metadata.updateMetadataItems({
 			assets: [assetsCache[0]],
 			metadataItems: [item],
@@ -79,7 +79,7 @@ describe('Edit metadata', () => {
 	});
 
 	it('should edit bitMetadataItem field', async () => {
-		const field = await getMetadataItem(BitMetadataItem.TYPE);
+		const field = await getMetadataItem<BitMetadataItem>(BitMetadataItem.TYPE);
 
 		field.setValue(true);
 		expect(field.getValue()).toBe(true);
@@ -91,7 +91,7 @@ describe('Edit metadata', () => {
 	});
 
 	it('should edit comboValueMetadataItem field', async () => {
-		const item = await getMetadataItem(ComboValueMetadataItem.TYPE);
+		const item = await getMetadataItem<ComboValueMetadataItem>(ComboValueMetadataItem.TYPE);
 
 		const {options} = await instance.metadata.getMetadataItemOptions({
 			metadataItem: item,
@@ -111,7 +111,7 @@ describe('Edit metadata', () => {
 	});
 
 	it('should edit dataTimeMetadataItem field', async () => {
-		const item = await getMetadataItem(DateTimeMetadataItem.TYPE) as DateTimeMetadataItem;
+		const item = await getMetadataItem<DateTimeMetadataItem>(DateTimeMetadataItem.TYPE);
 
 		const now = new Date();
 		item.setValue(now);
@@ -129,7 +129,7 @@ describe('Edit metadata', () => {
 	});
 
 	it('should edit editComboValueMetadataItem field', async () => {
-		const item = await getMetadataItem(EditComboValueMetadataItem.TYPE);
+		const item = await getMetadataItem<EditComboValueMetadataItem>(EditComboValueMetadataItem.TYPE);
 
 		const value = new ComboOption({
 			value: `combo-value-test-${new Date().getTime()}`,
@@ -141,7 +141,7 @@ describe('Edit metadata', () => {
 	});
 
 	it('should edit editMultiComboValueMetadataItem field', async () => {
-		const item = await getMetadataItem(EditMultiComboValueMetadataItem.TYPE);
+		const item = await getMetadataItem<EditMultiComboValueMetadataItem>(EditMultiComboValueMetadataItem.TYPE);
 
 		const value = new ComboOption({
 			value: `combo-value-test-${new Date().getTime()}`,
@@ -153,7 +153,7 @@ describe('Edit metadata', () => {
 	});
 
 	it('should edit floatMetadataItem field', async () => {
-		const item = await getMetadataItem(FloatMetadataItem.TYPE);
+		const item = await getMetadataItem<FloatMetadataItem>(FloatMetadataItem.TYPE);
 
 		item.setValue(4);
 		expect(item.getValue()).toBe(4);
@@ -165,7 +165,7 @@ describe('Edit metadata', () => {
 	});
 
 	it('should edit intMetadataItem field', async () => {
-		const item = await getMetadataItem(IntMetadataItem.TYPE);
+		const item = await getMetadataItem<IntMetadataItem>(IntMetadataItem.TYPE);
 
 		item.setValue(4);
 		expect(item.getValue()).toBe(4);
@@ -179,7 +179,7 @@ describe('Edit metadata', () => {
 	});
 
 	it('should edit linkMetadataItem field', async () => {
-		const item = await getMetadataItem(LinkMetadataItem.TYPE);
+		const item = await getMetadataItem<LinkMetadataItem>(LinkMetadataItem.TYPE);
 
 		item.setValue('http://zlepper.dk');
 		expect(item.getValue()).toBe('http://zlepper.dk');
@@ -193,7 +193,7 @@ describe('Edit metadata', () => {
 	});
 
 	it('should edit moneyMetadataItem field', async () => {
-		const item = await getMetadataItem(MoneyMetadataItem.TYPE);
+		const item = await getMetadataItem<MoneyMetadataItem>(MoneyMetadataItem.TYPE);
 
 		item.setValue("500 KR");
 		expect(item.getValue()).toBe("500 KR");
@@ -202,7 +202,7 @@ describe('Edit metadata', () => {
 	});
 
 	it('should edit multiComboValueMetadataItem field', async () => {
-		const item = await getMetadataItem(MultiComboValueMetadataItem.TYPE);
+		const item = await getMetadataItem<MultiComboValueMetadataItem>(MultiComboValueMetadataItem.TYPE);
 
 		const {options} = await instance.metadata.getMetadataItemOptions({
 			metadataItem: item,
@@ -213,13 +213,13 @@ describe('Edit metadata', () => {
 		});
 
 		item.setValue([options[0]]);
-		expect(item.getValue()[0]).toBe(options[0]);
+		expect(item.getValue()![0]).toBe(options[0]);
 
 		await saveMetadataItem(item);
 	});
 
 	it('should edit noteMetadataItem', async () => {
-		const item = await getMetadataItem(NoteMetadataItem.TYPE);
+		const item = await getMetadataItem<NoteMetadataItem>(NoteMetadataItem.TYPE);
 
 		item.setValue('Long text test. Maybe. ');
 		expect(item.getValue()).toBe('Long text test. Maybe. ');
@@ -231,7 +231,7 @@ describe('Edit metadata', () => {
 	});
 
 	it('should edit stringMetadataItem', async () => {
-		const item = await getMetadataItem(StringMetadataItem.TYPE);
+		const item = await getMetadataItem<StringMetadataItem>(StringMetadataItem.TYPE);
 
 		item.setValue('string text');
 		expect(item.getValue()).toBe('string text');
@@ -243,7 +243,7 @@ describe('Edit metadata', () => {
 	});
 
 	it('should edit treeMetadataItem field', async () => {
-		const item = await getMetadataItem(TreeMetadataItem.TYPE);
+		const item = await getMetadataItem<TreeMetadataItem>(TreeMetadataItem.TYPE);
 
 		const {options} = await instance.metadata.getMetadataItemOptions({
 			metadataItem: item,
@@ -254,16 +254,16 @@ describe('Edit metadata', () => {
 		});
 
 		item.setValue([options[0]]);
-		expect(item.getValue()[0]).toBe(options[0]);
+		expect(item.getValue()![0]).toBe(options[0]);
 
 		item.setValue([]);
-		expect(item.getValue()[0]).toBeUndefined();
+		expect(item.getValue()![0]).toBeUndefined();
 
 		await saveMetadataItem(item);
 	});
 
 	it('should edit uniqueVersionMetadataItem field', async () => {
-		const item = await getMetadataItem(UniqueVersionMetadataItem.TYPE) as UniqueVersionMetadataItem;
+		const item = await getMetadataItem<UniqueVersionMetadataItem>(UniqueVersionMetadataItem.TYPE);
 
 		const option = new UniqueOption({
 			unique: `${new Date().getTime()}`,
@@ -286,8 +286,8 @@ describe('Edit metadata', () => {
 	});
 
 	it('should edit metadata on multiple assets', async () => {
-		const item1 = await getMetadataItem(StringMetadataItem.TYPE, 0);
-		const item2 = await getMetadataItem(StringMetadataItem.TYPE, 1);
+		const item1 = await getMetadataItem<StringMetadataItem>(StringMetadataItem.TYPE, 0);
+		const item2 = await getMetadataItem<StringMetadataItem>(StringMetadataItem.TYPE, 1);
 
 		item1.setValue('bla');
 		item2.setValue('doo');

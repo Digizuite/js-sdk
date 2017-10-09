@@ -1,6 +1,6 @@
-import {AssetInformation as AssetInformationModel} from "model/information/assetInformation";
 import {BaseRequest} from '../../common/request';
 import {ArrayInformationItem} from '../../model/information/arrayInformationItem';
+import {AssetInformation as AssetInformationModel} from "../../model/information/assetInformation";
 import {BoolInformationItem} from '../../model/information/boolInformationItem';
 import {DateTimeInformationItem} from '../../model/information/dateTimeInformationItem';
 import {InformationItem} from '../../model/information/informationItem';

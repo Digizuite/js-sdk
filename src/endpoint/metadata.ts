@@ -21,7 +21,7 @@ import {MetadataGroups} from '../request/metadataService/metadataGroups';
 import {MetadataItems} from '../request/metadataService/metadataItems';
 import {TreeOptions} from '../request/metadataService/treeOptions';
 import {getLockInformation} from '../utilities/lockInformation';
-import {UpdateContainer} from '../utilities/updateContainer';
+import {IUpdateContainerAddItemArgs, UpdateContainer} from '../utilities/updateContainer';
 
 export interface ILanguage {
 
@@ -162,10 +162,10 @@ export class Metadata extends Endpoint {
 
 		// Create an update batch
 		const updateContainer = new UpdateContainer({
-			itemIds: args.assets.map((thisAsset) => thisAsset.id),
+			itemIds: args.assets.map((thisAsset) => thisAsset.id!),
 			rowId: UpdateContainer.ROW_ID.NonIncremental,
 			type: UpdateContainer.CONTAINER_TYPE.ItemIdsValuesRowid,
-		} as any);
+		});
 
 		// Compose all the metadata items into a batch
 		metadataItems.forEach(
@@ -337,15 +337,12 @@ export class Metadata extends Endpoint {
 	 * Computes a batch value from the metadata item
 	 * @param metadataItem
 	 */
-	public _getUpdateContainerItemFromMetadataItem(metadataItem: any) {
+	public _getUpdateContainerItemFromMetadataItem(metadataItem: MetadataItem<any>) {
 
-		const updateItem = {
+		const updateItem: IUpdateContainerAddItemArgs = {
 			// Update the metafield with the given labelId
 			fieldName: metadataItem instanceof MetadataItem ? 'metafield' : '',
-			fieldProperties: {
-				labelId: 0,
-				standardGuid: '',
-			},
+			fieldProperties: {},
 
 			// Store the value
 			value: metadataItem.getUpdateValue(),
@@ -354,9 +351,9 @@ export class Metadata extends Endpoint {
 
 		// Determine if we should use labelId or GUID
 		if (metadataItem.labelId) {
-			updateItem.fieldProperties.labelId = metadataItem.labelId;
+			updateItem.fieldProperties!.labelId = metadataItem.labelId;
 		} else if (metadataItem.guid) {
-			updateItem.fieldProperties.standardGuid = metadataItem.guid;
+			updateItem.fieldProperties!.standardGuid = metadataItem.guid;
 		}
 
 		return updateItem;

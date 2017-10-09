@@ -27,7 +27,7 @@ export class Lock extends Model {
 	 * @param args
 	 */
 	public setValueFromAPI(args: any) {
-
+		console.log(args);
 		this.isLocked = !!args.isLocked;
 		this.owner = new Member({
 			id: args.lockedByItemId,

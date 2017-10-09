@@ -1,12 +1,15 @@
 import upperFirst from 'lodash-es/upperFirst';
+import {AssetInformation} from 'src/request/searchService/assetInformation';
 import {Endpoint, IEndpointArgs} from '../common/endpoint';
 import {attachEndpoint, Connector as ConnectorType} from '../connector';
 import {Asset} from "../model/asset";
 import {Filter} from "../model/filter/filter";
 import {Folder} from "../model/folder";
+import {InformationItem} from '../model/information/informationItem';
 import {Assets} from '../request/searchService/assets';
 import {Filters} from '../request/searchService/filters';
 import {Folders} from '../request/searchService/folders';
+import {FrameworkSearch} from '../request/searchService/frameworkSearch';
 
 export interface IContentEndpointArgs extends IEndpointArgs {
 	labels?: { [key: string]: string };
@@ -125,9 +128,9 @@ export class Content extends Endpoint {
 	 * @param {String} [args.searchName] - The search for which to obtain the filters
 	 * @returns {Promise}
 	 */
-	public getFilters(args?: { searchName?: string }): Promise<Filter[]> {
+	public getFilters(args: { searchName?: string } = {}): Promise<Filter[]> {
 
-		const searchName = args!.searchName || this.DEFAULT_SEARCH;
+		const searchName = args.searchName || this.DEFAULT_SEARCH;
 
 		if (this.cache.filters.hasOwnProperty(searchName)) {
 			return Promise.resolve(this.cache.filters[searchName]);
@@ -161,19 +164,19 @@ export class Content extends Endpoint {
 	 * @param {string} [args.sorting.direction] - The sorting direction
 	 * @returns {Promise.<{assets, navigation}>}
 	 */
-	public getAssets(args?: IGetAssetArgs): Promise<{ assets: Asset[], navigation: { total: number } }> {
+	public getAssets(args: IGetAssetArgs = {}): Promise<{ assets: Asset[], navigation: { total: number } }> {
 
-		const searchName = args && args.searchName || this.DEFAULT_SEARCH;
+		const searchName = args.searchName || this.DEFAULT_SEARCH;
 
-		const assetsRequest = new Assets({
+		const frameworkSearchRequest = new FrameworkSearch({
 			apiUrl: this.apiUrl,
-			defaultSortType: this.defaultSortType,
 			sLayoutFolderId: this.sLayoutFolderId,
 			// filters        : this.cache.filters[searchName],
 			sortTypes: this.SORT_TYPES,
+			defaultSortType: this._parseSortType(this.defaultSortType),
 		});
 
-		return assetsRequest.execute(args)
+		return frameworkSearchRequest.execute(args)
 			.then(({assets, facetResult, navigation}) => {
 				this.cache.facetResult[searchName] = facetResult;
 				return {assets, navigation};
@@ -202,13 +205,29 @@ export class Content extends Endpoint {
 
 	}
 
+
+	public getAssetsInformation(args: { assets: Asset[] }): Promise<InformationItem[]> {
+
+		if (!Array.isArray(args.assets)) {
+			throw new Error('Expecting an array of assets as parameter');
+		}
+
+		const assetInformationRequest = new AssetInformation({
+			apiUrl: this.apiUrl,
+		});
+
+		return assetInformationRequest.execute({
+			assets: args.assets,
+		});
+	}
+
 	/**
 	 * Get a list of facet results
 	 * @param args
 	 * @param {String} [args.searchName] - The path holding the assets
 	 * @returns {Object}
 	 */
-	public getFacetResult(args: { searchName?: string }) {
+	public getFacetResult(args: { searchName?: string } = {}) {
 		const searchName = args.searchName || this.DEFAULT_SEARCH;
 		return Promise.resolve(this.cache.facetResult[searchName]);
 	}

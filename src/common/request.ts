@@ -11,39 +11,6 @@ export interface IRequestGetErrorCodeArgs {
 }
 
 export class BaseRequest<T> {
-	protected apiUrl: string;
-
-	/**
-	 * C-tor
-	 * @param {Object} args
-	 * @param {String} args.apiUrl - Full URL to the api end-point.
-	 */
-	constructor(args: IBaseRequestArgs) {
-
-		if (typeof args.apiUrl !== 'string' || args.apiUrl.length === 0) {
-			throw new Error('apiUrl is a required parameter');
-		}
-
-		this.apiUrl = args.apiUrl;
-
-	}
-
-	/**
-	 * To be overwritten
-	 * @returns {string}
-	 */
-	get endpointUrl() {
-		return this.apiUrl;
-	}
-
-	/**
-	 * To be overwritten
-	 * @returns {Object}
-	 */
-	get defaultPayload() {
-		return {};
-	}
-
 	/**
 	 * Determines if a request fails based on the received response
 	 * @param response
@@ -87,6 +54,39 @@ export class BaseRequest<T> {
 		}
 
 		return 0;
+	}
+
+	protected apiUrl: string;
+
+	/**
+	 * C-tor
+	 * @param {Object} args
+	 * @param {String} args.apiUrl - Full URL to the api end-point.
+	 */
+	constructor(args: IBaseRequestArgs) {
+
+		if (typeof args.apiUrl !== 'string' || args.apiUrl.length === 0) {
+			throw new Error('apiUrl is a required parameter');
+		}
+
+		this.apiUrl = args.apiUrl;
+
+	}
+
+	/**
+	 * To be overwritten
+	 * @returns {string}
+	 */
+	get endpointUrl() {
+		return this.apiUrl;
+	}
+
+	/**
+	 * To be overwritten
+	 * @returns {Object}
+	 */
+	get defaultPayload() {
+		return {};
 	}
 
 	/**
