@@ -3,6 +3,8 @@ import {Filter} from "../../model/filter/filter";
 import {StringFilter} from "../../model/filter/stringFilter";
 import {LogWarn} from '../../utilities/logger';
 import {AssetTypeFilter} from "../../model/filter/assetTypeFilter";
+import {DateBetweenFilter} from "../../model/filter/dateBetweenFilter";
+import {BoolFilter} from "../../model/filter/boolFilter";
 
 export class Filters extends BaseRequest<any> {
 
@@ -65,6 +67,14 @@ export class Filters extends BaseRequest<any> {
 
             case AssetTypeFilter.TYPE:
                 result = new AssetTypeFilter({});
+                break;
+
+            case DateBetweenFilter.TYPE:
+                result = new DateBetweenFilter({});
+                break;
+
+            case BoolFilter.TYPE:
+                result = new BoolFilter({});
                 break;
 
             default:

@@ -1,5 +1,5 @@
 import {Connector} from "../../src/connector";
-import {/*AssetCreatedFilter,*/ AssetFreeTextFilter, AssetTypeFilter, Constants} from '../../src/index';
+import {AssetCreatedFilter, AssetFreeTextFilter, AssetTypeFilter, Constants} from '../../src/index';
 import {getInstance} from '../test-helpers';
 
 describe('Filtering', () => {
@@ -39,10 +39,13 @@ describe('Filtering', () => {
 
 	it('should filter for creation date', async () => {
 
-		const assetCreatedFilter = new AssetCreatedFilter({
-			from: 1494720000,
-			to: Math.floor(Date.now() / 1000),
-		});
+        const assetCreatedFilter = new AssetCreatedFilter({
+            value: {
+                from: 1494720000,
+                to:
+                    Math.floor(Date.now() / 1000),
+            }
+        });
 		const {assets} = await instance.content.getAssets({
 			filters: [assetCreatedFilter],
 		});

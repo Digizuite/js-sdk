@@ -18,3 +18,13 @@ export function parseDotNetDate(str: string) {
 
 	return (date instanceof Date && isFinite(date as any as number)) ? date : false;
 }
+
+
+/**
+ * Checks if the passed parameter is a valid date instance
+ * @param d
+ * @returns {boolean}
+ */
+export function isValidDate(d: any) : boolean {
+	return ((d instanceof Date) && isFinite(d.getTime()));
+}

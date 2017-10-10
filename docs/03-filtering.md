@@ -38,8 +38,10 @@ Filter for an asset created in a given time interval
 import {AssetCreatedFilter} from 'digizuite';
 
 const assetCreatedFilter = new AssetCreatedFilter({
-    from : 1494720000,
-    to : 1495459813
+    value : {
+    	from : 1494720000,
+        to : 1495459813
+    },
 });
 instance.content.getAssets({
     filters : [ assetCreatedFilter ]
@@ -48,10 +50,8 @@ instance.content.getAssets({
 });
 ```
 
-In case ```from``` parameter is not provided, it will default to 0.
-
-In case ```to``` parameter is not provided, it will default to current unix timestamp.
-
+The ```from``` and ```to``` proprieties of the values object can be either 
+a unix epoch number or an instance of Date.
 
 ## Advanced Filtering(incomplete)
 
