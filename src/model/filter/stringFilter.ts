@@ -1,30 +1,22 @@
-import {Filter} from './filter';
+import {IFilterArgs, Filter} from './filter';
 
-export class StringFilter extends Filter {
+export class StringFilter extends Filter<string> {
 
-	private value: string;
+    static get TYPE() {
+        return 'string';
+    }
+
+    get TYPE() {
+        return StringFilter.TYPE;
+    }
 
 	/**
 	 * C-tor
 	 * @param args
 	 */
-	constructor(args: { id: string, value: string }) {
+	constructor(args: IFilterArgs) {
 		super(args);
-
-		if (!args.value) {
-			throw new Error('Expected StringFilter to have a value parameter!');
-		}
-
-		this.value = args.value;
-	}
-
-	/**
-	 * Export for search payload
-	 */
-	public getAsSearchPayload(): { [key: string]: any } {
-		return {
-			[this.id]: this.value,
-		};
+		this.value = this.value || '';
 	}
 
 }

@@ -22,7 +22,7 @@ export interface IContentEndpointArgs extends IEndpointArgs {
 
 export interface IContentCache {
 	total: { [key: string]: any };
-	filters: { [key: string]: Filter[] };
+	filters: { [key: string]: Filter<any>[] };
 	facetResult: { [key: string]: any };
 }
 
@@ -37,7 +37,7 @@ export interface IGetAssetArgs {
 	sorting?: { by: string, direction: string };
 	searchName?: string;
 	navigation?: { page?: number, limit: number };
-	filters?: Filter[];
+	filters?: Filter<any>[];
 }
 
 export class Content extends Endpoint {
@@ -128,7 +128,7 @@ export class Content extends Endpoint {
 	 * @param {String} [args.searchName] - The search for which to obtain the filters
 	 * @returns {Promise}
 	 */
-	public getFilters(args: { searchName?: string } = {}): Promise<Filter[]> {
+	public getFilters(args: { searchName?: string } = {}): Promise<Filter<any>[]> {
 
 		const searchName = args.searchName || this.DEFAULT_SEARCH;
 
@@ -136,22 +136,23 @@ export class Content extends Endpoint {
 			return Promise.resolve(this.cache.filters[searchName]);
 		}
 
-		return this.labelsPromise
-			.then(() => {
+        const filtersRequest = new Filters({
+            apiUrl: this.apiUrl
+        });
 
-				const filtersRequest = new Filters({
-					apiUrl: this.apiUrl,
-					labels: this.labels,
-				});
+        return Promise.all([
+        	filtersRequest.execute({ searchName }),
+			this.labelsPromise
+		]).then(([filters]) => {
 
-				return filtersRequest.execute({
-					searchName,
-				});
-
-			}).then((response) => {
-				this.cache.filters[searchName] = response;
-				return response;
+        	// Apply labels to filters
+			filters.forEach((thisFilter : Filter<any>)=>{
+                thisFilter.label = this.labels[thisFilter.parameterName];
 			});
+
+            this.cache.filters[searchName] = filters;
+            return filters;
+		});
 
 	}
 

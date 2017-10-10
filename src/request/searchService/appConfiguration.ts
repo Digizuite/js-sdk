@@ -50,10 +50,20 @@ export class AppConfiguration extends BaseRequest<any> {
 			return thisLanguage;
 		});
 
-		config.HighResMediaFormatIds = config.HighResMediaFormatIds.map((thisId: any) => parseInt(thisId, 10));
-		config.LowResMediaFormatIds = config.LowResMediaFormatIds.map((thisId: any) => parseInt(thisId, 10));
+		if( !Array.isArray(config.HighResMediaFormatIds) ) {
+            config.HighResMediaFormatIds = [];
+		}
 
-		// We are only interested in the user data
+		config.HighResMediaFormatIds = config.HighResMediaFormatIds.map((thisId: any) => parseInt(thisId, 10));
+
+        if( !Array.isArray(config.LowResMediaFormatIds) ) {
+            config.LowResMediaFormatIds = [];
+        }
+
+        config.LowResMediaFormatIds = config.LowResMediaFormatIds.map((thisId: any) => parseInt(thisId, 10));
+
+
+        // We are only interested in the user data
 		return config;
 	}
 

@@ -1,11 +1,10 @@
 import {BaseRequest, IBaseRequestArgs} from '../../common/request';
-
-export interface IFiltersRequestArgs extends IBaseRequestArgs {
-	labels: any;
-}
+import {Filter} from "../../model/filter/filter";
+import {StringFilter} from "../../model/filter/stringFilter";
+import {LogWarn} from '../../utilities/logger';
+import {AssetTypeFilter} from "../../model/filter/assetTypeFilter";
 
 export class Filters extends BaseRequest<any> {
-	private labels: any;
 
 	/**
 	 * C-tor
@@ -13,10 +12,8 @@ export class Filters extends BaseRequest<any> {
 	 * @param {String} args.apiUrl - Full URL to the api end-point.
 	 * @param {Object} args.labels - An object of labels
 	 */
-	constructor(args: IFiltersRequestArgs) {
+	constructor(args: IBaseRequestArgs) {
 		super(args);
-
-		this.labels = args.labels;
 	}
 
 	/**
@@ -45,22 +42,39 @@ export class Filters extends BaseRequest<any> {
 	 * @param response
 	 */
 	protected processResponseData(response: any) {
-		// We are only interested in the items
-		return response.searchFields.map(this._processFilterResult.bind(this));
+        return response.searchFields
+            .map(this._createFilter)
+            .filter((thisFilter: any) => thisFilter);
 	}
 
-	/**
-	 * Nice-ify the result
-	 * @param thisFilter
-	 * @returns {{id: string, name: string, type: string}}
-	 * @private
-	 */
-	protected _processFilterResult(thisFilter: any) {
-		return {
-			id: thisFilter.parameterName,
-			name: this.labels[thisFilter.parameterName],
-			type: thisFilter.renderType,
-		};
-	}
+    /**
+	 * Create a filter
+     * @param thisFilter
+     * @returns {Filter<any>}
+     * @private
+     */
+	protected _createFilter(thisFilter: any) : Filter<any> | null {
 
+		let result : Filter<any>;
+
+        switch (thisFilter.renderType) {
+
+			case StringFilter.TYPE:
+				result = new StringFilter({});
+				break;
+
+            case AssetTypeFilter.TYPE:
+                result = new AssetTypeFilter({});
+                break;
+
+            default:
+                // Lol
+                LogWarn('Unknown filter type', thisFilter);
+                return null;
+        }
+
+        result.setValueFromAPI(thisFilter);
+
+        return result;
+	}
 }

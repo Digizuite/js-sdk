@@ -26,7 +26,7 @@ export {
 // filters
 export {AssetTypeFilter} from './model/filter/assetTypeFilter';
 export {AssetFreeTextFilter} from './model/filter/assetFreeTextFilter';
-export {AssetCreatedFilter} from './model/filter/assetCreatedFilter';
+// export {AssetCreatedFilter} from './model/filter/assetCreatedFilter';
 
 // metadata groups
 export {MetadataGroup} from './model/metadata/metadataGroup';

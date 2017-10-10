@@ -1,31 +1,41 @@
-import {Filter} from './filter';
+import {IFilterArgs, IFilterSearchPayload, Filter} from './filter';
 
-export class ArrayFilter extends Filter {
+export class ArrayFilter extends Filter< Array<string|number> > {
 
-	private values: any[];
+    /**
+     * C-tor
+     * @param args
+     */
+    constructor(args: IFilterArgs) {
+        super(args);
+        this.value = this.value || [];
+    }
 
-	/**
-	 * C-tor
-	 * @param args
-	 */
-	constructor(args: { values: any[], id: string }) {
-		super(args);
+    /**
+     * Push a new values
+     * @param {string | number} value
+     */
+    public appendValue( value : string|number ) {
+        this.value.push( String(value) );
+    }
 
-		if (!args.values) {
-			throw new Error('Expected StringFilter to have a values parameter!');
-		}
+    /**
+     * Returns the search payload
+     * @returns {IFilterSearchPayload}
+     */
+    public getAsSearchPayload(): IFilterSearchPayload {
+        return {
+            ...super.getAsSearchPayload(),
+            [`${this.parameterName}_type_multiids`] : '1'
+        };
+    }
 
-		this.values = args.values;
-	}
-
-	/**
-	 * Export for search payload
-	 */
-	public getAsSearchPayload(): { [key: string]: any } {
-		return {
-			[this.id]: this.values.join(','),
-			[`${this.id}_type_multiids`]: 1,
-		};
-	}
+    /**
+     * Get the value for the filter
+     * @returns {string}
+     */
+    protected getValueForPayload(): string {
+        return this.value.map(String).join(',');
+    };
 
 }

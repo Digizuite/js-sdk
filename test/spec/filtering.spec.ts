@@ -1,5 +1,5 @@
 import {Connector} from "../../src/connector";
-import {AssetCreatedFilter, AssetFreeTextFilter, AssetTypeFilter, Constants} from '../../src/index';
+import {/*AssetCreatedFilter,*/ AssetFreeTextFilter, AssetTypeFilter, Constants} from '../../src/index';
 import {getInstance} from '../test-helpers';
 
 describe('Filtering', () => {
@@ -15,7 +15,7 @@ describe('Filtering', () => {
 	it('Should filter for asset text', async () => {
 
 		const assetFreeTextFilter = new AssetFreeTextFilter({
-			text: 'moon',
+			value : 'moon',
 		});
 		const {assets} = await instance.content.getAssets({
 			filters: [assetFreeTextFilter],
@@ -27,7 +27,7 @@ describe('Filtering', () => {
 	it('should filter for asset type', async () => {
 
 		const assetTypeFilter = new AssetTypeFilter({
-			types: [Constants.ASSET_TYPE.IMAGE],
+			value : [Constants.ASSET_TYPE.IMAGE],
 		});
 		const {assets} = await instance.content.getAssets({
 			filters: [assetTypeFilter],

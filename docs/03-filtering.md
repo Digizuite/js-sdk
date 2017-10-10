@@ -8,7 +8,7 @@ Filter for an asset with a given name, description or keywords:
 import {AssetFreeTextFilter} from 'digizuite';
 
 const assetFreeTextFilter = new AssetFreeTextFilter({
-    text : 'takeoff'
+    value : 'takeoff'
 });
 instance.content.getAssets({
     filters : [ assetFreeTextFilter ]
@@ -23,7 +23,7 @@ Filter for an asset of an given type:
 import {AssetTypeFilter} from 'digizuite';
 
 const assetTypeFilter = new AssetTypeFilter({
-   types : [ Digizuite.Constants.ASSET_TYPE.IMAGE ]
+   value : [ Digizuite.Constants.ASSET_TYPE.IMAGE ]
 });
 instance.content.getAssets({
     filters : [ assetTypeFilter ]
