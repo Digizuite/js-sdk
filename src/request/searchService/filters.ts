@@ -5,6 +5,9 @@ import {LogWarn} from '../../utilities/logger';
 import {AssetTypeFilter} from "../../model/filter/assetTypeFilter";
 import {DateBetweenFilter} from "../../model/filter/dateBetweenFilter";
 import {BoolFilter} from "../../model/filter/boolFilter";
+import {TreeFilter} from "../../model/filter/treeFilter";
+import {ComboFilter} from "../../model/filter/comboFilter";
+import {MultiComboFilter} from "../../model/filter/multiComboFilter";
 
 export class Filters extends BaseRequest<any> {
 
@@ -75,6 +78,18 @@ export class Filters extends BaseRequest<any> {
 
             case BoolFilter.TYPE:
                 result = new BoolFilter({});
+                break;
+
+            case TreeFilter.TYPE:
+                result = new TreeFilter({});
+                break;
+
+            case ComboFilter.TYPE:
+                result = new ComboFilter({});
+                break;
+
+            case MultiComboFilter.TYPE:
+                result = new MultiComboFilter({});
                 break;
 
             default:

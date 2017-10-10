@@ -10,6 +10,8 @@ import {Assets} from '../request/searchService/assets';
 import {Filters} from '../request/searchService/filters';
 import {Folders} from '../request/searchService/folders';
 import {FrameworkSearch} from '../request/searchService/frameworkSearch';
+import {TreeFilter} from "../model/filter/treeFilter";
+import {TreeOptions} from "../request/metadataService/treeOptions";
 
 export interface IContentEndpointArgs extends IEndpointArgs {
 	labels?: { [key: string]: string };
@@ -38,6 +40,12 @@ export interface IGetAssetArgs {
 	searchName?: string;
 	navigation?: { page?: number, limit: number };
 	filters?: Filter<any>[];
+}
+
+export interface IFilterGetFilterOptions {
+    filter: Filter<any>;
+    path?: string;
+    navigation?: { page: number, limit: number };
 }
 
 export class Content extends Endpoint {
@@ -154,6 +162,43 @@ export class Content extends Endpoint {
             return filters;
 		});
 
+	}
+
+	getFilterOptions(args: IFilterGetFilterOptions) {
+
+        if (args.filter instanceof TreeFilter) {
+
+            return this.getTreeOptions(args as any);
+
+        }
+
+        // else if (
+        //     (args.metadataItem instanceof ComboValueMetadataItem) ||
+        //     (args.metadataItem instanceof EditComboValueMetadataItem) ||
+        //     (args.metadataItem instanceof MultiComboValueMetadataItem) ||
+        //     (args.metadataItem instanceof EditMultiComboValueMetadataItem)
+        // ) {
+        //
+        //     return this.getComboOptions(args);
+        //
+        // } else {
+        //     throw new Error('getMetadataItemOptions required a metadata item of type tree or combo value');
+        // }
+	}
+
+    getTreeOptions(args: { metadataItem: TreeFilter, path: string }) {
+        if (!args.metadataItem) {
+            throw new Error('updateMetadataItem expected an metadataItems as parameter!');
+        }
+
+        const treeOptionsRequest = new TreeOptions({
+            apiUrl: this.apiUrl,
+        });
+
+        return treeOptionsRequest.execute({
+            metadataItem: args.metadataItem,
+            path: args.path,
+        });
 	}
 
 	/**
