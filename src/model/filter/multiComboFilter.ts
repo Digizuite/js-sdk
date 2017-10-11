@@ -37,7 +37,7 @@ export class MultiComboFilter extends ArrayFilter<ComboOption> {
      * @returns {string}
      */
     protected getValueForPayload(): Array<string> {
-        return this.value.map( thisOption => thisOption.value );
+        return this.value.map( thisOption => thisOption.value as string );
     };
 
 }

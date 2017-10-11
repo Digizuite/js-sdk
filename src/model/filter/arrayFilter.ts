@@ -1,6 +1,6 @@
 import {IFilterArgs, IFilterSearchPayload, Filter} from './filter';
 
-export class ArrayFilter<T> extends Filter<Array<any>> {
+export class ArrayFilter<T> extends Filter<Array<T>> {
 
     /**
      * C-tor
