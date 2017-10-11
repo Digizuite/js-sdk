@@ -6,7 +6,7 @@ export interface IFilterArgs {
 }
 
 export interface IFilterSearchPayload {
-	[key : string] : string
+	[key : string] : string|Array<string>
 }
 
 export abstract class Filter<T> {
@@ -68,7 +68,7 @@ export abstract class Filter<T> {
 	 * Get the value for the filter
      * @returns {string}
      */
-	protected getValueForPayload(): string {
+	protected getValueForPayload(): string|Array<string> {
 		return String(this.value);
 	};
 }

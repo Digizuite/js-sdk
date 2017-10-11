@@ -42,7 +42,7 @@ export class ArrayFilter<T> extends Filter<Array<any>> {
      * Get the value for the filter
      * @returns {string}
      */
-    protected getValueForPayload(): string {
+    protected getValueForPayload(): string|Array<string> {
         return this.value.map(String).join(',');
     };
 

@@ -14,6 +14,7 @@ import {TreeFilter} from "../model/filter/treeFilter";
 import {TreeOptions} from "../request/metadataService/treeOptions";
 import {MultiComboFilter} from "../model/filter/multiComboFilter";
 import {ComboOptions} from "../request/metadataService/comboOptions";
+import {ComboFilter} from '../model/filter/comboFilter';
 
 export interface IContentEndpointArgs extends IEndpointArgs {
 	labels?: { [key: string]: string };
@@ -173,6 +174,7 @@ export class Content extends Endpoint {
             return this.getTreeOptions(args as any);
 
         } else if (
+            (args.filter instanceof ComboFilter) ||
             (args.filter instanceof MultiComboFilter)
 		) {
 
