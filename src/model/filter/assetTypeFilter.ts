@@ -1,7 +1,7 @@
-import {ArrayFilter} from './arrayFilter';
+import {StringArrayFilter} from './stringArrayFilter';
 import {IFilterArgs} from './filter';
 
-export class AssetTypeFilter extends ArrayFilter {
+export class AssetTypeFilter extends StringArrayFilter {
 
     static get TYPE() {
         return 'assettype';

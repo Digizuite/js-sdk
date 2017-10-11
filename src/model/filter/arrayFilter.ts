@@ -12,11 +12,19 @@ export class ArrayFilter<T> extends Filter<Array<any>> {
     }
 
     /**
-     * Push a value
-     * @param {T} value
+     * Append options
+     * @param {Array<T>} options
      */
-    public appendValue( value : T ) {
-        this.value.push(value);
+    public appendOptions( options : Array<T> ) {
+        this.setValue(this.value!.concat(options));
+    }
+
+    /**
+     * Push a value
+     * @param {T} option
+     */
+    public appendOption( option : T ) {
+        this.appendOptions([option]);
     }
 
     /**

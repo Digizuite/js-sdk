@@ -186,9 +186,9 @@ export class Content extends Endpoint {
         // }
 	}
 
-    getTreeOptions(args: { metadataItem: TreeFilter, path: string }) {
-        if (!args.metadataItem) {
-            throw new Error('updateMetadataItem expected an metadataItems as parameter!');
+    getTreeOptions(args: { filter: TreeFilter, path: string }) {
+        if (!args.filter) {
+            throw new Error('getTreeOptions expected an filter as parameter!');
         }
 
         const treeOptionsRequest = new TreeOptions({
@@ -196,7 +196,7 @@ export class Content extends Endpoint {
         });
 
         return treeOptionsRequest.execute({
-            metadataItem: args.metadataItem,
+            filter: args.filter,
             path: args.path,
         });
 	}

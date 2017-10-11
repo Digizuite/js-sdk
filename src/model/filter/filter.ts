@@ -1,4 +1,5 @@
 export interface IFilterArgs {
+    id?: number;
     label?: string;
     parameterName?: string;
     value?: any;
@@ -10,6 +11,7 @@ export interface IFilterSearchPayload {
 
 export abstract class Filter<T> {
 
+    public id: number;
     public label: string;
     public parameterName: string;
 	protected value: T;
@@ -20,9 +22,10 @@ export abstract class Filter<T> {
      */
 	constructor(args: IFilterArgs) {
 
-		this.parameterName = args.parameterName || '';
-		this.label = args.label || '';
-		this.value = args.value;
+        this.id = args.id || 0;
+        this.parameterName = args.parameterName || '';
+        this.label = args.label || '';
+        this.value = args.value;
 	}
 
     /**
@@ -47,6 +50,7 @@ export abstract class Filter<T> {
      * @param args
      */
 	public setValueFromAPI(args: any) {
+        this.id = parseInt(args.itemId, 10);
         this.parameterName = args.parameterName;
 	}
 

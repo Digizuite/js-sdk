@@ -35,8 +35,17 @@ export class TreeOptions extends BaseRequest<any> {
 	 */
 	protected processRequestData(payload: any) {
 
-		payload.sfMetafieldLabelId = payload.metadataItem.labelId;
-		payload.metadataItem = undefined;
+		// For metadata
+		if( payload.hasOwnProperty('metadataItem') ) {
+            payload.sfMetafieldLabelId = payload.metadataItem.labelId;
+            payload.metadataItem = undefined;
+        }
+
+		// For filters
+        if( payload.hasOwnProperty('filter') ) {
+            payload.sfItemId = payload.filter.id;
+            payload.filter = undefined;
+        }
 
 		// Navigation data
 		if (payload.hasOwnProperty('navigation')) {

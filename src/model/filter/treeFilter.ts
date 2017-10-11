@@ -1,7 +1,8 @@
-import {IFilterArgs, Filter} from './filter';
+import {IFilterArgs} from './filter';
+import {ArrayFilter} from "./arrayFilter";
 import {TreeOption} from "../metadata/treeOption";
 
-export class TreeFilter extends Filter<TreeOption> {
+export class TreeFilter extends ArrayFilter<TreeOption> {
 
     static get TYPE() {
         return 'tree';
@@ -24,7 +25,7 @@ export class TreeFilter extends Filter<TreeOption> {
      * @returns {string}
      */
     protected getValueForPayload(): string {
-        return this.value ? '1' : '0';
+        return this.value.map( thisOption => thisOption.id ).join(',');
     };
 
 }

@@ -53,7 +53,7 @@ instance.content.getAssets({
 The ```from``` and ```to``` proprieties of the values object can be either 
 a unix epoch number or an instance of Date.
 
-## Advanced Filtering(incomplete)
+## Advanced Filtering
 
 ### Obtain all available filters
 Obtain a list of filters: 
@@ -63,11 +63,30 @@ instance.content.getFilters().then((filters)=>{
 });
 ```
 
-All the filter type can be found in the constants class.
+### TreeFilter
+
+Obtain a list of possible options for a TreeFilter and add them to the filter: 
 ```js
-import {Constants} from 'digizuite';
-console.log( Constants.FILTER_TYPE );
-``` 
+instance.content.getFilterOptions({
+    filter,
+    path : '/'
+}).then((response)=>{
+
+    console.log("Got filter options!", response.options);
+
+    filter.appendOptions( [ response.options[0], response.options[1] ] );
+
+    instance.content.getAssets({
+        filters : [ filter ]
+    }).then(({assets})=>{
+        console.log("Got assets filtered!", assets);
+    });
+
+});
+```
+The ```path``` parameter is option. If omitted, it will default to ```/```.
+
+
 
 ## Faceted Filtering(incomplete)
 // TODO
