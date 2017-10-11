@@ -63,8 +63,84 @@ instance.content.getFilters().then((filters)=>{
 });
 ```
 
-### TreeFilter
+Below are examples of how to interact with each filter type.
 
+### BoolFilter
+
+Setting the value of a BoolFilter 
+
+```js
+filter.setValue(true);
+````
+
+### StringFilter
+
+Setting the value of a StringFilter 
+
+```js
+filter.setValue('hello world');
+````
+
+### DateBetweenFilter
+
+Setting the value of a DateBetweenFilter 
+
+```js
+filter.setValue({
+    from : 1494720000,
+    to : 1495459813
+});
+````
+
+The ```from``` and ```to``` proprieties of the values object can be either 
+a unix epoch number or an instance of Date.
+
+### ComboFilter
+
+Obtain a list of possible options for a ComboFilter and add them to the filter: 
+
+```js
+instance.content.getFilterOptions({
+    filter,
+    navigation : {
+    	page : 1,
+    	limit : 24
+    }
+}).then((response)=>{
+	
+    console.log("Got filter options!", response.options);
+    
+    filter.setValue(response.options[0]);
+    
+});
+```
+
+The ```navigation``` parameter is optional.
+
+### MultiComboFilter
+
+Obtain a list of possible options for a MultiComboFilter and add them to the filter: 
+
+```js
+instance.content.getFilterOptions({
+    filter,
+    navigation : {
+    	page : 1,
+    	limit : 24
+    }
+}).then((response)=>{
+	
+    console.log("Got filter options!", response.options);
+    
+    filter.appendOptions([ response.options[0], response.options[1] ]);
+    
+});
+```
+
+The ```navigation``` parameter is optional.
+
+
+### TreeFilter
 Obtain a list of possible options for a TreeFilter and add them to the filter: 
 ```js
 instance.content.getFilterOptions({
@@ -75,17 +151,36 @@ instance.content.getFilterOptions({
     console.log("Got filter options!", response.options);
 
     filter.appendOptions( [ response.options[0], response.options[1] ] );
-
-    instance.content.getAssets({
-        filters : [ filter ]
-    }).then(({assets})=>{
-        console.log("Got assets filtered!", assets);
-    });
-
+    
 });
 ```
 The ```path``` parameter is option. If omitted, it will default to ```/```.
 
+To get the child values of an option, set the value of the ```path``` parameter to the path of the parent option.
+
+```js
+instance.content.getFilterOptions({
+    filter,
+}).then((response)=>{
+	
+    console.log("Got filter options!", response.options);
+	
+	const parentOption = response.options[1];
+	
+	instance.content.getFilterOptions({
+        filter,
+        path : parentOption.path
+    }).then((response)=>{
+        console.log("Got child filter options!", response.options);
+    });
+	
+});
+
+```
+
+### AssetTypeFilter
+
+See ```Basic Filtering``` section. 
 
 
 ## Faceted Filtering(incomplete)
