@@ -33,7 +33,7 @@ export class ComboOptions extends BaseRequest<any> {
 	 */
 	protected processRequestData(payload: any) {
 
-		if( payload.sfMetafieldLabelId ) {
+		if( payload.metadataItem ) {
             payload.sfMetafieldLabelId = payload.metadataItem.labelId;
             payload.metadataItem = undefined;
         }
