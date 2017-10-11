@@ -1,6 +1,6 @@
 import {IFilterArgs, IFilterSearchPayload, Filter} from './filter';
 
-export class ArrayFilter<T> extends Filter<Array<T>> {
+export abstract class ArrayFilter<T> extends Filter<Array<T>> {
 
     /**
      * C-tor
@@ -34,16 +34,14 @@ export class ArrayFilter<T> extends Filter<Array<T>> {
     public getAsSearchPayload(): IFilterSearchPayload {
         return {
             ...super.getAsSearchPayload(),
-            [`${this.parameterName}_type_multiids`] : '1'
+            ...this.getMultiTypeForPayload()
         };
     }
 
     /**
-     * Get the value for the filter
-     * @returns {string}
+     * Returns multitype
+     * @returns {{[p: string]: string}}
      */
-    protected getValueForPayload(): string|Array<string> {
-        return this.value.map(String).join(',');
-    };
+    protected abstract getMultiTypeForPayload() : { [key : string] : string };
 
 }

@@ -1,8 +1,8 @@
 import {IFilterArgs} from './filter';
-import {ArrayFilter} from "./arrayFilter";
 import {TreeOption} from "../metadata/treeOption";
+import {IDArrayFilter} from "./idArrayFilter";
 
-export class TreeFilter extends ArrayFilter<TreeOption> {
+export class TreeFilter extends IDArrayFilter<TreeOption> {
 
     static get TYPE() {
         return 'tree';

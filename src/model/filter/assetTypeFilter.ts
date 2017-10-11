@@ -1,7 +1,7 @@
-import {StringArrayFilter} from './stringArrayFilter';
 import {IFilterArgs} from './filter';
+import {IDArrayFilter} from "./idArrayFilter";
 
-export class AssetTypeFilter extends StringArrayFilter {
+export class AssetTypeFilter extends IDArrayFilter<number> {
 
     static get TYPE() {
         return 'assettype';

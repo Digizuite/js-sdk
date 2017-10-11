@@ -1,8 +1,8 @@
-import {IFilterArgs, IFilterSearchPayload} from './filter';
+import {IFilterArgs} from './filter';
 import {ComboOption} from "../metadata/comboOption";
-import {ArrayFilter} from "./arrayFilter";
+import {StringArrayFilter} from "./stringArrayFilter";
 
-export class MultiComboFilter extends ArrayFilter<ComboOption> {
+export class MultiComboFilter extends StringArrayFilter<ComboOption> {
 
     static get TYPE() {
         return 'multicombo';
@@ -19,17 +19,6 @@ export class MultiComboFilter extends ArrayFilter<ComboOption> {
     constructor(args: IFilterArgs) {
         super(args);
         this.value = this.value || [];
-    }
-
-    /**
-     * Returns the search payload
-     * @returns {IFilterSearchPayload}
-     */
-    public getAsSearchPayload(): IFilterSearchPayload {
-        return {
-            [this.parameterName] : this.getValueForPayload(),
-            [`${this.parameterName}_type_multistrings`] : '1'
-        };
     }
 
     /**

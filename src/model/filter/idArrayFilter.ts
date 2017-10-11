@@ -1,7 +1,7 @@
 import {IFilterArgs} from './filter';
 import {ArrayFilter} from "./arrayFilter";
 
-export class StringArrayFilter<T> extends ArrayFilter<T> {
+export class IDArrayFilter<T> extends ArrayFilter<T> {
 
     /**
      * C-tor
@@ -12,15 +12,14 @@ export class StringArrayFilter<T> extends ArrayFilter<T> {
     }
 
     protected getMultiTypeForPayload() {
-        return { [`${this.parameterName}_type_multistrings`] : '1' };
+        return { [`${this.parameterName}_type_multiids`] : '1' };
     }
 
     /**
      * Get the value for the filter
      * @returns {string}
      */
-    protected getValueForPayload(): Array<string> {
-        return this.value.map(String);
+    protected getValueForPayload(): string {
+        return this.value.map(String).join(',');
     };
-
 }
