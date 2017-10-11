@@ -1,6 +1,6 @@
 import {IFilterArgs, IFilterSearchPayload, Filter} from './filter';
 
-export class ArrayFilter extends Filter< Array<string|number> > {
+export class ArrayFilter<T> extends Filter<Array<any>> {
 
     /**
      * C-tor
@@ -12,11 +12,11 @@ export class ArrayFilter extends Filter< Array<string|number> > {
     }
 
     /**
-     * Push a new values
-     * @param {string | number} value
+     * Push a value
+     * @param {T} value
      */
-    public appendValue( value : string|number ) {
-        this.value.push( String(value) );
+    public appendValue( value : T ) {
+        this.value.push(value);
     }
 
     /**
