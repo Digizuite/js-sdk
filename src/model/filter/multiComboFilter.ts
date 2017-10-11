@@ -1,7 +1,8 @@
-import {IFilterArgs, IFilterSearchPayload, Filter} from './filter';
+import {IFilterArgs, IFilterSearchPayload} from './filter';
 import {ComboOption} from "../metadata/comboOption";
+import {ArrayFilter} from "./arrayFilter";
 
-export class MultiComboFilter extends Filter< Array<ComboOption> > {
+export class MultiComboFilter extends ArrayFilter<ComboOption> {
 
     static get TYPE() {
         return 'multicombo';
@@ -21,30 +22,11 @@ export class MultiComboFilter extends Filter< Array<ComboOption> > {
     }
 
     /**
-     * Push a new values
-     * @param {string | number} value
-     */
-    public appendValue( value : ComboOption ) {
-        this.value.push( value );
-    }
-
-    /**
-     * Returns the search payload
-     * @returns {IFilterSearchPayload}
-     */
-    public getAsSearchPayload(): IFilterSearchPayload {
-        return {
-            ...super.getAsSearchPayload(),
-            [`${this.parameterName}_type_multiids`] : '1'
-        };
-    }
-
-    /**
      * Get the value for the filter
      * @returns {string}
      */
     protected getValueForPayload(): string {
-        return this.value.map(String).join(',');
+        return this.value.map( thisOption => thisOption.id ).join(',');
     };
 
 }

@@ -12,6 +12,8 @@ import {Folders} from '../request/searchService/folders';
 import {FrameworkSearch} from '../request/searchService/frameworkSearch';
 import {TreeFilter} from "../model/filter/treeFilter";
 import {TreeOptions} from "../request/metadataService/treeOptions";
+import {MultiComboFilter} from "../model/filter/multiComboFilter";
+import {ComboOptions} from "../request/metadataService/comboOptions";
 
 export interface IContentEndpointArgs extends IEndpointArgs {
 	labels?: { [key: string]: string };
@@ -170,22 +172,23 @@ export class Content extends Endpoint {
 
             return this.getTreeOptions(args as any);
 
-        }
+        } else if (
+            (args.filter instanceof MultiComboFilter)
+		) {
 
-        // else if (
-        //     (args.metadataItem instanceof ComboValueMetadataItem) ||
-        //     (args.metadataItem instanceof EditComboValueMetadataItem) ||
-        //     (args.metadataItem instanceof MultiComboValueMetadataItem) ||
-        //     (args.metadataItem instanceof EditMultiComboValueMetadataItem)
-        // ) {
-        //
-        //     return this.getComboOptions(args);
-        //
-        // } else {
-        //     throw new Error('getMetadataItemOptions required a metadata item of type tree or combo value');
-        // }
+        	return this.getComboOptions(args as any);
+
+		} else {
+            throw new Error('getFilterOptions required a filter of type TreeFilter, ComboFilter or MultiComboFilter');
+		}
+
 	}
 
+    /**
+	 * Returns a list of tree options
+     * @param {{filter: TreeFilter; path: string}} args
+     * @returns {Promise<any>}
+     */
     getTreeOptions(args: { filter: TreeFilter, path: string }) {
         if (!args.filter) {
             throw new Error('getTreeOptions expected an filter as parameter!');
@@ -199,6 +202,23 @@ export class Content extends Endpoint {
             filter: args.filter,
             path: args.path,
         });
+	}
+
+    getComboOptions(args: any) {
+
+        if (!args.filter) {
+            throw new Error('getComboOptions expected an filter as parameter!');
+        }
+
+        const comboOptionsRequest = new ComboOptions({
+            apiUrl: this.apiUrl,
+        });
+
+        return comboOptionsRequest.execute({
+            filter: args.filter,
+            navigation: args.navigation,
+        });
+
 	}
 
 	/**

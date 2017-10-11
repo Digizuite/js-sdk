@@ -33,11 +33,18 @@ export class ComboOptions extends BaseRequest<any> {
 	 */
 	protected processRequestData(payload: any) {
 
-		payload.sfMetafieldLabelId = payload.metadataItem.labelId;
-		payload.metadataItem = undefined;
+		if( payload.sfMetafieldLabelId ) {
+            payload.sfMetafieldLabelId = payload.metadataItem.labelId;
+            payload.metadataItem = undefined;
+        }
+
+        if( payload.filter ) {
+            payload.sfItemId = payload.filter.id;
+            payload.filter = undefined;
+        }
 
 		// Navigation data
-		if (payload.hasOwnProperty('navigation')) {
+		if (payload.navigation) {
 
 			if (payload.navigation.hasOwnProperty('page')) {
 				payload.page = payload.navigation.page;
