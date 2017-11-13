@@ -5,7 +5,8 @@
 ```js
 instance.lock.lockAsset({
     asset,
-    note : 'Lock due to lock'
+    note : 'Lock due to lock',
+    duration : 600
 }).then(()=>{
     console.log("Asset locked!");
 });
@@ -14,6 +15,9 @@ instance.lock.lockAsset({
 The parameter ```asset``` is required and it is expected to be an instance of ```Asset```.
 
 The parameter ```note``` is optional.
+
+The parameter ```duration``` is optional and it represents, if provided, the number of seconds the asset should be locked. 
+If present, it is expected to an a positive integer.
 
 ## Unlock an asset
 

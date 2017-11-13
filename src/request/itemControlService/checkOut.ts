@@ -24,6 +24,7 @@ export class CheckOut extends BaseRequest<any> {
 			// These parameters should be specified manually
 			itemId: null,
 			note: null,
+			checkoutDuration: null,
 		};
 	}
 

@@ -13,13 +13,20 @@ export class Lock extends Endpoint {
 	 * @param {Object} args
 	 * @param {Asset} args.asset - Asset for which to set the lock
 	 * @param {String} [args.note] - Note for locking the asset
+	 * @param {Int} [args.duration] - Duration of locking the asset
 	 * @returns {Promise.<>}
 	 */
-	public lockAsset(args: { asset: Asset, note?: string }): Promise<void> {
+	public lockAsset(args: { asset: Asset, note?: string, duration?: number }): Promise<void> {
 
 		if (!args.asset) {
 			throw new Error('lockAsset expected an asset as parameter!');
 		}
+
+		if( args.duration ) {
+			if( !Number.isInteger(args.duration) || args.duration < 0) {
+                throw new Error('lockAsset expected duration to be an duration!');
+            }
+        }
 
 		const checkOutRequest = new CheckOut({
 			apiUrl: this.apiUrl,
@@ -28,6 +35,7 @@ export class Lock extends Endpoint {
 		return checkOutRequest.execute({
 			asset: args.asset,
 			note: args.note,
+			checkoutDuration : args.duration || 0
 		}).then(() => undefined);
 	}
 
