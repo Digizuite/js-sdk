@@ -35,6 +35,7 @@ export class Asset extends Model {
 	private assetId__DO_NOT_USE_THIS_OR_KITTENS_WILL_DIE: number | null;
 	private fileExtension: string | null;
 	private lastPublishedDate: any | null;
+	private isLocked: boolean | null;
 
 	/**
 	 * C-tor
@@ -53,6 +54,7 @@ export class Asset extends Model {
 		this.sourceLocation = null;
 		this.assetId__DO_NOT_USE_THIS_OR_KITTENS_WILL_DIE = null;
 		this.fileExtension = null;
+		this.isLocked = null;
 	}
 
 	static get DATETIME_FORMAT() {
@@ -72,6 +74,7 @@ export class Asset extends Model {
 		this.id = parseInt(args.itemId, 10);
 		this.name = args.name;
 		this.type = parseInt(args.assetType, 10);
+        this.isLocked = !!args.isLocked;
 
 		this.thumbnail = '';
 		if (args.hasOwnProperty('thumb')) {

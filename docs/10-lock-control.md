@@ -33,6 +33,31 @@ The parameter ```note``` is optional.
 ## Check if an asset is locked
 
 ```js
+instance.content.getAssets()
+    .then(( {assets} )=>{
+	
+	    if( assets[0].isLocked ) {
+            console.log( "Asset is locked");
+        }
+	
+    });
+```
+
+```js
+instance.content.getAssetsById({
+    assetsIds : [ 1337, 666 ]
+}).then((assets)=>{
+    if( assets[0].isLocked ) {
+        console.log( "Asset is locked");
+    }
+});
+```
+
+## Getting lock information
+
+Information about whether an asset is locked or not and the member which initiated the lock can be obtain as follows:
+
+```js
 instance.lock.getLockInformation({
     asset
 }).then((lock)=>{
