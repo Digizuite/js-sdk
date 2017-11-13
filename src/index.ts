@@ -27,6 +27,12 @@ export {
 export {AssetTypeFilter} from './model/filter/assetTypeFilter';
 export {AssetFreeTextFilter} from './model/filter/assetFreeTextFilter';
 export {AssetCreatedFilter} from './model/filter/assetCreatedFilter';
+export {BoolFilter} from './model/filter/boolFilter';
+export {ComboFilter} from './model/filter/comboFilter';
+export {DateBetweenFilter} from './model/filter/dateBetweenFilter';
+export {MultiComboFilter} from './model/filter/multiComboFilter';
+export {StringFilter} from './model/filter/stringFilter';
+export {TreeFilter} from './model/filter/treeFilter';
 
 // metadata groups
 export {MetadataGroup} from './model/metadata/metadataGroup';
