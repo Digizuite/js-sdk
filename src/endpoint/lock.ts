@@ -4,6 +4,7 @@ import {Asset} from "../model/asset";
 import {Lock as LockModel} from "../model/lock";
 import {CheckIn} from '../request/itemControlService/checkIn';
 import {CheckOut} from '../request/itemControlService/checkOut';
+import {CancelCheckOut} from '../request/itemControlService/cancelCheckOut';
 import {getLockInformation} from '../utilities/lockInformation';
 
 export class Lock extends Endpoint {
@@ -60,6 +61,51 @@ export class Lock extends Endpoint {
 			asset: args.asset,
 			note: args.note,
 		}).then(() => undefined);
+	}
+
+    /**
+     * Force unlock an asset
+     * @returns {Promise<void>}
+     */
+    public removeAssetLock(args: { asset: Asset, note?: string }): Promise<void> {
+        return this.cancelCheckout({
+            asset : args.asset,
+            note : args.note,
+            force : false
+        });
+    }
+
+    /**
+	 * Force unlock an asset
+     * @returns {Promise<void>}
+     */
+	public forceRemoveAssetLock(args: { asset: Asset, note?: string }): Promise<void> {
+		return this.cancelCheckout({
+			asset : args.asset,
+			note : args.note,
+			force : true // use the force, Luke!
+		});
+	}
+
+    /**
+	 * Cancel checkout
+     * @returns {Promise<void>}
+     */
+	protected cancelCheckout(args: { asset: Asset, force: boolean, note?: string }): Promise<void> {
+
+        if (!args.asset) {
+            throw new Error('unlockAsset expected an asset as parameter!');
+        }
+
+        const cancelCheckOutRequest = new CancelCheckOut({
+            apiUrl: this.apiUrl,
+        });
+
+        return cancelCheckOutRequest.execute({
+            asset: args.asset,
+            note: args.note,
+			force : args.force
+        }).then(() => undefined);
 	}
 
 	/**

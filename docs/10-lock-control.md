@@ -24,9 +24,24 @@ If present, it is expected to an a positive integer.
 ```js
 instance.lock.unlockAsset({
     asset,
-    note : 'Removed lock'
+    note : 'unlocking the lock'
 }).then(()=>{
-    console.log("Asset locked!");
+    console.log("Asset unlocked!");
+});
+```
+
+The parameter ```asset``` is required and it is expected to be an instance of ```Asset```.
+
+The parameter ```note``` is optional.
+
+## Removing the lock from an asset
+
+```js
+instance.lock.forceRemoveAssetLock({
+    asset,
+    note : 'Removing the lock'
+}).then(()=>{
+    console.log("Asset lock removed!");
 });
 ```
 
