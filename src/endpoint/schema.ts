@@ -36,6 +36,8 @@ export class Schema extends Endpoint {
         return this._getAllAssets()
             .then( (assets) => this._getAllMetaDataGroups(assets))
             .then( propertyList => {
+
+                // Reduce the properties into one object
                 var properties = propertyList.reduce( (previousValue, currentValue) => {
                     return Object.assign(previousValue, currentValue);
                 });
@@ -109,12 +111,14 @@ export class Schema extends Endpoint {
     private _generateSchema( items: MetadataItem<any>[] ) {
         var properties: any = {};
         items.forEach( (item: MetadataItem<any>) => {
+
             var name: string = String(item.name);
             properties[name] = {
                 type: "object",
                 id: item.guid,
                 title: name
             };
+
         });
         return properties;
     }
