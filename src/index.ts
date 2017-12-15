@@ -9,6 +9,7 @@ import './endpoint/member';
 import './endpoint/metadata';
 import './endpoint/upload';
 import './endpoint/version';
+import './endpoint/schema';
 
 // main
 export {Connector, getConnectorInstance} from './connector';

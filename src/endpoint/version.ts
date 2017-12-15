@@ -190,8 +190,7 @@ const name = 'version';
 const getter = function (instance: ConnectorType) {
 	return new Version({
 		apiUrl: instance.apiUrl,
-		// TODO: un-hard-code this when we get a dam version
-		apiVersion: '4.7.1',
+        apiVersion: instance.apiVersion,
 		computerName: instance.state.config.UploadName,
 		instance,
 	});
