@@ -51,6 +51,8 @@ export class Schema extends Endpoint {
                 this._validateSchema( schema );
 
                 return schema;
+            }).catch( function (error) {
+                console.log("Error!", error);
             });
     }
 
@@ -125,7 +127,7 @@ export class Schema extends Endpoint {
 
     /**
      * Simple compilation and validation of the generated schema.
-     * It will error th
+     * It will throw an execution error if the schema cannot be compiled.
      * @param schema
      */
     private _validateSchema( schema: any ) {
