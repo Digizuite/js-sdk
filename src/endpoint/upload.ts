@@ -290,13 +290,18 @@ export class Upload extends Endpoint {
 				const queueIndex = this.assetEditableQueue.findIndex(
 					(thisQueueItem) => thisQueueItem.asset.id === thisBasicAsset.id,
 				);
-				const queueItem = this.assetEditableQueue[queueIndex];
 
-				// remove it from the queue
-				this.assetEditableQueue.splice(queueIndex, 1);
+				// Item found?
+				if (queueIndex > -1) {
+					const queueItem = this.assetEditableQueue[queueIndex];
 
-				queueItem.asset.type = thisBasicAsset.type;
-				queueItem.resolve(queueItem.asset);
+					// remove it from the queue
+					this.assetEditableQueue.splice(queueIndex, 1);
+
+					queueItem.asset.type = thisBasicAsset.type;
+					queueItem.resolve(queueItem.asset);
+				}
+
 			});
 
 			if (this.assetEditableQueue.length > 0) {
