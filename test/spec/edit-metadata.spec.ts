@@ -46,7 +46,7 @@ describe('Edit metadata', () => {
 
 			itemsCache = await instance.metadata.getMetadataItems({
 				asset: assetsCache[assetIndex],
-				group: groups.filter((group) => group.id === 50029)[0],
+				group: groups.filter((group) => group.id === 50047)[0],
 			});
 		}
 		return itemsCache.filter((item: any) => item && item.TYPE === type)[0] as any as T;
