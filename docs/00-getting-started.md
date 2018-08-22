@@ -25,7 +25,7 @@ Connector.getConnectorInstance({
     username : 'username',
     password : 'password'
 }).then((instance)=>{
-    console.log("Success!", instance);
+    console.log("Success!!!", instance);
     // instance can be used to interact with digizuite
 }).catch((error)=>{
     console.log("Error!", error);
