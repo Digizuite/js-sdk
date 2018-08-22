@@ -12,7 +12,7 @@ install();
 export async function getInstance() {
 	return await getConnectorInstance({
 		apiUrl: 'https://cc.dev.digizuite.com/dmm3bwsv3/',
-		username: 'admin',
-		password: 'admin',
+		username: 'siliconadmin',
+		password: 'siliconadmin',
 	});
 }
