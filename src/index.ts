@@ -1,7 +1,3 @@
-// Polyfills
-import 'core-js/fn/object/entries';
-import 'core-js/fn/array/reduce';
-
 // endpoints
 import './endpoint/auth';
 import './endpoint/batch';

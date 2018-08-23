@@ -67,8 +67,13 @@ export const ASSET_TYPE: { [key: string]: number } = {
 	ILLUSTRATOR: 17,
 };
 
-export const ASSET_TYPE_REVERSE: { [key: number]: string } = Object.entries(ASSET_TYPE)
-	.reduce((sum, [type, assetType]) => Object.assign({}, sum, {[assetType]: type}), {});
+export const ASSET_TYPE_REVERSE: { [key: number]: string } = {};
+
+for (const key in  ASSET_TYPE) {
+	if (ASSET_TYPE.hasOwnProperty(key)) {
+		ASSET_TYPE_REVERSE[ ASSET_TYPE[key] ] = key;
+	}
+}
 
 export const Constants = {
 	GUID,
