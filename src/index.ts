@@ -1,3 +1,6 @@
+import 'core-js/es5';
+import 'core-js/es6';
+
 // endpoints
 import './endpoint/auth';
 import './endpoint/batch';
