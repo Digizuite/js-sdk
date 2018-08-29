@@ -70,7 +70,7 @@ export class FinishUpload extends BaseRequest<any> {
 			(payload.ticket instanceof RestoreTicket) ||
 			(payload.ticket instanceof ReplaceTicket)
 		) {
-			payload.assetId = payload.ticket.asset.__assetId__DO_NOT_USE_THIS_OR_KITTENS_WILL_DIE;
+			payload.assetId = payload.ticket.asset.assetId__DO_NOT_USE_THIS_OR_KITTENS_WILL_DIE;
 		}
 
 		// Extra job
