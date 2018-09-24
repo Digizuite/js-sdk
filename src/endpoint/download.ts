@@ -18,7 +18,7 @@ export class Download extends Endpoint {
 	private lowResMediaFormatIds: number[];
 	private highResMediaFormatIds: number[];
 	private mediaUrl: string;
-	private cache: { qualities: any };
+	private cache: { qualities: Promise<any>|null };
 
 	/**
 	 * C-tor
@@ -216,19 +216,21 @@ export class Download extends Endpoint {
 	 */
 	public _getAllDownloadQualities() {
 
-		if (this.cache.qualities) {
-			return Promise.resolve(this.cache.qualities);
+		if (!this.cache.qualities) {
+			this.cache.qualities = new Promise((resolve) => {
+
+				const downloadQualitiesRequest = new DownloadQualities({
+					apiUrl: this.apiUrl,
+				});
+
+				downloadQualitiesRequest.execute().then((downloadQualities) => {
+					resolve(this._hackishlyAddDownloadQualitiesForAdobeFormats(downloadQualities));
+				});
+
+			});
 		}
 
-		const downloadQualitiesRequest = new DownloadQualities({
-			apiUrl: this.apiUrl,
-		});
-
-		return downloadQualitiesRequest.execute().then((downloadQualities) => {
-			this.cache.qualities = this._hackishlyAddDownloadQualitiesForAdobeFormats(downloadQualities);
-			return this.cache.qualities;
-		});
-
+		return this.cache.qualities;
 	}
 
 	/**
@@ -245,7 +247,6 @@ export class Download extends Endpoint {
 		// Take the existing image formats
 		const imageFormats = downloadQualities.find((thisQualityGroup: any) =>
 			thisQualityGroup.assetType === ASSET_TYPE.IMAGE);
-
 
 		// Determine existing asset types
 		const existingAssetType: {[name: number]: boolean} = {};
