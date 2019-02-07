@@ -5,6 +5,7 @@ import {getExtension} from '../utilities/helpers/url';
 export interface IAssetArgs {
 	id?: number;
 	name?: string;
+	description?: string;
 	type?: number;
 	thumbnail?: string;
 }
@@ -25,6 +26,7 @@ export class Asset extends Model {
 	public thumbnail: string | undefined;
 	public type: number | undefined;
 	public name: string | undefined;
+	public description: string | undefined;
 
 	public date: Date;
 	public publishedDate: Date | null;
@@ -46,6 +48,7 @@ export class Asset extends Model {
 
 		this.id = args.id;
 		this.name = args.name;
+		this.description = args.description;
 		this.type = args.type;
 		this.thumbnail = args.thumbnail;
 		this.publishedDate = null;
@@ -73,6 +76,7 @@ export class Asset extends Model {
 
 		this.id = parseInt(args.itemId, 10);
 		this.name = args.name;
+		this.description = args.description;
 		this.type = parseInt(args.assetType, 10);
         this.isLocked = !!args.isLocked;
 

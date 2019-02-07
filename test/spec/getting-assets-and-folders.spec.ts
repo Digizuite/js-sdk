@@ -18,7 +18,7 @@ describe('Getting assets and folders', () => {
 	});
 
 	it('should give a list of assets and navigation knowledge', async () => {
-		const {assets, navigation} = await instance.content.getAssets({path: '/33/'});
+		const {assets, navigation} = await instance.content.getAssets({path: '/34/'});
 		expect(assets).not.toBeNull();
 		expect(assets.length > 0).toBe(true);
 		expect(assets[0] instanceof Asset).toBe(true);

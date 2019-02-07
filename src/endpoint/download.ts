@@ -1,6 +1,6 @@
 import {Endpoint, IEndpointArgs} from '../common/endpoint';
 import {attachEndpoint, Connector as ConnectorType} from '../connector';
-import {Constants} from '../const';
+import {ASSET_TYPE, Constants} from '../const';
 import {Asset} from "../model/asset";
 import {DownloadQualities} from '../request/memberService/downloadQualities';
 
@@ -18,7 +18,7 @@ export class Download extends Endpoint {
 	private lowResMediaFormatIds: number[];
 	private highResMediaFormatIds: number[];
 	private mediaUrl: string;
-	private cache: { qualities: any };
+	private cache: { qualities: Promise<any>|null };
 
 	/**
 	 * C-tor
@@ -216,19 +216,55 @@ export class Download extends Endpoint {
 	 */
 	public _getAllDownloadQualities() {
 
-		if (this.cache.qualities) {
-			return Promise.resolve(this.cache.qualities);
+		if (!this.cache.qualities) {
+			this.cache.qualities = new Promise((resolve) => {
+
+				const downloadQualitiesRequest = new DownloadQualities({
+					apiUrl: this.apiUrl,
+				});
+
+				downloadQualitiesRequest.execute().then((downloadQualities) => {
+					resolve(this._hackishlyAddDownloadQualitiesForAdobeFormats(downloadQualities));
+				});
+
+			});
 		}
 
-		const downloadQualitiesRequest = new DownloadQualities({
-			apiUrl: this.apiUrl,
+		return this.cache.qualities;
+	}
+
+	/**
+	 * HACK: Since the GetDownloadQualities does not support assets type
+	 * like InDesign, Photoshop and Illustator, we will manually clone the ones from
+	 * image to them
+	 * @param downloadQualities
+	 * @private
+	 */
+	private _hackishlyAddDownloadQualitiesForAdobeFormats(downloadQualities: any[]) {
+
+		const adobeTypes = [ ASSET_TYPE.INDESIGN,  ASSET_TYPE.PHOTOSHOP, ASSET_TYPE.ILLUSTRATOR, ASSET_TYPE.VIDEO ];
+
+		// Take the existing image formats
+		const imageFormats = downloadQualities.find((thisQualityGroup: any) =>
+			thisQualityGroup.assetType === ASSET_TYPE.IMAGE);
+
+		// Determine existing asset types
+		const existingAssetType: {[name: number]: boolean} = {};
+		downloadQualities.forEach((thisQuality: any) => {
+			existingAssetType[ (thisQuality.assetType as number) ] = true;
 		});
 
-		return downloadQualitiesRequest.execute().then((downloadQualities) => {
-			this.cache.qualities = downloadQualities;
-			return downloadQualities;
-		});
+		// Append the types, if they don't exist already
+		adobeTypes
+			.filter(thisAssetType => !existingAssetType[thisAssetType])
+			.forEach(thisAssetType => {
+				downloadQualities.push({
+					assetType: thisAssetType,
+					formats: imageFormats.formats,
+				});
+			});
 
+		return downloadQualities;
 	}
 
 }
