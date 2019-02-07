@@ -5,8 +5,8 @@ describe('Getting Started', () => {
 	it('Should login and give instance', (done) => {
 		getConnectorInstance({
 			apiUrl: 'https://cc.dev.digizuite.com/dmm3bwsv3/',
-			username: 'admin',
-			password: 'admin',
+			username: 'SuperAdministrator',
+			password: 'test',
 		}).then(instance => {
 			expect(instance).not.toBeNull();
 			done();

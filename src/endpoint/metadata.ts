@@ -180,7 +180,11 @@ export class Metadata extends Endpoint {
 			args.assets.map((thisAsset) => getLockInformation({asset: thisAsset, apiUrl: this.apiUrl})),
 		).then((lockInfo) => {
 
-			const isLocked = lockInfo.reduce((acc, thisLock) => acc || thisLock.isLocked, false);
+			let isLocked = false;
+
+			lockInfo.forEach((thisLock) => {
+				isLocked = isLocked || thisLock.isLocked;
+			});
 
 			if (isLocked) {
 				throw new RequestError('One or more assets is being locked', 6660);

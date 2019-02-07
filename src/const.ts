@@ -1,5 +1,3 @@
-import 'core-js/fn/object/entries';
-
 export const GUID = {
 	LAST_MODIFIED: 'BF26CA13-BE60-4B34-8087-C7F8345158F7',
 	PUBLISH_IN_PROGRESS: 'C31F9FA7-550F-40BF-BD63-1BD45163354C',
@@ -69,8 +67,13 @@ export const ASSET_TYPE: { [key: string]: number } = {
 	ILLUSTRATOR: 17,
 };
 
-export const ASSET_TYPE_REVERSE: { [key: number]: string } = Object.entries(ASSET_TYPE)
-	.reduce((sum, [type, assetType]) => Object.assign({}, sum, {[assetType]: type}), {});
+export const ASSET_TYPE_REVERSE: { [key: number]: string } = {};
+
+for (const key in  ASSET_TYPE) {
+	if (ASSET_TYPE.hasOwnProperty(key)) {
+		ASSET_TYPE_REVERSE[ ASSET_TYPE[key] ] = key;
+	}
+}
 
 export const Constants = {
 	GUID,

@@ -15,7 +15,7 @@ describe('Filtering', () => {
 	it('Should filter for asset text', async () => {
 
 		const assetFreeTextFilter = new AssetFreeTextFilter({
-			value : 'moon',
+			text: 'test',
 		});
 		const {assets} = await instance.content.getAssets({
 			filters: [assetFreeTextFilter],
@@ -27,7 +27,7 @@ describe('Filtering', () => {
 	it('should filter for asset type', async () => {
 
 		const assetTypeFilter = new AssetTypeFilter({
-			value : [Constants.ASSET_TYPE.IMAGE],
+			types: [Constants.ASSET_TYPE.IMAGE],
 		});
 		const {assets} = await instance.content.getAssets({
 			filters: [assetTypeFilter],
@@ -39,13 +39,10 @@ describe('Filtering', () => {
 
 	it('should filter for creation date', async () => {
 
-        const assetCreatedFilter = new AssetCreatedFilter({
-            value: {
-                from: 1494720000,
-                to:
-                    Math.floor(Date.now() / 1000),
-            }
-        });
+		const assetCreatedFilter = new AssetCreatedFilter({
+			from: 1494720000,
+			to: Math.floor(Date.now() / 1000),
+		});
 		const {assets} = await instance.content.getAssets({
 			filters: [assetCreatedFilter],
 		});
