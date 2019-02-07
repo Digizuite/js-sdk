@@ -1,7 +1,4 @@
-import {PermissionError} from '../../common/permissionError';
 import {BaseRequest} from '../../common/request';
-import {RequestError} from '../../common/requestError';
-import {ERROR_CODE} from '../../const';
 
 export class ConnectorConfiguration extends BaseRequest<any> {
 
@@ -20,18 +17,6 @@ export class ConnectorConfiguration extends BaseRequest<any> {
 	 */
 	get defaultPayload() {
 		return {};
-	}
-
-	/**
-	 * Process response
-	 * @param response
-	 */
-	protected processResponseData(response: any) {
-
-		console.debug(response);
-
-		// We are only interested in the user data
-		return response;
 	}
 
 }
