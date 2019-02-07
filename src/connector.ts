@@ -2,10 +2,36 @@ import {Endpoint} from "./common/endpoint";
 import {ensureTrailingSeparator} from './utilities/helpers/url';
 
 export class Connector {
+
 	public apiVersion: string;
 	public apiUrl: string;
 	public state: { user: any; config: any, keepAliveInterval?: number };
 	public endpoints: { [key: string]: Endpoint };
+
+	private keepAliveInterval: number;
+
+	/**
+	 * Initialize the connector
+	 * @param {Object} args
+	 * @param {String} args.apiUrl - Full URL to the api end-point.
+	 * @param {String} args.username - username to authenticate with.
+	 * @param {String} args.password - password.
+	 * @returns {Promise}.<Connector> - a promise that will be resolved once the
+	 */
+	public static getConnectorInstance(args: { apiUrl: string, username: string, password: string }) {
+
+		const digizuiteInstance = new Connector(args);
+		return digizuiteInstance.initializeConnector({
+			username: args.username,
+			password: args.password,
+		});
+
+	}
+
+	public static getConfiguration(args: { apiUrl: string }) {
+		const digizuiteInstance = new Connector(args);
+		return digizuiteInstance.getConnectorConfiguration();
+	}
 
 	/**
 	 * C-tor
@@ -30,26 +56,6 @@ export class Connector {
 		};
 
 		this.endpoints = {};
-
-	}
-
-	private keepAliveInterval: number;
-
-	/**
-	 * Initialize the connector
-	 * @param {Object} args
-	 * @param {String} args.apiUrl - Full URL to the api end-point.
-	 * @param {String} args.username - username to authenticate with.
-	 * @param {String} args.password - password.
-	 * @returns {Promise}.<Connector> - a promise that will be resolved once the
-	 */
-	public static getConnectorInstance(args: { apiUrl: string, username: string, password: string }) {
-
-		const digizuiteInstance = new Connector(args);
-		return digizuiteInstance.initializeConnector({
-			username: args.username,
-			password: args.password,
-		});
 
 	}
 
@@ -98,6 +104,10 @@ export class Connector {
 		});
 
 		return bootstrapPromise;
+	}
+
+	public getConnectorConfiguration() {
+		return this.config.getConnectorConfiguration();
 	}
 
 	/**
