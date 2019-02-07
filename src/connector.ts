@@ -54,6 +54,21 @@ export class Connector {
 	}
 
 	/**
+	 * Initialize the connector
+	 * @param {Object} args
+	 * @param {String} args.apiUrl - Full URL to the api end-point.
+	 * @param {String} args.username - username to authenticate with.
+	 * @param {String} args.password - password.
+	 * @returns {Promise}.<Connector> - a promise that will be resolved once the
+	 */
+	public static getConfiguration(args: { apiUrl: string}) {
+
+		const digizuiteInstance = new Connector(args);
+		return digizuiteInstance.getConnectorConfiguration();
+
+	}
+
+	/**
 	 * Initializes a connector instance. Logs in and fetches the configs
 	 * @param {Object} args
 	 * @param {String} args.username - username to authenticate with.
@@ -98,6 +113,10 @@ export class Connector {
 		});
 
 		return bootstrapPromise;
+	}
+
+	public getConnectorConfiguration() {
+		return this.config.getConnectorConfiguration();
 	}
 
 	/**

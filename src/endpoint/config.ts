@@ -3,6 +3,7 @@ import {attachEndpoint, Connector as ConnectorType} from '../connector';
 import {AppLabels} from '../request/configService/appLabels';
 import {AppConfiguration} from '../request/searchService/appConfiguration';
 import {SystemVersion} from '../request/searchService/systemVersion';
+import {ConnectorConfiguration} from "../request/configService/connectorConfiguration";
 
 export class Config extends Endpoint {
 
@@ -32,6 +33,14 @@ export class Config extends Endpoint {
 		});
 
 		return appConfigRequest.execute();
+	}
+
+	public getConnectorConfiguration() {
+		const connectorConfigRequest = new ConnectorConfiguration({
+			apiUrl: this.apiUrl,
+		});
+
+		return connectorConfigRequest.execute();
 	}
 
 	/**
