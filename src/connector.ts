@@ -90,6 +90,7 @@ export class Connector {
 			password: args.password,
 		}).then((loginResponse) => {
 			this.state.user = loginResponse;
+			(window as any).csrfToken = loginResponse.csrfToken;
 			this._initKeepAlive({
 				username: args.username,
 				password: args.password,

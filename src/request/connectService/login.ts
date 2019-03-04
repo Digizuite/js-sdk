@@ -17,6 +17,10 @@ export class Login extends BaseRequest<IUserData> {
 		return `${this.apiUrl}ConnectService.js`;
 	}
 
+	get setCsrfTokenHeader() {
+		return false;
+	}
+
 	/**
 	 * default parameters for the call
 	 * @returns {{method: string, usertype: number, page: number, limit: number, username: null, password: null}}

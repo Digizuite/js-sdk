@@ -89,6 +89,10 @@ export class BaseRequest<T> {
 		return {};
 	}
 
+	get setCsrfTokenHeader() {
+		return true;
+	}
+
 	/**
 	 * Execute!
 	 * @param payload
@@ -104,15 +108,23 @@ export class BaseRequest<T> {
 			},
 		);
 
+		const headers = new Headers({
+			'Content-Type': 'application/x-www-form-urlencoded',
+			'X-Clacks-Overhead': 'GNU Terry Pratchett', // A man is not dead while his name is still spoken.
+		});
+
+		const csrfToken = (window as any).csrfToken;
+
+		if (csrfToken && this.setCsrfTokenHeader) {
+			headers.append('X-CSRF-TOKEN', csrfToken);
+		}
+
 		const request = new Request(
 			this.endpointUrl,
 			{
 				method: 'POST',
 				mode: 'cors',
-				headers: new Headers({
-					'Content-Type': 'application/x-www-form-urlencoded',
-					'X-Clacks-Overhead': 'GNU Terry Pratchett', // A man is not dead while his name is still spoken.
-				}),
+				headers,
 				body: this.toQueryString(requestData),
 			},
 		);
