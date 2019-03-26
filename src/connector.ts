@@ -1,5 +1,6 @@
 import {Endpoint} from "./common/endpoint";
 import {ensureTrailingSeparator} from './utilities/helpers/url';
+import {getGlobalContext} from "./utilities/helpers/env";
 
 export class Connector {
 	public apiVersion: string;
@@ -90,7 +91,9 @@ export class Connector {
 			password: args.password,
 		}).then((loginResponse) => {
 			this.state.user = loginResponse;
-			(window as any).csrfToken = loginResponse.csrfToken;
+
+			getGlobalContext().csrfToken = loginResponse.csrfToken;
+
 			this._initKeepAlive({
 				username: args.username,
 				password: args.password,

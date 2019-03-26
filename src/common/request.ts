@@ -1,4 +1,5 @@
 import 'whatwg-fetch';
+import {getGlobalContext} from "../utilities/helpers/env";
 import {RequestError} from './requestError';
 
 export interface IBaseRequestArgs {
@@ -113,7 +114,7 @@ export class BaseRequest<T> {
 			'X-Clacks-Overhead': 'GNU Terry Pratchett', // A man is not dead while his name is still spoken.
 		});
 
-		const csrfToken = (window as any).csrfToken;
+		const csrfToken = getGlobalContext().csrfToken;
 
 		if (csrfToken && this.setCsrfTokenHeader) {
 			headers.append('X-CSRF-TOKEN', csrfToken);
@@ -157,7 +158,6 @@ export class BaseRequest<T> {
 
 				return this.processResponseData(response);
 			});
-
 	}
 
 	/**
