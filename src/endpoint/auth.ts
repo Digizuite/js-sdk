@@ -41,6 +41,23 @@ export class Auth extends Endpoint {
 	}
 
 	/**
+	 * Logs in a user
+	 * @returns {Promise}
+	 * @param accessKey
+	 */
+	public loginWithAccessKey(accessKey: string): Promise<any> {
+
+		const loginRequest = new Login({
+			apiUrl: this.apiUrl,
+		});
+
+		return loginRequest.execute({
+			accessKey,
+		});
+
+	}
+
+	/**
 	 * Ahh, Ahh, Ahh, Ahh, Staying alive, staying alive
 	 * @returns {Promise}
 	 */

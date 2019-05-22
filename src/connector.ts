@@ -2,6 +2,13 @@ import {Endpoint} from "./common/endpoint";
 import {ensureTrailingSeparator} from './utilities/helpers/url';
 import {getGlobalContext} from "./utilities/helpers/env";
 
+export interface IConnectorInstanceOptions {
+	apiUrl: string;
+	username?: string;
+	password?: string;
+	accessKey?: string;
+}
+
 export class Connector {
 	public apiVersion: string;
 	public apiUrl: string;
@@ -44,12 +51,15 @@ export class Connector {
 	 * @param {String} args.password - password.
 	 * @returns {Promise}.<Connector> - a promise that will be resolved once the
 	 */
-	public static getConnectorInstance(args: { apiUrl: string, username: string, password: string }) {
+	public static getConnectorInstance(args: IConnectorInstanceOptions) {
 
-		const digizuiteInstance = new Connector(args);
+		const digizuiteInstance = new Connector({
+			apiUrl: args.apiUrl,
+		});
 		return digizuiteInstance.initializeConnector({
 			username: args.username,
 			password: args.password,
+			accessKey: args.accessKey,
 		});
 
 	}
@@ -76,28 +86,43 @@ export class Connector {
 	 * @param {String} args.password - password.
 	 * @returns {Promise.<Connector>}
 	 */
-	public initializeConnector(args: { username: string, password: string }) {
+	public initializeConnector(args: { username?: string, password?: string, accessKey?: string }) {
 
-		if (typeof args.username !== 'string' || args.username.length === 0) {
-			return Promise.reject(new Error('username is a required parameter'));
+		const hasUsername = typeof args.username === 'string' && args.username.length !== 0;
+		const hasPassword = typeof args.password === 'string' && args.password.length !== 0;
+		const hasAccessKey = typeof args.accessKey === 'string' && args.accessKey.length !== 0;
+
+		let loginPromise;
+
+		if (hasAccessKey) {
+			loginPromise = this.auth.loginWithAccessKey(args.accessKey as string);
+		} else {
+
+			if (!hasUsername) {
+				return Promise.reject(new Error('username is a required parameter'));
+			}
+
+			if (!hasPassword) {
+				return Promise.reject(new Error('password is a required parameter'));
+			}
+
+			loginPromise = this.auth.login({
+				username: args.username as string,
+				password: args.password as string,
+			});
 		}
 
-		if (typeof args.password !== 'string' || args.password.length === 0) {
-			return Promise.reject(new Error('password is a required parameter'));
-		}
-
-		const bootstrapPromise = this.auth.login({
-			username: args.username,
-			password: args.password,
-		}).then((loginResponse) => {
+		const bootstrapPromise = loginPromise.then((loginResponse) => {
 			this.state.user = loginResponse;
 
 			getGlobalContext().csrfToken = loginResponse.csrfToken;
 
-			this._initKeepAlive({
-				username: args.username,
-				password: args.password,
-			});
+			if (hasUsername && hasPassword) {
+				this._initKeepAlive({
+					username: args.username as string,
+					password: args.password as string,
+				});
+			}
 		}).then(() => {
 
 			return Promise.all([
