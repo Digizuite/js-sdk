@@ -48,7 +48,9 @@ export class Login extends BaseRequest<IUserData> {
 	public processRequestData(payload: any) {
 
 		// MD5 the password
-		payload.password = md5(payload.password);
+		if (payload.password) {
+			payload.password = md5(payload.password);
+		}
 
 		return payload;
 	}
