@@ -30,6 +30,7 @@ export class Batch extends Endpoint {
 
 		const batchUpdateRequest = new BatchUpdate({
 			apiUrl: this.apiUrl,
+			accessKey: this.accessKey,
 		});
 
 		return batchUpdateRequest.execute({
@@ -45,6 +46,7 @@ const name = 'batch';
 const getter = function (instance: ConnectorType) {
 	return new Batch({
 		apiUrl: instance.apiUrl,
+		accessKey: instance.state.user.accessKey,
 	});
 };
 

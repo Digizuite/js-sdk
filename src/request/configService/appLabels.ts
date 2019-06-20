@@ -22,6 +22,9 @@ export class AppLabels extends BaseRequest<any> {
 			page: 1,
 			limit: 25,
 			start: 0,
+
+			languageId: null,
+			versionId: null,
 		};
 	}
 

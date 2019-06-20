@@ -6,7 +6,6 @@ import {DownloadQualities} from '../request/memberService/downloadQualities';
 
 export interface IDownloadArgs extends IEndpointArgs {
 	memberId: string;
-	accessKey: string;
 	lowResMediaFormatIds: number[];
 	highResMediaFormatIds: number[];
 	mediaUrl: string;
@@ -14,7 +13,6 @@ export interface IDownloadArgs extends IEndpointArgs {
 
 export class Download extends Endpoint {
 	private memberId: string;
-	private accessKey: string;
 	private lowResMediaFormatIds: number[];
 	private highResMediaFormatIds: number[];
 	private mediaUrl: string;
@@ -28,7 +26,6 @@ export class Download extends Endpoint {
 		super(args);
 
 		this.memberId = args.memberId;
-		this.accessKey = args.accessKey;
 		this.lowResMediaFormatIds = args.lowResMediaFormatIds;
 		this.highResMediaFormatIds = args.highResMediaFormatIds;
 		this.mediaUrl = args.mediaUrl;
@@ -221,6 +218,7 @@ export class Download extends Endpoint {
 
 				const downloadQualitiesRequest = new DownloadQualities({
 					apiUrl: this.apiUrl,
+					accessKey: this.accessKey,
 				});
 
 				downloadQualitiesRequest.execute().then((downloadQualities) => {

@@ -1,6 +1,6 @@
 import {Endpoint} from "./common/endpoint";
+import {IUserData} from "./request/connectService/createAccessKey";
 import {ensureTrailingSeparator} from './utilities/helpers/url';
-import {getGlobalContext} from "./utilities/helpers/env";
 
 export interface IConnectorInstanceOptions {
 	apiUrl: string;
@@ -10,38 +10,6 @@ export interface IConnectorInstanceOptions {
 }
 
 export class Connector {
-	public apiVersion: string;
-	public apiUrl: string;
-	public state: { user: any; config: any, keepAliveInterval?: number };
-	public endpoints: { [key: string]: Endpoint };
-
-	/**
-	 * C-tor
-	 * @param {Object} args
-	 * @param {String} args.apiUrl - Full URL to the api end-point.
-	 * @param {Number} [args.keepAliveInterval] - Timeout for making a keep alive request
-	 */
-	constructor(args: { apiUrl: string, keepAliveInterval?: number }) {
-
-		if (typeof args.apiUrl !== 'string' || args.apiUrl.length === 0) {
-			throw new Error('apiUrl is a required parameter');
-		}
-
-		this.apiUrl = ensureTrailingSeparator(args.apiUrl);
-		this.keepAliveInterval = args.keepAliveInterval || 60000;
-
-		this.apiVersion = '';
-
-		this.state = {
-			user: {},
-			config: {},
-		};
-
-		this.endpoints = {};
-
-	}
-
-	private keepAliveInterval: number;
 
 	/**
 	 * Initialize the connector
@@ -79,6 +47,56 @@ export class Connector {
 
 	}
 
+	public apiVersion: string;
+	public apiUrl: string;
+	public state: { user: any; config: any, keepAliveInterval?: number, versionId: string };
+	public endpoints: { [key: string]: Endpoint };
+	private readonly keepAliveInterval: number;
+
+	/**
+	 * C-tor
+	 * @param {Object} args
+	 * @param {String} args.apiUrl - Full URL to the api end-point.
+	 * @param {Number} [args.keepAliveInterval] - Timeout for making a keep alive request
+	 */
+	constructor(args: { apiUrl: string, keepAliveInterval?: number }) {
+
+		if (typeof args.apiUrl !== 'string' || args.apiUrl.length === 0) {
+			throw new Error('apiUrl is a required parameter');
+		}
+
+		this.apiUrl = ensureTrailingSeparator(args.apiUrl);
+		this.keepAliveInterval = args.keepAliveInterval || 60000;
+
+		this.apiVersion = '';
+
+		this.state = {
+			user: {},
+			config: {},
+			versionId: '',
+		};
+
+		this.endpoints = {};
+
+	}
+
+	public initializeConnectorWithCredentials(args: { username: string, password: string }): Promise<IUserData> {
+
+		if (args.username.length === 0) {
+			return Promise.reject(new Error('username is a required parameter'));
+		}
+
+		if (args.password.length === 0) {
+			return Promise.reject(new Error('password is a required parameter'));
+		}
+
+		return this.auth.createAccessKey({
+			username: args.username as string,
+			password: args.password as string,
+		});
+
+	}
+
 	/**
 	 * Initializes a connector instance. Logs in and fetches the configs
 	 * @param {Object} args
@@ -88,41 +106,36 @@ export class Connector {
 	 */
 	public initializeConnector(args: { username?: string, password?: string, accessKey?: string }) {
 
-		const hasUsername = typeof args.username === 'string' && args.username.length !== 0;
-		const hasPassword = typeof args.password === 'string' && args.password.length !== 0;
-		const hasAccessKey = typeof args.accessKey === 'string' && args.accessKey.length !== 0;
+		let accessKeyPromise;
 
-		let loginPromise;
-
-		if (hasAccessKey) {
-			loginPromise = this.auth.loginWithAccessKey(args.accessKey as string);
+		if (!!args.username && !!args.password) {
+			accessKeyPromise = this.initializeConnectorWithCredentials({ username: args.username, password: args.password });
+		} else if (!!args.accessKey) {
+			accessKeyPromise = Promise.resolve(args.accessKey);
 		} else {
-
-			if (!hasUsername) {
-				return Promise.reject(new Error('username is a required parameter'));
-			}
-
-			if (!hasPassword) {
-				return Promise.reject(new Error('password is a required parameter'));
-			}
-
-			loginPromise = this.auth.login({
-				username: args.username as string,
-				password: args.password as string,
-			});
+			return Promise.reject(new Error('accessKey or username & password are required'));
 		}
 
-		const bootstrapPromise = loginPromise.then((loginResponse) => {
-			this.state.user = loginResponse;
+		const bootstrapPromise = Promise.all([
+			accessKeyPromise,
+			this.appConfig.getConnectorConfiguration(),
+		]).then(([loginResponse, connectorConfiguration]) => {
 
-			getGlobalContext().csrfToken = loginResponse.csrfToken;
+			this.state.versionId = connectorConfiguration.versionId;
 
-			if (hasUsername && hasPassword) {
-				this._initKeepAlive({
-					username: args.username as string,
-					password: args.password as string,
-				});
-			}
+			return this.auth.setAccessKeyOptions(
+				loginResponse.accessKey,
+				{
+					versionId: connectorConfiguration.versionId,
+					languageId: loginResponse.languageId,
+				},
+			).then(accessKeyData => {
+				this.state.user = {
+					...loginResponse,
+					languageId: accessKeyData.languageId,
+					accessKey: accessKeyData.accessKey,
+				};
+			});
 		}).then(() => {
 
 			return Promise.all([
@@ -146,36 +159,6 @@ export class Connector {
 
 	public getConnectorConfiguration() {
 		return this.config.getConnectorConfiguration();
-	}
-
-	/**
-	 * Initialize keep alive connection logic
-	 * @param {Object} args
-	 * @param {String} args.username - username to authenticate with.
-	 * @param {String} args.password - password.
-	 */
-	private _initKeepAlive(args: { username: string, password: string }) {
-
-		this.state.keepAliveInterval = setInterval(() => {
-
-			this.auth.keepAlive()
-				.then((response) => {
-					if (!response.isLoggedIn) {
-						this.auth.login({
-							username: args.username,
-							password: args.password,
-						});
-					}
-				})
-				.catch(() => {
-					this.auth.login({
-						username: args.username,
-						password: args.password,
-					});
-				});
-
-		}, this.keepAliveInterval) as any as number;
-
 	}
 
 }

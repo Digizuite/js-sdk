@@ -4,6 +4,7 @@ import {RequestError} from './requestError';
 
 export interface IBaseRequestArgs {
 	apiUrl: string;
+	accessKey?: string;
 }
 
 export interface IRequestGetErrorCodeArgs {
@@ -58,6 +59,7 @@ export class BaseRequest<T> {
 	}
 
 	protected apiUrl: string;
+	protected accessKey: string;
 
 	/**
 	 * C-tor
@@ -71,6 +73,7 @@ export class BaseRequest<T> {
 		}
 
 		this.apiUrl = args.apiUrl;
+		this.accessKey = args.accessKey || '';
 
 	}
 
@@ -90,10 +93,6 @@ export class BaseRequest<T> {
 		return {};
 	}
 
-	get setCsrfTokenHeader() {
-		return true;
-	}
-
 	/**
 	 * Execute!
 	 * @param payload
@@ -106,6 +105,7 @@ export class BaseRequest<T> {
 			{
 				...this.defaultPayload,
 				...payload,
+				...(!!this.accessKey ? {accessKey: this.accessKey} : {}),
 			},
 		);
 
@@ -113,12 +113,6 @@ export class BaseRequest<T> {
 			'Content-Type': 'application/x-www-form-urlencoded',
 			'X-Clacks-Overhead': 'GNU Terry Pratchett', // A man is not dead while his name is still spoken.
 		});
-
-		const csrfToken = getGlobalContext().csrfToken;
-
-		if (csrfToken && this.setCsrfTokenHeader) {
-			headers.append('X-CSRF-TOKEN', csrfToken);
-		}
 
 		const request = new Request(
 			this.endpointUrl,

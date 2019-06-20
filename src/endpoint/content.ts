@@ -112,6 +112,7 @@ export class Content extends Endpoint {
 
 		const foldersRequest = new Folders({
 			apiUrl: this.apiUrl,
+			accessKey: this.accessKey,
 		});
 
 		return foldersRequest.execute({
@@ -142,6 +143,7 @@ export class Content extends Endpoint {
 				const filtersRequest = new Filters({
 					apiUrl: this.apiUrl,
 					labels: this.labels,
+					accessKey: this.accessKey,
 				});
 
 				return filtersRequest.execute({
@@ -174,6 +176,7 @@ export class Content extends Endpoint {
 			// filters        : this.cache.filters[searchName],
 			sortTypes: this.SORT_TYPES,
 			defaultSortType: this._parseSortType(this.defaultSortType),
+			accessKey: this.accessKey,
 		});
 
 		return frameworkSearchRequest.execute(args)
@@ -197,6 +200,7 @@ export class Content extends Endpoint {
 
 		const assetRequest = new Assets({
 			apiUrl: this.apiUrl,
+			accessKey: this.accessKey,
 		});
 
 		return assetRequest.execute({
@@ -213,6 +217,7 @@ export class Content extends Endpoint {
 
 		const assetInformationRequest = new AssetsInformation({
 			apiUrl: this.apiUrl,
+			accessKey: this.accessKey,
 		});
 
 		return assetInformationRequest.execute({
@@ -266,6 +271,7 @@ const getter = function (instance: ConnectorType) {
 		metafieldLabelId: instance.state.config.PortalMenu.metafieldLabelId,
 		sLayoutFolderId: instance.state.config.MainSearchFolderId,
 		sortTypes: instance.state.config.SortTypes,
+		accessKey: instance.state.user.accessKey,
 	});
 };
 

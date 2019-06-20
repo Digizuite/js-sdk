@@ -23,6 +23,7 @@ export class Lock extends Endpoint {
 
 		const checkOutRequest = new CheckOut({
 			apiUrl: this.apiUrl,
+			accessKey: this.accessKey,
 		});
 
 		return checkOutRequest.execute({
@@ -46,6 +47,7 @@ export class Lock extends Endpoint {
 
 		const checkInRequest = new CheckIn({
 			apiUrl: this.apiUrl,
+			accessKey: this.accessKey,
 		});
 
 		return checkInRequest.execute({
@@ -69,6 +71,7 @@ export class Lock extends Endpoint {
 		return getLockInformation({
 			apiUrl: this.apiUrl,
 			asset: args.asset,
+			accessKey: this.accessKey,
 		});
 	}
 
@@ -79,6 +82,7 @@ const name = 'lock';
 const getter = function (instance: ConnectorType) {
 	return new Lock({
 		apiUrl: instance.apiUrl,
+		accessKey: instance.state.user.accessKey,
 	});
 };
 

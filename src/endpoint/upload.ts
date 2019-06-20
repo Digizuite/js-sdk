@@ -34,7 +34,12 @@ export class Upload extends Endpoint {
 
 		this.instance = args.instance; // i feel sick only reading this
 
-		this.digiUpload = new DigiUploader(args);
+		this.digiUpload = new DigiUploader({
+			computerName: args.computerName,
+			apiUrl: args.apiUrl,
+			accessKey: args.accessKey || '',
+			apiVersion: args.apiVersion,
+		});
 
 		this.assetEditableQueue = [];
 		this.assetPublishedQueue = [];
@@ -204,6 +209,7 @@ export class Upload extends Endpoint {
 		if (!this.assetPublishedRequest) {
 			this.assetPublishedRequest = new PublishStatus({
 				apiUrl: this.apiUrl,
+				accessKey: this.accessKey,
 			});
 		}
 
@@ -253,6 +259,7 @@ export class Upload extends Endpoint {
 
 		const assetsInformationRequest = new Assets({
 			apiUrl: this.apiUrl,
+			accessKey: this.accessKey,
 		});
 
 		assetsInformationRequest.execute({
@@ -277,6 +284,7 @@ export class Upload extends Endpoint {
 		if (!this.assetBasicInformationRequest) {
 			this.assetBasicInformationRequest = new AssetsBasicInformation({
 				apiUrl: this.apiUrl,
+				accessKey: this.accessKey,
 			});
 		}
 
@@ -325,6 +333,7 @@ const getter = function (instance: ConnectorType) {
 		apiVersion: instance.apiVersion,
 		computerName: instance.state.config.UploadName,
 		instance,
+		accessKey: instance.state.user.accessKey,
 	});
 };
 

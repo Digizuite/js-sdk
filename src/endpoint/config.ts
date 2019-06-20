@@ -1,9 +1,14 @@
-import {Endpoint} from '../common/endpoint';
+import {Endpoint, IEndpointArgs} from '../common/endpoint';
 import {attachEndpoint, Connector as ConnectorType} from '../connector';
 import {AppLabels} from '../request/configService/appLabels';
+import {ConnectorConfiguration} from "../request/configService/connectorConfiguration";
 import {AppConfiguration} from '../request/searchService/appConfiguration';
 import {SystemVersion} from '../request/searchService/systemVersion';
-import {ConnectorConfiguration} from "../request/configService/connectorConfiguration";
+
+export interface IConfigEndpointArgs extends IEndpointArgs {
+	languageId?: number;
+	versionId?: string;
+}
 
 export class Config extends Endpoint {
 
@@ -11,15 +16,26 @@ export class Config extends Endpoint {
 		labelsPromise?: Promise<any>, // TODO
 	};
 
+	private readonly languageId: number;
+	private readonly versionId: string;
+
 	/**
 	 * C-tor
 	 * @param {Object} args
 	 * @param {String} args.apiUrl - Full URL to the api end-point.
 	 */
-	constructor(args: { apiUrl: string }) {
+	constructor(args: IConfigEndpointArgs) {
 		super(args);
 
 		this.cache = {};
+
+		if (args.languageId) {
+			this.languageId = args.languageId;
+		}
+
+		if (args.versionId) {
+			this.versionId = args.versionId;
+		}
 	}
 
 	/**
@@ -30,6 +46,7 @@ export class Config extends Endpoint {
 
 		const appConfigRequest = new AppConfiguration({
 			apiUrl: this.apiUrl,
+			accessKey: this.accessKey,
 		});
 
 		return appConfigRequest.execute();
@@ -52,6 +69,7 @@ export class Config extends Endpoint {
 
 		const systemVersionRequest = new SystemVersion({
 			apiUrl: this.apiUrl,
+			accessKey: this.accessKey,
 		});
 
 		return systemVersionRequest.execute();
@@ -67,9 +85,13 @@ export class Config extends Endpoint {
 
 			const appConfigRequest = new AppLabels({
 				apiUrl: this.apiUrl,
+				accessKey: this.accessKey,
 			});
 
-			this.cache.labelsPromise = appConfigRequest.execute();
+			this.cache.labelsPromise = appConfigRequest.execute({
+				languageId: this.languageId,
+				versionId: this.versionId,
+			});
 		}
 
 		return this.cache.labelsPromise;
@@ -77,11 +99,24 @@ export class Config extends Endpoint {
 
 }
 
-// Attach endpoint
+// Attach AppConfig endpoint
+const appConfigName = 'appConfig';
+const appConfigGetter = function (instance: ConnectorType) {
+	return new Config({
+		apiUrl: instance.apiUrl,
+	});
+};
+
+attachEndpoint({name: appConfigName, getter: appConfigGetter});
+
+// Attach Config endpoint
 const name = 'config';
 const getter = function (instance: ConnectorType) {
 	return new Config({
 		apiUrl: instance.apiUrl,
+		accessKey: instance.state.user.accessKey,
+		languageId: instance.state.user.languageId,
+		versionId: instance.state.versionId,
 	});
 };
 
@@ -90,5 +125,6 @@ attachEndpoint({name, getter});
 declare module '../connector' {
 	interface Connector {
 		config: Config;
+		appConfig: Config;
 	}
 }

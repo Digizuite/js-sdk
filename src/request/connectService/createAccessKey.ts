@@ -5,9 +5,10 @@ export interface IUserData {
 	memberId: number;
 	languageId: number;
 	itemid: number;
+	accessKey: string;
 }
 
-export class Login extends BaseRequest<IUserData> {
+export class CreateAccessKey extends BaseRequest<IUserData> {
 
 	/**
 	 * Endpoint URL
@@ -15,10 +16,6 @@ export class Login extends BaseRequest<IUserData> {
 	 */
 	get endpointUrl() {
 		return `${this.apiUrl}ConnectService.js`;
-	}
-
-	get setCsrfTokenHeader() {
-		return false;
 	}
 
 	/**
@@ -29,8 +26,9 @@ export class Login extends BaseRequest<IUserData> {
 		return {
 			// Parameters required by DigiZuite - these should never be changed
 			// when executing the request!
-			method: 'LogOn',
+			method: 'CreateAccesskey',
 			usertype: 2,
+			useversionedmetadata: 1,
 			page: 1,
 			limit: 25,
 

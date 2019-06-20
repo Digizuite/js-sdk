@@ -20,6 +20,7 @@ export type DigiUploadFile = File | CloudFile;
 export interface IDigiUploaderArgs {
 	computerName: string;
 	apiUrl: string;
+	accessKey: string;
 	apiVersion: string;
 }
 
@@ -32,6 +33,7 @@ export interface IDigiUploaderGetUploadIdsArgs {
 export class DigiUploader {
 	private computerName: string;
 	private apiUrl: string;
+	private accessKey: string;
 	private apiVersion: string;
 	private fileChunkUploader: UploadFileChunk;
 
@@ -43,6 +45,7 @@ export class DigiUploader {
 	constructor(args: IDigiUploaderArgs) {
 		this.computerName = args.computerName;
 		this.apiUrl = args.apiUrl;
+		this.accessKey = args.accessKey;
 		this.apiVersion = args.apiVersion;
 	}
 
@@ -62,6 +65,7 @@ export class DigiUploader {
 
 		this.fileChunkUploader = new UploadFileChunk({
 			apiUrl: this.apiUrl,
+			accessKey: this.accessKey,
 		});
 
 		return this.fileChunkUploader.uploadFile(ticket);
@@ -93,6 +97,7 @@ export class DigiUploader {
 		if (ticket instanceof RestoreTicket) {
 			const copyMetadataRequest = new CopyMetadata({
 				apiUrl: this.apiUrl,
+				accessKey: this.accessKey,
 			});
 
 			preFinishPromise = copyMetadataRequest.execute({ticket});
@@ -102,6 +107,7 @@ export class DigiUploader {
 
 		const finishUploadRequest = new FinishUpload({
 			apiUrl: this.apiUrl,
+			accessKey: this.accessKey,
 		});
 
 		// No one knows copyMetadata needs to be ran or not before submitting the upload.
@@ -118,10 +124,12 @@ export class DigiUploader {
 
 		const setTransferModeRequest = new SetTransferMode({
 			apiUrl: this.apiUrl,
+			accessKey: this.accessKey,
 		});
 
 		const submitUploadRequest = new SubmitUpload({
 			apiUrl: this.apiUrl,
+			accessKey: this.accessKey,
 		});
 
 		// Valid for all uploads
@@ -134,6 +142,7 @@ export class DigiUploader {
 
 			const setFileNameRequest = new SetFileName({
 				apiUrl: this.apiUrl,
+				accessKey: this.accessKey,
 			});
 
 			requests.push(
@@ -150,10 +159,12 @@ export class DigiUploader {
 
 			const setAssetIdRequest = new SetAssetId({
 				apiUrl: this.apiUrl,
+				accessKey: this.accessKey,
 			});
 
 			const setArchiveReplaceRequest = new SetArchiveReplace({
 				apiUrl: this.apiUrl,
+				accessKey: this.accessKey,
 			});
 
 			requests.push(
@@ -172,6 +183,7 @@ export class DigiUploader {
 		) {
 			const setMetaSourceRequest = new SetMetaSource({
 				apiUrl: this.apiUrl,
+				accessKey: this.accessKey,
 			});
 
 			requests.push(
@@ -183,6 +195,7 @@ export class DigiUploader {
 		if (ticket instanceof RestoreTicket) {
 			const copyMetadataRequest = new CopyMetadata({
 				apiUrl: this.apiUrl,
+				accessKey: this.accessKey,
 			});
 
 			requests.push(
@@ -208,6 +221,7 @@ export class DigiUploader {
 
 		const createUploadRequest = new CreateUpload({
 			apiUrl: this.apiUrl,
+			accessKey: this.accessKey,
 		});
 
 		// Create an upload request
@@ -239,6 +253,7 @@ export class DigiUploader {
 
 		const itemIdUploadRequest = new ItemIdUpload({
 			apiUrl: this.apiUrl,
+			accessKey: this.accessKey,
 		});
 
 		return itemIdUploadRequest.execute({

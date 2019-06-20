@@ -1,7 +1,8 @@
 import {Endpoint} from '../common/endpoint';
 import {attachEndpoint, Connector as ConnectorType} from '../connector';
+import {CreateAccessKey, IUserData} from "../request/connectService/createAccessKey";
 import {KeepAlive} from '../request/connectService/keepAlive';
-import {Login} from '../request/connectService/login';
+import {IAccessKeyData, SetAccessKeyOptions} from "../request/connectService/setAccessKeyOptions";
 
 export interface IAuthEndpointArgs {
 	apiUrl: string;
@@ -28,9 +29,9 @@ export class Auth extends Endpoint {
 	 * @param {String} password - password of said user
 	 * @returns {Promise}
 	 */
-	public login({username = '', password = ''}): Promise<any> {
+	public createAccessKey({username = '', password = ''}): Promise<IUserData> {
 
-		const loginRequest = new Login({
+		const loginRequest = new CreateAccessKey({
 			apiUrl: this.apiUrl,
 		});
 
@@ -41,18 +42,23 @@ export class Auth extends Endpoint {
 	}
 
 	/**
-	 * Logs in a user
-	 * @returns {Promise}
+	 *
 	 * @param accessKey
+	 * @param args
 	 */
-	public loginWithAccessKey(accessKey: string): Promise<any> {
+	public setAccessKeyOptions(
+		accessKey: string,
+		args: { versionId: string, languageId: number },
+	): Promise<IAccessKeyData> {
 
-		const loginRequest = new Login({
+		const optionsRequest = new SetAccessKeyOptions({
 			apiUrl: this.apiUrl,
 		});
 
-		return loginRequest.execute({
+		return optionsRequest.execute({
 			accessKey,
+			versionId: args.versionId,
+			languageId: args.languageId,
 		});
 
 	}

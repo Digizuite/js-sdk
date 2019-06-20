@@ -68,6 +68,7 @@ export class Metadata extends Endpoint {
 
 		const groupRequest = new MetadataGroups({
 			apiUrl: this.apiUrl,
+			accessKey: this.accessKey,
 		});
 
 		// Add this.getLanguageMetadataGroups()
@@ -123,6 +124,7 @@ export class Metadata extends Endpoint {
 
 		const metadataItemsRequest = new MetadataItems({
 			apiUrl: this.apiUrl,
+			accessKey: this.accessKey,
 		});
 
 		return metadataItemsRequest.execute({
@@ -175,9 +177,12 @@ export class Metadata extends Endpoint {
 
 		const batchUpdateRequest = new BatchUpdate({
 			apiUrl: this.apiUrl,
+			accessKey: this.accessKey,
 		});
 		return Promise.all(
-			args.assets.map((thisAsset) => getLockInformation({asset: thisAsset, apiUrl: this.apiUrl})),
+			args.assets.map((thisAsset) => getLockInformation({
+				asset: thisAsset, apiUrl: this.apiUrl, accessKey: this.accessKey
+			})),
 		).then((lockInfo) => {
 
 			let isLocked = false;
@@ -234,6 +239,7 @@ export class Metadata extends Endpoint {
 
 		const treeOptionsRequest = new TreeOptions({
 			apiUrl: this.apiUrl,
+			accessKey: this.accessKey,
 		});
 
 		return treeOptionsRequest.execute({
@@ -255,6 +261,7 @@ export class Metadata extends Endpoint {
 
 		const comboOptionsRequest = new ComboOptions({
 			apiUrl: this.apiUrl,
+			accessKey: this.accessKey,
 		});
 
 		return comboOptionsRequest.execute({
@@ -291,6 +298,7 @@ export class Metadata extends Endpoint {
 
 		const isUniqueVersionRequest = new IsUniqueVersion({
 			apiUrl: this.apiUrl,
+			accessKey: this.accessKey,
 		});
 
 		return isUniqueVersionRequest.execute({
@@ -318,6 +326,7 @@ export class Metadata extends Endpoint {
 
 		const copyMetadataRequest = new CopyMetadata({
 			apiUrl: this.apiUrl,
+			accessKey: this.accessKey,
 		});
 
 		return copyMetadataRequest.execute({
@@ -372,6 +381,7 @@ const getter = function (instance: ConnectorType) {
 		apiUrl: instance.apiUrl,
 		language: instance.state.user.languageId,
 		languages: instance.state.config.languages,
+		accessKey: instance.state.user.accessKey,
 	});
 };
 

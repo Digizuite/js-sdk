@@ -1,10 +1,12 @@
 export interface IEndpointArgs {
 	apiUrl: string;
+	accessKey?: string;
 }
 
 export class Endpoint {
 
 	protected apiUrl: string;
+	protected accessKey: string = '';
 
 	/**
 	 * C-tor
@@ -18,6 +20,10 @@ export class Endpoint {
 		}
 
 		this.apiUrl = args.apiUrl;
+
+		if (args.accessKey) {
+			this.accessKey = args.accessKey;
+		}
 
 	}
 

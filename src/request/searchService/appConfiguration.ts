@@ -24,6 +24,7 @@ export class AppConfiguration extends BaseRequest<any> {
 			SearchName: 'DigiZuite_System_Configs',
 			page: 1,
 			limit: 25,
+			useVersionedMetadata: true,
 		};
 	}
 

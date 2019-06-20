@@ -36,6 +36,7 @@ export class Member extends Endpoint {
 
 		const memberRequest = new MemberRequest({
 			apiUrl: this.apiUrl,
+			accessKey: this.accessKey,
 		});
 
 		return memberRequest.execute({
@@ -85,6 +86,7 @@ export class Member extends Endpoint {
 
 		const batchUpdateRequest = new BatchUpdate({
 			apiUrl: this.apiUrl,
+			accessKey: this.accessKey,
 		});
 
 		return batchUpdateRequest.execute({
@@ -101,6 +103,7 @@ const getter = function (instance: ConnectorType) {
 	return new Member({
 		apiUrl: instance.apiUrl,
 		loggedInMemberId: instance.state.user.memberId,
+		accessKey: instance.state.user.accessKey,
 	});
 };
 

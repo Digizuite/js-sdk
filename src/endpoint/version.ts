@@ -28,7 +28,12 @@ export class Version extends Endpoint {
 	 */
 	constructor(args: IVersionEndpointArgs) {
 		super(args);
-		this.digiUpload = new DigiUploader(args);
+		this.digiUpload = new DigiUploader({
+			computerName: args.computerName,
+			apiUrl: args.apiUrl,
+			accessKey: args.accessKey || '',
+			apiVersion: args.apiVersion,
+		});
 		this.instance = args.instance;
 	}
 
@@ -101,6 +106,7 @@ export class Version extends Endpoint {
 		return getLockInformation({
 			apiUrl: this.apiUrl,
 			asset: args.ticket.asset,
+			accessKey: this.accessKey,
 		}).then((lockInfo) => {
 
 				if (lockInfo.isLocked) {
@@ -132,6 +138,7 @@ export class Version extends Endpoint {
 		return getLockInformation({
 			apiUrl: this.apiUrl,
 			asset: args.ticket.asset,
+			accessKey: this.accessKey,
 		}).then((lockInfo) => {
 
 			if (lockInfo.isLocked) {
@@ -158,6 +165,7 @@ export class Version extends Endpoint {
 
 		const assetVersionsRequest = new AssetVersions({
 			apiUrl: this.apiUrl,
+			accessKey: this.accessKey,
 		});
 
 		return assetVersionsRequest.execute({
@@ -193,6 +201,7 @@ const getter = function (instance: ConnectorType) {
 		// TODO: un-hard-code this when we get a dam version
 		apiVersion: '4.7.1',
 		computerName: instance.state.config.UploadName,
+		accessKey: instance.state.user.accessKey,
 		instance,
 	});
 };
