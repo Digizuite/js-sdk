@@ -28,7 +28,7 @@ export class CreateAccessKey extends BaseRequest<IUserData> {
 			// when executing the request!
 			method: 'CreateAccesskey',
 			usertype: 2,
-			useversionedmetadata: 1,
+			useversionedmetadata: 0,
 			page: 1,
 			limit: 25,
 

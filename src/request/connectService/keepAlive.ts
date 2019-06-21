@@ -1,6 +1,7 @@
 import {BaseRequest} from '../../common/request';
+import {IUserData} from "./createAccessKey";
 
-export class KeepAlive extends BaseRequest<any> {
+export class KeepAlive extends BaseRequest<IUserData> {
 
 	/**
 	 * Endpoint URL
@@ -20,6 +21,19 @@ export class KeepAlive extends BaseRequest<any> {
 			// when executing the request!
 			method: 'IsLoggedIn',
 			accessKey: null,
+		};
+	}
+
+	/**
+	 * Process response
+	 * @param response
+	 */
+	public processResponseData(response: any) {
+		return {
+			memberId: parseInt(response.memberId, 10),
+			languageId: parseInt(response.languageId, 10),
+			itemid: parseInt(response.memberItemid, 10),
+			accessKey: this.accessKey,
 		};
 	}
 

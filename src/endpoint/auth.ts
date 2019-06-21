@@ -64,6 +64,20 @@ export class Auth extends Endpoint {
 	}
 
 	/**
+	 * Gets accesskey info
+	 * @returns {Promise}
+	 */
+	public getAccessKeyInfo(args: {accessKey: string}): Promise<any> {
+
+		const keepAliveRequest = new KeepAlive({
+			apiUrl: this.apiUrl,
+			accessKey: args.accessKey,
+		});
+
+		return keepAliveRequest.execute();
+	}
+
+	/**
 	 * Ahh, Ahh, Ahh, Ahh, Staying alive, staying alive
 	 * @returns {Promise}
 	 */

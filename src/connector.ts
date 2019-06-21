@@ -81,7 +81,7 @@ export class Connector {
 
 	}
 
-	public initializeConnectorWithCredentials(args: { username: string, password: string }): Promise<IUserData> {
+	public getAccessKeyFromCredentials(args: { username: string, password: string }): Promise<IUserData> {
 
 		if (args.username.length === 0) {
 			return Promise.reject(new Error('username is a required parameter'));
@@ -99,6 +99,21 @@ export class Connector {
 	}
 
 	/**
+	 * Gets an acess key from SSO Token
+	 * @param args
+	 */
+	public getAccessKeyFromSSOToken(args: { accessKey: string }): Promise<IUserData> {
+
+		if (args.accessKey.length === 0) {
+			return Promise.reject(new Error('SSO Token is a required parameter'));
+		}
+
+		return this.auth.getAccessKeyInfo({
+			accessKey: args.accessKey,
+		});
+	}
+
+	/**
 	 * Initializes a connector instance. Logs in and fetches the configs
 	 * @param {Object} args
 	 * @param {String} args.username - username to authenticate with.
@@ -110,9 +125,9 @@ export class Connector {
 		let accessKeyPromise;
 
 		if (!!args.username && !!args.password) {
-			accessKeyPromise = this.initializeConnectorWithCredentials({ username: args.username, password: args.password });
+			accessKeyPromise = this.getAccessKeyFromCredentials({ username: args.username, password: args.password });
 		} else if (!!args.accessKey) {
-			accessKeyPromise = Promise.resolve(args.accessKey);
+			accessKeyPromise = this.getAccessKeyFromSSOToken({ accessKey: args.accessKey });
 		} else {
 			return Promise.reject(new Error('accessKey or username & password are required'));
 		}
