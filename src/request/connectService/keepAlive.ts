@@ -19,6 +19,7 @@ export class KeepAlive extends BaseRequest<any> {
 			// Parameters required by DigiZuite - these should never be changed
 			// when executing the request!
 			method: 'IsLoggedIn',
+			accessKey: null,
 		};
 	}
 

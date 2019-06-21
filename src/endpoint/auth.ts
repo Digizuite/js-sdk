@@ -67,10 +67,11 @@ export class Auth extends Endpoint {
 	 * Ahh, Ahh, Ahh, Ahh, Staying alive, staying alive
 	 * @returns {Promise}
 	 */
-	public keepAlive() {
+	public keepAlive(args: {accessKey: string}) {
 
 		const keepAliveRequest = new KeepAlive({
 			apiUrl: this.apiUrl,
+			accessKey: args.accessKey,
 		});
 
 		return keepAliveRequest.execute();

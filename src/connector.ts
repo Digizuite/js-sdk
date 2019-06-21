@@ -1,6 +1,7 @@
 import {Endpoint} from "./common/endpoint";
 import {IUserData} from "./request/connectService/createAccessKey";
 import {ensureTrailingSeparator} from './utilities/helpers/url';
+import Timer = NodeJS.Timer;
 
 export interface IConnectorInstanceOptions {
 	apiUrl: string;
@@ -49,7 +50,7 @@ export class Connector {
 
 	public apiVersion: string;
 	public apiUrl: string;
-	public state: { user: any; config: any, keepAliveInterval?: number, versionId: string };
+	public state: { user: any; config: any, keepAliveIntervalTimer?: Timer|number, versionId: string };
 	public endpoints: { [key: string]: Endpoint };
 	private readonly keepAliveInterval: number;
 
@@ -137,6 +138,10 @@ export class Connector {
 				};
 			});
 		}).then(() => {
+			this._initKeepAlive({
+				accessKey: this.state.user.accessKey,
+			});
+		}).then(() => {
 
 			return Promise.all([
 				this.config.getAppConfiguration(),
@@ -159,6 +164,21 @@ export class Connector {
 
 	public getConnectorConfiguration() {
 		return this.config.getConnectorConfiguration();
+	}
+
+	/**
+	 * Initialize keep alive connection logic
+	 * @param {Object} args
+	 * @private
+	 */
+	private _initKeepAlive(args: {accessKey: string}) {
+
+		this.state.keepAliveIntervalTimer = setInterval(() => {
+
+			this.auth.keepAlive({ accessKey: args.accessKey });
+
+		}, this.keepAliveInterval);
+
 	}
 
 }

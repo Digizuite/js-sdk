@@ -7,10 +7,12 @@ import {EditMultiComboValueMetadataItem} from '../../model/metadata/editMultiCom
 import {FloatMetadataItem} from '../../model/metadata/floatMetadataItem';
 import {IntMetadataItem} from '../../model/metadata/intMetadataItem';
 import {LinkMetadataItem} from '../../model/metadata/linkMetadataItem';
+import {MasterItemReferenceMetadataItem} from '../../model/metadata/masterItemReferenceMetadataItem';
 import {MetadataItem} from "../../model/metadata/metadataItem";
 import {MoneyMetadataItem} from '../../model/metadata/moneyMetadataItem';
 import {MultiComboValueMetadataItem} from '../../model/metadata/multiComboValueMetadataItem';
 import {NoteMetadataItem} from '../../model/metadata/noteMetadataItem';
+import {SlaveItemReferenceMetadataItem} from "../../model/metadata/slaveItemReferenceMetadataItem";
 import {StringMetadataItem} from '../../model/metadata/stringMetadataItem';
 import {TreeMetadataItem} from '../../model/metadata/treeMetadataItem';
 import {UniqueVersionMetadataItem} from '../../model/metadata/uniqueVersionMetadataItem';
@@ -154,6 +156,12 @@ export class MetadataItems extends BaseRequest<any> {
 			case MultiComboValueMetadataItem.TYPE:
 				result = new MultiComboValueMetadataItem(thisItem);
 				break;
+			case MasterItemReferenceMetadataItem.TYPE:
+				LogWarn('MasterItemReference metadata type not supported!');
+				return null;
+			case SlaveItemReferenceMetadataItem.TYPE:
+				LogWarn('SlaveItemReference metadata type not supported!');
+				return null;
 			default:
 				// Lol
 				LogWarn('Unknown metadata type', thisItem);
