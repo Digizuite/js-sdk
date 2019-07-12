@@ -22,9 +22,16 @@ export class Connector {
 	 */
 	public static getConnectorInstance(args: IConnectorInstanceOptions) {
 
-		const digizuiteInstance = new Connector({
-			apiUrl: args.apiUrl,
-		});
+		let digizuiteInstance;
+
+		try {
+			digizuiteInstance = new Connector({
+				apiUrl: args.apiUrl,
+			});
+		} catch (e) {
+			return Promise.reject(e);
+		}
+
 		return digizuiteInstance.initializeConnector({
 			username: args.username,
 			password: args.password,

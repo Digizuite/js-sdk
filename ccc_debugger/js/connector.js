@@ -12,12 +12,12 @@
             password: globals.config.password,
         }).then(function (instance) {
 
-            console.log("Connector instance created!", instance);
+            console.log("Connector instance created!");
 
             resolve(instance);
         }).catch(function (error) {
 
-            console.error(`Could not create connector instance! Error: ${error.code} - ${error.message}`);
+            console.error(`Could not create connector instance! Error: ${error.code || -1} - ${error.message}`);
 
             if (error.code === Digizuite.Constants.ERROR_CODE.USER_NOT_ALLOWED_PRODUCT_ACCESS) {
                 console.error("User was not allowed.");
