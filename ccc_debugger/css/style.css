@@ -1,0 +1,27 @@
+#logTarget {
+    list-style: none;
+    -webkit-padding-start: 0;
+    -webkit-margin-after: 0;
+    -webkit-margin-before: 1em;
+    border: 1px solid #000;
+    overflow-y: auto;
+    width: 100%;
+    background: #333;
+    color: #fff;
+}
+
+.text-info {
+    color: #31708f;
+}
+
+.text-success {
+    color: #3c763d;
+}
+
+.text-warning {
+    color: #8a6d3b;
+}
+
+.text-danger {
+    color: #a94442;
+}

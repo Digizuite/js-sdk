@@ -65,3 +65,5 @@ karma.conf.d.ts
 karma.conf.js
 karma.conf.js.map
 !src/@types/*
+
+config.js
