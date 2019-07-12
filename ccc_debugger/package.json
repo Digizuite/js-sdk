@@ -1,0 +1,12 @@
+{
+  "name": "ccc_debugger",
+  "description": "CCC Debugger",
+  "version": "0.1.0",
+  "scripts": {},
+  "dependencies": {
+    "http-server": "^0.11.1"
+  },
+  "author": "Digizuite A/S",
+  "license": "MIT",
+  "homepage": "https://bitbucket.org/digizuite/js-sdk"
+}

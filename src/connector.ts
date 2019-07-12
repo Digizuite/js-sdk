@@ -44,8 +44,6 @@ export class Connector {
 	 * Initialize the connector
 	 * @param {Object} args
 	 * @param {String} args.apiUrl - Full URL to the api end-point.
-	 * @param {String} args.username - username to authenticate with.
-	 * @param {String} args.password - password.
 	 * @returns {Promise}.<Connector> - a promise that will be resolved once the
 	 */
 	public static getConfiguration(args: { apiUrl: string}) {
@@ -53,6 +51,22 @@ export class Connector {
 		const digizuiteInstance = new Connector(args);
 		return digizuiteInstance.getConnectorConfiguration();
 
+	}
+
+	/**
+	 * Gets the SSO Login URL
+	 * @param {Object} args
+	 * @param {String} args.apiUrl - Full URL to the api end-point.
+	 * @param {String} args.callbackUrl - Callback URL
+	 * @returns {Promise}.<string> - a promise that will be resolved once the
+	 */
+	public static getSSOLoginUrl(args: { apiUrl: string, callbackUrl: string }) {
+
+		const digizuiteInstance = new Connector({ apiUrl: args.apiUrl });
+
+		return digizuiteInstance.getConnectorConfiguration().then(conf => {
+			return `${conf.loginServiceUrl}?callbackUrl=${args.callbackUrl}&versionId=${conf.versionId}`;
+		});
 	}
 
 	public apiVersion: string;

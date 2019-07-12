@@ -5,6 +5,8 @@
     await checkFolders(instance);
     await checkAssets(instance);
 
+    console.log('Done diddly done!');
+
     /**
      * Check folders
      * @param instance
@@ -17,7 +19,6 @@
             });
 
             console.log(`Fetched ${foldersResp.folders.length} folders.`);
-            console.debug(foldersResp);
         } catch (e) {
             console.error(`Error loading folders. ${e}`)
         }

@@ -13,7 +13,8 @@ export interface IConfigEndpointArgs extends IEndpointArgs {
 export class Config extends Endpoint {
 
 	private cache: {
-		labelsPromise?: Promise<any>, // TODO
+		labelsPromise?: Promise<any>,
+		connectorConfigPromise?: Promise<any>,
 	};
 
 	private readonly languageId: number;
@@ -53,11 +54,15 @@ export class Config extends Endpoint {
 	}
 
 	public getConnectorConfiguration() {
-		const connectorConfigRequest = new ConnectorConfiguration({
-			apiUrl: this.apiUrl,
-		});
+		if (!this.cache.connectorConfigPromise) {
+			const connectorConfigRequest = new ConnectorConfiguration({
+				apiUrl: this.apiUrl,
+			});
 
-		return connectorConfigRequest.execute();
+			this.cache.connectorConfigPromise = connectorConfigRequest.execute();
+		}
+
+		return this.cache.connectorConfigPromise;
 	}
 
 	/**
