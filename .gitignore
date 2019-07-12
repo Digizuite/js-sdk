@@ -46,7 +46,6 @@ fabric.properties
 
 .idea/
 node_modules/
-browser_test/
 dist/
 coverage/
 TODO
@@ -68,3 +67,4 @@ karma.conf.js.map
 test.js
 ccc_debugger/config.js
 ccc_debugger/js/dz-sdk/*
+ccc_debugger/sf_test/*
