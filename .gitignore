@@ -66,3 +66,4 @@ karma.conf.js
 karma.conf.js.map
 !src/@types/*
 test.js
+config.js
