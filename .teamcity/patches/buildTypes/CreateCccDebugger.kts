@@ -14,6 +14,8 @@ create(DslContext.projectId, BuildType({
     id("CreateCccDebugger")
     name = "Create CCC Debugger"
 
+    artifactRules = "Publish/Zip/**.zip"
+
     vcs {
         root(DslContext.settingsRoot)
 
