@@ -19,14 +19,14 @@ create(DslContext.projectId, BuildType({
 
     steps {
         step {
-            name = "NPM Build"
-            type = "jonnyzzz.npm"
-            param("npm_commands", "ci")
-        }
-        step {
             name = "NPM Install Deps"
             type = "jonnyzzz.npm"
             param("teamcity.build.workingDir", "ccc_debugger")
+            param("npm_commands", "ci")
+        }
+        step {
+            name = "NPM Build"
+            type = "jonnyzzz.npm"
             param("npm_commands", "ci")
         }
     }
