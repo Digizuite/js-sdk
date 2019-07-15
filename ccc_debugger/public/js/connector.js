@@ -2,6 +2,11 @@
 
     setupLog();
 
+    if (!globals.config) {
+        console.error('Config file not found or malformed!');
+        return;
+    }
+
     console.debug(`Connecting to ${globals.config.apiUrl} with username ${globals.config.username} and password ${'*'.repeat(globals.config.password.length)}...`);
 
     // Create a digizuite connector

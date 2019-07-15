@@ -2,6 +2,11 @@
 
     setupLog();
 
+    if (!globals.config) {
+        console.error('Config file not found or malformed!');
+        return;
+    }
+
     globals.connectorInstance = new Promise(async (resolve, reject) => {
 
         const accessKey = getAccessKeyFromUrl();
