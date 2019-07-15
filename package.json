@@ -1,7 +1,7 @@
 {
   "name": "digizuite",
   "description": "JS SDK for Digizuite API",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "main": "dist/digizuite.js",
   "module": "src/index.js",
   "scripts": {
