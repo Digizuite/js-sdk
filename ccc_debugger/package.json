@@ -3,7 +3,8 @@
   "description": "CCC Debugger",
   "version": "0.1.0",
   "scripts": {
-    "ccc_debugger": " ./node_modules/.bin/http-server ./public/ -o -s"
+    "ccc_debugger": " ./node_modules/.bin/http-server ./public/ -o -p 3435",
+    "ccc_debugger_win": " .\\node_modules\\.bin\\http-server .\\public\\ -o -p 3435"
   },
   "dependencies": {
     "http-server": "^0.11.1"

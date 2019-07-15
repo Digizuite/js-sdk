@@ -2,6 +2,6 @@
 
 title CCC Debugger
 
-npm run ccc_debugger
+npm run ccc_debugger_win
 
 pause
