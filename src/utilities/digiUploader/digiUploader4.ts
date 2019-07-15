@@ -1,75 +1,48 @@
-import {CloudFile} from '../model/cloudFile';
-import {ReplaceTicket} from '../model/ticket/replaceTicket';
-import {RestoreTicket} from '../model/ticket/restoreTicket';
-import {UploadTicket} from '../model/ticket/uploadTicket';
-import {CopyMetadata} from '../request/metadataService/copyMetadata';
-import {CreateUpload} from '../request/uploadService/createUpload';
-import {FinishUpload} from '../request/uploadService/finishUpload';
-import {ItemIdUpload} from '../request/uploadService/itemIdUpload';
-import {SetArchiveReplace} from '../request/uploadService/setArchiveReplace';
-import {SetAssetId} from '../request/uploadService/setAssetId';
-import {SetFileName} from '../request/uploadService/setFileName';
-import {SetMetaSource} from '../request/uploadService/setMetaSource';
-import {SetTransferMode} from '../request/uploadService/setTransferMode';
-import {SubmitUpload} from '../request/uploadService/submitUpload';
-import {UploadFileChunk} from '../request/uploadService/uploadFileChunk';
-import {greaterOrEqualThan} from './damVersionCompare';
+import {CloudFile} from '../../model/cloudFile';
+import {ReplaceTicket} from '../../model/ticket/replaceTicket';
+import {RestoreTicket} from '../../model/ticket/restoreTicket';
+import {UploadTicket} from '../../model/ticket/uploadTicket';
+import {CopyMetadata} from '../../request/metadataService/copyMetadata';
+import {CreateUpload} from '../../request/uploadService/createUpload';
+import {FinishUpload} from '../../request/uploadService/finishUpload';
+import {ItemIdUpload} from '../../request/uploadService/itemIdUpload';
+import {SetArchiveReplace} from '../../request/uploadService/setArchiveReplace';
+import {SetAssetId} from '../../request/uploadService/setAssetId';
+import {SetFileName} from '../../request/uploadService/setFileName';
+import {SetMetaSource} from '../../request/uploadService/setMetaSource';
+import {SetTransferMode} from '../../request/uploadService/setTransferMode';
+import {SubmitUpload} from '../../request/uploadService/submitUpload';
+import {greaterOrEqualThan} from '../damVersionCompare';
+import {BaseDigiUploader, IBaseDigiUploaderArgs} from "./baseDigiUploader";
+import {IDigiUploader, IDigiUploaderGetUploadIdsArgs} from "./IDigiUploader";
 
-export type DigiUploadFile = File | CloudFile;
-
-export interface IDigiUploaderArgs {
+export interface IDigiUploader4Args extends IBaseDigiUploaderArgs {
 	computerName: string;
-	apiUrl: string;
-	accessKey: string;
 	apiVersion: string;
 }
 
-export interface IDigiUploaderGetUploadIdsArgs {
-	file?: File | CloudFile;
-	filename?: string;
-	name?: string;
-}
+export class DigiUploader4 extends BaseDigiUploader implements IDigiUploader {
 
-export class DigiUploader {
-	private computerName: string;
-	private apiUrl: string;
-	private accessKey: string;
-	private apiVersion: string;
-	private fileChunkUploader: UploadFileChunk;
+	private readonly computerName: string;
+	private readonly apiVersion: string;
 
 	/**
 	 * C-tor
 	 * @param {Object} args
 	 * @param {string} args.computerName
 	 */
-	constructor(args: IDigiUploaderArgs) {
+	constructor(args: IDigiUploader4Args) {
+		super({
+			apiUrl: args.apiUrl,
+			accessKey: args.accessKey,
+		});
+
 		this.computerName = args.computerName;
-		this.apiUrl = args.apiUrl;
-		this.accessKey = args.accessKey;
 		this.apiVersion = args.apiVersion;
 	}
 
 	get SUPPORTS_FAST_FINISH_UPLOAD() {
 		return greaterOrEqualThan(this.apiVersion, '4.7.1');
-	}
-
-	/**
-	 * Upload a file
-	 * @param {UploadTicket} ticket
-	 */
-	public uploadFile(ticket: UploadTicket): Promise<void> {
-
-		if (!(ticket instanceof UploadTicket)) {
-			throw new Error('Upload expect an upload ticket as parameter');
-		}
-
-		this.fileChunkUploader = new UploadFileChunk({
-			apiUrl: this.apiUrl,
-			accessKey: this.accessKey,
-		});
-
-		return this.fileChunkUploader.uploadFile(ticket);
-
 	}
 
 	/**

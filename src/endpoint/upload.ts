@@ -8,7 +8,8 @@ import {UploadTicket} from '../model/ticket/uploadTicket';
 import {Assets} from '../request/searchService/assets';
 import {AssetsBasicInformation} from '../request/searchService/assetsBasicInformation';
 import {PublishStatus} from '../request/searchService/publishStatus';
-import {DigiUploader} from '../utilities/digiUploader';
+import {createDigiUploader} from '../utilities/digiUploader/digiUploaderProvider';
+import {DigiUploadFile, IDigiUploader} from '../utilities/digiUploader/iDigiUploader';
 
 export interface IUploadEndpointArgs extends IEndpointArgs {
 	computerName: string;
@@ -18,7 +19,7 @@ export interface IUploadEndpointArgs extends IEndpointArgs {
 
 export class Upload extends Endpoint {
 	private instance: ConnectorType;
-	private digiUpload: DigiUploader;
+	private digiUpload: IDigiUploader;
 	private assetEditableQueue: any[];
 	private assetPublishedQueue: any[];
 	private assetPublishedRequest: PublishStatus;
@@ -34,7 +35,7 @@ export class Upload extends Endpoint {
 
 		this.instance = args.instance; // i feel sick only reading this
 
-		this.digiUpload = new DigiUploader({
+		this.digiUpload = createDigiUploader({
 			computerName: args.computerName,
 			apiUrl: args.apiUrl,
 			accessKey: args.accessKey || '',
@@ -59,7 +60,7 @@ export class Upload extends Endpoint {
 	 * @param {File|CloudFile[]} args.files
 	 * @returns {Promise.<UploadTicket[]>}
 	 */
-	public requestUploadTickets(args: { files: Array<File | CloudFile> }): Promise<UploadTicket[]> {
+	public requestUploadTickets(args: { files: DigiUploadFile[] }): Promise<UploadTicket[]> {
 
 		if (!Array.isArray(args.files)) {
 			throw new Error('Upload expect array of files as parameter');

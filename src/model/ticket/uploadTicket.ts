@@ -1,4 +1,4 @@
-import {DigiUploadFile} from "../../utilities/digiUploader";
+import {DigiUploadFile} from "../../utilities/digiUploader/IDigiUploader";
 
 export interface IUploadTicketArgs {
 	itemId: number;

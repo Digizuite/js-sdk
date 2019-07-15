@@ -8,7 +8,8 @@ import {BitMetadataItem} from '../model/metadata/bitMetadataItem';
 import {ReplaceTicket} from '../model/ticket/replaceTicket';
 import {RestoreTicket} from '../model/ticket/restoreTicket';
 import {AssetVersions} from '../request/searchService/assetVersions';
-import {DigiUploader, DigiUploadFile} from '../utilities/digiUploader';
+import {DigiUploader4} from '../utilities/digiUploader/digiUploader4';
+import {DigiUploadFile, IDigiUploader} from '../utilities/digiUploader/IDigiUploader';
 import {getLockInformation} from '../utilities/lockInformation';
 
 export interface IVersionEndpointArgs extends IEndpointArgs {
@@ -19,7 +20,7 @@ export interface IVersionEndpointArgs extends IEndpointArgs {
 
 export class Version extends Endpoint {
 	private instance: ConnectorType;
-	private digiUpload: DigiUploader;
+	private digiUpload: IDigiUploader;
 
 	/**
 	 * C-tor
@@ -28,7 +29,7 @@ export class Version extends Endpoint {
 	 */
 	constructor(args: IVersionEndpointArgs) {
 		super(args);
-		this.digiUpload = new DigiUploader({
+		this.digiUpload = new DigiUploader4({
 			computerName: args.computerName,
 			apiUrl: args.apiUrl,
 			accessKey: args.accessKey || '',
