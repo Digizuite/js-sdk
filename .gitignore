@@ -68,3 +68,4 @@ test.js
 ccc_debugger/config.js
 ccc_debugger/js/dz-sdk/*
 ccc_debugger/sf_test/*
+.DS_Store

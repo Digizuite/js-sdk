@@ -412,5 +412,5 @@ coverage/
 karma.conf.js
 webpack.config.ts
 .npmignore
-
+.DS_Store
 ccc_debugger/
