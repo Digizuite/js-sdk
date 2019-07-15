@@ -413,4 +413,5 @@ karma.conf.js
 webpack.config.ts
 .npmignore
 .DS_Store
+.teamcity
 ccc_debugger/
