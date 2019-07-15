@@ -16,5 +16,13 @@ create(DslContext.projectId, BuildType({
     vcs {
         root(DslContext.settingsRoot)
     }
+
+    steps {
+        step {
+            name = "NPM Build"
+            type = "jonnyzzz.npm"
+            param("npm_commands", "ci")
+        }
+    }
 }))
 
