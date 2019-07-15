@@ -16,6 +16,8 @@ create(DslContext.projectId, BuildType({
 
     vcs {
         root(DslContext.settingsRoot)
+
+        cleanCheckout = true
     }
 
     steps {
