@@ -2,7 +2,9 @@
   "name": "ccc_debugger",
   "description": "CCC Debugger",
   "version": "0.1.0",
-  "scripts": {},
+  "scripts": {
+    "ccc_debugger": " ./node_modules/.bin/http-server ./public/ -o -s"
+  },
   "dependencies": {
     "http-server": "^0.11.1"
   },

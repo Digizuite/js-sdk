@@ -65,7 +65,7 @@ karma.conf.js
 karma.conf.js.map
 !src/@types/*
 test.js
-ccc_debugger/config.js
-ccc_debugger/js/dz-sdk/*
+ccc_debugger/public/config.js
+ccc_debugger/public/js/dz-sdk/*
 ccc_debugger/sf_test/*
 .DS_Store

@@ -5,8 +5,8 @@
   "main": "dist/digizuite.js",
   "module": "src/index.js",
   "scripts": {
-    "build": ".\\node_modules\\.bin\\webpack --progress --env=dev --output-path ccc_debugger/js/dz-sdk",
-    "watch": ".\\node_modules\\.bin\\webpack --progress --env=dev --output-path ccc_debugger/js/dz-sdk --watch",
+    "build": ".\\node_modules\\.bin\\webpack --progress --env=dev --output-path ccc_debugger/public/js/dz-sdk",
+    "watch": ".\\node_modules\\.bin\\webpack --progress --env=dev --output-path ccc_debugger/public/js/dz-sdk --watch",
     "dist": ".\\node_modules\\.bin\\webpack --progress --env=prod --display-optimization-bailout",
     "test": "node node_modules/karma/bin/karma start ./karma.conf.ts --single-run",
     "version": "npm run dist",
