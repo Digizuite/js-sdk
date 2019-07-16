@@ -7,7 +7,7 @@ export class UploadAsset extends BaseRequest<any> {
 	 * @returns {string}
 	 */
 	get endpointUrl() {
-		return `${this.apiUrl}UploadRest.js`;
+		return `${this.apiUrl}UploadService.js`;
 	}
 
 	/**

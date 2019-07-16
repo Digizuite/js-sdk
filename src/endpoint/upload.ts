@@ -51,8 +51,8 @@ export class Upload extends Endpoint {
 	} // 10 seconds
 
 	static get ASSET_PUBLISHED_TIMEOUT() {
-		return 60000;
-	} // 60 seconds
+		return 20000;
+	} // 20 seconds
 
 	/**
 	 * Returns a promise that resolves to an array of upload tickets

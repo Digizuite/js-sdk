@@ -1,14 +1,13 @@
 import {BaseRequest} from '../../common/request';
 
 export class InitiateUpload extends BaseRequest<any> {
-	private computerName: string;
 
 	/**
 	 * Endpoint URL
 	 * @returns {string}
 	 */
 	get endpointUrl() {
-		return `${this.apiUrl}UploadRest.js`;
+		return `${this.apiUrl}UploadService.js`;
 	}
 
 	/**
@@ -20,7 +19,7 @@ export class InitiateUpload extends BaseRequest<any> {
 			// Parameters required by DigiZuite - these should never be changed
 			// when executing the request!
 			method: 'InitiateUpload',
-			uploadername: this.computerName,
+			uploadername: null,
 			filename: null,
 		};
 	}

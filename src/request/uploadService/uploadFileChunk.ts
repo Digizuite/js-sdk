@@ -28,7 +28,7 @@ export class UploadFileChunk extends BaseRequest<any> {
 			// Parameters required by DigiZuite - these should never be changed
 			// when executing the request!
 			jsonresponse: 1,
-			uploadid: null,
+			itemid: null,
 			finished: null,
 		};
 	}
@@ -47,7 +47,7 @@ export class UploadFileChunk extends BaseRequest<any> {
 
 			this._uploadChunk({
 				file: ticket.file,
-				uploadId: ticket.uploadId,
+				itemId: ticket.itemId,
 				chunkIndex: 0,
 				retry: 0,
 				totalChunks: ticket.file!.size / UploadFileChunk.CHUNK_SIZE,
@@ -70,7 +70,11 @@ export class UploadFileChunk extends BaseRequest<any> {
 
 		// Merge the payload with the default one and pass it though the pre-process
 		const requestData = this.processRequestData(
-			Object.assign({}, this.defaultPayload, payload),
+			{
+				...this.defaultPayload,
+				...payload,
+				accessKey: this.accessKey,
+			},
 		);
 
 		return new Promise((resolve, reject) => {
@@ -99,10 +103,6 @@ export class UploadFileChunk extends BaseRequest<any> {
 	 * @returns {Object}
 	 */
 	protected processRequestData(payload: any) {
-
-		// UploadID
-		payload.uploadid = payload.uploadId;
-		payload.uploadId = undefined;
 
 		// File name
 		payload.finished = payload.finished ? 1 : 0;
@@ -159,7 +159,7 @@ export class UploadFileChunk extends BaseRequest<any> {
 		// Upload a chunk
 		this.execute(
 			{
-				uploadId: args.uploadId,
+				itemid: args.itemId,
 				finished: args.chunkIndex >= args.totalChunks - 1,
 			},
 			blob,
