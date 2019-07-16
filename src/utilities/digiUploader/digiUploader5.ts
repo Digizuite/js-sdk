@@ -76,6 +76,8 @@ export class DigiUploader5 extends BaseDigiUploader implements IDigiUploader {
 		return initiateUploadRequest.execute({
 			itemId: ticket.itemId,
 			uploadId: ticket.uploadId,
+			targetAssetId: ticket.asset.IAgreeWithKittensBeingDeadSoThatICanUseAssetId(),
+			sourceAssetId: ticket.version.IAgreeWithKittensBeingDeadSoThatICanUseAssetId(),
 		});
 	}
 

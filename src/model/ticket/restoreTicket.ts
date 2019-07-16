@@ -5,7 +5,7 @@ export interface IRestoreTicketArgs extends IReplaceTicketArgs {
 }
 
 export class RestoreTicket extends ReplaceTicket {
-	private version: any;
+	public version: any;
 
 	/**
 	 * C-tor

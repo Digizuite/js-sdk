@@ -1,6 +1,5 @@
 import {BaseRequest} from '../../common/request';
-import {CreateAssetFromApiResponse} from "../../model/asset";
-import {AssetVersion} from '../../model/assetVersion';
+import {AssetVersion, CreateAssetVersionFromApiResponse} from '../../model/assetVersion';
 
 export class AssetVersions extends BaseRequest<any> {
 
@@ -49,7 +48,7 @@ export class AssetVersions extends BaseRequest<any> {
 	 */
 	protected processResponseData(response: any) {
 
-		const items = response.items.map(CreateAssetFromApiResponse);
+		const items = response.items.map(CreateAssetVersionFromApiResponse);
 
 		if (items.length > 0) {
 			items[0].isCurrentVersion = true;

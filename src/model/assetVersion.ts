@@ -9,6 +9,12 @@ export interface IAssetVersionArgs {
 	isCurrentVersion?: string | boolean;
 }
 
+export function CreateAssetVersionFromApiResponse(thisVersionAsset: any) {
+	const assetVersion = new AssetVersion(thisVersionAsset);
+	assetVersion.setValueFromAPI(thisVersionAsset);
+	return assetVersion;
+}
+
 export class AssetVersion extends Model {
 	public isCurrentVersion: boolean;
 	public sourceLocation: string | undefined;
@@ -16,6 +22,8 @@ export class AssetVersion extends Model {
 	public versionId: number | undefined;
 	public id: number | undefined;
 	public type: number | undefined;
+	// tslint:disable-next-line
+	private assetId__DO_NOT_USE_THIS_OR_KITTENS_WILL_DIE: number | null;
 
 	/**
 	 * C-tor
@@ -53,6 +61,12 @@ export class AssetVersion extends Model {
 			this.thumbnail = args.thumb.indexOf('?mptdid=0') === -1 ? args.thumb : '';
 		}
 
+		// for legacy reason we still need this
+		this.assetId__DO_NOT_USE_THIS_OR_KITTENS_WILL_DIE = parseInt(args.assetId, 10);
+	}
+
+	public IAgreeWithKittensBeingDeadSoThatICanUseAssetId() {
+		return this.assetId__DO_NOT_USE_THIS_OR_KITTENS_WILL_DIE;
 	}
 
 	/**
