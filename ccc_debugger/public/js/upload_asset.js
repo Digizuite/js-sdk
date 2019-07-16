@@ -5,7 +5,7 @@
     const instance = await globals.connectorInstance;
 
     console.debug('Enabling upload button.');
-    document.querySelector('#fileUpload').addEventListener('change', onFilesSelected);
+    fileInput.addEventListener('change', onFilesSelected);
     fileInput.removeAttribute('disabled');
 
     async function onFilesSelected(event) {

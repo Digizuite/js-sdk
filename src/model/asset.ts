@@ -111,6 +111,10 @@ export class Asset extends Model {
 		this.assetId__DO_NOT_USE_THIS_OR_KITTENS_WILL_DIE = parseInt(args.assetId, 10);
 	}
 
+	public IAgreeWithKittensBeingDeadSoThatICanUseAssetId() {
+		return this.assetId__DO_NOT_USE_THIS_OR_KITTENS_WILL_DIE;
+	}
+
 	/**
 	 *
 	 * @param mediaFormatId

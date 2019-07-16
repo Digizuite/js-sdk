@@ -8,7 +8,7 @@ import {BitMetadataItem} from '../model/metadata/bitMetadataItem';
 import {ReplaceTicket} from '../model/ticket/replaceTicket';
 import {RestoreTicket} from '../model/ticket/restoreTicket';
 import {AssetVersions} from '../request/searchService/assetVersions';
-import {DigiUploader4} from '../utilities/digiUploader/digiUploader4';
+import {createDigiUploader} from "../utilities/digiUploader/digiUploaderProvider";
 import {DigiUploadFile, IDigiUploader} from '../utilities/digiUploader/IDigiUploader';
 import {getLockInformation} from '../utilities/lockInformation';
 
@@ -28,13 +28,16 @@ export class Version extends Endpoint {
 	 * @param {string} args.computerName
 	 */
 	constructor(args: IVersionEndpointArgs) {
+
 		super(args);
-		this.digiUpload = new DigiUploader4({
+
+		this.digiUpload = createDigiUploader({
 			computerName: args.computerName,
 			apiUrl: args.apiUrl,
 			accessKey: args.accessKey || '',
 			apiVersion: args.apiVersion,
 		});
+
 		this.instance = args.instance;
 	}
 
@@ -199,8 +202,7 @@ const name = 'version';
 const getter = function (instance: ConnectorType) {
 	return new Version({
 		apiUrl: instance.apiUrl,
-		// TODO: un-hard-code this when we get a dam version
-		apiVersion: '4.7.1',
+		apiVersion: instance.apiVersion,
 		computerName: instance.state.config.UploadName,
 		accessKey: instance.state.user.accessKey,
 		instance,

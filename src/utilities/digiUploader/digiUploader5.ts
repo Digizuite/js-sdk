@@ -1,8 +1,11 @@
+import {ReplaceTicket} from "../../model/ticket/replaceTicket";
+import {RestoreTicket} from "../../model/ticket/restoreTicket";
 import {UploadTicket} from "../../model/ticket/uploadTicket";
 import {InitiateUpload} from "../../request/uploadService/initiateUpload";
-import {IDigiUploader, IDigiUploaderGetUploadIdsArgs} from "./IDigiUploader";
-import {BaseDigiUploader, IBaseDigiUploaderArgs} from "./baseDigiUploader";
+import {ReplaceAsset} from "../../request/uploadService/replaceAsset";
 import {UploadAsset} from "../../request/uploadService/uploadAsset";
+import {BaseDigiUploader, IBaseDigiUploaderArgs} from "./baseDigiUploader";
+import {IDigiUploader, IDigiUploaderGetUploadIdsArgs} from "./IDigiUploader";
 
 export interface IDigiUploader5Args extends IBaseDigiUploaderArgs {
 	computerName: string;
@@ -49,7 +52,57 @@ export class DigiUploader5 extends BaseDigiUploader implements IDigiUploader {
 	 * Finish upload
 	 * @param ticket
 	 */
-	public finishUpload(ticket: UploadTicket): Promise<void> {
+	public finishUpload(ticket: UploadTicket|ReplaceTicket|RestoreTicket): Promise<void> {
+		if (ticket instanceof RestoreTicket) {
+			return this._finishRestoreTicket(ticket);
+		} else if (ticket instanceof ReplaceTicket) {
+			return this._finishReplaceTicket(ticket);
+		} else {
+			return this._finishUploadTicket(ticket);
+		}
+	}
+
+	/**
+	 * Replace an asset
+	 * @param ticket
+	 * @private
+	 */
+	private _finishRestoreTicket(ticket: RestoreTicket): Promise<void> {
+		const initiateUploadRequest = new ReplaceAsset({
+			apiUrl: this.apiUrl,
+			accessKey: this.accessKey,
+		});
+
+		return initiateUploadRequest.execute({
+			itemId: ticket.itemId,
+			uploadId: ticket.uploadId,
+		});
+	}
+
+	/**
+	 * Replace an asset
+	 * @param ticket
+	 * @private
+	 */
+	private _finishReplaceTicket(ticket: ReplaceTicket): Promise<void> {
+		const initiateUploadRequest = new ReplaceAsset({
+			apiUrl: this.apiUrl,
+			accessKey: this.accessKey,
+		});
+
+		return initiateUploadRequest.execute({
+			itemId: ticket.itemId,
+			uploadId: ticket.uploadId,
+			targetAssetId: ticket.asset.IAgreeWithKittensBeingDeadSoThatICanUseAssetId(),
+		});
+	}
+
+	/**
+	 * Upload an asset
+	 * @param ticket
+	 * @private
+	 */
+	private _finishUploadTicket(ticket: UploadTicket): Promise<void> {
 		const initiateUploadRequest = new UploadAsset({
 			apiUrl: this.apiUrl,
 			accessKey: this.accessKey,

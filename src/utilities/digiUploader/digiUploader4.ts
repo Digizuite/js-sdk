@@ -62,7 +62,7 @@ export class DigiUploader4 extends BaseDigiUploader implements IDigiUploader {
 	 * Finishes an upload, the fast way.
 	 * @param {UploadTicket|ReplaceTicket} ticket
 	 */
-	public _finishUploadFast(ticket: UploadTicket | RestoreTicket) {
+	public _finishUploadFast(ticket: UploadTicket | ReplaceTicket | RestoreTicket) {
 
 		let preFinishPromise;
 
