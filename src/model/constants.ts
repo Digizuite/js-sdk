@@ -1,6 +1,4 @@
 export interface IConstants {
-	guestUsername: string;
-	guestPassword: string;
 	versionId: string;
 	productVersion: string;
 	useFederatedAuthentication: boolean;
@@ -8,5 +6,4 @@ export interface IConstants {
 	baseApiUrl: string;
 	loginServiceUrl: string;
 	notificationServiceUrl: string;
-	apiDomain: string;
 }

@@ -4,7 +4,7 @@ import {Connector, getConnectorInstance} from '../src/index';
 
 install();
 
-export const SITE_URL = 'https://localhost:59904';
+export const SITE_URL = 'https://cc.dev.digizuite.com';
 export const USERNAME = 'SuperAdministrator';
 export const PASSWORD = 'test';
 
