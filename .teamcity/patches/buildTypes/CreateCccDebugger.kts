@@ -2,7 +2,6 @@ package patches.buildTypes
 
 import jetbrains.buildServer.configs.kotlin.v2018_2.*
 import jetbrains.buildServer.configs.kotlin.v2018_2.BuildType
-import jetbrains.buildServer.configs.kotlin.v2018_2.buildSteps.powerShell
 import jetbrains.buildServer.configs.kotlin.v2018_2.ui.*
 
 /*
@@ -14,7 +13,7 @@ create(DslContext.projectId, BuildType({
     id("CreateCccDebugger")
     name = "Create CCC Debugger"
 
-    artifactRules = "Publish/Zip/**.zip"
+    artifactRules = "ccc_debugger/**/* => ccc_debugger.zip"
 
     vcs {
         root(DslContext.settingsRoot)
@@ -24,21 +23,14 @@ create(DslContext.projectId, BuildType({
 
     steps {
         step {
+            type = "GenerateVersion2"
+            param("versionFilePath", """.\package.json""")
+        }
+        step {
             name = "NPM Install Deps"
             type = "jonnyzzz.npm"
             param("teamcity.build.workingDir", "ccc_debugger")
             param("npm_commands", "ci")
-        }
-        step {
-            name = "NPM Build"
-            type = "jonnyzzz.npm"
-            param("npm_commands", "ci")
-        }
-        powerShell {
-            name = "Create Release package"
-            scriptMode = file {
-                path = "build_scripts/CreateReleasePackage.ps1"
-            }
         }
     }
 }))
