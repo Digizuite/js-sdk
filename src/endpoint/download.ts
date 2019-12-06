@@ -5,14 +5,14 @@ import {Asset} from "../model/asset";
 import {DownloadQualities} from '../request/memberService/downloadQualities';
 
 export interface IDownloadArgs extends IEndpointArgs {
-	memberId: string;
+	memberId: number;
 	lowResMediaFormatIds: number[];
 	highResMediaFormatIds: number[];
 	mediaUrl: string;
 }
 
 export class Download extends Endpoint {
-	private memberId: string;
+	private memberId: number;
 	private lowResMediaFormatIds: number[];
 	private highResMediaFormatIds: number[];
 	private mediaUrl: string;
@@ -272,7 +272,7 @@ const name = 'download';
 const getter = function (instance: ConnectorType) {
 	return new Download({
 		accessKey: instance.state.user.accessKey,
-		apiUrl: instance.apiUrl,
+		apiUrl: instance.state.constants.baseApiUrl,
 		highResMediaFormatIds: instance.state.config.HighResMediaFormatIds,
 		lowResMediaFormatIds: instance.state.config.LowResMediaFormatIds,
 		mediaUrl: instance.state.config.MediaUrl,

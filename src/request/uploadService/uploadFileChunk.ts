@@ -1,7 +1,7 @@
 import {BaseRequest} from '../../common/request';
 import {UploadTicket} from '../../model/ticket/uploadTicket';
 
-export class UploadFileChunk extends BaseRequest<any> {
+export class UploadFileChunk extends BaseRequest<any, any> {
 
 	static get CHUNK_SIZE() {
 		return 524288;

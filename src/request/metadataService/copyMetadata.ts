@@ -1,6 +1,6 @@
 import {BaseRequest} from '../../common/request';
 
-export class CopyMetadata extends BaseRequest<any> {
+export class CopyMetadata extends BaseRequest<any, any> {
 
 	/**
 	 * Endpoint URL

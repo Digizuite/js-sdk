@@ -1,13 +1,16 @@
 import {Endpoint} from "./common/endpoint";
+import {IConstants} from "./model/constants";
 import {IUserData} from "./request/connectService/createAccessKey";
 import {ensureTrailingSeparator} from './utilities/helpers/url';
-import Timer = NodeJS.Timer;
 
 export interface IConnectorInstanceOptions {
-	apiUrl: string;
-	username?: string;
-	password?: string;
-	accessKey?: string;
+	siteUrl: string;
+}
+
+export interface IConnectorState {
+	user: IUserData;
+	config: any;
+	constants: IConstants;
 }
 
 export class Connector {
@@ -26,197 +29,106 @@ export class Connector {
 
 		try {
 			digizuiteInstance = new Connector({
-				apiUrl: args.apiUrl,
+				siteUrl: args.siteUrl,
 			});
 		} catch (e) {
 			return Promise.reject(e);
 		}
 
-		return digizuiteInstance.initializeConnector({
-			username: args.username,
-			password: args.password,
-			accessKey: args.accessKey,
-		});
-
+		return digizuiteInstance.initializeConnector();
 	}
 
-	/**
-	 * Initialize the connector
-	 * @param {Object} args
-	 * @param {String} args.apiUrl - Full URL to the api end-point.
-	 * @returns {Promise}.<Connector> - a promise that will be resolved once the
-	 */
-	public static getConfiguration(args: { apiUrl: string}) {
+	public readonly siteUrl: string;
 
-		const digizuiteInstance = new Connector(args);
-		return digizuiteInstance.getConnectorConfiguration();
+	public readonly state: IConnectorState = {
+		user: {} as IUserData,
+		config: {},
+		constants: {} as IConstants,
+	};
 
-	}
-
-	/**
-	 * Gets the SSO Login URL
-	 * @param {Object} args
-	 * @param {String} args.apiUrl - Full URL to the api end-point.
-	 * @param {String} args.callbackUrl - Callback URL
-	 * @returns {Promise}.<string> - a promise that will be resolved once the
-	 */
-	public static getSSOLoginUrl(args: { apiUrl: string, callbackUrl: string }) {
-
-		const digizuiteInstance = new Connector({ apiUrl: args.apiUrl });
-
-		return digizuiteInstance.getConnectorConfiguration().then(conf => {
-			return `${conf.loginServiceUrl}?callbackUrl=${args.callbackUrl}&versionId=${conf.versionId}`;
-		});
-	}
-
-	public apiVersion: string;
-	public apiUrl: string;
-	public state: { user: any; config: any, keepAliveIntervalTimer?: Timer|number, versionId: string };
-	public endpoints: { [key: string]: Endpoint };
-	private readonly keepAliveInterval: number;
+	public readonly endpoints: { [key: string]: Endpoint } = {};
 
 	/**
 	 * C-tor
 	 * @param {Object} args
 	 * @param {String} args.apiUrl - Full URL to the api end-point.
-	 * @param {Number} [args.keepAliveInterval] - Timeout for making a keep alive request
 	 */
-	constructor(args: { apiUrl: string, keepAliveInterval?: number }) {
+	constructor(args: { siteUrl: string } = { siteUrl: '' }) {
 
-		if (typeof args.apiUrl !== 'string' || args.apiUrl.length === 0) {
-			throw new Error('apiUrl is a required parameter');
+		if (args.siteUrl.length === 0) {
+			throw new Error('siteUrl is a required parameter');
 		}
 
-		this.apiUrl = ensureTrailingSeparator(args.apiUrl);
-		this.keepAliveInterval = args.keepAliveInterval || 60000;
-
-		this.apiVersion = '';
-
-		this.state = {
-			user: {},
-			config: {},
-			versionId: '',
-		};
-
-		this.endpoints = {};
-
+		this.siteUrl = ensureTrailingSeparator(args.siteUrl);
 	}
 
-	public getAccessKeyFromCredentials(args: { username: string, password: string }): Promise<IUserData> {
-
-		if (args.username.length === 0) {
-			return Promise.reject(new Error('username is a required parameter'));
-		}
-
-		if (args.password.length === 0) {
-			return Promise.reject(new Error('password is a required parameter'));
-		}
-
-		return this.auth.createAccessKey({
-			username: args.username as string,
-			password: args.password as string,
-		});
-
+	public getConstants(): IConstants {
+		return this.state.constants;
 	}
 
 	/**
-	 * Gets an acess key from SSO Token
-	 * @param args
+	 * Gets the SSO Login URL
 	 */
-	public getAccessKeyFromSSOToken(args: { accessKey: string }): Promise<IUserData> {
+	public getSSOLoginUrl(callbackUrl: string): string {
+		// tslint:disable-next-line:max-line-length
+		return `${this.state.constants.loginServiceUrl}?callbackUrl=${callbackUrl}&versionId=${this.state.constants.versionId}`;
+	}
 
-		if (args.accessKey.length === 0) {
+	public initializeConnector(): Promise<Connector> {
+		return this.constants.getConstants().then<Connector>(constants => {
+			this.state.constants = constants;
+			return this;
+		});
+	}
+
+	public connectWithAccessKey(accessKey: string = ''): Promise<Connector> {
+		if (accessKey.length === 0) {
 			return Promise.reject(new Error('SSO Token is a required parameter'));
 		}
 
-		return this.auth.getAccessKeyInfo({
-			accessKey: args.accessKey,
-		});
+		return this.bootstrapConnector(this.auth.getAccessKeyInfo({ accessKey }));
 	}
 
-	/**
-	 * Initializes a connector instance. Logs in and fetches the configs
-	 * @param {Object} args
-	 * @param {String} args.username - username to authenticate with.
-	 * @param {String} args.password - password.
-	 * @returns {Promise.<Connector>}
-	 */
-	public initializeConnector(args: { username?: string, password?: string, accessKey?: string }) {
-
-		let accessKeyPromise;
-
-		if (!!args.username && !!args.password) {
-			accessKeyPromise = this.getAccessKeyFromCredentials({ username: args.username, password: args.password });
-		} else if (!!args.accessKey) {
-			accessKeyPromise = this.getAccessKeyFromSSOToken({ accessKey: args.accessKey });
-		} else {
-			return Promise.reject(new Error('accessKey or username & password are required'));
+	public connectWithCredentials(username: string = '', password: string = ''): Promise<Connector> {
+		if (username.length === 0) {
+			return Promise.reject(new Error('Username is a required parameter'));
 		}
 
-		const bootstrapPromise = Promise.all([
-			accessKeyPromise,
-			this.appConfig.getConnectorConfiguration(),
-		]).then(([loginResponse, connectorConfiguration]) => {
+		if (password.length === 0) {
+			return Promise.reject(new Error('Password is a required parameter'));
+		}
 
-			this.state.versionId = connectorConfiguration.versionId;
+		return this.bootstrapConnector(this.auth.createAccessKey({ username, password }));
+	}
 
-			return this.auth.setAccessKeyOptions(
-				loginResponse.accessKey,
-				{
-					versionId: connectorConfiguration.versionId,
-					languageId: loginResponse.languageId,
-				},
-			).then(accessKeyData => {
-				this.state.user = {
-					...loginResponse,
-					languageId: accessKeyData.languageId,
-					accessKey: accessKeyData.accessKey,
-				};
-			});
-		}).then(() => {
-			this._initKeepAlive({
-				accessKey: this.state.user.accessKey,
-			});
-		}).then(() => {
+	private getUserData(loginResponse: IUserData): Promise<IUserData> {
+		return this.auth.setAccessKeyOptions(
+			loginResponse.accessKey,
+			{
+				versionId: this.state.constants.versionId,
+				languageId: loginResponse.languageId,
+			},
+		).then(accessKeyData => ({
+			...loginResponse,
+			languageId: accessKeyData.languageId,
+			accessKey: accessKeyData.accessKey,
+		}));
+	}
 
-			return Promise.all([
-				this.config.getAppConfiguration(),
-				this.config.getSystemVersion(),
-			]);
-
-		}).then(([configResponse, versionResponse]) => {
-			this.state.config = configResponse;
-			this.apiVersion = versionResponse.Version;
-			return this;
-		});
+	private bootstrapConnector(accessKeyPromise: Promise<IUserData>): Promise<Connector> {
+		const bootstrapPromise = accessKeyPromise
+			.then(loginResponse => this.getUserData(loginResponse))
+			.then(userData => this.state.user = userData)
+			.then(() => this.config.getAppConfiguration())
+			.then(configResponse => this.state.config = configResponse);
 
 		// We don't need this immediately, but we preload it for future use
 		bootstrapPromise.then(() => {
 			this.config.getAppLabels();
 		});
 
-		return bootstrapPromise;
+		return bootstrapPromise.then(() => this);
 	}
-
-	public getConnectorConfiguration() {
-		return this.config.getConnectorConfiguration();
-	}
-
-	/**
-	 * Initialize keep alive connection logic
-	 * @param {Object} args
-	 * @private
-	 */
-	private _initKeepAlive(args: {accessKey: string}) {
-
-		this.state.keepAliveIntervalTimer = setInterval(() => {
-
-			this.auth.keepAlive({ accessKey: args.accessKey });
-
-		}, this.keepAliveInterval);
-
-	}
-
 }
 
 export const getConnectorInstance = Connector.getConnectorInstance;

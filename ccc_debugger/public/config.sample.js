@@ -1,5 +1,5 @@
 var config = {
-    apiUrl : '',
+    siteUrl : '',
     username : '',
     password : '',
 };

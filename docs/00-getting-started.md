@@ -21,9 +21,9 @@ Obtain an instance of the Digizuite Connector:
 import {Connector} from 'digizuite';
 
 Connector.getConnectorInstance({
-    apiUrl : 'https://my-installation-of-digizuite.com/dmm3bwsv3/',
-    username : 'username',
-    password : 'password'
+    siteUrl : 'https://my-installation-of-ccc.com/',
+}).then((instance)=>{
+    return instance.connectWithCredentials('username', 'p@ssword');
 }).then((instance)=>{
     console.log("Success!!!", instance);
     // instance can be used to interact with digizuite
@@ -37,8 +37,24 @@ When the user are authenticated via SSO, the connector instance can be obtained 
 import {Connector} from 'digizuite';
 
 Connector.getConnectorInstance({
-    apiUrl : 'https://my-installation-of-digizuite.com/dmm3bwsv3/',
-    accessKey : 'access-key-returned-from-login-service',
+    siteUrl : 'https://my-installation-of-ccc.com/',
+}).then((instance)=> {
+    const constants = instance.getConstants();
+    if (constants.useFederatedAuthentication) {
+
+        const ssoToken = someMethodToCheckIfYouHaveTheToken();
+
+        if (!ssoToken) {
+            const ssoUrl = instance.getSSOLoginUrl(window.location.href);
+            // Redirect the user to ssoUrl for authentication
+            return new Promise(() => {});
+        } else {
+            return instance.connectWithAccessKey(ssoToken);
+        }
+
+    } else {
+        return instance.connectWithCredentials('username', 'p@ssword');
+    }
 }).then((instance)=>{
     console.log("Success!!!", instance);
     // instance can be used to interact with digizuite

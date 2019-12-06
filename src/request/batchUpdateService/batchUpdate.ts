@@ -1,7 +1,7 @@
 import {BaseRequest} from '../../common/request';
 import {IUpdateContainerJson, UpdateContainer} from '../../utilities/updateContainer';
 
-export class BatchUpdate extends BaseRequest<any> {
+export class BatchUpdate extends BaseRequest<any, any> {
 
 	/**
 	 * Endpoint URL

@@ -101,7 +101,7 @@ export class Member extends Endpoint {
 const name = 'member';
 const getter = function (instance: ConnectorType) {
 	return new Member({
-		apiUrl: instance.apiUrl,
+		apiUrl: instance.state.constants.baseApiUrl,
 		loggedInMemberId: instance.state.user.memberId,
 		accessKey: instance.state.user.accessKey,
 	});

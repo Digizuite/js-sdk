@@ -1,7 +1,7 @@
 import {BaseRequest} from '../../common/request';
 import {Member as MemberModel} from '../../model/member';
 
-export class Member extends BaseRequest<any> {
+export class Member extends BaseRequest<any, any> {
 
 	/**
 	 * Endpoint URL

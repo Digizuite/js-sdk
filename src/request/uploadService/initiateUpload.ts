@@ -1,6 +1,6 @@
 import {BaseRequest} from '../../common/request';
 
-export class InitiateUpload extends BaseRequest<any> {
+export class InitiateUpload extends BaseRequest<any, any> {
 
 	/**
 	 * Endpoint URL

@@ -4,7 +4,7 @@ export interface IFiltersRequestArgs extends IBaseRequestArgs {
 	labels: any;
 }
 
-export class Filters extends BaseRequest<any> {
+export class Filters extends BaseRequest<any, any> {
 	private labels: any;
 
 	/**

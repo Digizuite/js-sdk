@@ -36,7 +36,7 @@ function getWebpackConfig(env: string) {
 			libraryTarget: 'umd',
 			umdNamedDefine: true,
 		},
-
+		mode: env === ENV_PRODUCTION ? 'production' : 'development',
 		externals: {
 			'lodash-es': {
 				commonjs: 'lodash',

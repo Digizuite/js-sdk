@@ -1,6 +1,6 @@
 import {BaseRequest} from '../../common/request';
 
-export class ReplaceAsset extends BaseRequest<any> {
+export class ReplaceAsset extends BaseRequest<any, any> {
 
 	/**
 	 * Endpoint URL

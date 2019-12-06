@@ -22,8 +22,8 @@ export class AssetVersion extends Model {
 	public versionId: number | undefined;
 	public id: number | undefined;
 	public type: number | undefined;
-	// tslint:disable-next-line
-	private assetId__DO_NOT_USE_THIS_OR_KITTENS_WILL_DIE: number | null;
+	// tslint:disable-next-line:variable-name
+	private assetId__DO_NOT_USE_THIS_OR_KITTENS_WILL_DIE: number | undefined;
 
 	/**
 	 * C-tor

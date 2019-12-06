@@ -7,30 +7,64 @@
         return;
     }
 
-    console.debug(`Connecting to ${globals.config.apiUrl} with username ${globals.config.username} and password ${'*'.repeat(globals.config.password.length)}...`);
+    console.debug(`Connecting to ${globals.config.siteUrl}...`);
 
-    // Create a digizuite connector
-    globals.connectorInstance = new Promise((resolve, reject) => {
-        Digizuite.Connector.getConnectorInstance({
-            apiUrl: globals.config.apiUrl,
-            username: globals.config.username,
-            password: globals.config.password,
-        }).then(function (instance) {
+    globals.connectorInstance = Digizuite.Connector.getConnectorInstance({
+        siteUrl: globals.config.siteUrl
+    }).then(instance => {
+        const constants = instance.getConstants();
+        if (constants.useFederatedAuthentication) {
+            //.. Federated Auth here
+            console.debug(`Logging in with SSO...`);
 
-            console.log("Connector instance created!");
+            const accessKey = getAccessKeyFromUrl();
 
-            resolve(instance);
-        }).catch(function (error) {
-
-            console.error(`Could not create connector instance! Error: ${error.code || -1} - ${error.message}`);
-
-            if (error.code === Digizuite.Constants.ERROR_CODE.USER_NOT_ALLOWED_PRODUCT_ACCESS) {
-                console.error("User was not allowed.");
+            if (!accessKey) {
+                const ssoUrl = instance.getSSOLoginUrl(window.location.href);
+                console.log(`AccessKey not found in URL. Got SSO URL: ${ssoUrl}`);
+                showAuthLink(ssoUrl);
+                return new Promise(() => {});
+            } else {
+                return instance.connectWithAccessKey(accessKey);
             }
 
-            reject(error);
-        });
+        } else {
+            console.debug(`Logging in with credentials. Username: ${globals.config.username}, password: ${globals.config.password}...`);
+            return instance.connectWithCredentials(globals.config.username, globals.config.password);
+        }
     });
+
+    globals.connectorInstance.then(() => {
+        console.log("Connector instance created!");
+    }).catch(error => {
+
+        console.error(`Could not create connector instance! Error: ${error.code || -1} - ${error.message}`);
+
+        if (error.code === Digizuite.Constants.ERROR_CODE.USER_NOT_ALLOWED_PRODUCT_ACCESS) {
+            console.error("User was not allowed.");
+        }
+    });
+
+
+    /**
+     * Get the accesskey from url
+     */
+    function getAccessKeyFromUrl() {
+        const searchParams = new URLSearchParams(window.location.search.slice(1));
+        return searchParams.get("accessKey") || '';
+    }
+
+    /**
+     * Generate auth link
+     */
+    function showAuthLink(ssoUrl) {
+        const href = document.querySelector('#authLink');
+        href.setAttribute('href', ssoUrl);
+        href.textContent = ssoUrl;
+        href.style.display = 'block';
+
+        console.log('Click on the link on top to login!');
+    }
 
     function setupLog() {
         const logTarget = document.getElementById("logTarget");

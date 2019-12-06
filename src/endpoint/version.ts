@@ -14,7 +14,6 @@ import {getLockInformation} from '../utilities/lockInformation';
 
 export interface IVersionEndpointArgs extends IEndpointArgs {
 	computerName: string;
-	apiVersion: string;
 	instance: ConnectorType;
 }
 
@@ -35,7 +34,6 @@ export class Version extends Endpoint {
 			computerName: args.computerName,
 			apiUrl: args.apiUrl,
 			accessKey: args.accessKey || '',
-			apiVersion: args.apiVersion,
 		});
 
 		this.instance = args.instance;
@@ -201,8 +199,7 @@ export class Version extends Endpoint {
 const name = 'version';
 const getter = function (instance: ConnectorType) {
 	return new Version({
-		apiUrl: instance.apiUrl,
-		apiVersion: instance.apiVersion,
+		apiUrl: instance.state.constants.baseApiUrl,
 		computerName: instance.state.config.UploadName,
 		accessKey: instance.state.user.accessKey,
 		instance,

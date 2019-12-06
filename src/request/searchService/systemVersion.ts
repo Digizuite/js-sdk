@@ -1,6 +1,6 @@
 import {BaseRequest} from '../../common/request';
 
-export class SystemVersion extends BaseRequest<any> {
+export class SystemVersion extends BaseRequest<any, any> {
 
 	/**
 	 * Endpoint URL

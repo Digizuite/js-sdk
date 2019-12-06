@@ -1,6 +1,6 @@
 import {BaseRequest} from '../../common/request';
 
-export class PublishStatus extends BaseRequest<any> {
+export class PublishStatus extends BaseRequest<any, any> {
 
 	/**
 	 * Endpoint URL

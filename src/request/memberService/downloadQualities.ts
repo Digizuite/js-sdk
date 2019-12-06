@@ -1,6 +1,6 @@
 import {BaseRequest} from '../../common/request';
 
-export class DownloadQualities extends BaseRequest<any> {
+export class DownloadQualities extends BaseRequest<any, any> {
 
 	/**
 	 * Endpoint URL

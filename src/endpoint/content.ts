@@ -5,8 +5,8 @@ import {Asset} from "../model/asset";
 import {Filter} from "../model/filter/filter";
 import {Folder} from "../model/folder";
 import {AssetInformation as AssetInformationModel} from '../model/information/assetInformation';
-import {AssetsInformation} from '../request/searchService/assetsInformation';
 import {Assets} from '../request/searchService/assets';
+import {AssetsInformation} from '../request/searchService/assetsInformation';
 import {Filters} from '../request/searchService/filters';
 import {Folders} from '../request/searchService/folders';
 import {FrameworkSearch} from '../request/searchService/frameworkSearch';
@@ -48,7 +48,7 @@ export class Content extends Endpoint {
 	private rawSortTypes: string[];
 	private defaultSortType: string;
 	private cache: IContentCache;
-	private sortTypes: ISortType[];
+	private sortTypes: ISortType[] | undefined;
 
 	/**
 	 * C-tor
@@ -265,7 +265,7 @@ export class Content extends Endpoint {
 const name = 'content';
 const getter = function (instance: ConnectorType) {
 	return new Content({
-		apiUrl: instance.apiUrl,
+		apiUrl: instance.state.constants.baseApiUrl,
 		defaultSortType: instance.state.config.SortType,
 		labelsPromise: instance.config.getAppLabels(),
 		metafieldLabelId: instance.state.config.PortalMenu.metafieldLabelId,

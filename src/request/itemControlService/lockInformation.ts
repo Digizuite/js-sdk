@@ -1,7 +1,7 @@
 import {BaseRequest} from '../../common/request';
 import {Lock} from '../../model/lock';
 
-export class LockInformation extends BaseRequest<any> {
+export class LockInformation extends BaseRequest<any, any> {
 
 	/**
 	 * Endpoint URL

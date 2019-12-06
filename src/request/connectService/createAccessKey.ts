@@ -8,7 +8,12 @@ export interface IUserData {
 	accessKey: string;
 }
 
-export class CreateAccessKey extends BaseRequest<IUserData> {
+export interface ICreateAccessKeyArgs {
+	username: string;
+	password: string;
+}
+
+export class CreateAccessKey extends BaseRequest<ICreateAccessKeyArgs, IUserData> {
 
 	/**
 	 * Endpoint URL
@@ -33,8 +38,8 @@ export class CreateAccessKey extends BaseRequest<IUserData> {
 			limit: 25,
 
 			// These parameters should be specified manually
-			username: null,
-			password: null,
+			username: '',
+			password: '',
 		};
 	}
 
@@ -43,7 +48,7 @@ export class CreateAccessKey extends BaseRequest<IUserData> {
 	 * @param {Object} payload
 	 * @returns {Object}
 	 */
-	public processRequestData(payload: any) {
+	public processRequestData(payload: any): ICreateAccessKeyArgs {
 
 		// MD5 the password
 		if (payload.password) {

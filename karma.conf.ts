@@ -66,6 +66,7 @@ module.exports = function (config: any) {
 
 		// level of logging
 		// possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
+		// logLevel: config.LOG_INFO,
 		logLevel: config.LOG_DISABLE,
 
 		// enable / disable watching file and executing tests whenever any file changes
@@ -80,6 +81,10 @@ module.exports = function (config: any) {
 		// Continuous Integration mode
 		// if true, Karma captures browsers, runs the tests and exits
 		singleRun: true,
+
+		client: {
+			clearContext: false, // leave Jasmine Spec Runner output visible in browser
+		},
 
 		// Concurrency level
 		// how many browser should be started simultaneous

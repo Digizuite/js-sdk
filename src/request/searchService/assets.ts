@@ -9,7 +9,7 @@ export interface IAssetRequestArgs extends IBaseRequestArgs {
 	defaultSortType?: string;
 }
 
-export class Assets extends BaseRequest<any> {
+export class Assets extends BaseRequest<any, any> {
 	private sLayoutFolderId?: string;
 	private filters?: object;
 	private sortTypes?: ISortType[];

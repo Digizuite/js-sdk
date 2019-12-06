@@ -3,7 +3,7 @@ import {BaseRequest} from '../../common/request';
 import {RequestError} from '../../common/requestError';
 import {ERROR_CODE} from '../../const';
 
-export class AppConfiguration extends BaseRequest<any> {
+export class AppConfiguration extends BaseRequest<any, any> {
 
 	/**
 	 * Endpoint URL

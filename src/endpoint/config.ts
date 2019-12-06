@@ -1,20 +1,18 @@
 import {Endpoint, IEndpointArgs} from '../common/endpoint';
 import {attachEndpoint, Connector as ConnectorType} from '../connector';
 import {AppLabels} from '../request/configService/appLabels';
-import {ConnectorConfiguration} from "../request/configService/connectorConfiguration";
 import {AppConfiguration} from '../request/searchService/appConfiguration';
 import {SystemVersion} from '../request/searchService/systemVersion';
 
 export interface IConfigEndpointArgs extends IEndpointArgs {
-	languageId?: number;
-	versionId?: string;
+	languageId: number;
+	versionId: string;
 }
 
 export class Config extends Endpoint {
 
 	private cache: {
 		labelsPromise?: Promise<any>,
-		connectorConfigPromise?: Promise<any>,
 	};
 
 	private readonly languageId: number;
@@ -30,13 +28,8 @@ export class Config extends Endpoint {
 
 		this.cache = {};
 
-		if (args.languageId) {
-			this.languageId = args.languageId;
-		}
-
-		if (args.versionId) {
-			this.versionId = args.versionId;
-		}
+		this.languageId = args.languageId;
+		this.versionId = args.versionId;
 	}
 
 	/**
@@ -51,18 +44,6 @@ export class Config extends Endpoint {
 		});
 
 		return appConfigRequest.execute();
-	}
-
-	public getConnectorConfiguration() {
-		if (!this.cache.connectorConfigPromise) {
-			const connectorConfigRequest = new ConnectorConfiguration({
-				apiUrl: this.apiUrl,
-			});
-
-			this.cache.connectorConfigPromise = connectorConfigRequest.execute();
-		}
-
-		return this.cache.connectorConfigPromise;
 	}
 
 	/**
@@ -104,24 +85,14 @@ export class Config extends Endpoint {
 
 }
 
-// Attach AppConfig endpoint
-const appConfigName = 'appConfig';
-const appConfigGetter = function (instance: ConnectorType) {
-	return new Config({
-		apiUrl: instance.apiUrl,
-	});
-};
-
-attachEndpoint({name: appConfigName, getter: appConfigGetter});
-
 // Attach Config endpoint
 const name = 'config';
 const getter = function (instance: ConnectorType) {
 	return new Config({
-		apiUrl: instance.apiUrl,
+		apiUrl: instance.state.constants.baseApiUrl,
 		accessKey: instance.state.user.accessKey,
 		languageId: instance.state.user.languageId,
-		versionId: instance.state.versionId,
+		versionId: instance.state.constants.versionId,
 	});
 };
 
@@ -130,6 +101,5 @@ attachEndpoint({name, getter});
 declare module '../connector' {
 	interface Connector {
 		config: Config;
-		appConfig: Config;
 	}
 }

@@ -28,10 +28,10 @@ export class Asset extends Model {
 	public name: string | undefined;
 	public description: string | undefined;
 
-	public date: Date;
+	public date: Date | undefined;
 	public publishedDate: Date | null;
 	public lastEditedDate: Date | null;
-	public transcodes: ITranscode[];
+	public transcodes: ITranscode[]  = [];
 	private sourceLocation: null | string;
 	// tslint:disable-next-line
 	private assetId__DO_NOT_USE_THIS_OR_KITTENS_WILL_DIE: number | null;

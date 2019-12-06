@@ -1,7 +1,7 @@
 import {BaseRequest} from '../../common/request';
 import {AssetVersion, CreateAssetVersionFromApiResponse} from '../../model/assetVersion';
 
-export class AssetVersions extends BaseRequest<any> {
+export class AssetVersions extends BaseRequest<any, any> {
 
 	/**
 	 * Endpoint URL

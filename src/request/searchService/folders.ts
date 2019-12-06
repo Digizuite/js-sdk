@@ -2,7 +2,7 @@ import {BaseRequest} from '../../common/request';
 import {CreateFolderFromApiResponse, Folder} from '../../model/folder';
 import {getItemIdFromIdPath} from '../../utilities/helpers/treePath';
 
-export class Folders extends BaseRequest<Folder[]> {
+export class Folders extends BaseRequest<any, Folder[]> {
 
 	/**
 	 * Endpoint URL

@@ -45,7 +45,7 @@ export class Batch extends Endpoint {
 const name = 'batch';
 const getter = function (instance: ConnectorType) {
 	return new Batch({
-		apiUrl: instance.apiUrl,
+		apiUrl: instance.state.constants.baseApiUrl,
 		accessKey: instance.state.user.accessKey,
 	});
 };

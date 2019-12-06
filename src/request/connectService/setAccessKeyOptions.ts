@@ -7,7 +7,7 @@ export interface IAccessKeyData {
 	accessKey: string;
 }
 
-export class SetAccessKeyOptions extends BaseRequest<IAccessKeyData> {
+export class SetAccessKeyOptions extends BaseRequest<any, IAccessKeyData> {
 
 	/**
 	 * Endpoint URL

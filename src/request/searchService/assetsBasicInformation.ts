@@ -1,7 +1,7 @@
 import {BaseRequest} from '../../common/request';
 import {CreateAssetFromApiResponse} from '../../model/asset';
 
-export class AssetsBasicInformation extends BaseRequest<any> {
+export class AssetsBasicInformation extends BaseRequest<any, any> {
 
 	/**
 	 * Endpoint URL

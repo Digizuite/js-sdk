@@ -1,7 +1,7 @@
 import {BaseRequest} from '../../common/request';
 import {IUserData} from "./createAccessKey";
 
-export class KeepAlive extends BaseRequest<IUserData> {
+export class KeepAlive extends BaseRequest<any, IUserData> {
 
 	/**
 	 * Endpoint URL

@@ -12,7 +12,12 @@ export interface IRequestGetErrorCodeArgs {
 	errors: Array<{ ErrorCode: string }>;
 }
 
-export class BaseRequest<T> {
+export enum HTTP_Method {
+	Get = 'GET',
+	Post = 'POST',
+}
+
+export class BaseRequest<T extends object, U> {
 	/**
 	 * Determines if a request fails based on the received response
 	 * @param response
@@ -87,6 +92,14 @@ export class BaseRequest<T> {
 
 	/**
 	 * To be overwritten
+	 * @returns {string}
+	 */
+	get method() {
+		return HTTP_Method.Post;
+	}
+
+	/**
+	 * To be overwritten
 	 * @returns {Object}
 	 */
 	get defaultPayload() {
@@ -98,7 +111,7 @@ export class BaseRequest<T> {
 	 * @param payload
 	 * @returns {Promise}
 	 */
-	public execute(payload = {}): Promise<T> {
+	public execute(payload: T = {} as T): Promise<U> {
 
 		// Merge the payload with the default one and pass it though the pre-process
 		const requestData = this.processRequestData(
@@ -114,14 +127,19 @@ export class BaseRequest<T> {
 			'X-Clacks-Overhead': 'GNU Terry Pratchett', // A man is not dead while his name is still spoken.
 		});
 
+		const requestOptions = {
+			method: this.method,
+			mode: 'cors',
+			headers,
+		} as any;
+
+		if (requestOptions.method === HTTP_Method.Post) {
+			requestOptions.body = this.toQueryString(requestData);
+		}
+
 		const request = new Request(
 			this.endpointUrl,
-			{
-				method: 'POST',
-				mode: 'cors',
-				headers,
-				body: this.toQueryString(requestData),
-			},
+			requestOptions,
 		);
 
 		// Settle in boys, papa is going to tell you a story about fetch and promise
@@ -139,9 +157,9 @@ export class BaseRequest<T> {
 		// This way, the result of this method will be a Promise create from the execution context,
 		// instead of always a native one.
 		return Promise.resolve()
-			.then(() => fetch(request, {credentials: 'include'}))
+			.then(() => fetch(request))
 			.then(rawResponse => rawResponse.json())
-			.then((response) => {
+			.then<U>((response) => {
 
 				if (BaseRequest.containsError(response)) {
 					throw new RequestError(
@@ -191,7 +209,7 @@ export class BaseRequest<T> {
 	 * @param {Object} payload
 	 * @returns {Object}
 	 */
-	protected processRequestData(payload: any): any {
+	protected processRequestData(payload: any) {
 		return payload;
 	}
 
@@ -200,7 +218,7 @@ export class BaseRequest<T> {
 	 * @param {Object} response
 	 * @returns {Object}
 	 */
-	protected processResponseData(response: any): any {
+	protected processResponseData(response: any): U {
 		return response;
 	}
 

@@ -1,6 +1,6 @@
 import {BaseRequest} from '../../common/request';
 
-export class IsUniqueVersion extends BaseRequest<any> {
+export class IsUniqueVersion extends BaseRequest<any, any> {
 
 	/**
 	 * Endpoint URL

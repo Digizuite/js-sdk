@@ -30,7 +30,7 @@ export interface ILanguage {
 }
 
 export interface IMetadataArgs extends IEndpointArgs {
-	language: ILanguage;
+	language: number;
 	languages: ILanguage[];
 }
 
@@ -41,7 +41,7 @@ export interface IMetadataGetMetadataItemOptions {
 }
 
 export class Metadata extends Endpoint {
-	private language: ILanguage;
+	private language: number;
 	private languages: ILanguage[];
 
 	/**
@@ -181,7 +181,7 @@ export class Metadata extends Endpoint {
 		});
 		return Promise.all(
 			args.assets.map((thisAsset) => getLockInformation({
-				asset: thisAsset, apiUrl: this.apiUrl, accessKey: this.accessKey
+				asset: thisAsset, apiUrl: this.apiUrl, accessKey: this.accessKey,
 			})),
 		).then((lockInfo) => {
 
@@ -378,7 +378,7 @@ export class Metadata extends Endpoint {
 const name = 'metadata';
 const getter = function (instance: ConnectorType) {
 	return new Metadata({
-		apiUrl: instance.apiUrl,
+		apiUrl: instance.state.constants.baseApiUrl,
 		language: instance.state.user.languageId,
 		languages: instance.state.config.languages,
 		accessKey: instance.state.user.accessKey,

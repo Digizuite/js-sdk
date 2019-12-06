@@ -7,12 +7,11 @@ import {UploadAsset} from "../../request/uploadService/uploadAsset";
 import {BaseDigiUploader, IBaseDigiUploaderArgs} from "./baseDigiUploader";
 import {IDigiUploader, IDigiUploaderGetUploadIdsArgs} from "./IDigiUploader";
 
-export interface IDigiUploader5Args extends IBaseDigiUploaderArgs {
+export interface IDigiUploaderArgs extends IBaseDigiUploaderArgs {
 	computerName: string;
-	apiVersion: string;
 }
 
-export class DigiUploader5 extends BaseDigiUploader implements IDigiUploader {
+export class DigiUploader extends BaseDigiUploader implements IDigiUploader {
 
 	private readonly computerName: string;
 
@@ -21,7 +20,7 @@ export class DigiUploader5 extends BaseDigiUploader implements IDigiUploader {
 	 * @param {Object} args
 	 * @param {string} args.computerName
 	 */
-	constructor(args: IDigiUploader5Args) {
+	constructor(args: IDigiUploaderArgs) {
 		super({
 			apiUrl: args.apiUrl,
 			accessKey: args.accessKey,

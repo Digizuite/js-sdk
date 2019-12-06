@@ -1,6 +1,6 @@
 import {BaseRequest} from '../../common/request';
 
-export class CheckOut extends BaseRequest<any> {
+export class CheckOut extends BaseRequest<any, any> {
 
 	/**
 	 * Endpoint URL

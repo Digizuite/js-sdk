@@ -1,6 +1,6 @@
 import {BaseRequest} from '../../common/request';
 
-export class UploadAsset extends BaseRequest<any> {
+export class UploadAsset extends BaseRequest<any, any> {
 
 	/**
 	 * Endpoint URL

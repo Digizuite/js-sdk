@@ -9,11 +9,10 @@ import {Assets} from '../request/searchService/assets';
 import {AssetsBasicInformation} from '../request/searchService/assetsBasicInformation';
 import {PublishStatus} from '../request/searchService/publishStatus';
 import {createDigiUploader} from '../utilities/digiUploader/digiUploaderProvider';
-import {DigiUploadFile, IDigiUploader} from '../utilities/digiUploader/iDigiUploader';
+import {DigiUploadFile, IDigiUploader} from '../utilities/digiUploader/IDigiUploader';
 
 export interface IUploadEndpointArgs extends IEndpointArgs {
 	computerName: string;
-	apiVersion: string;
 	instance: ConnectorType;
 }
 
@@ -22,7 +21,7 @@ export class Upload extends Endpoint {
 	private digiUpload: IDigiUploader;
 	private assetEditableQueue: any[];
 	private assetPublishedQueue: any[];
-	private assetPublishedRequest: PublishStatus;
+	private assetPublishedRequest: PublishStatus | undefined;
 	private assetBasicInformationRequest?: AssetsBasicInformation;
 
 	/**
@@ -39,7 +38,6 @@ export class Upload extends Endpoint {
 			computerName: args.computerName,
 			apiUrl: args.apiUrl,
 			accessKey: args.accessKey || '',
-			apiVersion: args.apiVersion,
 		});
 
 		this.assetEditableQueue = [];
@@ -330,8 +328,7 @@ export class Upload extends Endpoint {
 const name = 'upload';
 const getter = function (instance: ConnectorType) {
 	return new Upload({
-		apiUrl: instance.apiUrl,
-		apiVersion: instance.apiVersion,
+		apiUrl: instance.state.constants.baseApiUrl,
 		computerName: instance.state.config.UploadName,
 		instance,
 		accessKey: instance.state.user.accessKey,

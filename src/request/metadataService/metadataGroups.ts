@@ -2,7 +2,7 @@ import {BaseRequest} from '../../common/request';
 import {IterativeMetadataGroup} from '../../model/metadata/iterativeMetadataGroup';
 import {MetadataGroup} from '../../model/metadata/metadataGroup';
 
-export class MetadataGroups extends BaseRequest<any> {
+export class MetadataGroups extends BaseRequest<any, any> {
 
 	/**
 	 * Endpoint URL

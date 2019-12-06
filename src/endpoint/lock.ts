@@ -81,7 +81,7 @@ export class Lock extends Endpoint {
 const name = 'lock';
 const getter = function (instance: ConnectorType) {
 	return new Lock({
-		apiUrl: instance.apiUrl,
+		apiUrl: instance.state.constants.baseApiUrl,
 		accessKey: instance.state.user.accessKey,
 	});
 };

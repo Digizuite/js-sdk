@@ -4,6 +4,10 @@ import {Connector, getConnectorInstance} from '../src/index';
 
 install();
 
+export const SITE_URL = 'https://localhost:59904';
+export const USERNAME = 'SuperAdministrator';
+export const PASSWORD = 'test';
+
 /**
  * Quick method for getting a connector instance when testing
  *
@@ -11,8 +15,6 @@ install();
  */
 export async function getInstance() {
 	return await getConnectorInstance({
-		apiUrl: 'https://cc.dev.digizuite.com/dmm3bwsv3/',
-		username: 'SuperAdministrator',
-		password: 'test',
-	});
+		siteUrl: SITE_URL,
+	}).then(instance => instance.connectWithCredentials(USERNAME, PASSWORD));
 }

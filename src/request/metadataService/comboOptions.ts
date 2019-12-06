@@ -1,7 +1,7 @@
 import {BaseRequest} from '../../common/request';
 import {ComboOption} from '../../model/metadata/comboOption';
 
-export class ComboOptions extends BaseRequest<any> {
+export class ComboOptions extends BaseRequest<any, any> {
 
 	/**
 	 * Endpoint URL

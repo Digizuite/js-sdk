@@ -10,7 +10,7 @@ export abstract class BaseDigiUploader {
 
 	protected readonly apiUrl: string;
 	protected readonly accessKey: string;
-	private fileChunkUploader: UploadFileChunk;
+	private fileChunkUploader: UploadFileChunk | undefined;
 
 	protected constructor(args: IBaseDigiUploaderArgs) {
 		this.apiUrl = args.apiUrl;

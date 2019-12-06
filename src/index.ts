@@ -5,6 +5,7 @@ import 'core-js/es6';
 import './endpoint/auth';
 import './endpoint/batch';
 import './endpoint/config';
+import './endpoint/constants';
 import './endpoint/content';
 import './endpoint/download';
 import './endpoint/lock';

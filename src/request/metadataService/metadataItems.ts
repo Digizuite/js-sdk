@@ -39,7 +39,7 @@ export interface IMetadataItemsResponse {
 	result: any[];
 }
 
-export class MetadataItems extends BaseRequest<any> {
+export class MetadataItems extends BaseRequest<any, any> {
 
 	/**
 	 * Endpoint URL

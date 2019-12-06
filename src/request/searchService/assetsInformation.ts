@@ -10,7 +10,7 @@ import {StringInformationItem} from '../../model/information/stringInformationIt
 import {LinkInformationItem} from '../../model/information/linkInformationItem';
 import {LogWarn} from '../../utilities/logger';
 
-export class AssetsInformation extends BaseRequest<any> {
+export class AssetsInformation extends BaseRequest<any, any> {
 
 	/**
 	 * Endpoint URL

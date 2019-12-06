@@ -9,7 +9,7 @@ export interface IFrameworkSearchArgs extends IBaseRequestArgs {
 	defaultSortType?: any;
 }
 
-export class FrameworkSearch extends BaseRequest<any> {
+export class FrameworkSearch extends BaseRequest<any, any> {
 	private sLayoutFolderId?: string;
 	private filters?: any;
 	private sortTypes?: any;

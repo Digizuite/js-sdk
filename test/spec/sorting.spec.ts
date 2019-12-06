@@ -1,6 +1,7 @@
 import {Connector} from "../../src/connector";
 import {SORT_BY, SORT_DIRECTION} from '../../src/const';
 import {getInstance} from '../test-helpers';
+import {Asset} from "../../src/model/asset";
 
 describe('Sorting', () => {
 
@@ -21,6 +22,11 @@ describe('Sorting', () => {
 		for (let i = 1; i < assets.length; i++) {
 			const asset1 = assets[i - 1].date;
 			const asset2 = assets[i].date;
+
+			if (!asset1 || !asset2) {
+				throw new Error('One of the assets is null');
+			}
+
 			asset1.setMilliseconds(0);
 			asset2.setMilliseconds(0);
 
@@ -39,6 +45,11 @@ describe('Sorting', () => {
 		for (let i = 1; i < assets.length; i++) {
 			const asset1 = assets[i - 1].date;
 			const asset2 = assets[i].date;
+
+			if (!asset1 || !asset2) {
+				throw new Error('One of the assets is null');
+			}
+
 			asset1.setMilliseconds(0);
 			asset2.setMilliseconds(0);
 			expect(asset1.getTime() <= asset2.getTime()).toBe(true, "Assets was not sorted correctly");
@@ -46,8 +57,8 @@ describe('Sorting', () => {
 	});
 
 	// Disabled due to DAM Center being retarded. See DAM-2319
-	xdescribe('Sorting by name', () => {
-		it('should give assets sorted by name accending', async () => {
+	describe('Sorting by name', () => {
+		xit('should give assets sorted by name accending', async () => {
 			const {assets} = await instance.content.getAssets({
 				sorting: {
 					by: SORT_BY.NAME,
@@ -55,11 +66,14 @@ describe('Sorting', () => {
 				},
 			});
 
+			const getAssetName = (asset: Asset): string => {
+				return (asset.name || '').replace(/_/g, '').toLowerCase();
+			};
+
 			for (let i = 1; i < assets.length; i++) {
-				const asset1 = assets[i - 1];
-				const asset2 = assets[i];
-				expect(asset1.name!.toLowerCase() <= asset2.name!.toLowerCase())
-					.toBe(true, 'alpha sorting did not work.');
+				const asset1 = getAssetName(assets[i - 1]);
+				const asset2 = getAssetName(assets[i]);
+				expect(asset1 <= asset2).toBe(true, 'alpha sorting did not work.');
 			}
 		});
 

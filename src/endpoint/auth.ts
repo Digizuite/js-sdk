@@ -97,7 +97,7 @@ export class Auth extends Endpoint {
 const name = 'auth';
 const getter = function (instance: ConnectorType) {
 	return new Auth({
-		apiUrl: instance.apiUrl,
+		apiUrl: instance.state.constants.baseApiUrl,
 	});
 };
 
