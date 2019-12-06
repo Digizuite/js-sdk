@@ -2,7 +2,6 @@ package patches.buildTypes
 
 import jetbrains.buildServer.configs.kotlin.v2018_2.*
 import jetbrains.buildServer.configs.kotlin.v2018_2.BuildType
-import jetbrains.buildServer.configs.kotlin.v2018_2.buildSteps.powerShell
 import jetbrains.buildServer.configs.kotlin.v2018_2.ui.*
 
 /*
@@ -33,12 +32,6 @@ create(DslContext.projectId, BuildType({
             name = "NPM Build"
             type = "jonnyzzz.npm"
             param("npm_commands", "ci")
-        }
-        powerShell {
-            name = "Create Release package"
-            scriptMode = file {
-                path = "build_scripts/CreateReleasePackage.ps1"
-            }
         }
     }
 }))
