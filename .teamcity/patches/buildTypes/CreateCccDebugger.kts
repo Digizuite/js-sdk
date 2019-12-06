@@ -28,6 +28,10 @@ create(DslContext.projectId, BuildType({
             param("teamcity.build.workingDir", "ccc_debugger")
             param("npm_commands", "ci")
         }
+        step {
+            type = "GenerateVersion2"
+            param("versionFilePath", """.\package.json""")
+        }
     }
 }))
 
