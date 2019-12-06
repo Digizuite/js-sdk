@@ -23,14 +23,14 @@ create(DslContext.projectId, BuildType({
 
     steps {
         step {
+            type = "GenerateVersion2"
+            param("versionFilePath", """.\package.json""")
+        }
+        step {
             name = "NPM Install Deps"
             type = "jonnyzzz.npm"
             param("teamcity.build.workingDir", "ccc_debugger")
             param("npm_commands", "ci")
-        }
-        step {
-            type = "GenerateVersion2"
-            param("versionFilePath", """.\package.json""")
         }
     }
 }))
