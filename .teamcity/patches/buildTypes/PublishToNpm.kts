@@ -2,6 +2,7 @@ package patches.buildTypes
 
 import jetbrains.buildServer.configs.kotlin.v2018_2.*
 import jetbrains.buildServer.configs.kotlin.v2018_2.BuildStep
+import jetbrains.buildServer.configs.kotlin.v2018_2.triggers.finishBuildTrigger
 import jetbrains.buildServer.configs.kotlin.v2018_2.triggers.vcs
 import jetbrains.buildServer.configs.kotlin.v2018_2.ui.*
 
@@ -41,6 +42,12 @@ changeBuildType(RelativeId("PublishToNpm")) {
                     -:comment=Update to \d+.\d+.\d+:**
                 """.trimIndent()
                 branchFilter = "+:refs/heads/master"
+            }
+        }
+        add {
+            finishBuildTrigger {
+                buildType = "JsSdk_Build"
+                successfulOnly = true
             }
         }
     }
