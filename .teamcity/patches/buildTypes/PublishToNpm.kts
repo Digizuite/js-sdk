@@ -48,7 +48,6 @@ changeBuildType(RelativeId("PublishToNpm")) {
             }
         }
         trigger1.apply {
-            enabled = false
             triggerRules = """
                 -:package.json
                 -:comment=[NPM] Update to \d+.\d+.\d+:**
