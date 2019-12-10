@@ -46,6 +46,11 @@ changeBuildType(RelativeId("PublishToNpm")) {
         }
         trigger1.apply {
             enabled = false
+            triggerRules = """
+                -:package.json
+                -:comment=Update to \d+.\d+.\d+:**
+                -:comment=TeamCity change:**
+            """.trimIndent()
         }
     }
 }
