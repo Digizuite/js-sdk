@@ -1,6 +1,7 @@
 package patches.buildTypes
 
 import jetbrains.buildServer.configs.kotlin.v2018_2.*
+import jetbrains.buildServer.configs.kotlin.v2018_2.BuildStep
 import jetbrains.buildServer.configs.kotlin.v2018_2.triggers.VcsTrigger
 import jetbrains.buildServer.configs.kotlin.v2018_2.triggers.vcs
 import jetbrains.buildServer.configs.kotlin.v2018_2.ui.*
@@ -11,6 +12,28 @@ To apply the patch, change the buildType with id = 'PublishToNpm'
 accordingly, and delete the patch script.
 */
 changeBuildType(RelativeId("PublishToNpm")) {
+    expectSteps {
+        step {
+            type = "jonnyzzz.npm"
+            param("npm_commands", "ci")
+        }
+        step {
+            name = "Create new NPM version"
+            type = "jonnyzzz.npm"
+            param("npm_commands", """version %versionLevel% -m "Update to %s"""")
+        }
+        step {
+            name = "Publish to npm"
+            type = "jonnyzzz.npm"
+            param("npm_commands", "publish --tag %versionTag%")
+        }
+    }
+    steps {
+        update<BuildStep>(2) {
+            enabled = false
+        }
+    }
+
     triggers {
         val trigger1 = find<VcsTrigger> {
             vcs {
