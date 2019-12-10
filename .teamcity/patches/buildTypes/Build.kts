@@ -23,8 +23,8 @@ changeBuildType(RelativeId("Build")) {
         trigger1.apply {
             triggerRules = """
                 -:package.json
-                -:comment=\[NPM\] Update to \d+.\d+.\d+:**
-                -:comment=TeamCity change *:**
+                -:comment=Update to \d+.\d+.\d+:**
+                -:comment=TeamCity change:**
             """.trimIndent()
         }
     }
