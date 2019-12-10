@@ -32,9 +32,6 @@ changeBuildType(RelativeId("PublishToNpm")) {
         update<BuildStep>(1) {
             param("npm_commands", """version %versionLevel% -m "[NPM] Update to %s"""")
         }
-        update<BuildStep>(2) {
-            enabled = false
-        }
     }
 
     triggers {
