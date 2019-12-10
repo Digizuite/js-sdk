@@ -67,5 +67,13 @@ The resulted instance should be stored and used for all further interaction.
 
 You should reuse the obtain instance and not get more than 1 instance for the same DAM center.
 
+### Disposal of connector instance
+
+The connector instance can be destroyed, when is not needed anymore:
+
+```js
+instance.destroy();
+```
+
 ### Lighter imports
 The `Connector` object is also available as import from `digizuite/src/connector`. 
