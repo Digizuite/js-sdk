@@ -2,7 +2,6 @@ package patches.buildTypes
 
 import jetbrains.buildServer.configs.kotlin.v2018_2.*
 import jetbrains.buildServer.configs.kotlin.v2018_2.BuildStep
-import jetbrains.buildServer.configs.kotlin.v2018_2.triggers.VcsTrigger
 import jetbrains.buildServer.configs.kotlin.v2018_2.triggers.vcs
 import jetbrains.buildServer.configs.kotlin.v2018_2.ui.*
 
@@ -35,7 +34,7 @@ changeBuildType(RelativeId("PublishToNpm")) {
     }
 
     triggers {
-        val trigger1 = find<VcsTrigger> {
+        remove {
             vcs {
                 triggerRules = """
                     -:package.json
@@ -43,13 +42,6 @@ changeBuildType(RelativeId("PublishToNpm")) {
                 """.trimIndent()
                 branchFilter = "+:refs/heads/master"
             }
-        }
-        trigger1.apply {
-            triggerRules = """
-                -:package.json
-                -:comment=Update to \d+.\d+.\d+:**
-                -:comment=TeamCity change:**
-            """.trimIndent()
         }
     }
 }
