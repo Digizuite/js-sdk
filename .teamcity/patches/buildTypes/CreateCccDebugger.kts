@@ -2,6 +2,7 @@ package patches.buildTypes
 
 import jetbrains.buildServer.configs.kotlin.v2018_2.*
 import jetbrains.buildServer.configs.kotlin.v2018_2.BuildType
+import jetbrains.buildServer.configs.kotlin.v2018_2.triggers.finishBuildTrigger
 import jetbrains.buildServer.configs.kotlin.v2018_2.ui.*
 
 /*
@@ -31,6 +32,13 @@ create(DslContext.projectId, BuildType({
             type = "jonnyzzz.npm"
             param("teamcity.build.workingDir", "ccc_debugger")
             param("npm_commands", "ci")
+        }
+    }
+
+    triggers {
+        finishBuildTrigger {
+            buildType = "JsSdk_Build"
+            successfulOnly = true
         }
     }
 
