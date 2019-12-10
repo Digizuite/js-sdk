@@ -66,7 +66,7 @@ function getWebpackConfig(env: string) {
 					exclude: /(node_modules|bower_components)/,
 					use: [
 						{
-							loader: 'awesome-typescript-loader',
+							loader: 'ts-loader',
 						},
 					],
 				},

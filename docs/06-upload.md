@@ -68,7 +68,7 @@ It is recommended to wait for the newly uploaded asset to become editable before
 While this is not enforced, editing metadata before this can lead to unexpected results.
 
 ```js
-instance.upload.awaitAssetEditable(assets[0])
+instance.upload.awaitAssetCreated(assets[0])
     .then((asset)=>{
         console.debug("Asset is ready for metadata edit", asset)
     });
@@ -109,7 +109,7 @@ document.querySelector('#fileUpload').addEventListener('change', (event)=>{
 
         console.debug("Assets uploaded!", assets);
 
-        instance.upload.awaitAssetEditable(assets[0])
+        instance.upload.awaitAssetCreated(assets[0])
             .then((asset)=>{
                 console.debug("Asset ready for edit", asset)
             });

@@ -57,7 +57,11 @@ describe('Sorting', () => {
 	});
 
 	// Disabled due to DAM Center being retarded. See DAM-2319
-	describe('Sorting by name', () => {
+	xdescribe('Sorting by name', () => {
+		const getAssetName = (asset: Asset): string => {
+			return (asset.name || '').replace(/_/g, '').toLowerCase();
+		};
+
 		xit('should give assets sorted by name accending', async () => {
 			const {assets} = await instance.content.getAssets({
 				sorting: {
@@ -65,10 +69,6 @@ describe('Sorting', () => {
 					direction: SORT_DIRECTION.ASCENDING,
 				},
 			});
-
-			const getAssetName = (asset: Asset): string => {
-				return (asset.name || '').replace(/_/g, '').toLowerCase();
-			};
 
 			for (let i = 1; i < assets.length; i++) {
 				const asset1 = getAssetName(assets[i - 1]);
@@ -86,9 +86,9 @@ describe('Sorting', () => {
 			});
 
 			for (let i = 1; i < assets.length; i++) {
-				const asset1 = assets[i - 1];
-				const asset2 = assets[i];
-				expect(asset1.name!.toLowerCase() >= asset2.name!.toLowerCase())
+				const asset1 = getAssetName(assets[i - 1]);
+				const asset2 = getAssetName(assets[i]);
+				expect(asset1 >= asset2)
 					.toBe(true, 'alpha sorting did not work.');
 			}
 		});

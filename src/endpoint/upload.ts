@@ -4,25 +4,27 @@ import {GUID} from '../const';
 import {Asset} from '../model/asset';
 import {CloudFile} from '../model/cloudFile';
 import {BitMetadataItem} from '../model/metadata/bitMetadataItem';
+import {NotificationActionType} from "../model/notification/notification";
 import {UploadTicket} from '../model/ticket/uploadTicket';
-import {Assets} from '../request/searchService/assets';
-import {AssetsBasicInformation} from '../request/searchService/assetsBasicInformation';
-import {PublishStatus} from '../request/searchService/publishStatus';
 import {createDigiUploader} from '../utilities/digiUploader/digiUploaderProvider';
 import {DigiUploadFile, IDigiUploader} from '../utilities/digiUploader/IDigiUploader';
+import {AssetCreatedQueue} from "../utilities/finishUploadQueue/assetCreatedQueue";
+import { AssetPublishedQueue } from '../utilities/finishUploadQueue/assetPublishedQueue';
+import {Notifications} from './notifications';
 
 export interface IUploadEndpointArgs extends IEndpointArgs {
 	computerName: string;
 	instance: ConnectorType;
+	notifications: Notifications;
 }
 
 export class Upload extends Endpoint {
 	private instance: ConnectorType;
 	private digiUpload: IDigiUploader;
-	private assetEditableQueue: any[];
-	private assetPublishedQueue: any[];
-	private assetPublishedRequest: PublishStatus | undefined;
-	private assetBasicInformationRequest?: AssetsBasicInformation;
+
+	private readonly assetCreatedQueue: AssetCreatedQueue;
+	private readonly assetPublishedQueue: AssetPublishedQueue;
+	private readonly notifications: Notifications;
 
 	/**
 	 * C-tor
@@ -40,17 +42,27 @@ export class Upload extends Endpoint {
 			accessKey: args.accessKey || '',
 		});
 
-		this.assetEditableQueue = [];
-		this.assetPublishedQueue = [];
+		this.notifications = args.notifications;
+
+		this.assetCreatedQueue = new AssetCreatedQueue({
+			apiUrl: args.apiUrl,
+			accessKey: args.accessKey || '',
+		});
+
+		this.assetPublishedQueue = new AssetPublishedQueue({
+			apiUrl: args.apiUrl,
+			accessKey: args.accessKey || '',
+		});
+
+		// Notifications
+		this.subSink.sink = this.notifications.assetPushNotification.subscribe(notification => {
+			if (notification.notificationGroup.actionType === NotificationActionType.AssetCreated) {
+				this.assetCreatedQueue.onAssetCreated(notification.assetItemId);
+			} else {
+				this.assetPublishedQueue.onAssetPublished(notification.assetItemId);
+			}
+		});
 	}
-
-	static get ASSET_EDITABLE_TIMEOUT() {
-		return 10000;
-	} // 10 seconds
-
-	static get ASSET_PUBLISHED_TIMEOUT() {
-		return 20000;
-	} // 20 seconds
 
 	/**
 	 * Returns a promise that resolves to an array of upload tickets
@@ -136,19 +148,25 @@ export class Upload extends Endpoint {
 	}
 
 	/**
-	 * Returns a promise that resolves when the asset becomes editable
+	 * Returns a promise that resolves when the asset is created
 	 * @param asset
 	 * @returns {Promise}
 	 */
-	public awaitAssetEditable(asset: Asset) {
+	public awaitAssetCreated(asset: Asset) {
 
 		if (!(asset instanceof Asset)) {
 			throw new Error('awaitAssetEditable expects an asset as parameter');
 		}
 
-		return new Promise((resolve) => {
-			this._addToAssetEditableQueue({asset, resolve});
-		});
+		return new Promise(resolve => this.assetCreatedQueue.insert(asset, resolve));
+	}
+
+	/**
+	 * @deprecated
+	 * @param asset
+	 */
+	public awaitAssetEditable(asset: Asset) {
+		return this.awaitAssetCreated(asset);
 	}
 
 	/**
@@ -162,164 +180,7 @@ export class Upload extends Endpoint {
 			throw new Error('awaitAssetPublished expects an asset as parameter');
 		}
 
-		return new Promise((resolve) => {
-			this._addToAssetPublishedQueue({
-				asset,
-				resolve,
-			});
-		});
-	}
-
-	/**
-	 * Creates a queue for published assets
-	 * @param args
-	 */
-	private _addToAssetPublishedQueue(args = {}) {
-
-		this.assetPublishedQueue.push(args);
-
-		// If there is more than 1 item in the queue, it will be picked up auto-magically
-		if (this.assetPublishedQueue.length === 1) {
-			this._checkAssetsPublished();
-		}
-
-	}
-
-	/**
-	 * Creates a queue for editable assets
-	 * @param args
-	 */
-	private _addToAssetEditableQueue(args = {}) {
-
-		this.assetEditableQueue.push(args);
-
-		// If there is more than 1 item in the queue, it will be picked up auto-magically
-		if (this.assetEditableQueue.length === 1) {
-			this._checkAssetsEditable();
-		}
-
-	}
-
-	/**
-	 * Check if a list of assets is editable
-	 */
-	private _checkAssetsPublished() {
-
-		if (!this.assetPublishedRequest) {
-			this.assetPublishedRequest = new PublishStatus({
-				apiUrl: this.apiUrl,
-				accessKey: this.accessKey,
-			});
-		}
-
-		this.assetPublishedRequest.execute({
-			assets: this.assetPublishedQueue.map((thisQueueItem) => thisQueueItem.asset),
-		}).then((publishStatuses) => {
-
-			const resolveSet: any = {};
-
-			publishStatuses
-				.filter((thisStatus: any) => thisStatus.published)
-				.forEach((thisPublishedStatus: any) => {
-
-					const queueIndex = this.assetPublishedQueue.findIndex(
-						(thisQueueItem) => thisQueueItem.asset.id === thisPublishedStatus.id,
-					);
-					const queueItem = this.assetPublishedQueue[queueIndex];
-
-					// remove it from the queue
-					this.assetPublishedQueue.splice(queueIndex, 1);
-
-					// add the item to a resolving set
-					resolveSet[queueItem.asset.id] = queueItem.resolve;
-
-				});
-
-			if (Object.keys(resolveSet).length) {
-				this._resolvePublishedAssets(resolveSet);
-			}
-
-			if (this.assetPublishedQueue.length > 0) {
-				setTimeout(
-					this._checkAssetsPublished.bind(this),
-					Upload.ASSET_PUBLISHED_TIMEOUT,
-				);
-			}
-
-		});
-
-	}
-
-	/**
-	 * Fulfills the promises from the queue
-	 * @param resolveSet
-	 */
-	private _resolvePublishedAssets(resolveSet: any) {
-
-		const assetsInformationRequest = new Assets({
-			apiUrl: this.apiUrl,
-			accessKey: this.accessKey,
-		});
-
-		assetsInformationRequest.execute({
-			assets: Object.keys(resolveSet).map((thisId) => {
-				return {id: thisId};
-			}),
-		}).then((assets) => {
-
-			assets.forEach((thisAsset: any) => {
-				resolveSet[thisAsset.id](thisAsset);
-			});
-
-		});
-
-	}
-
-	/**
-	 * Check if a list of assets is editable
-	 */
-	private _checkAssetsEditable() {
-
-		if (!this.assetBasicInformationRequest) {
-			this.assetBasicInformationRequest = new AssetsBasicInformation({
-				apiUrl: this.apiUrl,
-				accessKey: this.accessKey,
-			});
-		}
-
-		this.assetBasicInformationRequest.execute({
-			assets: this.assetEditableQueue.map((thisQueueItem) => thisQueueItem.asset),
-		}).then((basicAssets: Asset[]) => {
-
-			// Resolve the promise for the found assets
-			basicAssets.forEach((thisBasicAsset) => {
-
-				const queueIndex = this.assetEditableQueue.findIndex(
-					(thisQueueItem) => thisQueueItem.asset.id === thisBasicAsset.id,
-				);
-
-				// Item found?
-				if (queueIndex > -1) {
-					const queueItem = this.assetEditableQueue[queueIndex];
-
-					// remove it from the queue
-					this.assetEditableQueue.splice(queueIndex, 1);
-
-					queueItem.asset.type = thisBasicAsset.type;
-					queueItem.resolve(queueItem.asset);
-				}
-
-			});
-
-			if (this.assetEditableQueue.length > 0) {
-				setTimeout(
-					this._checkAssetsEditable.bind(this),
-					Upload.ASSET_EDITABLE_TIMEOUT,
-				);
-			}
-
-		});
-
+		return new Promise((resolve) => this.assetPublishedQueue.insert(asset, resolve));
 	}
 
 }
@@ -332,6 +193,7 @@ const getter = function (instance: ConnectorType) {
 		computerName: instance.state.config.UploadName,
 		instance,
 		accessKey: instance.state.user.accessKey,
+		notifications: instance.notifications,
 	});
 };
 

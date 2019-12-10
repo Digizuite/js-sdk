@@ -1,12 +1,16 @@
+import {IDestroy} from "../interfaces/IDestroy";
+import {SubSink} from "../utilities/subSink";
+
 export interface IEndpointArgs {
 	apiUrl: string;
 	accessKey?: string;
 }
 
-export class Endpoint {
+export class Endpoint implements IDestroy {
 
 	protected apiUrl: string;
 	protected accessKey: string = '';
+	protected readonly subSink = new SubSink(this);
 
 	/**
 	 * C-tor
@@ -26,5 +30,8 @@ export class Endpoint {
 		}
 
 	}
+
+	// tslint:disable-next-line:no-empty
+	public destroy() { }
 
 }

@@ -26,11 +26,13 @@
             console.log(`${assets.length} successfully uploaded!`);
 
             assets.forEach(async asset => {
-                await instance.upload.awaitAssetEditable(asset);
-                console.log(`Asset ${asset.id} is ready for edit!`);
+                const asset2 = await instance.upload.awaitAssetCreated(asset);
+                console.log(`Asset ${asset.id} is created!`);
+                console.debug(asset2);
 
-                await instance.upload.awaitAssetPublished(asset);
+                const asset3 = await instance.upload.awaitAssetPublished(asset);
                 console.log(`Asset ${asset.id} is published!`);
+                console.log(asset3);
             });
 
         } catch (e) {

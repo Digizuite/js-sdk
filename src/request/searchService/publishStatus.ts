@@ -1,6 +1,16 @@
+import { Asset } from 'src/model/asset';
 import {BaseRequest} from '../../common/request';
 
-export class PublishStatus extends BaseRequest<any, any> {
+export interface PublishStatusResponse {
+	id: number;
+	published: boolean;
+}
+
+export interface IPublishStatusArgs {
+	assets: Asset[];
+}
+
+export class PublishStatus extends BaseRequest<IPublishStatusArgs, PublishStatusResponse[]> {
 
 	/**
 	 * Endpoint URL

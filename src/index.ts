@@ -11,6 +11,7 @@ import './endpoint/download';
 import './endpoint/lock';
 import './endpoint/member';
 import './endpoint/metadata';
+import './endpoint/notifications';
 import './endpoint/upload';
 import './endpoint/version';
 

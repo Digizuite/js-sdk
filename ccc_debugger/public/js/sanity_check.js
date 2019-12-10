@@ -5,6 +5,9 @@
     await checkFolders(instance);
     await checkAssets(instance);
 
+    instance.destroy();
+    console.log('Instance destroyed');
+
     console.log('Done diddly done!');
 
     /**

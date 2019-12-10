@@ -23,7 +23,7 @@ export class Connector {
 	 * @param {String} args.password - password.
 	 * @returns {Promise}.<Connector> - a promise that will be resolved once the
 	 */
-	public static getConnectorInstance(args: IConnectorInstanceOptions) {
+	public static getConnectorInstance(args: IConnectorInstanceOptions): Promise<Connector> {
 
 		let digizuiteInstance;
 
@@ -46,7 +46,7 @@ export class Connector {
 		constants: {} as IConstants,
 	};
 
-	public readonly endpoints: { [key: string]: Endpoint } = {};
+	public readonly endpoints = new Map<string, Endpoint>();
 
 	/**
 	 * C-tor
@@ -101,6 +101,12 @@ export class Connector {
 		return this.bootstrapConnector(this.auth.createAccessKey({ username, password }));
 	}
 
+	public destroy() {
+		for (const endpoint of this.endpoints.values()) {
+			endpoint.destroy();
+		}
+	}
+
 	private getUserData(loginResponse: IUserData): Promise<IUserData> {
 		return this.auth.setAccessKeyOptions(
 			loginResponse.accessKey,
@@ -148,11 +154,11 @@ export function attachEndpoint<T extends Endpoint>({name, getter}: IAttachEndpoi
 		{
 			get(this: Connector) {
 
-				if (!this.endpoints[name]) {
-					this.endpoints[name] = getter(this);
+				if (!this.endpoints.has(name)) {
+					this.endpoints.set(name, getter(this));
 				}
 
-				return this.endpoints[name];
+				return this.endpoints.get(name);
 			},
 		},
 	);
