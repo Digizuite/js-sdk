@@ -33,5 +33,11 @@ create(DslContext.projectId, BuildType({
             param("npm_commands", "ci")
         }
     }
+
+    dependencies {
+        snapshot(RelativeId("Build")) {
+            onDependencyFailure = FailureAction.FAIL_TO_START
+        }
+    }
 }))
 
