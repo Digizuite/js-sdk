@@ -35,7 +35,7 @@ create(DslContext.projectId, BuildType({
         }
         step {
             type = "jonnyzzz.npm"
-            param("npm_commands", "tsid")
+            param("npm_commands", "dist")
         }
     }
 
