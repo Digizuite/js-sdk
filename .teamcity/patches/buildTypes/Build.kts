@@ -14,7 +14,7 @@ changeBuildType(RelativeId("Build")) {
     check(artifactRules == "") {
         "Unexpected option value: artifactRules = $artifactRules"
     }
-    artifactRules = "+:dist/**"
+    artifactRules = "+:dist/**/* => js-sdk.zip"
 
     expectSteps {
         step {
