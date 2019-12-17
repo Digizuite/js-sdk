@@ -33,14 +33,6 @@ create(DslContext.projectId, BuildType({
             param("teamcity.build.workingDir", "ccc_debugger")
             param("npm_commands", "ci")
         }
-        step {
-            name = "NPM Build SDK"
-            type = "jonnyzzz.npm"
-            param("npm_commands", """
-                ci
-                dist
-            """.trimIndent())
-        }
     }
 
     triggers {
