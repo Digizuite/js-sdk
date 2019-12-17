@@ -29,7 +29,7 @@
             }
 
         } else {
-            console.debug(`Logging in with credentials. Username: ${globals.config.username}, password: ${globals.config.password}...`);
+            console.debug(`Logging in with credentials. Username: ${globals.config.username}, password: ${'*'.repeat(globals.config.password.length)}...`);
             return instance.connectWithCredentials(globals.config.username, globals.config.password);
         }
     });
