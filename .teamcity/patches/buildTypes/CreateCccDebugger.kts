@@ -49,7 +49,7 @@ create(DslContext.projectId, BuildType({
             }
 
             artifacts {
-                artifactRules = "digizuite.js => ccc_debugger/js/dz-sdk/digizuite.js"
+                artifactRules = "+:js-sdk.zip!**/* => ./ccc_debugger/js/dz-sdk/"
             }
         }
     }
