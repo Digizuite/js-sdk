@@ -43,8 +43,14 @@ create(DslContext.projectId, BuildType({
     }
 
     dependencies {
-        snapshot(RelativeId("Build")) {
-            onDependencyFailure = FailureAction.FAIL_TO_START
+        dependency(RelativeId("Build")) {
+            snapshot {
+                onDependencyFailure = FailureAction.FAIL_TO_START
+            }
+
+            artifacts {
+                artifactRules = "digizuite.js => ccc_debugger/js/dz-sdk/digizuite.js"
+            }
         }
     }
 }))
