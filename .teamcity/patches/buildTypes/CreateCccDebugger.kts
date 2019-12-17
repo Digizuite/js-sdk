@@ -34,6 +34,7 @@ create(DslContext.projectId, BuildType({
             param("npm_commands", "ci")
         }
         step {
+            name = "NPM Build SDK"
             type = "jonnyzzz.npm"
             param("npm_commands", """
                 ci
