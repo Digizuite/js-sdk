@@ -35,7 +35,10 @@ create(DslContext.projectId, BuildType({
         }
         step {
             type = "jonnyzzz.npm"
-            param("npm_commands", "dist")
+            param("npm_commands", """
+                ci
+                dist
+            """.trimIndent())
         }
     }
 
