@@ -32,7 +32,7 @@ changeBuildType(RelativeId("Build")) {
         insert(2) {
             step {
                 type = "jonnyzzz.npm"
-                param("npm_commands", "dist")
+                param("npm_commands", "run dist")
             }
         }
     }
