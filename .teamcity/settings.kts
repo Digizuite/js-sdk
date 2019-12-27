@@ -1,4 +1,5 @@
 import jetbrains.buildServer.configs.kotlin.v2018_2.*
+import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.commitStatusPublisher
 import jetbrains.buildServer.configs.kotlin.v2018_2.triggers.vcs
 
 /*
@@ -56,6 +57,18 @@ object Build : BuildType({
             name = "Karma Runner"
             type = "jonnyzzz.npm"
             param("npm_commands", "run test")
+        }
+    }
+
+    features {
+        commitStatusPublisher {
+            vcsRootExtId = "${DslContext.settingsRoot.id}"
+            publisher = github {
+                githubUrl = "https://api.github.com"
+                authType = personalToken {
+                    token = "credentialsJSON:fe864848-27fb-4e59-a58b-82311e88dcbe"
+                }
+            }
         }
     }
 
