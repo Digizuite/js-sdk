@@ -1,6 +1,7 @@
 package patches.buildTypes
 
 import jetbrains.buildServer.configs.kotlin.v2018_2.*
+import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.commitStatusPublisher
 import jetbrains.buildServer.configs.kotlin.v2018_2.triggers.VcsTrigger
 import jetbrains.buildServer.configs.kotlin.v2018_2.triggers.vcs
 import jetbrains.buildServer.configs.kotlin.v2018_2.ui.*
@@ -52,6 +53,20 @@ changeBuildType(RelativeId("Build")) {
                 -:comment=Update to \d+.\d+.\d+:**
                 -:comment=TeamCity change:**
             """.trimIndent()
+        }
+    }
+
+    features {
+        remove {
+            commitStatusPublisher {
+                vcsRootExtId = "${DslContext.settingsRoot.id}"
+                publisher = github {
+                    githubUrl = "https://api.github.com"
+                    authType = personalToken {
+                        token = "95325662ba1d07d921ff982bed7ffaf0857a25c3"
+                    }
+                }
+            }
         }
     }
 }
