@@ -1,5 +1,3 @@
-import 'core-js/fn/array/includes';
-import 'core-js/fn/object/values';
 /**
  * Dear future developer,
  *
