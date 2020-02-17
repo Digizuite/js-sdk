@@ -35,6 +35,7 @@ function getWebpackConfig(env: string) {
 			library: 'Digizuite',
 			libraryTarget: 'umd',
 			umdNamedDefine: true,
+			globalObject: 'this'
 		},
 		mode: env === ENV_PRODUCTION ? 'production' : 'development',
 		externals: {
