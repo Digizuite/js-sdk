@@ -68,18 +68,6 @@ object Build : BuildType({
         }
     }
 
-    features {
-        commitStatusPublisher {
-            vcsRootExtId = "${DslContext.settingsRoot.id}"
-            publisher = github {
-                githubUrl = "https://api.github.com"
-                authType = personalToken {
-                    token = "95325662ba1d07d921ff982bed7ffaf0857a25c3"
-                }
-            }
-        }
-    }
-
     triggers {
         vcs {
             triggerRules = """
