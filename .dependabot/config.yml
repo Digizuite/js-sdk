@@ -3,5 +3,7 @@ update_configs:
   - package_manager: "javascript"
     directory: "/"
     update_schedule: "live"
-    default_labels:
-      - "merge when green"
+    automerged_updates:
+      - match:
+          dependency_type: "all"
+          update_type: "all"
