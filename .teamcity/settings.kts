@@ -78,6 +78,7 @@ object Build : BuildType({
                 -:package.json
                 -:comment=Update to \d+.\d+.\d+:**
             """.trimIndent()
+            branchFilter = "+:refs/heads/*"
         }
     }
 })
