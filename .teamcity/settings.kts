@@ -1,5 +1,6 @@
 import jetbrains.buildServer.configs.kotlin.v2018_2.*
 import jetbrains.buildServer.configs.kotlin.v2018_2.buildFeatures.commitStatusPublisher
+import jetbrains.buildServer.configs.kotlin.v2018_2.triggers.finishBuildTrigger
 import jetbrains.buildServer.configs.kotlin.v2018_2.triggers.vcs
 
 /*
@@ -31,6 +32,7 @@ project {
 
     buildType(PublishToNpm)
     buildType(Build)
+    buildType(CreateCccDebugger)
 
     params {
         select("versionLevel", "patch", label = "Version bumb", description = "How much the build should be bumped version wise",
@@ -47,6 +49,8 @@ object Build : BuildType({
         root(DslContext.settingsRoot)
     }
 
+    artifactRules = "+:dist/**/* => js-sdk.zip"
+
     steps {
         step {
             name = "Pull dependencies"
@@ -58,17 +62,9 @@ object Build : BuildType({
             type = "jonnyzzz.npm"
             param("npm_commands", "run test")
         }
-    }
-
-    features {
-        commitStatusPublisher {
-            vcsRootExtId = "${DslContext.settingsRoot.id}"
-            publisher = github {
-                githubUrl = "https://api.github.com"
-                authType = personalToken {
-                    token = "95325662ba1d07d921ff982bed7ffaf0857a25c3"
-                }
-            }
+        step {
+            type = "jonnyzzz.npm"
+            param("npm_commands", "run dist")
         }
     }
 
@@ -77,7 +73,9 @@ object Build : BuildType({
             triggerRules = """
                 -:package.json
                 -:comment=Update to \d+.\d+.\d+:**
+                -:comment=TeamCity change:**
             """.trimIndent()
+            branchFilter = "+:refs/heads/*"
         }
     }
 })
@@ -98,7 +96,7 @@ object PublishToNpm : BuildType({
         step {
             name = "Create new NPM version"
             type = "jonnyzzz.npm"
-            param("npm_commands", """version %versionLevel% -m "Update to %s"""")
+            param("npm_commands", """version %versionLevel% -m "[NPM] Update to %s"""")
         }
         step {
             name = "Publish to npm"
@@ -108,18 +106,60 @@ object PublishToNpm : BuildType({
     }
 
     triggers {
-        vcs {
-            triggerRules = """
-                -:package.json
-                -:comment=Update to \d+.\d+.\d+:**
-            """.trimIndent()
-            branchFilter = "+:refs/heads/master"
+        finishBuildTrigger {
+            buildType = "JsSdk_Build"
+            successfulOnly = true
         }
     }
 
     dependencies {
         snapshot(Build) {
             onDependencyFailure = FailureAction.FAIL_TO_START
+        }
+    }
+})
+
+object CreateCccDebugger : BuildType({
+    id("CreateCccDebugger")
+    name = "Create CCC Debugger"
+
+    artifactRules = "ccc_debugger/**/* => ccc_debugger-%FileVersion%.zip"
+
+    vcs {
+        root(DslContext.settingsRoot)
+
+        cleanCheckout = true
+    }
+
+    steps {
+        step {
+            type = "GenerateVersion2"
+            param("versionFilePath", """.\package.json""")
+        }
+        step {
+            name = "NPM Install Deps"
+            type = "jonnyzzz.npm"
+            param("teamcity.build.workingDir", "ccc_debugger")
+            param("npm_commands", "ci")
+        }
+    }
+
+    triggers {
+        finishBuildTrigger {
+            buildType = "JsSdk_Build"
+            successfulOnly = true
+        }
+    }
+
+    dependencies {
+        dependency(RelativeId("Build")) {
+            snapshot {
+                onDependencyFailure = FailureAction.FAIL_TO_START
+            }
+
+            artifacts {
+                artifactRules = "+:js-sdk.zip!**/* => ./ccc_debugger/public/js/dz-sdk/"
+            }
         }
     }
 })
