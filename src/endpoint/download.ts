@@ -3,6 +3,7 @@ import {attachEndpoint, Connector as ConnectorType} from '../connector';
 import {ASSET_TYPE, Constants} from '../const';
 import {Asset} from "../model/asset";
 import {DownloadQualities} from '../request/memberService/downloadQualities';
+import { ensureTrailingSeparator } from '../utilities/helpers/url';
 
 export interface IDownloadArgs extends IEndpointArgs {
 	memberId: number;
@@ -28,7 +29,7 @@ export class Download extends Endpoint {
 		this.memberId = args.memberId;
 		this.lowResMediaFormatIds = args.lowResMediaFormatIds;
 		this.highResMediaFormatIds = args.highResMediaFormatIds;
-		this.mediaUrl = args.mediaUrl;
+		this.mediaUrl = ensureTrailingSeparator(args.mediaUrl);
 
 		this.cache = {
 			qualities: null,
