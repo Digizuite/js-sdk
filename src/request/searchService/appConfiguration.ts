@@ -21,7 +21,7 @@ export class AppConfiguration extends BaseRequest<any, any> {
 		return {
 			// Parameters required by DigiZuite - these should never be changed
 			// when executing the request!
-			SearchName: 'DigiZuite_System_Configs',
+			SearchName: 'GetConfigs',
 			page: 1,
 			limit: 25,
 			useVersionedMetadata: true,
@@ -35,7 +35,7 @@ export class AppConfiguration extends BaseRequest<any, any> {
 	protected processResponseData(response: any) {
 
 		if (!Array.isArray(response.items)) {
-			throw new RequestError('Malformed response in DigiZuite_System_Configs.');
+			throw new RequestError('Malformed response in GetConfigs.');
 		}
 
 		if (response.items.length === 0) {
