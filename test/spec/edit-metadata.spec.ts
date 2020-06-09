@@ -303,8 +303,8 @@ describe('Edit metadata', () => {
 	it('should copy metadata to multiple assets', async () => {
 		const {assets} = await instance.content.getAssets();
 		await instance.metadata.copyMetadata({
-			sourceAsset: assets[0],
-			targetAsset: assets[1],
+			sourceAsset: assets[2],
+			targetAsset: assets[3],
 		});
 	});
 });
