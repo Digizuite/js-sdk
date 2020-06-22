@@ -25,14 +25,15 @@ export interface IMetadataItemsPayload {
 	searchName?: string;
 	limit?: number;
 	page?: number;
-	itemid_note_type_MultiIds?: number;
-	itemid_value_type_MultiIds?: number;
-	rowid_note?: number;
-	rowid_value?: number;
+	itemid_note_type_MultiIds?: number | null;
+	itemid_value_type_MultiIds?: number | null;
+	rowid_note?: number | null;
+	rowid_value?: number | null;
 	itemid_note?: string | null;
 	itemid_value?: string | null;
 	metafieldgroupid?: string | null;
 	accesskeylanguage?: string | null;
+	metafieldids?: number | null;
 }
 
 export interface IMetadataItemsResponse {
@@ -60,13 +61,14 @@ export class MetadataItems extends BaseRequest<any, any> {
 			searchName: 'DigiZuite_system_metadatav2_listGroupsMetafields',
 			limit: 9999,
 			page: 1,
-			itemid_note_type_MultiIds: 1,
-			itemid_value_type_MultiIds: 1,
-			rowid_note: 1,
-			rowid_value: 1,
+			itemid_note_type_MultiIds: null,
+			itemid_value_type_MultiIds: null,
+			rowid_note: null,
+			rowid_value: null,
 			itemid_note: null,
 			itemid_value: null,
 			metafieldgroupid: null,
+			metafieldids: null,
 			accesskeylanguage: null,
 		};
 	}
@@ -78,9 +80,15 @@ export class MetadataItems extends BaseRequest<any, any> {
 	 */
 	protected processRequestData(payload: IMetadataItemsPayload) {
 
-		payload.itemid_note = payload.assetId;
-		payload.itemid_value = payload.assetId;
-		payload.assetId = undefined;
+		if(payload.assetId) {
+			payload.itemid_note = payload.assetId;
+			payload.itemid_note_type_MultiIds = 1;
+			payload.rowid_note = 1;
+			payload.itemid_value = payload.assetId;
+			payload.itemid_value_type_MultiIds = 1;
+			payload.rowid_value = 1;
+			payload.assetId = undefined;
+		}
 
 		payload.accesskeylanguage = payload.language;
 		payload.language = undefined;

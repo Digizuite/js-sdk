@@ -135,6 +135,29 @@ export class Metadata extends Endpoint {
 	}
 
 	/**
+	 * Returns a list of metadata items in a group
+	 * @param args
+	 * @param {Asset} args.asset
+	 * @param {MetadataGroup} args.group
+	 * @returns {Promise.<T>}
+	 */
+	public getMetadataItemsById(args: { metafieldId: number }) {
+		if (!args.metafieldId) {
+			throw new Error('getMetadataItemsById expected a metafieldId as parameter!');
+		}
+
+		const metadataItemsRequest = new MetadataItems({
+			apiUrl: this.apiUrl,
+			accessKey: this.accessKey,
+		});
+
+		return metadataItemsRequest.execute({
+			metafieldids: args.metafieldId,
+			language: this.language,
+		});
+	}
+
+	/**
 	 *
 	 * @param args
 	 * @param {Asset[]} args.assets
