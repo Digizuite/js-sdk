@@ -47,12 +47,12 @@ export class DateTimeMetadataItem extends MetadataItem<Date | null> {
 			throw new Error('Parameter value needs to be of type string');
 		}
 
-		this.setValue(fecha.parse(value, format));
+		this.setValue(fecha.parse(value, format) as Date);
 	}
 
 	public setValueFromAPI(args: any) {
 		super.setValueFromAPI(args);
-		this.value = this.value ? fecha.parse(this.value as any as string, 'DD-MM-YYYY HH:mm:ss') : null;
+		this.value = this.value ? fecha.parse(this.value as any as string, 'DD-MM-YYYY HH:mm:ss') as Date : null;
 	}
 
 	/**
