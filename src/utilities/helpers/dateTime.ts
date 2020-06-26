@@ -1,3 +1,5 @@
+import * as fecha from "fecha";
+
 const dotNetDateRegEx = /\/Date\(([0-9]+)(\+([0-9]+))?\)\//g;
 
 /**

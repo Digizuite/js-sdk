@@ -84,22 +84,22 @@ export class Asset extends Model {
 		this.transcodes = args.hasOwnProperty('transcodeFilename') ? args.transcodeFilename : [];
 
 		if (args.firstPublished) {
-			this.publishedDate = fecha.parse(args.firstPublished, Asset.DATETIME_FORMAT);
+			this.publishedDate = (fecha.parse(args.firstPublished, Asset.DATETIME_FORMAT) as Date) || null;
 		}
 		if (args.lastPublished) {
-			this.lastPublishedDate = fecha.parse(args.lastPublished, Asset.DATETIME_FORMAT);
+			this.lastPublishedDate = (fecha.parse(args.lastPublished, Asset.DATETIME_FORMAT) as Date) || null;
 		}
 		if (args.edited) {
-			this.lastEditedDate = fecha.parse(args.edited, Asset.DATETIMETZ_FORMAT);
+			this.lastEditedDate = (fecha.parse(args.edited, Asset.DATETIMETZ_FORMAT) as Date) || null;
 		}
 
 		if (args.date) {
 
-			this.date = fecha.parse(args.date, Asset.DATETIME_FORMAT);
+			this.date = (fecha.parse(args.date, Asset.DATETIME_FORMAT) as Date) || null;
 
 			// If the parse failed, try the alternative datetime format
 			if (!this.date) {
-				this.date = fecha.parse(args.date, Asset.DATETIMETZ_FORMAT);
+				this.date = (fecha.parse(args.date, Asset.DATETIMETZ_FORMAT) as Date) || null;
 			}
 
 		}
